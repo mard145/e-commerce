@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+<style>
+  .card{
+    border:none;
+  }
+</style>
+    <script src="https://kit.fontawesome.com/74104010b3.js" crossorigin="anonymous"></script>
+    <title>Usuários</title>
+</head>
+<body>
+
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/admin">Logo</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+             
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/products">Produtos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/users">Usuários</a>
+              </li>
+              <li class="nav-item">
+              
+                  <a class="nav-link" href="/admin/orders">Orders</a>
+                  
+              </li>
+              
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+<div class="d-flex justify-content-between flex-wrap">
+<%if(users){%>
+<%users.forEach(user=>{%>
+    <div class="card" style="width: 18rem;">
+        <img src="<%=user.photo%>" style="height: 350px;" class="card-img-top img-fluid" alt="...">
+        <div class="card-body">
+          <h5 class="card-title"><%=user.name%></h5>
+          <p class="card-text"><%=user.email%></p>
+        </div>
+    
+        <div class="card-body">
+          <p class="card-text"><%=user.cpf%></p>
+          <p class="card-text"><%=user.address%></p>
+          <p class="card-text"><%=user.city%></p>
+          <p class="card-text"><%=user.state%></p>
+          <p class="card-text"><%=user.cep%></p>
+          <p class="card-text"><%=user.country%></p>
+          <div class="d-flex justify-content-evenly">
+            <button type="button" data-bs-toggle="modal" data-bs-target="#llll<%=user._id%>Edited" class="bg-transparent"><i style="font-size: 1.5rem;" class="bi bi-pencil-square"></i></button>
+            <form action="/admin/user/<%=user._id%>?_method=DELETE" method="post">
+              <input type="hidden" name="id" value=<%=user._id%>>
+          <button type="submit" class="bg-transparent"><i style="font-size: 1.5rem;" class="bi bi-trash3-fill"></i></button>
+          </form>
+          </div>
+          
+        </div>
+      </div>
+
+
+
+      <div class="modal fade" id="llll<%=user._id%>Edited" tabindex="-1" aria-labelledby="llll<%=user._id%>edit" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="llll<%=user._id%>edit">Edição de usuário</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+  
+      <form action="/admin/editUser/<%=user._id%>?_method=PUT" method="post">
+        <div class="mb-3">
+            <label for="formFile" class="form-label">Upload</label>
+            <input class="form-control" type="file" id="fileInput" onchange="handleFileSelect()">
+          </div>
+          <div class="row g-3">
+   
+
+            <div class="col-sm-6">
+              <label for="lastName" class="form-label">Nome</label>
+              <input type="text" class="form-control" id="lastName" placeholder="Nome" name="name" value="<%=user.name%>" required>
+              
+            </div>
+    
+            <div class="col-12">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="email" name="email" value="<%=user.email%>" placeholder="voce@example.com">
+            </div>
+    
+            <div class="col-12">
+              <label for="address" class="form-label">CPF</label>
+              <input type="text" class="form-control" name="cpf" id="cpf" value="<%=user.cpf%>" placeholder="" required="">
+             
+            </div>
+
+            <div class="col-12">
+              <label for="address" class="form-label">Telefone</label>
+              <input type="text" class="form-control" name="phone" id="cpf" value="<%=user.phone%>" placeholder="" required="">
+             
+            </div>
+
+            <div class="col-12">
+              <label for="address" class="form-label">WhatsApp</label>
+              <input type="text" class="form-control" name="whatsapp" id="cpf" value="<%=user.whatsapp%>" placeholder="" required="">
+             
+            </div>
+
+            <div class="col-12">
+              <label for="address" class="form-label">Address</label>
+              <input type="text" class="form-control" name="address" id="address" value="<%=user.address%>" placeholder="" required="">
+             
+            </div>
+    
+            <div class="col-md-5">
+              <label for="country" class="form-label">País</label>
+              <select name="country" class="form-select" id="country" required="">
+                <option value="<%=user.country%>">Choose...</option>
+                <option>United States</option>
+              </select>
+            </div>
+    
+            <div class="col-md-4">
+              <label for="state" class="form-label">Estado</label>
+              <select  name="state" class="form-select" id="state" required>
+                <option value="<%=user.state%>">Choose...</option>
+                <option>California</option>
+              </select>
+             
+            </div>
+    
+            <div class="col-md-3">
+              <label for="zip" class="form-label">CEP</label>
+              <input name="cep" type="text" class="form-control" id="zip" value="<%=user.cep%>" placeholder="" required>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <label for="inputEmail4" class="form-label">Foto</label>
+            <input type="text" hidden name="photo" id="foto" value="<%=user.photo%>" class="form-control" id="inputEmail4">
+          </div>
+         
+        <input type="text" hidden name="id" value="<%=user._id%>">
+
+          <div class="d-flex justify-content-between">
+          <button type="submit" class="btn btn-primary col-md-6">Editar usuário</button>
+         
+            <button type="button" class="btn btn-secondary col-md-6" data-bs-dismiss="modal">Fechar</button>
+        </div>
+          
+        </form>
+
+
+      
+    </div>
+    
+  </div>
+</div>
+</div>
+
+      
+
+    <%})%>
+    <%}%>
+  </div>
+
+  <div class="d-none" id="imagePreview"></div>
+
+<script>
+        function handleFileSelect() {
+      const fileInput = document.getElementById('fileInput');
+      const imagePreview = document.getElementById('imagePreview');
+      const foto = document.getElementById('foto');
+
+      const file = fileInput.files[0];
+
+      if (file) {
+        const reader = new FileReader();
+        
+        reader.onload = function (e) {
+          const base64String = e.target.result;
+          // Aqui você pode usar a string base64 conforme necessário
+          console.log('String Base64:', base64String);
+
+          // Exibindo a imagem
+          const img = document.createElement('img');
+          foto.value = base64String
+          img.src = base64String;
+          imagePreview.innerHTML = '';
+          imagePreview.appendChild(img);
+        };
+
+        reader.readAsDataURL(file);
+      }
+    }
+</script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>   

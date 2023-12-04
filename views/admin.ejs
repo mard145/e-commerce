@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+
+    <script src="https://kit.fontawesome.com/74104010b3.js" crossorigin="anonymous"></script>
+    <title>Administração</title>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/admin">Logo</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+         
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/products">Produtos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/users">Usuários</a>
+          </li>
+          <li class="nav-item">
+           
+              <a class="nav-link" href="/admin/orders">Pedidos</a>
+             
+          </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+    <form class="row g-3" action="/saveUser" method="post">
+      <div class="mb-3">
+        <label for="formFile" class="form-label">Upload</label>
+        <input class="form-control" type="file" id="fileInputt" onchange="handleFileSelect2()">
+      </div>
+      <div class="row g-3">
+   
+
+        <div class="col-sm-6">
+          <label for="lastName" class="form-label">Nome</label>
+          <input type="text" class="form-control" id="lastName" placeholder="Nome" name="name" value="" required>
+          
+        </div>
+
+        <div class="col-sm-6">
+          <label for="lastName" class="form-label">Senha</label>
+          <input type="password" class="form-control" id="lastName" placeholder="Senha" name="password" value="" required>
+          
+        </div>
+
+        <div class="col-12">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com">
+        </div>
+
+        <div class="col-sm-6">
+          <label for="lastName" class="form-label">CPF</label>
+          <input type="text" class="form-control" id="lastName" placeholder="CPF" name="cpf" value="" required>
+          
+        </div>
+
+        
+
+        <div class="col-12">
+          <label for="address" class="form-label">Endereço</label>
+          <input type="text" class="form-control" name="address" id="address" placeholder="Endereço" required="">
+         
+        </div>
+
+        <div class="col-12">
+          <label for="address" class="form-label">Cidade</label>
+          <input type="text" name="city" class="form-control" id="address" placeholder="Cidade" required="">
+         
+        </div>
+
+        <div class="col-md-5">
+          <label for="country" class="form-label">País</label>
+          <select name="country" class="form-select" id="country" required="">
+            <option value="">Choose...</option>
+            <option>United States</option>
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <label for="state" class="form-label">Estado</label>
+          <select name="state" class="form-select" id="state" required>
+            <option value="">Choose...</option>
+            <option>California</option>
+          </select>
+         
+        </div>
+
+        <div class="col-md-3">
+          <label for="zip" class="form-label">CEP</label>
+          <input name="cep" type="text" class="form-control" id="zip" placeholder="" required>
+        </div>
+      </div>
+       
+        <div class="col-md-6">
+          <label for="inputEmail4" class="form-label d-none">Foto</label>
+          <input type="text" hidden name="photo" id="photo2" class="form-control" id="inputEmail4">
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary">Cadastrar novo usuário</button>
+        </div>
+      </form>
+      <div class="d-none" id="imagePreview2"></div>
+
+<form action="/saveProduct" method="post">
+    <div class="mb-3">
+        <label for="formFile" class="form-label">Upload</label>
+        <input class="form-control" type="file" id="fileInput" onchange="handleFileSelect()">
+      </div>
+
+      <div class="col-md-6">
+        <label for="inputEmail4" class="form-label">Nome</label>
+        <input type="text" name="name" class="form-control" id="inputEmail4">
+      </div>
+      <div class="form-floating">
+        <select name="category" class="form-select" id="floatingSelect" aria-label="">
+          <option selected>Selecione a categoria</option>
+          <option value="bebidas">Bebidas</option>
+          <option value="churrasco">Churrasco</option>
+        </select>
+        <label for="floatingSelect"></label>
+      </div>
+      <div class="col-md-6">
+        <label for="inputEmail4" class="form-label">Preço</label>
+        <input type="number" name="price" class="form-control" id="inputEmail4">
+      </div> 
+
+      <div class="form-floating">
+        <textarea class="form-control" placeholder="Descrição" name="description" style="height: 100px"></textarea>
+        <label for="floatingTextarea2">Descrição</label>
+      </div>
+      <div class="col-md-6">
+        <label for="inputEmail4" class="form-label d-none">Foto</label>
+        <input type="text" hidden name="photo" id="photo" class="form-control" id="inputEmail4">
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary">Cadastrar novo produto</button>
+      </div>
+</form>
+<div class="d-none" id="imagePreview"></div>
+
+<script>
+    function handleFileSelect() {
+      const fileInput = document.getElementById('fileInput');
+      const imagePreview = document.getElementById('imagePreview');
+      const photo = document.getElementById('photo');
+
+      const file = fileInput.files[0];
+
+      if (file) {
+        const reader = new FileReader();
+        
+        reader.onload = function (e) {
+          const base64String = e.target.result;
+          // Aqui você pode usar a string base64 conforme necessário
+          console.log('String Base64:', base64String);
+
+          // Exibindo a imagem
+          const img = document.createElement('img');
+          photo.value = base64String
+          img.src = base64String;
+          imagePreview.innerHTML = '';
+          imagePreview.appendChild(img);
+        };
+
+        reader.readAsDataURL(file);
+      }
+    }
+
+
+    function handleFileSelect2() {
+      const fileInputt = document.getElementById('fileInputt');
+      const imagePreview2 = document.getElementById('imagePreview2');
+      const photo2 = document.getElementById('photo2');
+
+      const file2 = fileInputt.files[0];
+
+      if (file2) {
+        const reader2 = new FileReader();
+        
+        reader2.onload = function (e) {
+          const base64String2 = e.target.result;
+          // Aqui você pode usar a string base64 conforme necessário
+          console.log('String Base64:', base64String2);
+
+          // Exibindo a imagem
+          const img2 = document.createElement('img');
+          photo2.value = base64String2
+          img2.src = base64String2;
+          imagePreview2.innerHTML = '';
+          imagePreview2.appendChild(img2);
+        };
+
+        reader2.readAsDataURL(file2);
+      }
+    }
+
+  </script>
+     
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>
