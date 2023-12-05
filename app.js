@@ -6,6 +6,7 @@ const express = require('express')
 const app = express()
 const session = require('express-session');
 const bcrypt = require('bcryptjs');
+const cors = require('cors')
 const jwt = require('jsonwebtoken');
 const tokenSecret = process.env.TOKEN_SECRET
 const  eAdmin  = require('./controllers/auth');
@@ -70,9 +71,25 @@ mongoose.connect(process.env.MONGO_URL).then(()=>{
   db.once('open',()=>{
       console.log('mongo connection')
   })
+// Step 1: Import the parts of the module you want to use
+let { MercadoPagoConfig, Payment } = require('mercadopago');
 
+// Step 2: Initialize the client object
+const client = new MercadoPagoConfig({ accessToken: 'TEST-2786362695625116-120401-0596ae3d8c32e13740229eb17d033c5e-1058457871'});
+
+// Step 3: Initialize the API object
+const payment = new Payment(client);
+const mercadoPagoPublicKey = 'TEST-130be883-07a6-4f31-8cb7-94b71d5e1f50';
+if (!mercadoPagoPublicKey) {
+  console.log("Error: public key not defined");
+  process.exit(1);
+}
+
+// Step 5: Make the request
+//payment.create(body).then(console.log).catch(console.log);
 
 const fs = require('fs');
+app.use(cors())
 app.use(express.static(path.join(__dirname,'public')))
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname,'views'))
@@ -81,8 +98,88 @@ app.use(express.urlencoded({extended:true,limit: '100mb'}))
 app.use(methodOverride('_method'))
 
 
+app.post('/process_payment',express.json(),express.urlencoded({extended:true}), async (req,res)=>{
+  let user = req.user
+  const { payer,token,description,transactionAmount,paymentMethodId,installments,issuerId,phone } = req.body;
+  
+
+  const paymentData = {
+    transaction_amount: Number(transactionAmount),
+    token: token,
+    description: description,
+    installments: Number(installments),
+    payment_method_id: paymentMethodId,
+    issuer_id: issuerId,
+    payer: {
+      email: payer.email,
+      phone:phone,
+
+      identification: {
+        type: payer.identification.docType,
+        number: payer.identification.docNumber,
+      },
+    },
+    capture:false
+  };
+
+  payment
+    .create({ body: paymentData })
+    .then(async function (data) {
+      res.status(201).json({
+        detail: data.status_detail,
+        status: data.status,
+        id: data.id,
+        
+      });
+     console.log(data)
+    
+  /*  let order = new Order({
+      payer:payer,
+     order:data.metadata,
+      total:data.transaction_amount, //transactions_amount
+      status:data.status,
+      status_detail:data.status_detail,
+      currency:data.currency_id,
+      description:data.description,
+      authorization_code:data.authorization_code,
+      taxes_amount:data.taxes_amount,
+      shipping_amount:data.shipping_amount,
+      collector_id:data.collector_id,
+      total_refunded:data.transaction_amount_refunded,  //transactions_refunded_amount
+      cupum_amount:data.coupon_amount,
+      installments:data.installments,
+      transaction_details:data.transaction_details,
+      fee_details:data.fee_details,
+      card:data.card,
+      refunds:data.refunds,
+      processing_mode:data.processing_mode,
+      point_of_interaction:data.point_of_interaction,
+      accounts_info:data.accounts_info,
+      captured:data.captured
+
+    })
+    await order.save()*/
+    })
+    .catch(function (error) {
+      console.log(error);
+  //    const { errorMessage, errorStatus } = validateError(error);
+      res.json({ error });
+    });
+})
+
 app.get('/', (req,res)=>{
     res.render('index',{msg:false,error:false})
+})
+
+app.get('/store',async (req,res)=>{
+  try {
+    let user = await req.user
+    let products = await Product.find({})
+    res.render('loja',{user:user,publicKey:mercadoPagoPublicKey, products:products}) 
+  } catch (error) {
+    console.log(error)
+  }
+
 })
 
 app.get('/admin',(req,res)=>{

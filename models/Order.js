@@ -2,9 +2,28 @@ const mongoose = require('mongoose')
 
 const Order = new mongoose.Schema({
      rank:Number,
-     userClient:[{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+     payer:[{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
      order:[{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
-     total:Number,
+     total:Number, //transactions_amount
+     status:String,
+     status_detail:String,
+     currency:String,
+     description:String,
+     authorization_code:String,
+     taxes_amount:Number,
+     shipping_amount:Number,
+     collector_id:Number,
+     total_refunded:Number,  //transactions_refunded_amount
+     cupum_amount:Number,
+     installments:Number,
+     transaction_details:{type:mongoose.Schema.Types.Mixed},
+     fee_details:{type: mongoose.Schema.Types.Mixed},
+     captured:Boolean,
+     card:{type:mongoose.Schema.Types.Mixed},
+     refunds:{type:mongoose.Schema.Types.Mixed},
+     processing_mode:String,
+     point_of_interaction:{type:mongoose.Schema.Types.Mixed},
+     accounts_info:{type:mongoose.Schema.Types.Mixed},
      createdAt: {
         type: Date,
         default: Date.now, // Esta é a data de criação
