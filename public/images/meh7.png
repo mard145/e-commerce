@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="en"><head>
+    <script async="" src="../js_2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-38810586-1');
+    </script>
+    <meta charset="utf-8">
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="initial-scale=1, minimum-scale=1, width=device-width">
+
+    <title>404 Not Found</title>
+    <meta name="description" content="404 Not Found">
+
+    <link rel="canonical" href="https://www.youtube.com/404/">
+
+
+
+
+    <link rel="shortcut icon" href="../favicon-vfl8qSV2F.ico" type="image/x-icon">
+    <link rel="icon" href="favicon_32-vflOogEID.png" sizes="32x32">
+    <link rel="icon" href="favicon_48-vflVjB_Qk.png" sizes="48x48">
+    <link rel="icon" href="favicon_96-vflW9Ec0w.png" sizes="96x96">
+    <link rel="icon" href="favicon_144-vfliLAfaB.png" sizes="144x144">
+
+    <link rel="stylesheet" href="../css/icon.css">
+    <link rel="stylesheet" href="../css/css_3.css">
+    <link rel="stylesheet" href="../css/css_4.css">
+
+    <link rel="stylesheet" href="../css/index.min.css">
+    <link rel="preconnect" href="//lh3.googleusercontent.com">
+  </head>
+
+  <body>
+    <main class="yt-main">
+<div class="not-found">
+  <div class="not-found-content">
+    <img class="not-found-content__image" src="../a22b333e98d3d0a9f5944432f5c7bea225e0e97e26a14b9e107a0ec28750b54f111f6fc96064f09cafe16df27115ecdc521b1f055f1455b3a7c90ac07f37e20e" alt="Monkey Image">
+
+      <p class="not-found-content__paragraph">This page isn't available. Sorry about that.</p>
+      <p class="not-found-content__paragraph">Try searching for something else.</p>
+
+    <div class="not-found-search">
+      <a class="not-found-search__container" href="https://www.youtube.com/" title="YouTube">
+        <img class="not-found-search__logo" src="../936c9d53b930432184bd6bee3004494e5ba78d0e89ec25541a572e43256947fcad73b01bfac658cb2ffc3663488781b43f9fec9f56ec9b9150d757603b410201" alt="YouTube">
+      </a>
+
+      <form id="search-form" lb-auto-init="NotFoundSearchForm" class="not-found-search__form js-search-form" action="javascript:void(0);">
+        <div class="not-found-search__field">
+          <input class="not-found-search__input" type="text" aria-label="Search" autocomplete="off" name="textInput" title="Search" placeholder="Search">
+        </div>
+        <button id="search-btn" class="not-found-search__search-button" type="submit" aria-label="Search">
+          <span class="not-found-search__search-icon"></span>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>    </main>
+    <script src="../js/index.min.js"></script>
+
+  
+
+</body></html>

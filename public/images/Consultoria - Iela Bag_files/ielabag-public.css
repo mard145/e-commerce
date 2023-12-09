@@ -1,0 +1,396 @@
+/**
+ * All of the CSS for your public-facing functionality should be
+ * included in this file.
+ */
+ .woocommerce-MyAccount-navigation ul li.woocommerce-MyAccount-navigation-link--customize-bag a:before{
+    font-family: "Font Awesome 5 Free" !important; 
+    font-weight: 900;
+	content: '\f2c1';
+}
+ .woocommerce-MyAccount-navigation ul li.woocommerce-MyAccount-navigation-link--my-bags a:before{
+    font-family: "Font Awesome 5 Free" !important; 
+    font-weight: 900;
+	content: '\f290';
+}
+ .woocommerce-MyAccount-navigation ul li.woocommerce-MyAccount-navigation-link--wps_subscriptions a:before{
+    font-family: "Font Awesome 5 Free" !important; 
+    font-weight: 900;
+	content: "\f145" !important;
+}
+ .woocommerce-MyAccount-navigation ul li.woocommerce-MyAccount-navigation-link--subscriptions a:before{
+    font-family: "Font Awesome 5 Free" !important; 
+    font-weight: 900;
+	content: "\f543" !important;
+}
+
+
+/* Estilos do form de customização da bag */
+.form-profile div.section{
+    margin-top: 8px;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.form-profile div.section div.wrap-options{
+    display: flex; 
+    flex-wrap: wrap; 
+    width: 100%;
+}
+.form-profile div.section div.wrap-options div.wrap-input{
+    width: calc(50% - 16px);
+    margin-top: 8px;
+    margin-bottom: 16px;
+    margin-right: 8px;
+    margin-left: 8px;
+}
+.form-profile div.section div.wrap-options div.wrap-input textarea,
+.form-profile div.section div.wrap-options div.wrap-input select,
+.form-profile div.section div.wrap-options div.wrap-input input[type=text],
+.form-profile div.section div.wrap-options div.wrap-input input[type=tel],
+.form-profile div.section div.wrap-options div.wrap-input input[type=url],
+.form-profile div.section div.wrap-options div.wrap-input input[type=email],
+.form-profile div.section div.wrap-options div.wrap-input input[type=date],
+.form-profile div.section div.wrap-options div.wrap-input input[type=number]{
+    width: 100%;
+}
+.form-profile div.section div.wrap-options div.wrap-input input[type=datetime-local]{
+    color: #626262;
+    background-color: rgba(255,255,255,1);
+    border-color: #EBEBEB;
+    width: 100%;
+    font-family: "Poppins",Helvetica,Arial,sans-serif;
+    box-shadow: inset 0 0 2px 2px rgba(0,0,0,0.02);
+    padding: 10px;
+    outline: none;
+    margin: 0;
+    display: block;
+    margin-bottom: 20px;
+    font-size: 15px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 0;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+}
+
+.form-profile div.section div.wrap-options div.wrap-input .wrap-photos{
+    width: 100%;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    border-top: 1px solid #EBEBEB;
+    display: flex;
+    flex-wrap: wrap;
+}
+.form-profile div.section div.wrap-options div.wrap-input .wrap-photos .photo-item{
+    width: calc(25% - 16px);
+    height: auto;
+    margin: 8px;
+}
+.form-profile div.section div.wrap-options div.wrap-input .wrap-photos .photo-item img{
+    width: 100%;
+    border: 1px solid #EBEBEB;
+}
+
+/* Slider cadastro */
+.slider {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    min-height: 570px;
+}
+  
+.slide {
+    width: 100%;
+    min-height: 300px;
+    position: absolute !important;
+    left: 0;
+    opacity: 0;
+    transition: opacity 1s, transform 1s;
+    padding-left: 64px;
+    padding-right: 64px;
+}
+  
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+  
+.slide.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+  
+.slide.next {
+    transform: translateX(100%);
+}
+  
+.slide.prev {
+    transform: translateX(-100%);
+}
+
+#registrationForm .btn{
+    margin: auto !important;
+}
+.timeline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Largura total da linha do tempo */
+    list-style: none;
+    margin: 0;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    padding-bottom: 64px;
+    padding-top: 64px;
+    border: 2px solid #efefef;
+    border-left: none;
+    border-right: none; 
+    border-top: none;
+}
+  
+.timeline-item {
+    position: relative;
+    width: calc(100% / 3 - 10px);
+    opacity: .4;
+    transition: 0.5s ease-in-out;
+}
+.timeline-item::before{
+    content: '';
+    display: block;
+    position: absolute;
+    width: 20px; /* Largura de cada item na linha do tempo */
+    height: 20px;
+    background-color: #F7B8D5;
+    border-radius: 50%;
+    transition: background-color 0.5s ease-in-out;
+    top: 40px;
+    left: calc(100% / 2 - 10px)
+}
+.timeline-item::after{
+    content: '';
+    display: block;
+    position: absolute;
+    width: 100%; /* Largura de cada item na linha do tempo */
+    height: 2px;
+    background-color: #F7B8D5;
+    border-radius: 100%;
+    transition: background-color 0.5s ease-in-out;
+    top: 49px;
+    left: 0
+}
+
+.timeline-item.active {
+    opacity: 1;
+    transition: 0.5s ease-in-out;
+}
+.timeline-item.active::after{
+    height: 4px;
+    transition: 0.5s ease-in-out;
+}
+
+.timeline-item.prev{
+    opacity: .7;
+    transition: 0.5s ease-in-out;
+}
+.timeline-item.prev::before{
+    content:  url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fff" class="bi bi-check-all" viewBox="0 0 16 16"><path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z"/></svg>');
+    transition: 0.5s ease-in-out;
+    color: #fff;
+}
+
+/* widths */
+.w-50{
+    width: calc(50% - 16px) !important;
+}
+.w-100{
+    width: calc(100% - 16px) !important;
+}
+
+
+/* Utilitarios */
+.d-none{
+    display: none !important;
+}
+
+.success-background{
+    background-color: #90ee90;
+}
+
+.form-control{
+    border-radius: 4px !important;
+    margin: 8px auto 4px auto !important; 
+}
+
+/* Estilo para indicar sucesso */
+.success {
+    border: 1px solid #99ff9d !important; /* Borda verde */
+}
+
+.success-feedback {
+    color: #4CAF50 !important; /* Cor do texto verde */
+}
+
+/* Estilo para indicar erro */
+.error {
+    border: 1px solid #ff6060 !important; /* Borda vermelha */
+}
+
+.error-feedback {
+    color: #ff6060 !important; /* Cor do texto vermelho */
+}
+
+/* Estilos para dispositivos móveis (largura menor ou igual a 768 pixels) */
+@media screen and (max-width: 768px) {
+    /* Insira aqui os estilos para dispositivos móveis */
+    .form-profile div.section div.wrap-options div.wrap-input{
+        width: 100%;
+    }
+}
+
+
+
+/* spinner/loading */
+.dot-spinner {
+    --uib-size: 2.8rem;
+    --uib-speed: .9s;
+    --uib-color: #183153;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: var(--uib-size);
+    width: var(--uib-size);
+    margin: auto;
+    margin-top: 12px;
+    position: absolute;
+    bottom: 40px;
+    left: calc(100% / 2 - 24px);
+  }
+  
+  .dot-spinner__dot {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .dot-spinner__dot::before {
+    content: '';
+    height: 20%;
+    width: 20%;
+    border-radius: 50%;
+    background-color: var(--uib-color);
+    transform: scale(0);
+    opacity: 0.5;
+    animation: pulse0112 calc(var(--uib-speed) * 1.111) ease-in-out infinite;
+    box-shadow: 0 0 20px rgba(18, 31, 53, 0.3);
+  }
+  
+  .dot-spinner__dot:nth-child(2) {
+    transform: rotate(45deg);
+  }
+  
+  .dot-spinner__dot:nth-child(2)::before {
+    animation-delay: calc(var(--uib-speed) * -0.875);
+  }
+  
+  .dot-spinner__dot:nth-child(3) {
+    transform: rotate(90deg);
+  }
+  
+  .dot-spinner__dot:nth-child(3)::before {
+    animation-delay: calc(var(--uib-speed) * -0.75);
+  }
+  
+  .dot-spinner__dot:nth-child(4) {
+    transform: rotate(135deg);
+  }
+  
+  .dot-spinner__dot:nth-child(4)::before {
+    animation-delay: calc(var(--uib-speed) * -0.625);
+  }
+  
+  .dot-spinner__dot:nth-child(5) {
+    transform: rotate(180deg);
+  }
+  
+  .dot-spinner__dot:nth-child(5)::before {
+    animation-delay: calc(var(--uib-speed) * -0.5);
+  }
+  
+  .dot-spinner__dot:nth-child(6) {
+    transform: rotate(225deg);
+  }
+  
+  .dot-spinner__dot:nth-child(6)::before {
+    animation-delay: calc(var(--uib-speed) * -0.375);
+  }
+  
+  .dot-spinner__dot:nth-child(7) {
+    transform: rotate(270deg);
+  }
+  
+  .dot-spinner__dot:nth-child(7)::before {
+    animation-delay: calc(var(--uib-speed) * -0.25);
+  }
+  
+  .dot-spinner__dot:nth-child(8) {
+    transform: rotate(315deg);
+  }
+  
+  .dot-spinner__dot:nth-child(8)::before {
+    animation-delay: calc(var(--uib-speed) * -0.125);
+  }
+  
+  @keyframes pulse0112 {
+    0%,
+    100% {
+      transform: scale(0);
+      opacity: 0.5;
+    }
+  
+    50% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  /* Correção de comportamentos boostrap */
+.accordion-button{
+    background: #f7b8d5 !important;
+}
+.accordion-button::after{
+    flex-shrink: 0 !important;
+    width: var(--bs-accordion-btn-icon-width) !important;
+    height: var(--bs-accordion-btn-icon-width) !important;
+    margin-left: auto !important;
+    content: "" !important;
+    background-image: var(--bs-accordion-btn-icon) !important;
+    background-repeat: no-repeat !important;
+    background-size: var(--bs-accordion-btn-icon-width) !important;
+    transition: var(--bs-accordion-btn-icon-transition) !important;
+    position: relative !important;
+    /* background: none !important; */
+}
+
+/* Desabilitar formulário de cadastro na página de "minha conta" */
+#customer_login .u-column2{
+    display: none !important;
+}
+
+#ship-to-different-address{
+    display: none !important;
+}
+
+
+.woocommerce-order-details a {
+    background: none !important;
+}
