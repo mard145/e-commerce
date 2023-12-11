@@ -118,10 +118,7 @@ app.post('/process_payment', async (req,res)=>{
       email: email,
       first_name: name,
       last_name: lastname,
-      phone: {
-        area_code: '55',
-        number: phone
-      },
+      phone: payer.phone,
       identification: {
         type: 'CPF',
         number: cpf
@@ -151,21 +148,27 @@ app.post('/process_payment', async (req,res)=>{
       issuer_id: issuerId,
       payer: {
         email: payer.email,
-        phone:phone,
-  
+        
+     // phone:{ area_code:'55', number:phone},
+        first_name:name,
+        last_name:lastname,
         identification: {
-          type: payer.identification.docType,
-          number: payer.identification.docNumber,
+          type: payer.identification.type,
+          number: payer.identification.number,
         },
       },
       capture:false
     };
     
     customer.search({options:{email:payer.email}}).then((data)=>{
+      console.log(data,data.results.length)
     if(data.results.length == 0 || !data.id )
   {
   
-    customer.create({ body: clientData }).then(console.log('novo cliente')).catch(console.log);
+    customer.create({ body: clientData }).then((data)=>{
+      comsole.log(data)
+      console.log('novo cliente')
+    }).catch(console.log);
   
     payment
       .create({ body: paymentData })
@@ -212,7 +215,10 @@ app.post('/process_payment', async (req,res)=>{
       });
   }else{
     customer.update({ email: payer.email, body: paymentData,
-  }).then(console.log).catch(console.log);
+  }).then((data)=>{
+
+    console.log(data,'usuario atualizado pois ja existe um usuario com essas informções.Pedidos e pagamentos atualizados')
+  }).catch(console.log);
   
   }  
     console.log(data)
@@ -248,7 +254,7 @@ app.get('/admin',eAdmin,async(req,res)=>{
   try {
   let user = await req.user
   let users = await User.find({})
-
+  let orders = await 
   res.render('admin/admin',{user:user,users:users})
   } catch (error) {
     console.log(error)

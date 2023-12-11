@@ -1212,14 +1212,14 @@ var rest = {"nonce":"ac88271e33","url":"http:\/\/localhost:10018\/wp-json\/"};
 													<span class="optional">(opcional)</span>
 												</label>
 												<span class="woocommerce-input-wrapper">
-													<input type="tel" class="input-text " name="cpf" id="billing_cpf" placeholder="" value="" maxlength="14">
+													<input type="text" class="input-text " name="cpf" id="billing_cpf" placeholder="" value="" maxlength="14">
 												</span>
 											</p>
 											<p class="form-row form-row-wide validate-required" id="billing_birthdate_field" data-priority="31">
 												<label for="billing_birthdate" class="">Data de Nascimento&nbsp;<abbr class="required" title="obrigatório">*</abbr>
 												</label>
 												<span class="woocommerce-input-wrapper">
-													<input type="tel" class="input-text " name="birthday" id="billing_birthdate" placeholder="" value="" maxlength="10">
+													<input type="text" class="input-text " name="birthday" id="billing_birthdate" placeholder="" value="" maxlength="10">
 												</span>
 											</p>
 											<p class="form-row form-row-wide validate-required" id="billing_gender_field" data-priority="32">
@@ -1260,7 +1260,7 @@ var rest = {"nonce":"ac88271e33","url":"http:\/\/localhost:10018\/wp-json\/"};
 											<p class="form-row address-field validate-required validate-postcode form-row-wide" id="billing_postcode_field" data-priority="45" data-o_class="form-row form-row-wide address-field validate-required validate-postcode">
 												<label for="billing_postcode" class="">CEP&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
 												<span class="woocommerce-input-wrapper">
-													<input type="tel" class="input-text " name="cep" id="billing_postcode" placeholder="" value="" autocomplete="postal-code" maxlength="9">
+													<input type="text" class="input-text " name="cep" id="billing_postcode" placeholder="" value="" autocomplete="postal-code" maxlength="9">
 												</span>
 											</p>
 											<p class="form-row address-field validate-required form-row-wide" id="billing_address_1_field" data-priority="50">
@@ -1343,13 +1343,13 @@ var rest = {"nonce":"ac88271e33","url":"http:\/\/localhost:10018\/wp-json\/"};
 												<p class="form-row form-row-wide validate-required validate-phone" id="billing_phone_field" data-priority="100">
 													<label for="billing_phone" class="">Celular&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
 													<span class="woocommerce-input-wrapper">
-														<input type="tel" class="input-text " name="phone" id="billing_phone" placeholder="" value="" autocomplete="tel" maxlength="15">
+														<input type="text" class="input-text " name="phone" id="billing_phone" placeholder="" value="" autocomplete="tel" maxlength="15">
 													</span>
 												</p>
 												<p class="form-row validate-required validate-phone" id="billing_cellphone_field" data-priority="100">
 													<label for="billing_cellphone" class="">Celular/Whatsapp(obrigatório)&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
 													<span class="woocommerce-input-wrapper">
-														<input type="tel" class="input-text " name="whatsapp" id="billing_cellphone" placeholder="" value="" autocomplete="tel" maxlength="15">
+														<input type="text" class="input-text " name="whatsapp" id="billing_cellphone" placeholder="" value="" autocomplete="tel" maxlength="15">
 													</span>
 												</p>
 												<p class="form-row form-row-wide validate-required validate-email" id="billing_email_field" data-priority="110">
@@ -1845,19 +1845,20 @@ var mfnwoovars = {"ajaxurl":"http:\/\/localhost:10018\/wp-admin\/admin-ajax.php"
 <script src="https://sdk.mercadopago.com/js/v2"></script>
 <input type="hidden" id="pKey" value="<%=publicKey%>">
 <script>
-	let pKey = document.getElementById('pKey').value
-	let name = document.getElementById('billing_first_name').value
-	let lastname = document.getElementById('billing_last_name')  .value
-	let cpf = document.getElementById('billing_cpf').value
-	let address = document.getElementById('billing_address_1').value
-	let street_number = document.getElementById('billing_number').value
-	let cep = document.getElementById('billing_postcode').value
-	let bairro = document.getElementById('billing_neighborhood').value
-	let city = document.getElementById('billing_city_field').value
-	let state = document.getElementById('billing_state').value
-	let phone = document.getElementById('billing_phone').value
-	let whatsapp = document.getElementById('billing_cellphone').value
-	let email = document.getElementById('billing_email').value
+	const pKey = document.getElementById('pKey').value
+	const name = document.getElementById('billing_first_name')
+	const lastname = document.getElementById('billing_last_name')
+	const cpf = document.getElementById('billing_cpf')
+	const address = document.getElementById('billing_address_1')
+	const street_number = document.getElementById('billing_number')
+	const cep = document.getElementById('billing_postcode')
+	const bairro = document.getElementById('billing_neighborhood')
+	const city = document.getElementById('billing_city')
+	const state = document.getElementById('billing_state')
+	const phone = document.getElementById('billing_phone')
+	const whatsapp = document.getElementById('billing_cellphone')
+	const email = document.getElementById('billing_email')
+	
 
 	const mp = new MercadoPago(pKey,{
     locale: 'pt-BR'
@@ -1872,17 +1873,24 @@ var mfnwoovars = {"ajaxurl":"http:\/\/localhost:10018\/wp-admin\/admin-ajax.php"
           amount: 10000,
           preferenceId: "123",
           payer: {
-            firstName: name,
-            lastName: lastname,
+            firstName: "",
+            lastName: "",
             email: "",
+			phone:{
+				area_code:"55",
+				number:""
+			}
           },
 		 
 		},
+		
         customization: {
           visual: {
             style: {
-              theme: "default",
+              theme: "bootstrap",
             },
+			hideStatusDetails: true,
+            hideTransactionDate: true,
           },
           paymentMethods: {
             creditCard: "all",
@@ -1897,21 +1905,34 @@ var mfnwoovars = {"ajaxurl":"http:\/\/localhost:10018\/wp-admin\/admin-ajax.php"
              Aqui, você pode ocultar seu site, por exemplo.
             */
           },
-          onSubmit: ({ selectedPaymentMethod, formData}) => {
-            // callback chamado quando há click no botão de envio de dados
+          onSubmit:async ({ selectedPaymentMethod, formData}) => {
+            try {
+				// callback chamado quando há click no botão de envio de dados
 			formData.transaction_amount = 10000;
-			formData.name = name;
-			formData.address = address;
-			formData.phone = phone;
-			formData.city = city;
-			formData.bairro = bairro;
-			formData.whatsapp = whatsapp;
-			formData.cep = cep;
-			formData.street_number = street_number;
-			formData.state = state;
-			formData.cpf = cpf;
+			formData.name = await name.value;
+			formData.address = await address.value;
+			formData.phone = await phone.value;
+			formData.city = await city.value;
+			formData.bairro = await bairro.value;
+			formData.whatsapp = await whatsapp.value;
+			formData.cep = await cep.value;
+			formData.street_number = await street_number.value;
+			formData.state = await state.value;
+			formData.cpf = await cpf.value;
+			formData.description = 'descrição teste'
+			formData.payer.phone = {
+				area_code:'55',
+				number:phone.value
+			}
+			formData.payer.first_name= name.value
+			formData.payer.last_name = lastname.value
+			formData.payer.email = email.value
+			formData.payer.phone.area_code = '84'
+			formData.payer.identification.number = cpf.value
+			formData.payer.identification.type = 'CPF'
 
-console.log(formData)
+
+console.log(formData.payer)
             return new Promise((resolve, reject) => {
               fetch("/process_payment", {
                 method: "POST",
@@ -1932,6 +1953,9 @@ console.log(formData)
                   reject();
                 });
             });
+			} catch (error) {
+				console.log(error)
+			}
           },
           onError: (error) => {
             // callback chamado para todos os casos de erro do Brick
@@ -1940,6 +1964,8 @@ console.log(formData)
         },
       };
       window.paymentBrickController = await bricksBuilder.create(
+		"statusScreen",
+		"statusScreenBrick_container",
         "payment",
         "paymentBrick_container",
         settings
