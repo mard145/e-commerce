@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="pt-BR" class="no-js " itemscope itemtype="https://schema.org/WebPage" >
+<html lang="pt-BR" itemscope itemtype="https://schema.org/WebPage" >
 
 <head>
 
@@ -8,12 +8,7 @@
 <meta name="google-site-verification" content="25SPkutEnZx2VWDlOjLcxlCzbsL3TFNKRrIFgw-UOtw" />
 <!-- Google tag (gtag.js) --> <script async src="https://www.googletagmanager.com/gtag/js?id=G-LGYMPF0D9Z"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-LGYMPF0D9Z'); </script>
 
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-MHGKP2TH');</script>
+
 <!-- End Google Tag Manager -->
 
 <!-- Hotjar Tracking Code for http://localhost/ -->
@@ -28,23 +23,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
 </script>-->
 
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '287786897383271');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=287786897383271&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code --><meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+
+
 <meta name="format-detection" content="telephone=no">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <link rel="shortcut icon" href="images/cropped-Favicon-Iela-Bag-1.png" type="image/x-icon" />
@@ -949,7 +929,7 @@ aside#block-6 {
 <script type="text/javascript" src="js/regenerator-runtime.min.js" id="regenerator-runtime-js"></script>
 <script type="text/javascript" src="js/wp-polyfill.min.js" id="wp-polyfill-js"></script>
 <script type="text/javascript" src="js/hooks.min.js" id="wp-hooks-js"></script>
-<script type="text/javascript" src="js/w.js" id="woo-tracks-js"></script>
+<!--<script type="text/javascript" src="js/w.js" id="woo-tracks-js"></script>-->
 <script type="text/javascript" src="js/jquery.min.js" id="jquery-core-js"></script>
 <script type="text/javascript" src="js/jquery-migrate.min.js" id="jquery-migrate-js"></script>
 <script type="text/javascript" id="cookie-law-info-js-extra">
@@ -1083,31 +1063,44 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
         <li class="timeline-item" id="timeline-item3">Confirmar Pedido</li>
     </div>
 
-    <form id="registrationForm" class="slider" method="post" style="box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; padding: 48px;">
+    <div id="registrationForm" class="slider"  style="box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; padding: 48px;">
         <div class="container slide active" id="step1">
             <h3 class="stepTitle">Informações Básicas</h3>
             <!-- Etapa 1: Inserir usuário/email e senha -->
             <div class="form-wrapper">
                 <div class="mb-3" style="margin-bottom: 24px">
-                    <label for="user_name">Nome completo *</label>
-                    <input type="text" class="form-control" id="user_name" name="user_name" required>
+                    <label for="user_name">Nome *</label>
+                    <input type="text" class="form-control" id="user_name" name="name" required>
+                    <small id="nameHelp" class="error-feedback d-none"></small>
+                </div>
+                <div class="mb-3" style="margin-bottom: 24px">
+                    <label for="user_lastname">Sobrenome *</label>
+                    <input type="text" class="form-control" id="user_lastname" name="lastname" required>
+                    <small id="nameHelp" class="error-feedback d-none"></small>
+                </div>
+                <div class="mb-3" style="margin-bottom: 24px">
+                    <label for="user_phone">Telefone *</label>
+                    <input type="text" class="form-control" id="user_phone" name="phone" required>
                     <small id="nameHelp" class="error-feedback d-none"></small>
                 </div>
                 <div class="mb-3" style="margin-bottom: 24px">
                     <label for="user_email">E-mail *</label>
-                    <input type="email" class="form-control" id="user_email" name="user_email" required>
+                    <input type="email" class="form-control" id="user_email" name="email" required>
                     <small id="emailHelp" class="error-feedback d-none"></small>
                 </div>
                 <div class="mb-3" style="margin-bottom: 24px">
                     <label for="user_password">Senha *</label>
-                    <input type="password" class="form-control" id="user_password" name="user_password" required>
+                    <input type="password" class="form-control" id="user_password" name="password" required>
                     <div class="">
-                        <small class="" style="font-size: .7em">Este campo deve conter no mínimo 8 caracteres entre número e letras.</small>
+                        <small id="lk" class="" style="font-size: .7em">Este campo deve conter no mínimo 8 caracteres entre número e letras.</small>
                     </div>
                     <small id="passwordHelp" class="error-feedback d-none"></small>
                 </div>
                 <div class="action-wrapper">
-                    <button type="button" class="btn btn-primary" onclick="validateStep(1, jQuery(this))">Avançar</button>
+                    <button type="button" class="btn btn-primary" id="confirmar1">Avançar</button>
+                    <%if(msg){%>
+                          <h2><%=msg%></h2>  
+                        <%}%>
                 </div>
             </div>
         </div>
@@ -1116,12 +1109,12 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
             <h3 class="stepTitle">Validar Endereço</h3>
             <div class="form-wrapper">
                 <!-- Etapa 2: Adicionar endereço, cidade e CEP -->
-                <div class="mb-3" style="margin-bottom: 24px">
+                <div class="mb-3" id="adr" style="margin-bottom: 24px">
                     <label for="user_address">Endereço Completo *</label>
                     <input type="text" class="form-control" id="user_address" name="user_address">
                     <small id="addressHelp" class="error-feedback d-none"></small>
                 </div>
-                <div class="mb-3" style="margin-bottom: 24px">
+                <div class="mb-3" id="cid" style="margin-bottom: 24px">
                     <label for="user_city">Cidade</label>
                     <input type="text" class="form-control" id="user_city" name="user_city">
                     <small id="cityHelp" class="error-feedback d-none"></small>
@@ -1130,13 +1123,13 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
                     <label for="user_cep">CEP</label>
                     <input type="text" class="form-control" id="user_cep" name="user_cep">
                     <div class="">
-                        <small class="" style="font-size: .7em">Informe o CEP para avaliação de cobertura.</small>
+                        <small class="" style="font-size: .7em" id="mens">Informe o CEP para avaliação de cobertura.</small>
                     </div>
                     <small id="cepHelp" class="error-feedback d-none">Informe um CEP válido.</small>
                 </div>
                 <div class="action-wrapper">
                     <button type="button" class="btn btn-secondary" onclick="previousStep(2)">Voltar</button>
-                    <button type="button" class="btn btn-primary" onclick="validateStep(2, jQuery(this))">Avançar</button>
+                    <button type="button" class="btn btn-primary" id="confirmar2">Avançar</button>
                 </div>
             </div>
         </div>
@@ -1148,23 +1141,23 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
                     <tbody>
                         <tr style="font-size: 12px;">
                             <td style="padding: 4px !important">Nome:</td>
-                            <td style="padding: 4px !important"><b class="" id="step3_user_name"></b></td>
+                            <td style="padding: 4px !important"><b class="" id="step_user_name"></b></td>
                         </tr>
                         <tr style="font-size: 12px;">
                             <td style="padding: 4px !important">Email:</td>
-                            <td style="padding: 4px !important"><b class="" id="step3_user_email"></b></td>
+                            <td style="padding: 4px !important"><b class="" id="step_user_email"></b></td>
                         </tr>
                         <tr style="font-size: 12px;">
                             <td style="padding: 4px !important">Endereço:</td>
-                            <td style="padding: 4px !important"><b class="" id="step3_user_address"></b></td>
+                            <td style="padding: 4px !important"><b class="" id="step_user_address"></b></td>
                         </tr>
                         <tr style="font-size: 12px;">
                             <td style="padding: 4px !important">Cidade:</td>
-                            <td style="padding: 4px !important"><b class="" id="step3_user_city"></b></td>
+                            <td style="padding: 4px !important"><b class="" id="step_user_city"></b></td>
                         </tr>
                         <tr style="font-size: 12px;">
                             <td style="padding: 4px !important">CEP:</td>
-                            <td style="padding: 4px !important"><b class="" id="step3_user_cep"></b></td>
+                            <td style="padding: 4px !important"><b class="" id="step_user_cep"></b></td>
                         </tr>
                     </tbody>
                 </table>
@@ -1187,11 +1180,30 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
                 <small id="registerHelp" class="form-text text-muted d-none"></small>
             </div>
             <div class="action-wrapper">
-                <button type="button" class="btn btn-secondary" onclick="previousStep(3)">Voltar</button>
-                <button type="button" class="btn btn-primary" id="submit_register" onclick="submitForm()">Concluir Cadastro</button>
+               
+
+                 <form action="/iela/saveUser" method="post">
+                    <input type="text" id="inputName" class="d-none"  name="name">
+                    <input type="text" id="inputLastName" class="d-none"  name="lastname">
+
+                    <input type="email" id="inputEmail" class="d-none"  name="email">
+                    <input type="password" id="inputPassword" class="d-none" name="password">
+                    <input type="text" id="inputCep" class="d-none" name="cep">
+                    <input type="text" id="inputAddress" class="d-none" name="address">
+                    <input type="text" id="inputCity" class="d-none" name="city">
+                    <input type="text" id="inputState" class="d-none" name="state">
+                    <input type="text" id="inputCountry" class="d-none" value="Brasil" name="country">
+                    <input type="text" id="inputBairro" class="d-none"  name="bairro">
+                    <input type="text" id="inputPhone" class="d-none"  name="phone">
+                    <input type="text" id="address_id" class="d-none"  name="address_id">
+
+                    <button type="button"  class="btn btn-secondary" onclick="previousStep(3)">Voltar</button>
+                    <button type="submit" class="btn btn-primary" >Concluir Cadastro</button>
+
+                </form>
             </div>
         </div>
-    </form>
+    </div>
 
     <div class="dot-spinner spinner-register d-none">
         <div class="dot-spinner__dot"></div>
@@ -1205,7 +1217,171 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
     </div>
 </div>
 
+
+
 <script>
+const address = document.getElementById('user_address')
+const city = document.getElementById('user_city')
+const user_phone = document.getElementById('user_phone')
+const user_lastname = document.getElementById('user_lastname')
+
+const mens = document.getElementById('mens')   
+const step_user_name = document.getElementById('step_user_name')
+const step_user_address = document.getElementById('step_user_address')
+const step_user_city = document.getElementById('step_user_city')
+const step_user_email = document.getElementById('step_user_email')
+const step_user_cep = document.getElementById('step_user_cep')
+const inputName = document.getElementById('inputName')
+const inputEmail = document.getElementById('inputEmail')
+const inputPassword = document.getElementById('inputPassword')
+const inputCep = document.getElementById('inputCep')
+const inputCity = document.getElementById('inputCity')
+const inputAddress = document.getElementById('inputAddress')
+const inputBairro = document.getElementById('inputBairro')
+const inputState = document.getElementById('inputState')
+const inputPhone = document.getElementById('inputPhone')
+const inputLastName = document.getElementById('inputLastName')
+const address_id = document.getElementById('address_id')
+
+const user_password = document.getElementById('user_password')
+const lk = document.getElementById('lk')
+
+
+
+
+
+
+
+const adr = document.getElementById('adr')
+const cid = document.getElementById('cid')
+const confirmar2 = document.getElementById('confirmar2')
+adr.style.display = 'none'
+cid.style.display = 'none'
+confirmar2.style.display = 'none'
+
+
+jQuery(document).ready(function() {
+    jQuery('#confirmar1').click(function() {
+        // Pega o valor do campo
+        var email = jQuery('#user_email').val();
+        var nome = jQuery('#user_name').val();
+
+        // Faz a requisição AJAX
+        jQuery.ajax({
+            url: '/iela/check-email', // Rota que você configurou para validar o campo
+            type: 'POST',
+            data: { email: email },
+            success: function(resposta, textStatus,jqXHR){
+              console.log(textStatus)
+              if(jqXHR.status==200){
+                step_user_email.textContent = email
+                step_user_name.textContent = nome
+                inputName.value = nome
+                inputEmail.value = email
+                inputLastName.value = user_lastname.value
+                inputPhone.value = user_phone.value
+                inputPassword.value = user_password.value
+                // Atualiza a mensagem com a resposta do servidor
+        
+                lk.style.color = 'green'
+                lk.textContent = 'E-mail válido'
+                nextStep(1); 
+                
+                
+              }
+              if(jqXHR.status==403){
+                lk.style.color = 'red'
+                lk.textContent = 'E-mail inválido ou já cadastrado'
+              }
+               
+            
+               
+            },
+            
+            error: function(jqXHR, textStatus, errorThrown) {
+                lk.style.color = 'red'
+                lk.textContent = 'E-mail inválido ou já cadastrado'                        }
+        });
+    });
+
+    
+});
+
+
+
+
+jQuery(document).ready(function() {
+    // Ao perder o foco do campo de CEP
+    jQuery('#user_cep').blur(function() {
+        // Chama a função de consulta de CEP
+        consultarCEP();
+    });
+});
+
+function consultarCEP() {
+    // Obtém o valor do CEP digitado pelo usuário
+    var cep = jQuery('#user_cep').val();   
+
+    let user_address =jQuery('#user_address').val() 
+    let user_city =jQuery('#user_city').val() 
+
+    // Remove caracteres não numéricos do CEP
+
+    // Verifica se o CEP possui 8 dígitos
+    if (cep.length !== 9) {
+        console.log(cep.length)
+        mens.style.color = 'red'
+        mens.textContent ='CEP inválido. Por favor, insira um CEP válido com 8 dígitos.'
+        confirmar2.style.display =  'none'
+
+        return;
+    }
+
+    // Faz a requisição à API ViaCEP
+    jQuery.ajax({
+        url: `https://viacep.com.br/ws/${cep}/json/`,
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            if (!data.erro) {
+                // Exibe as informações na página
+                console.log(data)
+                adr.style.display = 'block'
+                cid.style.display = 'block'
+                address.value = `${data.logradouro}, ${data.bairro}`
+                city.value = data.localidade
+                confirmar2.style.display =  'inline-block'
+                mens.style.color = 'green'
+                mens.textContent = 'CEP Válido';
+                step_user_cep.textContent = cep
+                step_user_address.textContent = `${data.logradouro}, ${data.bairro}`
+                step_user_city.textContent = data.localidade
+                inputCity.value = data.localidade
+                inputAddress.value = data.logradouro
+                inputBairro.value = data.bairro
+                inputCep.value = cep
+                inputState.value = data.uf
+                address_id.value = data.ibge
+                jQuery('#confirmar2').click(function() {
+                    nextStep(2);
+                })
+               
+            } else {
+                mens.style.color = 'red'
+                confirmar2.style.display =  'none'
+                mens.textContent = 'Não possuímos cobertura para o CEP informado';
+            }
+        },
+        error: function () {
+            alert('Erro ao consultar o CEP. Tente novamente mais tarde.');
+        }
+    });
+}
+
+
+
+
+
     function nextStep(step) {
         jQuery(`#step${step}`).removeClass('active').addClass('prev');
         jQuery(`#step${step + 1}`).removeClass('next').addClass('active');
@@ -1264,128 +1440,7 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
 
     }
 
-    // Validação do passo 1
-    /**
-    * Continuar dev da validação das etapas do cadatro;
-    * utilizar endpoints rest para validações de CEP/Cidade, etc...
-    */
-    async function validateStepOne(step){
 
-        const name  = jQuery('#user_name'), 
-            email   = jQuery('#user_email'),
-            password = jQuery('#user_password');
-
-        const nameHelp = jQuery('#nameHelp'), 
-            emailHelp = jQuery('#emailHelp'),
-            passwordHelp = jQuery('#passwordHelp');
-
-        let checkName = await validateUsername(name, nameHelp),
-            checkEmail = await validateEmail(email, emailHelp),
-            checkPass = validatePass(password, passwordHelp);
-
-        if(!checkName || !checkPass || !checkEmail) return;
-        
-        jQuery('#step3_user_name').text(name.val());
-        jQuery('#step3_user_email').text(email.val());
-        nextStep(1);
-    }
-
-    // Validação do passo 2
-    async function validateStepTwo(step){
-        const address = jQuery('#user_address'),
-            city    = jQuery('#user_city'),
-            cep     = jQuery('#user_cep');
-
-        const addressHelp = jQuery('#addressHelp'),
-            cityHelp    = jQuery('#cityHelp'),
-            cepHelp     = jQuery('#cepHelp');
-
-        let checkAddress = true;
-        if(regexpAddress(address.val())){
-            addressHelp.addClass('d-none');
-            address.removeClass('error').addClass('success');
-        } else {
-            addressHelp.text('Endereço inválido. Ex: Rua da Amostra, 123').removeClass('d-none');
-            address.removeClass('success').addClass('error');
-            checkAddress = false;
-        }
-
-        let checkCity = true;
-        if(regexpCity(city.val())){
-            cityHelp.addClass('d-none');
-            city.removeClass('error').addClass('success');
-        } else {
-            cityHelp.text('Cidade inválida. Tente novamente!').removeClass('d-none');
-            city.removeClass('success').addClass('error');
-            checkCity = false;
-        }
-
-        let checkCep = true;
-        if(regexpCep(cep.val())){
-            cepHelp.addClass('d-none');
-            cep.removeClass('error').addClass('success');
-        } else {
-            cepHelp.text('CEP inválido ou incompleto. Tente novamente!').removeClass('d-none');
-            cep.removeClass('success').addClass('error');
-            checkCep = false;
-        }
-        if(!checkAddress || !checkCity || !checkCep) return;
-
-        const method = 'POST',
-            payload = new FormData(),
-            checkCepEndpoint = `${rest.url}easybag/v1/check-cep`;
-
-        payload.append('zipcode', cep.val());
-        const response = await fetchAsync(checkCepEndpoint, method, payload);
-
-        if(!response.status){
-            cepHelp.text(response.msg).removeClass('d-none');
-            cep.removeClass('success').addClass('error');
-            return;
-        }
-
-        jQuery('#step3_user_address').text(address.val());
-        jQuery('#step3_user_city').text(city.val());
-        jQuery('#step3_user_cep').text(cep.val());
-        nextStep(2);
-    }
-
-    function createPayloadRegister(){
-        const payload = new FormData();
-
-        payload.append('user_name', jQuery('#user_name').val());
-        payload.append('user_email', jQuery('#user_email').val());
-        payload.append('user_password', jQuery('#user_password').val());
-        payload.append('user_address', jQuery('#user_password').val());
-        payload.append('user_city', jQuery('#user_city').val());
-        payload.append('user_cep', jQuery('#user_cep').val());
-
-        return payload;
-    }
-
-    async function submitForm() {
-        const method    = 'POST',
-            payload     = createPayloadRegister(),
-            endpoint    = `${rest.url}easybag/v1/register-customer`,
-            productId   = 935;
-
-        const response = await fetchAsync(endpoint, method, payload);
-        console.log(response);
-        if(!response.status){
-            registerHelp.text(response.msg).removeClass('d-none');
-            return;
-        }
-
-        if(response.redirect){
-            addSubscriptionToCart(productId);
-
-            setTimeout(() => {
-                window.location.href = response.redirect;
-            }, 1000);
-        }
-    }
-
-    // Funções ajudantes
     function regexpName(name){
         const regexp = /[A-Za-zà-úâêîôûãõçç´`¨~\s]{4,}/;
 
@@ -1429,72 +1484,12 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
             name.removeClass('success').addClass('error');
         }
 
-        // let existsUserName = false;
-        // if(isValid){
-        //    existsUserName = await checkUserNameExists(name.val());
-        // }
-
-        // if(existsUserName){
-        //     nameHelp.text('Nome de usuário indisponível. Tente outro!').removeClass('d-none');
-        //     name.removeClass('success').addClass('error');
-        // }
-
+       
         return isValid;
     }
 
-    async function validateUsername(name, nameHelp){
-        const method = 'POST',
-            payload = new FormData(),
-            checkUsernameEndpoint = `${rest.url}easybag/v1/check-username`;
-
-        payload.append('name', name.val());
-
-        let checkName = regexpName(name.val()),
-            isValid = false;;
-        if(checkName){
-            const usernameExists = await fetchAsync(checkUsernameEndpoint, method, payload);
-            if(usernameExists){
-                nameHelp.text('Nome de usuário não está disponível, tente outro.').removeClass('d-none');
-                name.removeClass('success').addClass('error');
-            } else {                
-                nameHelp.addClass('d-none');
-                name.removeClass('error').addClass('success');
-                isValid = true;
-            }
-        } else {
-            nameHelp.text('Nome de usuário inválido, tente outro.').removeClass('d-none');
-            name.removeClass('success').addClass('error');
-        }
-
-        return isValid;
-    }
-
-    async function validateEmail(email, emailHelp){
-        const method = 'POST',
-            payload = new FormData(),
-            checkEmailEndpoint = `${rest.url}easybag/v1/check-email`;
-
-        payload.append('email', email.val());
-
-        let regexpMail = regexpEmail(email.val());
-        if(regexpMail){
-            const emailIsValid = await fetchAsync(checkEmailEndpoint, method, payload);
-            if(emailIsValid){
-                emailHelp.addClass('d-none');
-                email.removeClass('error').addClass('success');
-            } else {
-                emailHelp.text('E-mail cadastrado. Tento outro.').removeClass('d-none');
-                email.removeClass('success').addClass('error');
-            }
-
-            return emailIsValid;
-        } else {
-            emailHelp.text('E-mail inválido. Tente novamente.').removeClass('d-none');
-            email.removeClass('success').addClass('error');
-            return regexpMail;
-        }       
-    }
-
+   
+ 
     function validatePass(pass, passHelp){
         let isValid = false;
         if(regexpPassword(pass.val())){
@@ -1514,17 +1509,7 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
     const termosDeUsoCheckbox = document.getElementById('termosDeUso');
     const submitButton = document.getElementById('submit_register');
 
-    function verificarSelecao() {
-        if(politicasPrivacidadeCheckbox.checked && termosDeUsoCheckbox.checked){
-            submitButton.disabled = false;
-        } else {
-            submitButton.disabled = true;
-        }
-    }
-    verificarSelecao();
 
-    politicasPrivacidadeCheckbox.addEventListener('change', verificarSelecao);
-    termosDeUsoCheckbox.addEventListener('change', verificarSelecao);
 
     jQuery(document).ready(function(){
         if(!jQuery('#user_cep')) return;

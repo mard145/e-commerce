@@ -72,18 +72,21 @@ mongoose.connect(process.env.MONGO_URL).then(()=>{
       console.log('mongo connection')
   })
 // Step 1: Import the parts of the module you want to use
-let { MercadoPagoConfig, Payment } = require('mercadopago');
+let { MercadoPagoConfig, Payment, Customer } = require('mercadopago');
 
 // Step 2: Initialize the client object
 const client = new MercadoPagoConfig({ accessToken: 'TEST-2786362695625116-120401-0596ae3d8c32e13740229eb17d033c5e-1058457871'});
 
+
 // Step 3: Initialize the API object
 const payment = new Payment(client);
+const customer = new Customer(client)
 const mercadoPagoPublicKey = 'TEST-130be883-07a6-4f31-8cb7-94b71d5e1f50';
 if (!mercadoPagoPublicKey) {
   console.log("Error: public key not defined");
   process.exit(1);
 }
+
 
 // Step 5: Make the request
 //payment.create(body).then(console.log).catch(console.log);
@@ -98,80 +101,138 @@ app.use(express.urlencoded({extended:true,limit: '100mb'}))
 app.use(methodOverride('_method'))
 
 
-app.post('/process_payment',express.json(),express.urlencoded({extended:true}), async (req,res)=>{
-  let user = req.user
-  const { payer,token,description,transactionAmount,paymentMethodId,installments,issuerId,phone } = req.body;
+app.post('/process_payment', async (req,res)=>{
+
+
+   try {
+    let user = req.user
+    const { payer,token,description,transaction_amount,paymentMethodId,installments,issuerId,phone,street_number, cep,address,whatsapp,name,lastname,email,cpf,city } = await req.body;
   
-
-  const paymentData = {
-    transaction_amount: Number(transactionAmount),
-    token: token,
-    description: description,
-    installments: Number(installments),
-    payment_method_id: paymentMethodId,
-    issuer_id: issuerId,
-    payer: {
-      email: payer.email,
-      phone:phone,
-
-      identification: {
-        type: payer.identification.docType,
-        number: payer.identification.docNumber,
+    let srt_number = parseInt(street_number)
+    console.log(transaction_amount, payer,token,description,cep,city,address,phone)
+  
+    const timestamp = Date.now();
+    const stringTimestamp = timestamp.toString();
+    //let stringSemEspacosEHifens = cep.replace(/[\s-]/g, "");
+    const clientData = {
+      email: email,
+      first_name: name,
+      last_name: lastname,
+      phone: {
+        area_code: '55',
+        number: phone
       },
-    },
-    capture:false
-  };
-
-  payment
-    .create({ body: paymentData })
-    .then(async function (data) {
-      res.status(201).json({
-        detail: data.status_detail,
-        status: data.status,
-        id: data.id,
-        
-      });
-     console.log(data)
+      identification: {
+        type: 'CPF',
+        number: cpf
+      },
+      default_address: 'Home',
+      address: {
+        id: address,
+        zip_code: cep,
+        street_name: address,
+        street_number: srt_number,
+        city: {
+          name:city
+        }
+      },
+      date_registered: stringTimestamp,
+      description: 'Description del user',
+      default_card: 'None'
+    };
     
-  /*  let order = new Order({
-      payer:payer,
-     order:data.metadata,
-      total:data.transaction_amount, //transactions_amount
-      status:data.status,
-      status_detail:data.status_detail,
-      currency:data.currency_id,
-      description:data.description,
-      authorization_code:data.authorization_code,
-      taxes_amount:data.taxes_amount,
-      shipping_amount:data.shipping_amount,
-      collector_id:data.collector_id,
-      total_refunded:data.transaction_amount_refunded,  //transactions_refunded_amount
-      cupum_amount:data.coupon_amount,
-      installments:data.installments,
-      transaction_details:data.transaction_details,
-      fee_details:data.fee_details,
-      card:data.card,
-      refunds:data.refunds,
-      processing_mode:data.processing_mode,
-      point_of_interaction:data.point_of_interaction,
-      accounts_info:data.accounts_info,
-      captured:data.captured
+  
+    const paymentData = {
+      transaction_amount: transaction_amount,
+      token: token,
+      description: description,
+      installments: Number(installments),
+      payment_method_id: paymentMethodId,
+      issuer_id: issuerId,
+      payer: {
+        email: payer.email,
+        phone:phone,
+  
+        identification: {
+          type: payer.identification.docType,
+          number: payer.identification.docNumber,
+        },
+      },
+      capture:false
+    };
+    
+    customer.search({options:{email:payer.email}}).then((data)=>{
+    if(data.results.length == 0 || !data.id )
+  {
+  
+    customer.create({ body: clientData }).then(console.log('novo cliente')).catch(console.log);
+  
+    payment
+      .create({ body: paymentData })
+      .then(async function (data) {
+        res.status(201).json({
+          detail: data.status_detail,
+          status: data.status,
+          id: data.id,
+          
+        });
+       console.log(data,' <- pagamento criado' )
+      
+    /*  let order = new Order({
+        payer:payer,
+       order:data.metadata,
+        total:data.transaction_amount, //transactions_amount
+        status:data.status,
+        status_detail:data.status_detail,
+        currency:data.currency_id,
+        description:data.description,
+        authorization_code:data.authorization_code,
+        taxes_amount:data.taxes_amount,
+        shipping_amount:data.shipping_amount,
+        collector_id:data.collector_id,
+        total_refunded:data.transaction_amount_refunded,  //transactions_refunded_amount
+        cupum_amount:data.coupon_amount,
+        installments:data.installments,
+        transaction_details:data.transaction_details,
+        fee_details:data.fee_details,
+        card:data.card,
+        refunds:data.refunds,
+        processing_mode:data.processing_mode,
+        point_of_interaction:data.point_of_interaction,
+        accounts_info:data.accounts_info,
+        captured:data.captured
+  
+      })
+      await order.save()*/
+      })
+      .catch(function (error) {
+        console.log(error);
+    //    const { errorMessage, errorStatus } = validateError(error);
+        res.json({ error });
+      });
+  }else{
+    customer.update({ email: payer.email, body: paymentData,
+  }).then(console.log).catch(console.log);
+  
+  }  
+    console.log(data)
+      }).catch(console.log);
+  
+   } catch (error) {
+    console.log(error)
+   }
 
-    })
-    await order.save()*/
-    })
-    .catch(function (error) {
-      console.log(error);
-  //    const { errorMessage, errorStatus } = validateError(error);
-      res.json({ error });
-    });
+
+ 
+
+
 })
 
 //app.get('/', (req,res)=>{
   //  res.render('index',{msg:false,error:false})
 //})
 
-app.get('/store',async (req,res)=>{
+app.get('/loja',async (req,res)=>{
   try {
     let user = await req.user
     let products = await Product.find({})
@@ -182,9 +243,17 @@ app.get('/store',async (req,res)=>{
 
 })
 
-app.get('/admin',(req,res)=>{
-  let user = req.user
-  res.render('admin',{user:user})
+app.get('/admin',eAdmin,async(req,res)=>{
+
+  try {
+  let user = await req.user
+  let users = await User.find({})
+
+  res.render('admin/admin',{user:user,users:users})
+  } catch (error) {
+    console.log(error)
+  }
+  
 })
 
 app.get('/',(req,res)=>{
@@ -212,10 +281,10 @@ app.get('/termos-e-condicoes',(req,res)=>{
 })
 
 app.get('/cadastro',(req,res)=>{
-  res.render('cadastro')
+  res.render('cadastro',{msg:false})
 })
 
-app.get('/minha-conta',(req,res)=>{
+app.get('/minha-conta',eAdmin,(req,res)=>{
   let user = req.user
   res.render('profile',{user:user})
 })
@@ -318,7 +387,7 @@ app.post('/login',async (req,res,next)=>{
         if(user.admin == true){
           res.redirect('/admin')
         }else if(user.admin == false){
-          res.redirect('/profile')
+          res.redirect('/minha-conta')
         }else{
           res.redirect('/')
         }
@@ -456,15 +525,130 @@ app.post('/saveUser', async (req,res)=>{
  
 })
 
-app.get('/admin/products',eAdmin,async (req,res)=>{
-try {
-  let user = req.user
-  let produtos = await Product.find({})
-  res.render('produtos',{produtos:produtos,user:user})
-} catch (error) {
-  console.log(error)
-}
+app.post('/iela/saveUser', async (req,res)=>{
+
+  try {
+    let {name,email,address,cep,city,state,password,bairro,country,phone,lastname,address_id} = await req.body
+    let cpf = ''
+    let street_number = '0000'
+    let user = new User({
+      name:name,
+      email:email,
+      password:bcrypt.hashSync(password, 8),
+      address:address,
+      cep:cep,
+      city:city,
+      country:country,
+      state:state,
+      bairro:bairro,
+      phone:phone,
+      lastname:lastname,
+      cpf:cpf,
+      address_id:address_id
+    })
+   await user.save()
+   console.log('usuário salvo')
+   let srt_number = parseInt(street_number)
+
+   const timestamp = Date.now();
+   const stringTimestamp = timestamp.toString();
+   let stringSemEspacosEHifens = cep.replace(/[\s-]/g, "");
+  
+
+   const body = {
+     email: email,
+     first_name: name,
+     last_name: lastname,
+     phone: {
+       area_code: '55',
+       number: phone
+     },
+     identification: {
+       type: 'CPF',
+       number: cpf
+     },
+     default_address: 'Home',
+     address: {
+       id: address_id,
+       zip_code: stringSemEspacosEHifens,
+       street_name: address,
+       street_number: srt_number,
+       city: {
+         name:city
+       }
+     },
+     date_registered: stringTimestamp,
+     description: 'Description del user',
+     default_card: 'None'
+   };
+   
+   customer.create({ body: body }).then(console.log).catch(console.log);
+
+   res.redirect('/')
+    try {
+        const items = await User.find({})
+          .sort({ createdAt: 1 }); // Ordena em ordem crescente por createdAt
+      
+        // Atribuir valores numéricos com base na ordem
+        items.forEach((item, index) => {
+          item.rank = index + 1; // +1 porque os índices começam em 0
+        });
+      
+        // Salvar os documentos atualizados
+        await Promise.all(items.map((item) => item.save()));
+      
+        console.log('Documentos atualizados com sucesso.');
+      } catch (error) {
+        console.error('Erro ao atualizar documentos:', error);
+      }
+
+
+ 
+  } catch (error) {
+    console.log(error)
+  }
+ 
 })
+
+app.post('/iela/check-email',async (req,res)=>{
+
+  try {
+    let email = await req.body.email;
+
+    const userExists = await User.findOne({$or: [{email: email}]})
+    console.log(userExists)
+    // Realize a validação de acordo com suas regras
+      if (userExists == null || userExists == undefined || !userExists) {
+         res.status(200).send('E-mail válido');
+      }else{
+        res.status(403).send('E-mail inválido')
+
+      }       
+
+      // Você pode adicionar regras de validação mais complexas aqui
+
+      // Se a validação passar, você pode salvar no banco de dados ou retornar uma mensagem de sucesso
+      // Exemplo de salvamento no banco de dados:
+
+       res.status(200)
+
+     
+  } catch (error) {
+      console.error(error);
+      return res.status(500).send('Erro interno do servidor.');
+  }
+})
+
+app.get('/admin/products',eAdmin,async (req,res)=>{
+  try {
+    let user = req.user
+    let produtos = await Product.find({})
+    res.render('produtos',{produtos:produtos,user:user})
+  } catch (error) {
+    console.log(error)
+  }
+  })
+  
 
 app.get('/admin/users',eAdmin,async (req,res)=>{
   try {
@@ -525,7 +709,7 @@ app.delete('/admin/user/:id',eAdmin,async (req,res)=>{
   }
 try {
   await User.findByIdAndDelete(id)
-  res.redirect('/admin/users')
+  res.redirect('/admin')
 
     try {
         const items = await User.find({})
@@ -605,7 +789,7 @@ app.put('/admin/editUser/:id', eAdmin,async (req,res)=>{
     whatsapp:whatsapp
   },{new:true})
   
-  res.redirect('/admin/users')
+  res.redirect('/admin')
   // console.log(motoReferer)
  
   // let doc = await check.save()

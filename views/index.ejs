@@ -17,24 +17,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
 
 
-
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '287786897383271');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=287786897383271&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code --><meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
 <meta name="format-detection" content="telephone=no">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <link rel="shortcut icon" href="images/cropped-Favicon-Iela-Bag-1.png" type="image/x-icon" />
@@ -926,7 +908,7 @@ aside#block-6 {
 <script type="text/javascript" src="js/regenerator-runtime.min.js" id="regenerator-runtime-js"></script>
 <script type="text/javascript" src="js/wp-polyfill.min.js" id="wp-polyfill-js"></script>
 <script type="text/javascript" src="js/hooks.min.js" id="wp-hooks-js"></script>
-<script type="text/javascript" src="js/w.js" id="woo-tracks-js"></script>
+<!--<script type="text/javascript" src="js/w.js" id="woo-tracks-js"></script>-->
 <script type="text/javascript" src="js/jquery.min.js" id="jquery-core-js"></script>
 <script type="text/javascript" src="js/jquery-migrate.min.js" id="jquery-migrate-js"></script>
 <script type="text/javascript" id="cookie-law-info-js-extra">
@@ -1377,7 +1359,10 @@ EM CADA  BAG
 <%- include('partials/contact.ejs') %>
 
 
-</div><div class="section the_content no_content"><div class="section_wrapper"><div class="the_content_wrapper "></div></div></div>
+</div><div class="section the_content no_content"><div class="section_wrapper"><div class="the_content_wrapper ">
+
+	
+</div></div></div>
 				<div class="section section-page-footer">
 					<div class="section_wrapper clearfix">
 
@@ -1404,10 +1389,11 @@ EM CADA  BAG
 
 <div id="body_overlay"></div>
 
-<div id="Side_slide" class="right dark" data-width="250"><div class="close-wrapper"><a href="#" class="close"><i class="icon-cancel-fine"></i></a></div><div class="extras"><a href="/cadastro" class="action_button" >QUERO MINHA BAG</a><div class="extras-wrapper"><a id="myaccount_button" class="top-bar-right-icon top-bar-right-icon-user toggle-login-modal logged-out" href="/minha-conta"><svg width="26" viewBox="0 0 26 26"><defs><style>.path{fill:none;stroke:#333333;stroke-width:1.5px;}</style></defs><circle class="path" cx="13" cy="9.7" r="4.1"/><path class="path" d="M19.51,18.1v2.31h-13V18.1c0-2.37,2.92-4.3,6.51-4.3S19.51,15.73,19.51,18.1Z"/></svg></a></div></div><div class="lang-wrapper"></div><div class="menu_wrapper"></div><ul class="social"></ul></div><div class="mfn-header-login is-side woocommerce mfn-header-modal-login"><span class="mfn-close-icon toggle-login-modal close-login-modal"><span class="icon">&#10005;</span></span><h4>Entrar</h4><form class="woocommerce-form woocommerce-form-login login" method="post" action="/login">
+<div id="Side_slide" class="right dark" data-width="250"><div class="close-wrapper"><a href="#" class="close"><i class="icon-cancel-fine"></i></a></div><div class="extras"><a href="/cadastro" class="action_button" >QUERO MINHA BAG</a><div class="extras-wrapper"><a id="myaccount_button" class="top-bar-right-icon top-bar-right-icon-user toggle-login-modal logged-out" href="/minha-conta"><svg width="26" viewBox="0 0 26 26"><defs><style>.path{fill:none;stroke:#333333;stroke-width:1.5px;}</style></defs><circle class="path" cx="13" cy="9.7" r="4.1"/><path class="path" d="M19.51,18.1v2.31h-13V18.1c0-2.37,2.92-4.3,6.51-4.3S19.51,15.73,19.51,18.1Z"/></svg></a></div></div><div class="lang-wrapper"></div><div class="menu_wrapper"></div><ul class="social"></ul></div><div class="mfn-header-login is-side woocommerce mfn-header-modal-login"><span class="mfn-close-icon toggle-login-modal close-login-modal"><span class="icon">&#10005;</span></span><h4>Entrar</h4>
+	
 
 	
-	
+	<form action="/login" class="woocommerce-form" method="post">
 	<p class="form-row form-row-first">
 		<label for="username">Nome de usuário ou e-mail&nbsp;<span class="required">*</span></label>
 		<input type="email" class="input-text" name="email" id="username" autocomplete="username" />
@@ -1416,6 +1402,7 @@ EM CADA  BAG
 		<label for="password">Senha&nbsp;<span class="required">*</span></label>
 		<input class="input-text woocommerce-Input" type="password" name="password" id="password" autocomplete="current-password" />
 	</p>
+
 	<div class="clear"></div>
 
 	
@@ -1423,9 +1410,10 @@ EM CADA  BAG
 		<label class="woocommerce-form__label woocommerce-form__label-for-checkbox woocommerce-form-login__rememberme">
 			<input class="woocommerce-form__input woocommerce-form__input-checkbox" name="rememberme" type="checkbox" id="rememberme" value="forever" /> <span>Lembre-me</span>
 		</label>
-		<input type="hidden" id="woocommerce-login-nonce" name="woocommerce-login-nonce" value="4ab4993fc9" /><input type="hidden" name="_wp_http_referer" value="/" />		<input type="hidden" name="redirect" value="" />
+		
 		<button type="submit" class="woocommerce-button button woocommerce-form-login__submit" name="login" value="Entrar">Entrar</button>
 	</p>
+</form>
 	<p class="lost_password">
 		<a href="/minha-conta/lost-password">Perdeu sua senha?</a>
 	</p>
@@ -1433,7 +1421,7 @@ EM CADA  BAG
 	<div class="clear"></div>
 
 	
-</form>
+
 <p class="create_account"><a href="/minha-conta">Criar uma conta?</a></p></div>
 
 
@@ -1641,11 +1629,7 @@ EM CADA  BAG
 #rs-demo-id {}
 </style>
 <script type="text/javascript" src="js/contactformsw.js" id="swv-js"></script>
-<script type="text/javascript" id="contact-form-7-js-extra">
-	/* <![CDATA[ */
-	var wpcf7 = {"api":{"root":"http:\/\/localhost:3001\/wp-json\/","namespace":"contact-form-7\/v1"}};
-	/* ]]> */
-	</script>
+
 <script type="text/javascript" src="js/incontactfomrdex.js" id="contact-form-7-js"></script>
 <script type="text/javascript" src="js/jquery.mask.min.js" id="mask-js"></script>
 <script type="text/javascript" src="js/rbtools.min.js" defer async id="tp-tools-js"></script>

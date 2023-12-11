@@ -1,0 +1,39 @@
+{
+  "name": "cestino",
+  "title": "Cestino",
+  "version": "3.1.5",
+  "description": "A basic shopping cart implementation in javascript.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/d3mo17/cestino.git"
+  },
+  "scripts": {
+    "test": "node_modules/jest/bin/jest.js",
+    "document": "node_modules/jsdoc-to-markdown/bin/cli.js --no-cache --separators --private src/*.js > api.md",
+    "build": "node scripts/build.js"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "main": "./src/Cart.js",
+  "browser": "dist/grafico-ql.min.js",
+  "dependencies": {
+    "atomicjs": "^4.4.1"
+  },
+  "devDependencies": {
+    "jest": "^29.3.1",
+    "jsdoc-to-markdown": "^8.0.0",
+    "requirejs": "^2.3.6",
+    "uglify-js": "^3.8.1"
+  },
+  "keywords": [
+    "shopping",
+    "cart"
+  ],
+  "author": "Daniel Moritz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/d3mo17/cestino/issues"
+  },
+  "homepage": "https://github.com/d3mo17/cestino"
+}

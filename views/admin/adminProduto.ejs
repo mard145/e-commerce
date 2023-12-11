@@ -1,0 +1,59 @@
+<div class="woocommerce-MyAccount-content tab-content" id="tab6">
+	<h2>Cadastrar novo produto</h2>
+	<div class="woocommerce-notices-wrapper"></div>
+<form class="woocommerce-EditAccountForm" action="/saveProduct" method="post">
+
+	<p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
+        <label for="formFile" class="form-label">Upload</label>
+        <input class="form-control" type="file" id="fileInput" onchange="handleFileSelect()">
+    </p>
+	<p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
+		<label for="account_first_name">Nome do produto<span class="required">*</span></label>
+		<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="name" id="account_first_name" autocomplete="given-name" >
+	</p>
+	
+    <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
+		<label for="account_first_name">Descrição<span class="required">*</span></label>
+		<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="description" id="account_first_name" autocomplete="given-name" >
+	</p>
+
+    <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
+		<label for="account_first_name">Preço<span class="required">*</span></label>
+		<input type="number" class="woocommerce-Input woocommerce-Input--text input-text" name="price" id="account_first_name" autocomplete="given-name" >
+	</p>
+
+    <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
+		<label for="account_first_name">Promoção<span class="required">*</span></label>
+		<input type="number" class="woocommerce-Input woocommerce-Input--text input-text" name="promotion" id="account_first_name" autocomplete="given-name" >
+	</p>
+
+
+      <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
+        <select name="category" class="form-select woocommerce-Input woocommerce-Input--text input-select" id="floatingSelect" aria-label="">
+          <option selected>Selecione a categoria</option>
+          <option value="infoproduto">Info produto</option>
+          <option value="acessorios">Roupas e acessórios</option>
+          <option value="Viajens">Viajens</option>
+
+        </select>
+        <label for="floatingSelect"></label>
+    </p>
+   
+
+      <div class="col-md-6 d-none">
+        <label for="inputEmail4" class="form-label d-none">Foto</label>
+        <input type="text" hidden name="photo" id="photo" class="form-control" id="inputEmail4">
+      </div>
+	<div class="clear"></div>
+	
+	<p>
+	<button type="submit" class="woocommerce-Button button" name="save_account_details" value="Salvar alterações">Salvar alterações</button>
+	<input type="hidden" name="action" value="save_account_details">
+	</p>
+
+    
+
+	</form>
+
+</div>
+<div class="d-none" id="imagePreview"></div>

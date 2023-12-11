@@ -8,6 +8,7 @@ const produto = new mongoose.Schema({
      category:String,
      sales:Number,
      photo:String,
+     promotion:Number,
      createdAt: {
         type: Date,
         default: Date.now, // Esta é a data de criação

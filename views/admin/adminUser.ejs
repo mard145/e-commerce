@@ -1,0 +1,81 @@
+<div class="woocommerce-MyAccount-content tab-content" id="tab7">
+    <h2>Cadastrar novo cliente</h2>
+
+	<div class="woocommerce-notices-wrapper"></div>
+<form class="row" action="/saveUser" method="post">
+    <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
+      <label for="formFile" class="form-label">Upload</label>
+      <input class="form-control" type="file" id="fileInputt" onchange="handleFileSelect2()">
+    </p>
+ 
+      <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
+        <label for="lastName" class="form-label">Nome</label>
+        <input type="text" class="form-control" id="lastName" placeholder="Nome" name="name" value="" required>
+        
+      </p>
+
+      <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
+        <label for="lastName" class="form-label">Senha</label>
+        <input type="password" class="form-control" id="lastName" placeholder="Senha" name="password" value="" required>
+        
+      </p>
+
+      <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com">
+      </p>
+
+      <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
+        <label for="lastName" class="form-label">CPF</label>
+        <input type="text" class="form-control" id="lastName" placeholder="CPF" name="cpf" value="" required>
+        
+      </p>
+
+      
+
+      <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
+        <label for="address" class="form-label">Endereço</label>
+        <input type="text" class="form-control" name="address" id="address" placeholder="Endereço" required="">
+       
+      </p>
+
+      <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
+        <label for="address" class="form-label">Cidade</label>
+        <input type="text" name="city" class="form-control" id="address" placeholder="Cidade" required="">
+       
+      </p>
+
+      <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
+        <label for="zip" class="form-label">CEP</label>
+        <input name="cep" type="text" class="form-control" id="zip" placeholder="" required>
+      </p>
+   
+
+      <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
+        <label for="state" class="form-label">Estado</label>
+        <select name="state" class="form-select" id="state" required>
+          <option value="">Selecione...</option>
+          <option>California</option>
+        </select>
+       
+    </p>
+
+    <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
+        <label for="country" class="form-label">País</label>
+        <select name="country" class="form-select" id="country" required="">
+          <option value="">Selecione...</option>
+          <option value="Brasil" selected>Brasil</option>
+        </select>
+    </p>
+    
+     
+      <div class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
+        <label for="inputEmail4" class="form-label d-none">Foto</label>
+        <input type="text" hidden name="photo" id="photo2" class="form-control" id="inputEmail4">
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary">Cadastrar novo usuário</button>
+      </div>
+    </form>
+    <div class="d-none" id="imagePreview2"></div>
+</div>
