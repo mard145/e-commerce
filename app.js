@@ -19,6 +19,8 @@ const User = require('./models/User')
 const Product = require('./models/Product')
 const Order = require('./models/Order')
 const passportJWT = require('passport-jwt');
+const { v4: uuidv4 } = require('uuid');
+
 // Configuqrcração do Passport
 const JwtStrategy = passportJWT.Strategy;
 const ExtractJwt = passportJWT.ExtractJwt;
@@ -72,7 +74,8 @@ mongoose.connect(process.env.MONGO_URL).then(()=>{
       console.log('mongo connection')
   })
 // Step 1: Import the parts of the module you want to use
-let { MercadoPagoConfig, Payment, Customer } = require('mercadopago');
+let { MercadoPagoConfig, Payment, Customer, MerchantOrder } = require('mercadopago');
+
 
 // Step 2: Initialize the client object
 const client = new MercadoPagoConfig({ accessToken: 'TEST-2786362695625116-120401-0596ae3d8c32e13740229eb17d033c5e-1058457871'});
@@ -81,6 +84,7 @@ const client = new MercadoPagoConfig({ accessToken: 'TEST-2786362695625116-12040
 // Step 3: Initialize the API object
 const payment = new Payment(client);
 const customer = new Customer(client)
+const merchantOrder = new MerchantOrder(client)
 const mercadoPagoPublicKey = 'TEST-130be883-07a6-4f31-8cb7-94b71d5e1f50';
 if (!mercadoPagoPublicKey) {
   console.log("Error: public key not defined");
@@ -99,6 +103,39 @@ app.set('views', path.join(__dirname,'views'))
 app.use(express.json({limit: '100mb'}))
 app.use(express.urlencoded({extended:true,limit: '100mb'}))
 app.use(methodOverride('_method'))
+
+app.post('/capture_payment/:id',(req,res)=>{
+  let {id, transaction_amount} = req.body
+if(!id) {
+  id = req.params.id
+}
+console.log(transaction_amount)
+  payment.capture({
+    id: id,
+    transaction_amount: parseInt(transaction_amount),
+    requestOptions: {
+    idempotencyKey: uuidv4()
+    }
+    }).then(console.log).catch(console.log);
+})
+
+app.post('/capture_parcial_payment/:id',(req,res)=>{
+  let {id, transaction_amount} = req.body
+if(!id) {
+  id = req.params.id
+}
+
+let captureInfo = {id: id, transaction_amount: transaction_amount}
+
+mercadopago.p.capturePartial(captureInfo, mercadopago, (error, response) => {
+    if (error){
+        console.log(error);
+    }else{
+        console.log(response)
+    }
+});
+
+})
 
 
 app.post('/process_payment', async (req,res)=>{
@@ -166,7 +203,7 @@ app.post('/process_payment', async (req,res)=>{
   {
   
     customer.create({ body: clientData }).then((data)=>{
-      comsole.log(data)
+      console.log(data)
       console.log('novo cliente')
     }).catch(console.log);
   
@@ -254,8 +291,10 @@ app.get('/admin',eAdmin,async(req,res)=>{
   try {
   let user = await req.user
   let users = await User.find({})
-  let orders = await 
-  res.render('admin/admin',{user:user,users:users})
+  let payments = await payment.search()
+ // console.log(payments.results,'payments')
+
+  res.render('admin/admin',{user:user,users:users,payments:payments.results})
   } catch (error) {
     console.log(error)
   }

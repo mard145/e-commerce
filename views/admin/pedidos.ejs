@@ -1,10 +1,16 @@
 <div class="woocommerce-MyAccount-content tab-content" id="tab3">
 	<div class="woocommerce-notices-wrapper"></div>
 
-	<table class="woocommerce-orders-table woocommerce-MyAccount-orders shop_table shop_table_responsive my_account_orders account-orders-table">
+	<table class="woocommerce-orders-table woocommerce-MyAccount-orders shop_table shop_table_responsive my_account_orders account-orders-table col-12">
 		<thead>
 			<tr>
 									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-number"><span class="nobr">Pedido</span></th>
+									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-number"><span class="nobr">Cliente</span></th>
+									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-number"><span class="nobr">CPF</span></th>
+									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-number"><span class="nobr">Contato</span></th>
+									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-number"><span class="nobr">E-mail</span></th>
+								
+
 									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-date"><span class="nobr">Data</span></th>
 									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-status"><span class="nobr">Status</span></th>
 									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-total"><span class="nobr">Total</span></th>
@@ -13,44 +19,51 @@
 		</thead>
 
 		<tbody>
+			<%if(payments){%>
+				<%payments.forEach(payment=>{%>
 							<tr class="woocommerce-orders-table__row woocommerce-orders-table__row--status-cancelled order">
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Pedido">
-															<a href="http://localhost:10018/minha-conta/view-order/1036/">
-									#1036								</a>
-
-													</td>
+															<a href="#">#<%=payment.id%></a>
+											</td>
+											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Cliente">
+												<a href="#"><%=payment.payer.first_name%> <%=payment.payer.last_name%></a>
+								            </td>
+											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="CPF">
+												<a href="#"><%=payment.payer.identification.number%></a>
+								            </td>
+											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Contato">
+												<a href="#">+55<%=payment.payer.phone.area_code%> <%=payment.payer.phone.number%></a>
+								            </td>
+											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="E-mail">
+												<a href="#"><%=payment.payer.email%></a>
+								            </td>
+										
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-date" data-title="Data">
-															<time datetime="2023-11-29T10:57:44+00:00">29 de novembro de 2023</time>
-
+															<time datetime="<%=payment.date_created%>"><%=payment.date_created%></time>
 													</td>
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-status" data-title="Status">
-															Cancelado
+															<%=payment.status%>: <%=payment.status_detail%>
 													</td>
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-total" data-title="Total">
-															<span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">R$</span>&nbsp;2,02</span> de 2 itens
+															<span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"><%=payment.currency_id%></span>&nbsp;<%=payment.transaction_amount%></span> de 2 itens
 													</td>
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-actions" data-title="Ações">
-															<a href="http://localhost:10018/minha-conta/view-order/1036/" class="woocommerce-button button view">Visualizar</a>													</td>
+															<a href="#" class="woocommerce-button button view">Visualizar</a>												
+															</td>
 									</tr>
-								<tr class="woocommerce-orders-table__row woocommerce-orders-table__row--status-cancelled order">
-											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Pedido">
-															<a href="http://localhost:10018/minha-conta/view-order/1034/">
-									#1034								</a>
+									<form action="/capture_payment/<%=payment.id%>" method="post">
+											<input name="id" type="text" value="<%=payment.id%>">
+											<input name="transaction_amount" type="number" value="<%=payment.transaction_amount%>">
+											<button>Pagar valor inteiro</button>
+									</form>
 
-													</td>
-											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-date" data-title="Data">
-															<time datetime="2023-11-29T10:57:07+00:00">29 de novembro de 2023</time>
-
-													</td>
-											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-status" data-title="Status">
-															Cancelado
-													</td>
-											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-total" data-title="Total">
-															<span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">R$</span>&nbsp;2,02</span> de 2 itens
-													</td>
-											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-actions" data-title="Ações">
-															<a href="http://localhost:10018/minha-conta/view-order/1034/" class="woocommerce-button button view">Visualizar</a>													</td>
-									</tr>
+									<form action="/capture_parcial_payment/<%=payment.id%>" method="post">
+										<input name="id" type="text" value="<%=payment.id%>">
+										<input name="transaction_amount" type="number" value="<%=payment.transaction_amount%>">
+										<button>Pagar valor parcial</button>
+								</form>
+									<%})%>
+							<%}%>	
 						</tbody>
 	</table>
 
