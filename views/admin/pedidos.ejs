@@ -21,6 +21,33 @@
 		<tbody>
 			<%if(payments){%>
 				<%payments.forEach(payment=>{%>
+					<div class="modal fade" id="llll<%=payment.id%>Edited" tabindex="-1" aria-labelledby="llll<%=payment.id%>edit" aria-hidden="true">
+						<div class="modal-dialog">
+						  <div class="modal-content">
+							<div class="modal-header">
+							  <h1 class="modal-title fs-5" id="llll<%=payment.id%>edit">Capturar pagamento</h1>
+							  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+				  
+						
+						<form action="/capture_payment/<%=payment.id%>" method="post">
+							<input name="id" type="hidden" value="<%=payment.id%>">
+							<input name="transaction_amount" type="number" value="<%=payment.transaction_amount%>">
+							<button>Pagar valor inteiro</button>
+					</form>
+
+					<form action="/capture_parcial_payment/<%=payment.id%>" method="post">
+						<input name="id" type="hidden" value="<%=payment.id%>">
+						<input name="transaction_amount" type="number" value="<%=payment.transaction_amount%>">
+						<button>Pagar valor parcial</button>
+				</form>
+					  
+					</div>
+					
+				  </div>
+				</div>
+				</div>
 							<tr class="woocommerce-orders-table__row woocommerce-orders-table__row--status-cancelled order">
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Pedido">
 															<a href="#">#<%=payment.id%></a>
@@ -48,20 +75,14 @@
 															<span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"><%=payment.currency_id%></span>&nbsp;<%=payment.transaction_amount%></span> de 2 itens
 													</td>
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-actions" data-title="Ações">
-															<a href="#" class="woocommerce-button button view">Visualizar</a>												
+															<button type="button" data-bs-toggle="modal" data-bs-target="#llll<%=payment.id%>Edited" class="woocommerce-button button view">Visualizar</button>												
 															</td>
 									</tr>
-									<form action="/capture_payment/<%=payment.id%>" method="post">
-											<input name="id" type="text" value="<%=payment.id%>">
-											<input name="transaction_amount" type="number" value="<%=payment.transaction_amount%>">
-											<button>Pagar valor inteiro</button>
-									</form>
+									
 
-									<form action="/capture_parcial_payment/<%=payment.id%>" method="post">
-										<input name="id" type="text" value="<%=payment.id%>">
-										<input name="transaction_amount" type="number" value="<%=payment.transaction_amount%>">
-										<button>Pagar valor parcial</button>
-								</form>
+							
+
+
 									<%})%>
 							<%}%>	
 						</tbody>

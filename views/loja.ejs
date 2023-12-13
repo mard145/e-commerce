@@ -913,28 +913,7 @@ aside#block-6 {
 	
 }
 </style>
-<script type="text/javascript" src="js/wp-polyfill-inert.min.js" id="wp-polyfill-inert-js"></script>
-<script type="text/javascript" src="js/regenerator-runtime.min.js" id="regenerator-runtime-js"></script>
-<script type="text/javascript" src="js/wp-polyfill.min.js" id="wp-polyfill-js"></script>
-<script type="text/javascript" src="js/hooks.min.js" id="wp-hooks-js"></script>
-<!--<script type="text/javascript" src="js/w.js" id="woo-tracks-js"></script>-->
-<script type="text/javascript" src="js/jquery.min.js" id="jquery-core-js"></script>
-<script type="text/javascript" src="js/jquery-migrate.min.js" id="jquery-migrate-js"></script>
-<script type="text/javascript" id="cookie-law-info-js-extra">
-/* <![CDATA[ */
-var Cli_Data = {"nn_cookie_ids":[],"cookielist":[],"non_necessary_cookies":[],"ccpaEnabled":"","ccpaRegionBased":"","ccpaBarEnabled":"","strictlyEnabled":["necessary","obligatoire"],"ccpaType":"gdpr","js_blocking":"1","custom_integration":"","triggerDomRefresh":"","secure_cookies":""};
-var cli_cookiebar_settings = {"animate_speed_hide":"500","animate_speed_show":"500","background":"#FFF","border":"#b1a6a6c2","border_on":"","button_1_button_colour":"#61a229","button_1_button_hover":"#4e8221","button_1_link_colour":"#fff","button_1_as_button":"1","button_1_new_win":"","button_2_button_colour":"#333","button_2_button_hover":"#292929","button_2_link_colour":"#444","button_2_as_button":"","button_2_hidebar":"","button_3_button_colour":"#dedfe0","button_3_button_hover":"#b2b2b3","button_3_link_colour":"#333333","button_3_as_button":"1","button_3_new_win":"","button_4_button_colour":"#dedfe0","button_4_button_hover":"#b2b2b3","button_4_link_colour":"#333333","button_4_as_button":"1","button_7_button_colour":"#61a229","button_7_button_hover":"#4e8221","button_7_link_colour":"#fff","button_7_as_button":"1","button_7_new_win":"","font_family":"inherit","header_fix":"","notify_animate_hide":"1","notify_animate_show":"","notify_div_id":"#cookie-law-info-bar","notify_position_horizontal":"right","notify_position_vertical":"bottom","scroll_close":"","scroll_close_reload":"","accept_close_reload":"","reject_close_reload":"","showagain_tab":"","showagain_background":"#fff","showagain_border":"#000","showagain_div_id":"#cookie-law-info-again","showagain_x_position":"100px","text":"#333333","show_once_yn":"","show_once":"10000","logging_on":"","as_popup":"","popup_overlay":"1","bar_heading_text":"","cookie_bar_as":"banner","popup_showagain_position":"bottom-right","widget_position":"left"};
-var log_object = {"ajax_url":"http:\/\/localhost:10018\/wp-admin\/admin-ajax.php"};
-/* ]]> */
-</script>
-<script type="text/javascript" src="js/cookie-law-info-public.js" id="cookie-law-info-js"></script>
-<script type="text/javascript" id="ielabag-js-extra">
-/* <![CDATA[ */
-var rest = {"nonce":"ac88271e33","url":"http:\/\/localhost:10018\/wp-json\/"};
-/* ]]> */
-</script>
-<script type="text/javascript" src="js/ielabag-public.js" id="ielabag-js"></script>
-<script type="text/javascript" src="js/swiper-bundle.min.js" id="swiper-js"></script>
+
 <meta name="generator" content="WordPress 6.4.1" />
 <meta name="generator" content="WooCommerce 8.2.2" />
 	<noscript><style>.woocommerce-product-gallery{ opacity: 1 !important; }</style></noscript>
@@ -1031,6 +1010,8 @@ var rest = {"nonce":"ac88271e33","url":"http:\/\/localhost:10018\/wp-json\/"};
 <li id="menu-item-794" class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/consultoria"><span>Consultoria</span></a></li>
 <li id="menu-item-542" class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/perguntas-frequentes"><span>Perguntas Frequentes</span></a></li>
 <li id="menu-item-301" class="menu-item menu-item-type-custom menu-item-object-custom"><a href="#contato"><span>Contato</span></a></li>
+<li id="menu-item-301" class="menu-item menu-item-type-custom menu-item-object-custom"><a href="/loja"><span>Loja</span></a></li>
+
 </ul></nav><a class="responsive-menu-toggle " href="#" aria-label="Mobile menu"><i class="icon-menu-fine" aria-hidden="true"></i></a>				</div>
 
 				<div class="secondary_menu_wrapper">
@@ -1130,7 +1111,9 @@ var rest = {"nonce":"ac88271e33","url":"http:\/\/localhost:10018\/wp-json\/"};
 	<div class="mask"></div>
 	<img width="1068" height="1068" src="<%=product.photo%>" class="image-primary scale-with-grid wp-post-image" alt="" decoding="async" fetchpriority="high" srcset="<%=product.photo%> 1068w, <%=product.photo%> 500w, <%=product.photo%> 300w, <%=product.photo%> 800w, <%=product.photo%> 1024w, <%=product.photo%> 150w, <%=product.photo%> 768w, <%=product.photo%> 146w, <%=product.photo%> 50w, <%=product.photo%> 75w, <%=product.photo%> 85w, <%=product.photo%> 80w" sizes="(max-width: 1068px) 100vw, 1068px" />
 	<div class="image_links">
-		<a rel="nofollow" href="#" data-quantity="1" data-product_id="935" class="add_to_cart_button ajax_add_to_cart product_type_simple">
+		<a rel="nofollow" href="#" class="" data-id="5" data-name="<%=product.name%>" data-summary="summary 5" data-price="<%=product.price%>" data-quantity="1" data-image="<%=product.photo%>" class="add-to-cart" onclick="addToCart('<%=product.name%>', <%=product.price%>, 1)" class="add-to-cart btn btn-danger my-cart-btn add_to_cart_button ajax_add_to_cart product_type_simple">
+		
+	
 			<svg viewBox="0 0 26 26"><defs><style>.path{fill:none;stroke:#333;stroke-miterlimit:10;stroke-width:1.5px;}</style></defs><polygon class="path" points="20.4 20.4 5.6 20.4 6.83 10.53 19.17 10.53 20.4 20.4"></polygon><path class="path" d="M9.3,10.53V9.3a3.7,3.7,0,1,1,7.4,0v1.23"></path></svg></a><a class="link" href="http://localhost:10018/produto/clube-iela-bag/"><svg viewBox="0 0 26 26"><defs><style>.path{fill:none;stroke:#333;stroke-miterlimit:10;stroke-width:1.5px;}</style></defs><g><path d="M10.17,8.76l2.12-2.12a5,5,0,0,1,7.07,0h0a5,5,0,0,1,0,7.07l-2.12,2.12" class="path"/><path d="M15.83,17.24l-2.12,2.12a5,5,0,0,1-7.07,0h0a5,5,0,0,1,0-7.07l2.12-2.12" class="path"/><line x1="10.17" y1="15.83" x2="15.83" y2="10.17" class="path"/></g></svg>
 			</a>
 		</div>
@@ -1425,7 +1408,14 @@ var rest = {"nonce":"ac88271e33","url":"http:\/\/localhost:10018\/wp-json\/"};
 															<p class="form-row form-row-first validate-required" id="shipping_first_name_field" data-priority="10"><label for="shipping_first_name" class="">Nome&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_first_name" id="shipping_first_name" placeholder="" value="" autocomplete="given-name"></span></p><p class="form-row form-row-last validate-required" id="shipping_last_name_field" data-priority="20"><label for="shipping_last_name" class="">Sobrenome&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_last_name" id="shipping_last_name" placeholder="" value="" autocomplete="family-name"></span></p><p class="form-row form-row-wide" id="shipping_company_field" data-priority="30"><label for="shipping_company" class="">Nome da empresa&nbsp;<span class="optional">(opcional)</span></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_company" id="shipping_company" placeholder="" value="" autocomplete="organization"></span></p><p class="form-row form-row-wide address-field update_totals_on_change validate-required" id="shipping_country_field" data-priority="40"><label for="shipping_country" class="">País&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><strong>Brasil</strong><input type="hidden" name="shipping_country" id="shipping_country" value="BR" autocomplete="country" class="country_to_state" readonly="readonly"></span></p><p class="form-row address-field validate-required validate-postcode form-row-wide" id="shipping_postcode_field" data-priority="45" data-o_class="form-row form-row-wide address-field validate-required validate-postcode"><label for="shipping_postcode" class="">CEP&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="tel" class="input-text " name="shipping_postcode" id="shipping_postcode" placeholder="" value="" autocomplete="postal-code" maxlength="9"></span></p><p class="form-row address-field validate-required form-row-wide" id="shipping_address_1_field" data-priority="50"><label for="shipping_address_1" class="">Endereço&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_address_1" id="shipping_address_1" placeholder="Nome da rua e número da casa" value="" autocomplete="address-line1" data-placeholder="Nome da rua e número da casa"></span></p><p class="form-row form-row-wide address-field validate-required" id="shipping_number_field" data-priority="55"><label for="shipping_number" class="">Número&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_number" id="shipping_number" placeholder="" value=""></span></p><p class="form-row address-field form-row-wide" id="shipping_address_2_field" data-priority="60"><label for="shipping_address_2" class="screen-reader-text">Apartamento, suíte, unidade, etc.&nbsp;<span class="optional">(opcional)</span></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_address_2" id="shipping_address_2" placeholder="Apartamento, suíte, sala, etc. (opcional)" value="" autocomplete="address-line2" data-placeholder="Apartamento, suíte, sala, etc. (opcional)"></span></p><p class="form-row form-row-wide address-field" id="shipping_neighborhood_field" data-priority="65"><label for="shipping_neighborhood" class="">Bairro&nbsp;<span class="optional">(opcional)</span></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_neighborhood" id="shipping_neighborhood" placeholder="" value=""></span></p><p class="form-row address-field validate-required form-row-wide" id="shipping_city_field" data-priority="70" data-o_class="form-row form-row-last address-field validate-required"><label for="shipping_city" class="">Cidade&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_city" id="shipping_city" placeholder="" value="" autocomplete="address-level2"></span></p><p class="form-row address-field validate-required validate-state form-row-wide" id="shipping_state_field" data-priority="80" data-o_class="form-row form-row-wide address-field validate-required validate-state"><label for="shipping_state" class="">Estado&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><select name="shipping_state" id="shipping_state" class="state_select select2-hidden-accessible" autocomplete="address-level1" data-placeholder="Selecione uma opção…" data-input-classes="" data-label="Estado" tabindex="-1" aria-hidden="true"><option value="">Selecione uma opção…</option><option value="AC">Acre</option><option value="AL">Alagoas</option><option value="AP">Amapá</option><option value="AM">Amazonas</option><option value="BA">Bahia</option><option value="CE">Ceará</option><option value="DF">Distrito Federal</option><option value="ES">Espírito Santo</option><option value="GO">Goiás</option><option value="MA">Maranhão</option><option value="MT">Mato Grosso</option><option value="MS">Mato Grosso do Sul</option><option value="MG">Minas Gerais</option><option value="PA">Pará</option><option value="PB">Paraíba</option><option value="PR">Paraná</option><option value="PE">Pernambuco</option><option value="PI">Piauí</option><option value="RJ">Rio de Janeiro</option><option value="RN">Rio Grande do Norte</option><option value="RS">Rio Grande do Sul</option><option value="RO">Rondônia</option><option value="RR">Roraima</option><option value="SC">Santa Catarina</option><option value="SP">São Paulo</option><option value="SE">Sergipe</option><option value="TO">Tocantins</option></select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-label="Estado" role="combobox"><span class="select2-selection__rendered" id="select2-shipping_state-container" role="textbox" aria-readonly="true" title="São Paulo">São Paulo</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span></span></p></div>-->
 															<div id="order_review" class="woocommerce-checkout-review-order">
 																<h4 id="order_review_heading">Seu pedido</h4>
-																<table class="shop_table woocommerce-checkout-review-order-table">
+																<div class="cart">
+																	<h2>Carrinho de Compras</h2>
+																	<ul id="cart-items">
+																	  <!-- Itens do carrinho serão adicionados aqui dinamicamente -->
+																	</ul>
+																	<p id="total">Total: R$ 0.00</p>
+																  </div>
+																<!--<table class="shop_table woocommerce-checkout-review-order-table">
 															<thead>
 																<tr>
 																	<th class="product-name">Produto</th>
@@ -1459,7 +1449,7 @@ var rest = {"nonce":"ac88271e33","url":"http:\/\/localhost:10018\/wp-json\/"};
 														
 																
 															</tfoot>
-														</table>
+														</table> -->
 			
 														
 												<!--	<div id="payment" class="woocommerce-checkout-payment">
@@ -1807,90 +1797,9 @@ var rest = {"nonce":"ac88271e33","url":"http:\/\/localhost:10018\/wp-json\/"};
 
 
 
-<div class="cli-modal-backdrop cli-fade cli-settings-overlay"></div>
-<div class="cli-modal-backdrop cli-fade cli-popupbar-overlay"></div>
 
-    <script type="text/javascript">
-    function link_soft_scroll()
-    {
-        jQuery('a[href^="#"]').on('click', function(e) {
-			if(jQuery(this).hasClass('close')) return;
-            e.preventDefault();
-            var id = jQuery(this).attr('href'),
-                    targetOffset = jQuery(id).offset().top;
-                    
-            jQuery('html, body').animate({ 
-                scrollTop: targetOffset - 270
-            }, 1000);
-        });
-    }
-    link_soft_scroll();
-    </script>
-    <div id="qlwapp" class="qlwapp qlwapp-free qlwapp-bubble qlwapp-bottom-right qlwapp-all qlwapp-rounded">
-	<div class="qlwapp-container">
-		
-		<a class="qlwapp-toggle" data-action="open" data-phone="5511994920339" data-message="" role="button" tabindex="0" target="_blank">
-							<i class="qlwapp-icon qlwapp-whatsapp-icon"></i>
-						<i class="qlwapp-close" data-action="close">&times;</i>
-					</a>
-	</div>
-</div>
-	<script type="text/javascript">
-		(function () {
-			var c = document.body.className;
-			c = c.replace(/woocommerce-no-js/, 'woocommerce-js');
-			document.body.className = c;
-		})();
-	</script>
-	<link rel='stylesheet' id='cookie-law-info-table-css' href='css/cookie-law-info-table.css' type='text/css' media='all' />
-<link rel='stylesheet' id='rs-plugin-settings-css' href='css/rs6.css' type='text/css' media='all' />
-<style id='rs-plugin-settings-inline-css' type='text/css'>
-#rs-demo-id {}
-</style>
-<script type="text/javascript" src="js/contactformsw.js" id="swv-js"></script>
-<script type="text/javascript" id="contact-form-7-js-extra">
-/* <![CDATA[ */
-var wpcf7 = {"api":{"root":"http:\/\/localhost:10018\/wp-json\/","namespace":"contact-form-7\/v1"}};
-/* ]]> */
-</script>
-<script type="text/javascript" src="js/incontactfomrdex.js" id="contact-form-7-js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js" id="mask-js"></script>
-<script type="text/javascript" src="js/rbtools.min.js" defer async id="tp-tools-js"></script>
-<script type="text/javascript" src="js/rs6.min.js" defer async id="revmin-js"></script>
-<script type="text/javascript" src="js/jquery.blockUI.min.js" id="jquery-blockui-js"></script>
-<script type="text/javascript" src="js/js.cookie.min.js" id="js-cookie-js"></script>
-<script type="text/javascript" id="woocommerce-js-extra">
-/* <![CDATA[ */
-var woocommerce_params = {"ajax_url":"\/wp-admin\/admin-ajax.php","wc_ajax_url":"\/?wc-ajax=%%endpoint%%"};
-/* ]]> */
-</script>
-<script type="text/javascript" src="js/woocommerce.min.js" id="woocommerce-js"></script>
-<script type="text/javascript" src="js/imask.min.js" id="imask-js"></script>
-<script type="text/javascript" src="js/frontend.js" id="vindi_woocommerce_frontend_js-js"></script>
-<script type="text/javascript" src="js/masks.js" id="vindi_woocommerce_masks_js-js"></script>
-<script type="text/javascript" src="js/brands.js" id="vindi_woocommerce_brands_js-js"></script>
-<script type="text/javascript" src="js/core.min.js" id="jquery-ui-core-js"></script>
-<script type="text/javascript" src="js/tabs.min.js" id="jquery-ui-tabs-js"></script>
-<script type="text/javascript" id="mfn-plugins-js-extra">
-/* <![CDATA[ */
-var mfn = {"mobileInit":"1240","parallax":"stellar","responsive":"1","sidebarSticky":"","lightbox":{"disable":false,"disableMobile":false,"title":false},"slider":{"blog":0,"clients":0,"offer":0,"portfolio":0,"shop":0,"slider":0,"testimonials":0},"livesearch":{"minChar":3,"loadPosts":10,"translation":{"pages":"Pages","categories":"Categories","portfolio":"Portfolio","post":"Posts","products":"Products"}},"home_url":"","site_url":"http:\/\/localhost:10018","ajax":"http:\/\/localhost:10018\/wp-admin\/admin-ajax.php"};
-/* ]]> */
-</script>
-<script type="text/javascript" src="js/plugins.js" id="mfn-plugins-js"></script>
-<script type="text/javascript" src="js/menu.js" id="mfn-menu-js"></script>
-<script type="text/javascript" src="js/animations.min.js" id="mfn-animations-js"></script>
-<script type="text/javascript" src="js/jplayer.min.js" id="mfn-jplayer-js"></script>
-<script type="text/javascript" src="js/stellar.min.js" id="mfn-stellar-js"></script>
-<script type="text/javascript" src="js/scripts.js" id="mfn-scripts-js"></script>
-<script type="text/javascript" id="mfn-woojs-js-extra">
-/* <![CDATA[ */
-var mfnwoovars = {"ajaxurl":"http:\/\/localhost:10018\/wp-admin\/admin-ajax.php","wpnonce":"bdfb1d93ba","rooturl":"","productthumbsover":"mfn-thumbnails-outside","productthumbs":"0px","mainimgmargin":"mfn-mim-0","myaccountpage":"http:\/\/localhost:10018\/minha-conta\/","groupedQuantityErrori18n":"Please choose the quantity of items you wish to add to your cart\u2026"};
-/* ]]> */
-</script>
-<script type="text/javascript" src="js/woocommerce.js" id="mfn-woojs-js"></script>
-<script type="text/javascript" src="js/woocommerce_1.js" id="mfn-woojs-js"></script>
-
-<script type="text/javascript" src="js/wpp.js" id="qlwapp-js"></script>
+ 
+	
 <script src="https://sdk.mercadopago.com/js/v2"></script>
 <input type="hidden" id="pKey" value="<%=publicKey%>">
 <script>
@@ -1907,7 +1816,7 @@ var mfnwoovars = {"ajaxurl":"http:\/\/localhost:10018\/wp-admin\/admin-ajax.php"
 	const phone = document.getElementById('billing_phone')
 	const whatsapp = document.getElementById('billing_cellphone')
 	const email = document.getElementById('billing_email')
-	
+	const totalAmount = document.getElementById('total')
 
 	const mp = new MercadoPago(pKey,{
     locale: 'pt-BR'
@@ -1958,7 +1867,16 @@ var mfnwoovars = {"ajaxurl":"http:\/\/localhost:10018\/wp-admin\/admin-ajax.php"
           onSubmit:async ({ selectedPaymentMethod, formData}) => {
             try {
 				// callback chamado quando há click no botão de envio de dados
-			formData.transaction_amount = 10000;
+				const totalElement = document.getElementById('total');
+
+// Obtém o texto dentro do elemento
+const totalText = totalElement.textContent;
+
+// Usa expressão regular para extrair apenas os números e ponto decimal
+const totalValue = parseFloat(totalText.match(/\d+\.\d+/)[0]);
+
+console.log(totalValue); 
+			formData.transaction_amount = totalValue;
 			formData.name = await name.value;
 			formData.address = await address.value;
 			formData.phone = await phone.value;
@@ -2020,9 +1938,183 @@ console.log(formData.payer)
       );
     };
     renderPaymentBrick(bricksBuilder);
+
   </script>
+  <script type="text/javascript">
+	(function () {
+		var c = document.body.className;
+		c = c.replace(/woocommerce-no-js/, 'woocommerce-js');
+		document.body.className = c;
+	})();
+</script>
+<link rel='stylesheet' id='cookie-law-info-table-css' href='css/cookie-law-info-table.css' type='text/css' media='all' />
+<link rel='stylesheet' id='rs-plugin-settings-css' href='css/rs6.css' type='text/css' media='all' />
+<style id='rs-plugin-settings-inline-css' type='text/css'>
+#rs-demo-id {}
+</style>
+<script type="text/javascript" src="js/jquery.min.js" id="jquery-core-js"></script>
+<script type="text/javascript" src="js/jquery-migrate.min.js" id="jquery-migrate-js"></script>
+
+
+<script type="text/javascript" src="js/wp-polyfill-inert.min.js" id="wp-polyfill-inert-js"></script>
+<script type="text/javascript" src="js/regenerator-runtime.min.js" id="regenerator-runtime-js"></script>
+<script type="text/javascript" src="js/wp-polyfill.min.js" id="wp-polyfill-js"></script>
+<script type="text/javascript" src="js/hooks.min.js" id="wp-hooks-js"></script>
+<!--<script type="text/javascript" src="js/w.js" id="woo-tracks-js"></script>-->
+<script type="text/javascript" id="cookie-law-info-js-extra">
+/* <![CDATA[ */
+var Cli_Data = {"nn_cookie_ids":[],"cookielist":[],"non_necessary_cookies":[],"ccpaEnabled":"","ccpaRegionBased":"","ccpaBarEnabled":"","strictlyEnabled":["necessary","obligatoire"],"ccpaType":"gdpr","js_blocking":"1","custom_integration":"","triggerDomRefresh":"","secure_cookies":""};
+var cli_cookiebar_settings = {"animate_speed_hide":"500","animate_speed_show":"500","background":"#FFF","border":"#b1a6a6c2","border_on":"","button_1_button_colour":"#61a229","button_1_button_hover":"#4e8221","button_1_link_colour":"#fff","button_1_as_button":"1","button_1_new_win":"","button_2_button_colour":"#333","button_2_button_hover":"#292929","button_2_link_colour":"#444","button_2_as_button":"","button_2_hidebar":"","button_3_button_colour":"#dedfe0","button_3_button_hover":"#b2b2b3","button_3_link_colour":"#333333","button_3_as_button":"1","button_3_new_win":"","button_4_button_colour":"#dedfe0","button_4_button_hover":"#b2b2b3","button_4_link_colour":"#333333","button_4_as_button":"1","button_7_button_colour":"#61a229","button_7_button_hover":"#4e8221","button_7_link_colour":"#fff","button_7_as_button":"1","button_7_new_win":"","font_family":"inherit","header_fix":"","notify_animate_hide":"1","notify_animate_show":"","notify_div_id":"#cookie-law-info-bar","notify_position_horizontal":"right","notify_position_vertical":"bottom","scroll_close":"","scroll_close_reload":"","accept_close_reload":"","reject_close_reload":"","showagain_tab":"","showagain_background":"#fff","showagain_border":"#000","showagain_div_id":"#cookie-law-info-again","showagain_x_position":"100px","text":"#333333","show_once_yn":"","show_once":"10000","logging_on":"","as_popup":"","popup_overlay":"1","bar_heading_text":"","cookie_bar_as":"banner","popup_showagain_position":"bottom-right","widget_position":"left"};
+var log_object = {"ajax_url":"http:\/\/localhost:10018\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="js/cookie-law-info-public.js" id="cookie-law-info-js"></script>
+<script type="text/javascript" id="ielabag-js-extra">
+/* <![CDATA[ */
+var rest = {"nonce":"ac88271e33","url":"http:\/\/localhost:10018\/wp-json\/"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="js/ielabag-public.js" id="ielabag-js"></script>
+<script type="text/javascript" src="js/swiper-bundle.min.js" id="swiper-js"></script>
+
+
+    <div id="qlwapp" class="qlwapp qlwapp-free qlwapp-bubble qlwapp-bottom-right qlwapp-all qlwapp-rounded">
+	<div class="qlwapp-container">
+		
+		<a class="qlwapp-toggle" data-action="open" data-phone="5511994920339" data-message="" role="button" tabindex="0" target="_blank">
+							<i class="qlwapp-icon qlwapp-whatsapp-icon"></i>
+						<i class="qlwapp-close" data-action="close">&times;</i>
+					</a>
+	</div>
+</div>
+<script type="text/javascript" src="js/contactformsw.js" id="swv-js"></script>
+<script type="text/javascript" id="contact-form-7-js-extra">
+/* <![CDATA[ */
+var wpcf7 = {"api":{"root":"http:\/\/localhost:10018\/wp-json\/","namespace":"contact-form-7\/v1"}};
+/* ]]> */
+</script>
+<script type="text/javascript" src="js/incontactfomrdex.js" id="contact-form-7-js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js" id="mask-js"></script>
+<script type="text/javascript" src="js/rbtools.min.js" defer async id="tp-tools-js"></script>
+<script type="text/javascript" src="js/rs6.min.js" defer async id="revmin-js"></script>
+<script type="text/javascript" src="js/jquery.blockUI.min.js" id="jquery-blockui-js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js" id="js-cookie-js"></script>
+<script type="text/javascript" id="woocommerce-js-extra">
+/* <![CDATA[ */
+var woocommerce_params = {"ajax_url":"\/wp-admin\/admin-ajax.php","wc_ajax_url":"\/?wc-ajax=%%endpoint%%"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="js/woocommerce.min.js" id="woocommerce-js"></script>
+<script type="text/javascript" src="js/imask.min.js" id="imask-js"></script>
+<script type="text/javascript" src="js/frontend.js" id="vindi_woocommerce_frontend_js-js"></script>
+<script type="text/javascript" src="js/masks.js" id="vindi_woocommerce_masks_js-js"></script>
+<script type="text/javascript" src="js/brands.js" id="vindi_woocommerce_brands_js-js"></script>
+<script type="text/javascript" src="js/core.min.js" id="jquery-ui-core-js"></script>
+<script type="text/javascript" src="js/tabs.min.js" id="jquery-ui-tabs-js"></script>
+<script type="text/javascript" id="mfn-plugins-js-extra">
+/* <![CDATA[ */
+var mfn = {"mobileInit":"1240","parallax":"stellar","responsive":"1","sidebarSticky":"","lightbox":{"disable":false,"disableMobile":false,"title":false},"slider":{"blog":0,"clients":0,"offer":0,"portfolio":0,"shop":0,"slider":0,"testimonials":0},"livesearch":{"minChar":3,"loadPosts":10,"translation":{"pages":"Pages","categories":"Categories","portfolio":"Portfolio","post":"Posts","products":"Products"}},"home_url":"","site_url":"http:\/\/localhost:10018","ajax":"http:\/\/localhost:10018\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="js/plugins.js" id="mfn-plugins-js"></script>
+<script type="text/javascript" src="js/menu.js" id="mfn-menu-js"></script>
+<script type="text/javascript" src="js/animations.min.js" id="mfn-animations-js"></script>
+<script type="text/javascript" src="js/jplayer.min.js" id="mfn-jplayer-js"></script>
+<script type="text/javascript" src="js/stellar.min.js" id="mfn-stellar-js"></script>
+<script type="text/javascript" src="js/scripts.js" id="mfn-scripts-js"></script>
+<script type="text/javascript" id="mfn-woojs-js-extra">
+/* <![CDATA[ */
+var mfnwoovars = {"ajaxurl":"http:\/\/localhost:10018\/wp-admin\/admin-ajax.php","wpnonce":"bdfb1d93ba","rooturl":"","productthumbsover":"mfn-thumbnails-outside","productthumbs":"0px","mainimgmargin":"mfn-mim-0","myaccountpage":"http:\/\/localhost:10018\/minha-conta\/","groupedQuantityErrori18n":"Please choose the quantity of items you wish to add to your cart\u2026"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="js/woocommerce.js" id="mfn-woojs-js"></script>
+<script type="text/javascript" src="js/woocommerce_1.js" id="mfn-woojs-js"></script>
+
+<script type="text/javascript" src="js/wpp.js" id="qlwapp-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+<div class="cli-modal-backdrop cli-fade cli-settings-overlay"></div>
+<div class="cli-modal-backdrop cli-fade cli-popupbar-overlay"></div>
+<script src="js/jquery-2.2.3.min.js"></script>
 
+<script type="text/javascript">
+
+let cart = [];
+
+function addToCart(productName, price, quantity) {
+  // Converte o preço para ponto flutuante
+  const priceFloat = parseFloat(price);
+
+  // Verifica se o preço é um número válido
+  if (isNaN(priceFloat) || priceFloat <= 0) {
+    alert("Por favor, insira um preço válido.");
+    return;
+  }
+
+  const item = {
+    name: productName,
+    price: priceFloat,
+    quantity: quantity
+  };
+
+  // Verifica se o item já está no carrinho
+  const existingItemIndex = cart.findIndex(cartItem => cartItem.name === productName);
+
+  if (existingItemIndex !== -1) {
+    // Se o item já está no carrinho, apenas atualiza a quantidade
+    cart[existingItemIndex].quantity += quantity;
+  } else {
+    // Se o item não está no carrinho, adiciona-o
+    cart.push(item);
+
+  }
+
+  updateCart();
+  updateTotal();
+}
+
+function updateCart() {
+  const cartList = document.getElementById('cart-items');
+
+  // Limpa a lista do carrinho
+  cartList.innerHTML = '';
+
+  // Adiciona itens ao carrinho
+  cart.forEach(item => {
+    const listItem = document.createElement('li');
+    listItem.textContent = `${item.name} - R$ ${item.price.toFixed(2)} x ${item.quantity}`;
+	console.log(listItem)
+    cartList.appendChild(listItem);
+  });
+}
+
+function updateTotal() {
+  const totalElement = document.getElementById('total');
+
+  // Calcula o total
+  const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+
+  // Atualiza o total
+  totalElement.textContent = `Total: R$ ${total.toFixed(2)}`;
+}
+
+
+
+
+    function link_soft_scroll()
+    {
+        jQuery('a[href^="#"]').on('click', function(e) {
+			if(jQuery(this).hasClass('close')) return;
+            e.preventDefault();
+            var id = jQuery(this).attr('href'),
+                    targetOffset = jQuery(id).offset();
+                    
+            jQuery('html, body').animate({ 
+                scrollTop: targetOffset - 270
+            }, 1000);
+        });
+    }
+    link_soft_scroll();
+    </script>
 </body>
 </html>

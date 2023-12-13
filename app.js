@@ -127,13 +127,6 @@ if(!id) {
 
 let captureInfo = {id: id, transaction_amount: transaction_amount}
 
-mercadopago.p.capturePartial(captureInfo, mercadopago, (error, response) => {
-    if (error){
-        console.log(error);
-    }else{
-        console.log(response)
-    }
-});
 
 })
 
