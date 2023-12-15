@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@mercadopago/sdk-js": "^0.0.3",
+    "@vercel/node": "^3.0.12",
     "bcryptjs": "^2.4.3",
     "cestino": "^3.1.5",
     "cheerio": "^1.0.0-rc.12",
