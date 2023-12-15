@@ -841,7 +841,8 @@ app.put('/admin/editUser/:id', eAdmin,async (req,res)=>{
     id = await req.body.id
   }
 
-  let {name,email,address,photo,cep,cpf,city,country,state,cnpj,phone,whatsapp} = req.body
+  try {
+    let {name,email,address,photo,cep,cpf,city,country,state,cnpj,phone,whatsapp} = req.body
   let user = await req.user
   let users = await User.find({})
   let payments = await payment.search()
@@ -883,6 +884,15 @@ app.put('/admin/editUser/:id', eAdmin,async (req,res)=>{
   }else{
     res.render('admin/admin',{user:user,payments:payments.results,users:users,msg:'Já existe um E-mail ou CPF cadastrado'})
   }
+  } catch (error) {
+    let userr = await req.user
+    let usersr = await User.find({})
+    let paymentsr = await payment.search()
+    res.render('admin/admin',{user:userr,payments:paymentsr.results,users:usersr,msg:'Já existe um E-mail ou CPF cadastrado',error:false})
+
+  }
+
+  
 
  
  
