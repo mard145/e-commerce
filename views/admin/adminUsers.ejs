@@ -45,7 +45,7 @@
           <form action="/admin/editUser/<%=user._id%>?_method=PUT" method="post">
             <div class="mb-3">
                 <label for="formFile" class="form-label">Upload</label>
-                <input class="form-control" type="file" id="fileInput3" onchange="handleFileSelect()">
+                <input class="form-control" type="file" id="<%=user._id%>" onchange="handleFileSelectGlobal(this)">
               </div>
               <div class="row g-3">
        
@@ -110,7 +110,7 @@
               
               <div class="col-md-6">
                 <label for="inputEmail4" class="form-label">Foto</label>
-                <input type="text" hidden name="photo" id="foto3" value="<%=user.photo%>" class="form-control" id="inputEmail4">
+                <input type="text" hidden name="photo" id="<%=user._id%>1" value="<%=user.photo%>" class="form-control" id="inputEmail4">
               </div>
              
             <input type="text" hidden name="id" value="<%=user._id%>">
@@ -123,48 +123,21 @@
               
             </form>
     
-    
-          
+  
         </div>
         
       </div>
     </div>
     </div>
     
-          
+    <div class="d-none" id="imagePreview<%=user._id%>"></div>
+
     
         <%})%>
         <%}%>
+
       </div>
     
-      <div class="d-none" id="imagePreview3"></div>
 
-      <script>
-        function handleFileSelect() {
-      const fileInput3 = document.getElementById('fileInput3');
-      const imagePreview3 = document.getElementById('imagePreview3');
-      const foto3 = document.getElementById('foto3');
 
-      const file3 = fileInput.files[0];
-
-      if (file3) {
-        const reader3 = new FileReader();
-        
-        reader3.onload = function (e) {
-          const base64String3 = e.target.result;
-          // Aqui você pode usar a string base64 conforme necessário
-          console.log('String Base64:', base64String3);
-
-          // Exibindo a imagem
-          const img3 = document.createElement('img');
-          foto3.value = base64String3
-          img3.src = base64String3;
-          imagePreview3.innerHTML = '';
-          imagePreview3.appendChild(img3);
-        };
-
-        reader3.readAsDataURL(file3);
-      }
-    }
-</script>
 </div>

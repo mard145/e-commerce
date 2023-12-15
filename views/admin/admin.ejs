@@ -1,7 +1,14 @@
 <%- include('head')%>
+
 <%if(user){%>
+    
 <h1>Bem vindo ADM <%=user.name%></h1>
 <%}%>
+
+<%if(msg){%>
+<h2><%=msg%></h2>
+    <%}%>
+
 <%- include('painel')%>
 <%- include('detalhes')%>
 <%- include('pedidos')%>

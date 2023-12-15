@@ -1139,385 +1139,777 @@ aside#block-6 {
 </div>
 				
 				</div></div>
-				<div class="modal fade modal-xl" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-					<div class="modal-dialog ">
-					  <div class="modal-content">
-						<div class="modal-header">
-						  <h3 class="modal-title fs-5" id="exampleModalToggleLabel">Detalhes de faturamento</h3>
-						  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						</div>
-						<div class="modal-body">
-							<div class="the_content_wrapper col-12">
-								<div class="woocommerce col-12">
-								
-								<form class="checkout_coupon woocommerce-form-coupon checkout-form-toggle" method="post" style="display:none">
-								
-									<p>Se você tiver um código de cupom, utilize-o abaixo.</p>
-								
-									<p class="form-row form-row-first">
-										<label for="coupon_code" class="screen-reader-text">Cupom:</label>
-										<input type="text" name="coupon_code" class="input-text" placeholder="Código do cupom" id="coupon_code" value="">
-									</p>
-								
-									<p class="form-row form-row-last">
-										<button type="submit" class="button" name="apply_coupon" value="Aplicar cupom">Aplicar cupom</button>
-									</p>
-								
-									<div class="clear"></div>
-								</form>
-								<div class="woocommerce-notices-wrapper"></div>								
-									
-										
-										<div class="col2-set" id="customer_details">
-											<div class="col-12">
-												<div class="woocommerce-billing-fields">
-									
-										
-								
-									
-									
-									<div style="display: flex;justify-content: space-evenly;" class="woocommerce-billing-fields__field-wrapper col-12">
-										<div class="'col-6">
-										<div style="display:flex;">
-											<p class="form-row form-row-first validate-required" id="billing_first_name_field" data-priority="10">
-												<label for="billing_first_name" class="">Nome&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-												<span class="woocommerce-input-wrapper">
-													<input type="text" class="input-text" name="name" id="billing_first_name" placeholder="" value="" autocomplete="given-name">
-												</span>
-											</p>
-											<p class="form-row form-row-last validate-required" id="billing_last_name_field" data-priority="20">
-												<label for="billing_last_name" class="">Sobrenome&nbsp;<abbr class="required" title="obrigatório">*</abbr>
-												</label>
-												<span class="woocommerce-input-wrapper">
-													<input type="text" class="input-text " name="lastname" id="billing_last_name" placeholder="" value="" autocomplete="family-name">
-												</span>
-											</p>
 
-										</div>
+				<%if(user){%>
+
+					<div class="modal fade modal-xl" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+						<div class="modal-dialog ">
+						  <div class="modal-content">
+							<div class="modal-header">
+							  <h3 class="modal-title fs-5" id="exampleModalToggleLabel">Detalhes de faturamento</h3>
+							  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<div class="the_content_wrapper col-12">
+									<div class="woocommerce col-12">
+									
+									<form class="checkout_coupon woocommerce-form-coupon checkout-form-toggle" method="post" style="display:none">
+									
+										<p>Se você tiver um código de cupom, utilize-o abaixo.</p>
+									
+										<p class="form-row form-row-first">
+											<label for="coupon_code" class="screen-reader-text">Cupom:</label>
+											<input type="text" name="coupon_code" class="input-text" placeholder="Código do cupom" id="coupon_code" value="">
+										</p>
+									
+										<p class="form-row form-row-last">
+											<button type="submit" class="button" name="apply_coupon" value="Aplicar cupom">Aplicar cupom</button>
+										</p>
+									
+										<div class="clear"></div>
+									</form>
+									<div class="woocommerce-notices-wrapper"></div>								
+										
 											
-										<div style="display:flex;">
-
-
-											<p class="form-row form-row-wide person-type-field" id="billing_cpf_field" data-priority="23">
-												<label for="billing_cpf" class="">CPF&nbsp;
-													<span class="optional">(opcional)</span>
-												</label>
-												<span class="woocommerce-input-wrapper">
-													<input type="text" class="input-text " name="cpf" id="billing_cpf" placeholder="" value="" maxlength="14">
-												</span>
-											</p>
-											<p class="form-row form-row-wide validate-required" id="billing_birthdate_field" data-priority="31">
-												<label for="billing_birthdate" class="">Data de Nascimento&nbsp;<abbr class="required" title="obrigatório">*</abbr>
-												</label>
-												<span class="woocommerce-input-wrapper">
-													<input type="text" class="input-text " name="birthday" id="billing_birthdate" placeholder="" value="" maxlength="10">
-												</span>
-											</p>
-										</div>
-
-
-										<div style="display:flex;">
-
-
+											<div class="col2-set" id="customer_details">
+												<div class="col-12">
+													<div class="woocommerce-billing-fields">
 										
-											<p class="form-row form-row-wide validate-required" id="billing_gender_field" data-priority="32">
-												<label for="billing_gender" class="">Gênero&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-												<span class="woocommerce-input-wrapper">
-													<select name="billing_gender" id="billing_gender" class="select wc-ecfb-select select2-hidden-accessible" data-allow_clear="true" data-placeholder="Selecionar" tabindex="-1" aria-hidden="true">
-															<option value="" selected="selected">Selecionar</option>
-															<option value="Não quero informar">Não quero informar</option>
-															<option value="Feminino">Feminino</option>
-															<option value="Masculino">Masculino</option>
-															<option value="Outro">Outro</option>
-														</select>
-														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 626.109px;">
-															<span class="selection">
-																<span class="select2-selection select2-selection--single" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-billing_gender-container" role="combobox">
-																	<span class="select2-selection__rendered" id="select2-billing_gender-container" role="textbox" aria-readonly="true"><span class="select2-selection__placeholder">
-			
-																	</span>
-																</span>
-																<span class="select2-selection__arrow" role="presentation">
-																	<b role="presentation"></b>
-																</span>
-															</span>
-														</span>
-														<span class="dropdown-wrapper" aria-hidden="true">
-			
-														</span>
-													</span>
-												</span>
-											</p>
-											<p class="form-row form-row-wide address-field update_totals_on_change validate-required" id="billing_country_field" data-priority="40">
-												<label for="billing_country" class="">País&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-												<span class="woocommerce-input-wrapper">
-													<strong>Brasil</strong>
-													<input type="hidden" name="country" id="billing_country" value="BR" autocomplete="country" class="country_to_state" readonly="readonly">
-												</span>
-											</p>
-
-
+											
+									
 										
-
-											<p class="form-row address-field validate-required validate-postcode form-row-wide" id="billing_postcode_field" data-priority="45" data-o_class="form-row form-row-wide address-field validate-required validate-postcode">
-												<label for="billing_postcode" class="">CEP&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-												<span class="woocommerce-input-wrapper">
-													<input type="text" class="input-text " name="cep" id="billing_postcode" placeholder="" value="" autocomplete="postal-code" maxlength="9">
-												</span>
-											</p>
-
-										</div>
-
-										<div style="display:flex;">
-
-
-
-											<p class="form-row address-field validate-required form-row-wide" id="billing_address_1_field" data-priority="50">
-												<label for="billing_address_1" class="">Endereço&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-												<span class="woocommerce-input-wrapper">
-													<input type="text" class="input-text " name="address" id="billing_address_1" placeholder="Nome da rua e número da casa" value="" autocomplete="address-line1" data-placeholder="Nome da rua e número da casa">
-												</span>
-											</p>
-											<p class="form-row form-row-wide address-field validate-required" id="billing_number_field" data-priority="55">
-												<label for="billing_number" class="">Número&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-												<span class="woocommerce-input-wrapper">
-													<input type="text" class="input-text " name="street_number" id="billing_number" placeholder="" value="">
-												</span>
-											</p>
-
-										</div>
-
-										<div style="display:flex;">
-
-
-										<!--<p class="form-row address-field form-row-wide" id="billing_address_2_field" data-priority="60">
-												<label for="billing_address_2" class="screen-reader-text">Apartamento, suíte, unidade, etc.&nbsp;<span class="optional">(opcional)</span></label>
-												<span class="woocommerce-input-wrapper">
-													<input type="text" class="input-text " name="address2" id="billing_address_2" placeholder="Apartamento, suíte, sala, etc. (opcional)" value="" autocomplete="address-line2" data-placeholder="Apartamento, suíte, sala, etc. (opcional)">
-												</span>
-											</p>-->
-											<p class="form-row form-row-wide address-field" id="billing_neighborhood_field" data-priority="65">
-												<label for="billing_neighborhood" class="">Bairro&nbsp;<span class="optional">(opcional)</span></label>
-												<span class="woocommerce-input-wrapper">
-													<input type="text" class="input-text " name="bairro" id="billing_neighborhood" placeholder="" value="">
-												</span>
-											</p>
-
-											<p class="form-row address-field validate-required form-row-wide" id="billing_city_field" data-priority="70" data-o_class="form-row form-row-wide address-field validate-required">
-												<label for="billing_city" class="">Cidade&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-												<span class="woocommerce-input-wrapper">
-													<input type="text" class="input-text " name="city" id="billing_city" placeholder="" value="" autocomplete="address-level2"></span>
-												</p>
-										</div>
-
-										<div style="display:flex;">
-
 										
-												<p class="form-row address-field validate-required validate-state woocommerce-validated form-row-wide" id="billing_state_field" data-priority="80" data-o_class="form-row form-row-wide address-field validate-required validate-state">
-													<label for="billing_state" class="">Estado&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
+										<div style="display: flex;justify-content: space-evenly;" class="woocommerce-billing-fields__field-wrapper col-12">
+											<div class="'col-6">
+											<div style="display:flex;">
+												<p class="form-row form-row-first validate-required" id="billing_first_name_field" data-priority="10">
+													<label for="billing_first_name" class="">Nome&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
 													<span class="woocommerce-input-wrapper">
-														<select name="state" id="billing_state" class="state_select select2-hidden-accessible" autocomplete="address-level1" data-placeholder="Selecione uma opção…" data-input-classes="" data-label="Estado" tabindex="-1" aria-hidden="true">
-															<option value="">Selecione uma opção…</option>
-															<option value="AC">Acre</option>
-															<option value="AL">Alagoas</option>
-															<option value="AP">Amapá</option>
-															<option value="AM">Amazonas</option>
-															<option value="BA">Bahia</option>
-															<option value="CE">Ceará</option>
-															<option value="DF">Distrito Federal</option>
-															<option value="ES">Espírito Santo</option>
-															<option value="GO">Goiás</option>
-															<option value="MA">Maranhão</option>
-															<option value="MT">Mato Grosso</option>
-															<option value="MS">Mato Grosso do Sul</option>
-															<option value="MG">Minas Gerais</option>
-															<option value="PA">Pará</option>
-															<option value="PB">Paraíba</option>
-															<option value="PR">Paraná</option>
-															<option value="PE">Pernambuco</option>
-															<option value="PI">Piauí</option>
-															<option value="RJ">Rio de Janeiro</option>
-															<option value="RN">Rio Grande do Norte</option>
-															<option value="RS">Rio Grande do Sul</option>
-															<option value="RO">Rondônia</option>
-															<option value="RR">Roraima</option>
-															<option value="SC">Santa Catarina</option>
-															<option selected value="SP">São Paulo</option>
-															<option value="SE">Sergipe</option>
-															<option value="TO">Tocantins</option>
-														</select>
-														<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
-															<span class="selection">
-																<span class="select2-selection select2-selection--single" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-label="Estado" role="combobox">
-																	<span class="select2-selection__rendered" id="select2-billing_state-container" role="textbox" aria-readonly="true" title="São Paulo"></span>
+														<input type="text" class="input-text" name="name" id="billing_first_name" placeholder="" value="<%=user.name%>" autocomplete="given-name">
+													</span>
+												</p>
+												<p class="form-row form-row-last validate-required" id="billing_last_name_field" data-priority="20">
+													<label for="billing_last_name" class="">Sobrenome&nbsp;<abbr class="required" title="obrigatório">*</abbr>
+													</label>
+													<span class="woocommerce-input-wrapper">
+														<input type="text" class="input-text " name="lastname" id="billing_last_name" placeholder="" value="<%=user.lastname%>" autocomplete="family-name">
+													</span>
+												</p>
+	
+											</div>
+												
+											<div style="display:flex;">
+	
+	
+												<p class="form-row form-row-wide person-type-field" id="billing_cpf_field" data-priority="23">
+													<label for="billing_cpf" class="">CPF&nbsp;
+														<span class="optional">(opcional)</span>
+													</label>
+													<span class="woocommerce-input-wrapper">
+														<input type="text" class="input-text " name="cpf" id="billing_cpf" placeholder="" value="<%=user.cpf%>" maxlength="14">
+													</span>
+												</p>
+												<p class="form-row form-row-wide validate-required" id="billing_birthdate_field" data-priority="31">
+													<label for="billing_birthdate" class="">Data de Nascimento&nbsp;<abbr class="required" title="obrigatório">*</abbr>
+													</label>
+													<span class="woocommerce-input-wrapper">
+														<input type="text" class="input-text " name="birthday" id="billing_birthdate" placeholder="" value="" maxlength="10">
+													</span>
+												</p>
+											</div>
+	
+	
+											<div style="display:flex;">
+	
+	
+											
+												<p class="form-row form-row-wide validate-required" id="billing_gender_field" data-priority="32">
+													<label for="billing_gender" class="">Gênero&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
+													<span class="woocommerce-input-wrapper">
+														<select name="billing_gender" id="billing_gender" class="select wc-ecfb-select select2-hidden-accessible" data-allow_clear="true" data-placeholder="Selecionar" tabindex="-1" aria-hidden="true">
+																<option value="<%=user.gender%>" selected="selected"><%=user.gender%></option>
+																<option value="Não quero informar">Não quero informar</option>
+																<option value="Feminino">Feminino</option>
+																<option value="Masculino">Masculino</option>
+																<option value="Outro">Outro</option>
+															</select>
+															<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 626.109px;">
+																<span class="selection">
+																	<span class="select2-selection select2-selection--single" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-billing_gender-container" role="combobox">
+																		<span class="select2-selection__rendered" id="select2-billing_gender-container" role="textbox" aria-readonly="true"><span class="select2-selection__placeholder">
+				
+																		</span>
+																	</span>
 																	<span class="select2-selection__arrow" role="presentation">
 																		<b role="presentation"></b>
 																	</span>
 																</span>
 															</span>
 															<span class="dropdown-wrapper" aria-hidden="true">
-			
+				
 															</span>
 														</span>
 													</span>
 												</p>
-												<p class="form-row form-row-wide validate-required validate-phone" id="billing_phone_field" data-priority="100">
-													<label for="billing_phone" class="">Celular&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
+												<p class="form-row form-row-wide address-field update_totals_on_change validate-required" id="billing_country_field" data-priority="40">
+													<label for="billing_country" class="">País&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
 													<span class="woocommerce-input-wrapper">
-														<input type="text" class="input-text " name="phone" id="billing_phone" placeholder="" value="" autocomplete="tel" maxlength="15">
+														<strong>Brasil</strong>
+														<input type="hidden" name="country" id="billing_country" value="<%=user.country%>" autocomplete="country" class="country_to_state" readonly="readonly">
 													</span>
 												</p>
-
-
-											</div>
-											<div style="display:flex;">
-
-
-												<p class="form-row validate-required validate-phone" id="billing_cellphone_field" data-priority="100">
-													<label for="billing_cellphone" class="">Celular/Whatsapp&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-													<span class="woocommerce-input-wrapper">
-														<input type="text" class="input-text " name="whatsapp" id="billing_cellphone" placeholder="" value="" autocomplete="tel" maxlength="15">
-													</span>
-												</p>
-												<p class="form-row form-row-wide validate-required validate-email" id="billing_email_field" data-priority="110">
-													<label for="billing_email" class="">Endereço de e-mail&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-													<span class="woocommerce-input-wrapper">
-														<input type="email" class="input-text " name="email" id="billing_email" placeholder="" value="" autocomplete="email username">
-														<div id="wcbcf-mailsuggest" style="color: rgb(204, 0, 0); font-size: small;">
-														</div>
-													</span>
-												</p>
-											</div>
-
-
-											</div>
-
-											<div class="col-6">
-												<div class="woocommerce-shipping-fields">
-									
-										<h3 id="ship-to-different-address">
-											<label class="woocommerce-form__label woocommerce-form__label-for-checkbox checkbox">
-												<input id="ship-to-different-address-checkbox" class="woocommerce-form__input woocommerce-form__input-checkbox input-checkbox" checked="checked" type="checkbox" name="ship_to_different_address" value="1"> <span>Entregar em um endereço diferente?</span>
-											</label>
-										</h3>
-								
-										<div class="shipping_address" style="">
-								
-			
-										<!--	<div class="woocommerce-shipping-fields__field-wrapper">
-															<p class="form-row form-row-first validate-required" id="shipping_first_name_field" data-priority="10"><label for="shipping_first_name" class="">Nome&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_first_name" id="shipping_first_name" placeholder="" value="" autocomplete="given-name"></span></p><p class="form-row form-row-last validate-required" id="shipping_last_name_field" data-priority="20"><label for="shipping_last_name" class="">Sobrenome&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_last_name" id="shipping_last_name" placeholder="" value="" autocomplete="family-name"></span></p><p class="form-row form-row-wide" id="shipping_company_field" data-priority="30"><label for="shipping_company" class="">Nome da empresa&nbsp;<span class="optional">(opcional)</span></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_company" id="shipping_company" placeholder="" value="" autocomplete="organization"></span></p><p class="form-row form-row-wide address-field update_totals_on_change validate-required" id="shipping_country_field" data-priority="40"><label for="shipping_country" class="">País&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><strong>Brasil</strong><input type="hidden" name="shipping_country" id="shipping_country" value="BR" autocomplete="country" class="country_to_state" readonly="readonly"></span></p><p class="form-row address-field validate-required validate-postcode form-row-wide" id="shipping_postcode_field" data-priority="45" data-o_class="form-row form-row-wide address-field validate-required validate-postcode"><label for="shipping_postcode" class="">CEP&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="tel" class="input-text " name="shipping_postcode" id="shipping_postcode" placeholder="" value="" autocomplete="postal-code" maxlength="9"></span></p><p class="form-row address-field validate-required form-row-wide" id="shipping_address_1_field" data-priority="50"><label for="shipping_address_1" class="">Endereço&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_address_1" id="shipping_address_1" placeholder="Nome da rua e número da casa" value="" autocomplete="address-line1" data-placeholder="Nome da rua e número da casa"></span></p><p class="form-row form-row-wide address-field validate-required" id="shipping_number_field" data-priority="55"><label for="shipping_number" class="">Número&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_number" id="shipping_number" placeholder="" value=""></span></p><p class="form-row address-field form-row-wide" id="shipping_address_2_field" data-priority="60"><label for="shipping_address_2" class="screen-reader-text">Apartamento, suíte, unidade, etc.&nbsp;<span class="optional">(opcional)</span></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_address_2" id="shipping_address_2" placeholder="Apartamento, suíte, sala, etc. (opcional)" value="" autocomplete="address-line2" data-placeholder="Apartamento, suíte, sala, etc. (opcional)"></span></p><p class="form-row form-row-wide address-field" id="shipping_neighborhood_field" data-priority="65"><label for="shipping_neighborhood" class="">Bairro&nbsp;<span class="optional">(opcional)</span></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_neighborhood" id="shipping_neighborhood" placeholder="" value=""></span></p><p class="form-row address-field validate-required form-row-wide" id="shipping_city_field" data-priority="70" data-o_class="form-row form-row-last address-field validate-required"><label for="shipping_city" class="">Cidade&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_city" id="shipping_city" placeholder="" value="" autocomplete="address-level2"></span></p><p class="form-row address-field validate-required validate-state form-row-wide" id="shipping_state_field" data-priority="80" data-o_class="form-row form-row-wide address-field validate-required validate-state"><label for="shipping_state" class="">Estado&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><select name="shipping_state" id="shipping_state" class="state_select select2-hidden-accessible" autocomplete="address-level1" data-placeholder="Selecione uma opção…" data-input-classes="" data-label="Estado" tabindex="-1" aria-hidden="true"><option value="">Selecione uma opção…</option><option value="AC">Acre</option><option value="AL">Alagoas</option><option value="AP">Amapá</option><option value="AM">Amazonas</option><option value="BA">Bahia</option><option value="CE">Ceará</option><option value="DF">Distrito Federal</option><option value="ES">Espírito Santo</option><option value="GO">Goiás</option><option value="MA">Maranhão</option><option value="MT">Mato Grosso</option><option value="MS">Mato Grosso do Sul</option><option value="MG">Minas Gerais</option><option value="PA">Pará</option><option value="PB">Paraíba</option><option value="PR">Paraná</option><option value="PE">Pernambuco</option><option value="PI">Piauí</option><option value="RJ">Rio de Janeiro</option><option value="RN">Rio Grande do Norte</option><option value="RS">Rio Grande do Sul</option><option value="RO">Rondônia</option><option value="RR">Roraima</option><option value="SC">Santa Catarina</option><option value="SP">São Paulo</option><option value="SE">Sergipe</option><option value="TO">Tocantins</option></select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-label="Estado" role="combobox"><span class="select2-selection__rendered" id="select2-shipping_state-container" role="textbox" aria-readonly="true" title="São Paulo">São Paulo</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span></span></p></div>-->
-															<div id="order_review" class="woocommerce-checkout-review-order">
-																<h4 id="order_review_heading">Seu pedido</h4>
-																<div class="cart">
-																	<h2>Carrinho de Compras</h2>
-																	<ul id="cart-items">
-																	  <!-- Itens do carrinho serão adicionados aqui dinamicamente -->
-																	</ul>
-																	<p id="total">Total: R$ 0.00</p>
-																  </div>
-																<!--<table class="shop_table woocommerce-checkout-review-order-table">
-															<thead>
-																<tr>
-																	<th class="product-name">Produto</th>
-																	<th class="product-total">Subtotal</th>
-																</tr>
-															</thead>
-															<tbody>
-																				<tr class="cart_item">
-																			<td class="product-name">
-																				Clube Iela Bag&nbsp;						 <strong class="product-quantity">×&nbsp;4</strong>											</td>
-																			<td class="product-total">
-																				<span class="subscription-price"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">R$</span>&nbsp;4,04</bdi></span> <span class="subscription-details"> por 1 mês</span></span>					</td>
-																		</tr>
-																			</tbody>
-															<tfoot>
-														
-																<tr class="cart-subtotal">
-																	<th>Subtotal</th>
-																	<td><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">R$</span>&nbsp;4,04</bdi></span></td>
-																</tr>
-														
-																
-																
-																
-																
-																
-																<tr class="order-total">
-																	<th>Total</th>
-																	<td><strong><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">R$</span>&nbsp;4,04</bdi></span></strong> </td>
-																</tr>
-														
-																
-															</tfoot>
-														</table> -->
-			
-														
-												<!--	<div id="payment" class="woocommerce-checkout-payment">
-																	<ul class="wc_payment_methods payment_methods methods">
-																	<li class="wc_payment_method payment_method_vindi-credit-card active-payment">
-															<input id="payment_method_vindi-credit-card" type="radio" class="input-radio" name="payment_method" value="vindi-credit-card" checked="checked" data-order_button_text="" style="display: none;">
-														
-															<label for="payment_method_vindi-credit-card">
-																Cartão de Crédito 	</label>
-																	<div class="payment_box payment_method_vindi-credit-card">
-																	Estamos enfrentando problemas técnicos no momento. Tente novamente mais tarde ou entre em contato.		</div>
-															<span class="mfn-payment-check"><i class="icon-check"></i></span></li>
-																</ul>
-																<div class="form-row place-order">
-																<noscript>
-																	Seu navegador não suporta JavaScript ou ele está desativado. Certifique-se de clicar no botão <em>Atualizar totais</em> antes de finalizar o seu pedido. Você poderá ser cobrado mais do que a quantidade indicada acima, se não fizer isso.			<br/><button type="submit" class="button alt" name="woocommerce_checkout_update_totals" value="Atualizar">Atualizar</button>
-																</noscript>
-														
-																	<div class="woocommerce-terms-and-conditions-wrapper">
-																<div class="woocommerce-privacy-policy-text"><p>Os seus dados pessoais serão utilizados para processar a sua compra, apoiar a sua experiência em todo este site e para outros fins descritos na nossa <a href="" class="woocommerce-privacy-policy-link" target="_blank">política de privacidade</a>.</p>
-														</div>
-																	</div>
-															
-																
-																<button type="submit" class="button alt" name="woocommerce_checkout_place_order" id="place_order" value="Assinar Agora!" data-value="Assinar Agora!">Assinar Agora!</button>
-																<a href="http://localhost:10018/carrinho/" class="mfn-woo-cart-link">Retornar para o carrinho</a>
-																<input type="hidden" id="woocommerce-process-checkout-nonce" name="woocommerce-process-checkout-nonce" value="3581cacef0"><input type="hidden" name="_wp_http_referer" value="/?wc-ajax=update_order_review">	</div>
-														</div>-->
-														
-															</div>
+	
+	
 											
-										</div>
-								
-									</div>
-								<div class="woocommerce-additional-fields">
+	
+												<p class="form-row address-field validate-required validate-postcode form-row-wide" id="billing_postcode_field" data-priority="45" data-o_class="form-row form-row-wide address-field validate-required validate-postcode">
+													<label for="billing_postcode" class="">CEP&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
+													<span class="woocommerce-input-wrapper">
+														<input type="text" class="input-text " name="cep" id="billing_postcode" placeholder="" value="<%=user.cep%>" autocomplete="postal-code" maxlength="8">
+													</span>
+												</p>
+														
+											</div>
+											<span id="mensagemcep"></span>
+											<div style="display:flex;">
+	
+	
+	
+												<p class="form-row address-field validate-required form-row-wide" id="billing_address_1_field" data-priority="50">
+													<label for="billing_address_1" class="">Endereço&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
+													<span class="woocommerce-input-wrapper">
+														<input type="text" class="input-text " name="address" id="billing_address_1" placeholder="Nome da rua e número da casa" value="<%=user.address%>" autocomplete="address-line1" data-placeholder="Nome da rua e número da casa">
+													</span>
+												</p>
+												<p class="form-row form-row-wide address-field validate-required" id="billing_number_field" data-priority="55">
+													<label for="billing_number" class="">Número&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
+													<span class="woocommerce-input-wrapper">
+														<input type="text" class="input-text " name="street_number" id="billing_number" placeholder="" value="<%=user.street_number%>">
+													</span>
+												</p>
+	
+											</div>
+	
+											<div style="display:flex;">
+	
+	
+											<!--<p class="form-row address-field form-row-wide" id="billing_address_2_field" data-priority="60">
+													<label for="billing_address_2" class="screen-reader-text">Apartamento, suíte, unidade, etc.&nbsp;<span class="optional">(opcional)</span></label>
+													<span class="woocommerce-input-wrapper">
+														<input type="text" class="input-text " name="address2" id="billing_address_2" placeholder="Apartamento, suíte, sala, etc. (opcional)" value="" autocomplete="address-line2" data-placeholder="Apartamento, suíte, sala, etc. (opcional)">
+													</span>
+												</p>-->
+												<p class="form-row form-row-wide address-field" id="billing_neighborhood_field" data-priority="65">
+													<label for="billing_neighborhood" class="">Bairro&nbsp;<span class="optional">(opcional)</span></label>
+													<span class="woocommerce-input-wrapper">
+														<input type="text" class="input-text " name="bairro" id="billing_neighborhood" placeholder="" value="<%=user.bairro%>">
+													</span>
+												</p>
+	
+												<p class="form-row address-field validate-required form-row-wide" id="billing_city_field" data-priority="70" data-o_class="form-row form-row-wide address-field validate-required">
+													<label for="billing_city" class="">Cidade&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
+													<span class="woocommerce-input-wrapper">
+														<input type="text" class="input-text " name="city" id="billing_city" placeholder="" value="<%=user.city%>" autocomplete="address-level2"></span>
+													</p>
+											</div>
+	
+											<div style="display:flex;">
+	
+											
+													<p class="form-row address-field validate-required validate-state woocommerce-validated form-row-wide" id="billing_state_field" data-priority="80" data-o_class="form-row form-row-wide address-field validate-required validate-state">
+														<label for="billing_state" class="">Estado&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
+														<span class="woocommerce-input-wrapper">
+															<select name="state" id="billing_state" class="state_select select2-hidden-accessible" autocomplete="address-level1" data-placeholder="Selecione uma opção…" data-input-classes="" data-label="Estado" tabindex="-1" aria-hidden="true">
+																<option selected value="<%=user.state%>"><%=user.state%></option>
+																<option value="AC">Acre</option>
+																<option value="AL">Alagoas</option>
+																<option value="AP">Amapá</option>
+																<option value="AM">Amazonas</option>
+																<option value="BA">Bahia</option>
+																<option value="CE">Ceará</option>
+																<option value="DF">Distrito Federal</option>
+																<option value="ES">Espírito Santo</option>
+																<option value="GO">Goiás</option>
+																<option value="MA">Maranhão</option>
+																<option value="MT">Mato Grosso</option>
+																<option value="MS">Mato Grosso do Sul</option>
+																<option value="MG">Minas Gerais</option>
+																<option value="PA">Pará</option>
+																<option value="PB">Paraíba</option>
+																<option value="PR">Paraná</option>
+																<option value="PE">Pernambuco</option>
+																<option value="PI">Piauí</option>
+																<option value="RJ">Rio de Janeiro</option>
+																<option value="RN">Rio Grande do Norte</option>
+																<option value="RS">Rio Grande do Sul</option>
+																<option value="RO">Rondônia</option>
+																<option value="RR">Roraima</option>
+																<option value="SC">Santa Catarina</option>
+																<option value="SP">São Paulo</option>
+																<option value="SE">Sergipe</option>
+																<option value="TO">Tocantins</option>
+															</select>
+															<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
+																<span class="selection">
+																	<span class="select2-selection select2-selection--single" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-label="Estado" role="combobox">
+																		<span class="select2-selection__rendered" id="select2-billing_state-container" role="textbox" aria-readonly="true" title="São Paulo"></span>
+																		<span class="select2-selection__arrow" role="presentation">
+																			<b role="presentation"></b>
+																		</span>
+																	</span>
+																</span>
+																<span class="dropdown-wrapper" aria-hidden="true">
+				
+																</span>
+															</span>
+														</span>
+													</p>
+													<p class="form-row form-row-wide validate-required validate-phone" id="billing_phone_field" data-priority="100">
+														<label for="billing_phone" class="">Celular&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
+														<span class="woocommerce-input-wrapper">
+															<input type="text" class="input-text " name="phone" id="billing_phone" placeholder="" value="<%=user.phone%>" autocomplete="tel" maxlength="15">
+														</span>
+													</p>
+	
+	
+												</div>
+												<div style="display:flex;">
+	
+	
+													<p class="form-row validate-required validate-phone" id="billing_cellphone_field" data-priority="100">
+														<label for="billing_cellphone" class="">Celular/Whatsapp&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
+														<span class="woocommerce-input-wrapper">
+															<input type="text" class="input-text " name="whatsapp" id="billing_cellphone" placeholder="" value="<%=user.whatsapp%>" autocomplete="tel" maxlength="15">
+														</span>
+													</p>
+													<p class="form-row form-row-wide validate-required validate-email" id="billing_email_field" data-priority="110">
+														<label for="billing_email" class="">Endereço de e-mail&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
+														<span class="woocommerce-input-wrapper">
+															<input type="email" class="input-text " name="email" id="billing_email" placeholder="" value="<%=user.email%>" autocomplete="email username">
+															<div id="wcbcf-mailsuggest" style="color: rgb(204, 0, 0); font-size: small;">
+															</div>
+														</span>
+													</p>
+												</div>
+	
+	
+												</div>
+	
+												<div class="col-6">
+													<div class="woocommerce-shipping-fields">
+										
+											<h3 id="ship-to-different-address">
+												<label class="woocommerce-form__label woocommerce-form__label-for-checkbox checkbox">
+													<input id="ship-to-different-address-checkbox" class="woocommerce-form__input woocommerce-form__input-checkbox input-checkbox" checked="checked" type="checkbox" name="ship_to_different_address" value="1"> <span>Entregar em um endereço diferente?</span>
+												</label>
+											</h3>
 									
+											<div class="shipping_address" style="">
+									
+				
+											<!--	<div class="woocommerce-shipping-fields__field-wrapper">
+																<p class="form-row form-row-first validate-required" id="shipping_first_name_field" data-priority="10"><label for="shipping_first_name" class="">Nome&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_first_name" id="shipping_first_name" placeholder="" value="" autocomplete="given-name"></span></p><p class="form-row form-row-last validate-required" id="shipping_last_name_field" data-priority="20"><label for="shipping_last_name" class="">Sobrenome&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_last_name" id="shipping_last_name" placeholder="" value="" autocomplete="family-name"></span></p><p class="form-row form-row-wide" id="shipping_company_field" data-priority="30"><label for="shipping_company" class="">Nome da empresa&nbsp;<span class="optional">(opcional)</span></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_company" id="shipping_company" placeholder="" value="" autocomplete="organization"></span></p><p class="form-row form-row-wide address-field update_totals_on_change validate-required" id="shipping_country_field" data-priority="40"><label for="shipping_country" class="">País&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><strong>Brasil</strong><input type="hidden" name="shipping_country" id="shipping_country" value="BR" autocomplete="country" class="country_to_state" readonly="readonly"></span></p><p class="form-row address-field validate-required validate-postcode form-row-wide" id="shipping_postcode_field" data-priority="45" data-o_class="form-row form-row-wide address-field validate-required validate-postcode"><label for="shipping_postcode" class="">CEP&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="tel" class="input-text " name="shipping_postcode" id="shipping_postcode" placeholder="" value="" autocomplete="postal-code" maxlength="9"></span></p><p class="form-row address-field validate-required form-row-wide" id="shipping_address_1_field" data-priority="50"><label for="shipping_address_1" class="">Endereço&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_address_1" id="shipping_address_1" placeholder="Nome da rua e número da casa" value="" autocomplete="address-line1" data-placeholder="Nome da rua e número da casa"></span></p><p class="form-row form-row-wide address-field validate-required" id="shipping_number_field" data-priority="55"><label for="shipping_number" class="">Número&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_number" id="shipping_number" placeholder="" value=""></span></p><p class="form-row address-field form-row-wide" id="shipping_address_2_field" data-priority="60"><label for="shipping_address_2" class="screen-reader-text">Apartamento, suíte, unidade, etc.&nbsp;<span class="optional">(opcional)</span></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_address_2" id="shipping_address_2" placeholder="Apartamento, suíte, sala, etc. (opcional)" value="" autocomplete="address-line2" data-placeholder="Apartamento, suíte, sala, etc. (opcional)"></span></p><p class="form-row form-row-wide address-field" id="shipping_neighborhood_field" data-priority="65"><label for="shipping_neighborhood" class="">Bairro&nbsp;<span class="optional">(opcional)</span></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_neighborhood" id="shipping_neighborhood" placeholder="" value=""></span></p><p class="form-row address-field validate-required form-row-wide" id="shipping_city_field" data-priority="70" data-o_class="form-row form-row-last address-field validate-required"><label for="shipping_city" class="">Cidade&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_city" id="shipping_city" placeholder="" value="" autocomplete="address-level2"></span></p><p class="form-row address-field validate-required validate-state form-row-wide" id="shipping_state_field" data-priority="80" data-o_class="form-row form-row-wide address-field validate-required validate-state"><label for="shipping_state" class="">Estado&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><select name="shipping_state" id="shipping_state" class="state_select select2-hidden-accessible" autocomplete="address-level1" data-placeholder="Selecione uma opção…" data-input-classes="" data-label="Estado" tabindex="-1" aria-hidden="true"><option value="">Selecione uma opção…</option><option value="AC">Acre</option><option value="AL">Alagoas</option><option value="AP">Amapá</option><option value="AM">Amazonas</option><option value="BA">Bahia</option><option value="CE">Ceará</option><option value="DF">Distrito Federal</option><option value="ES">Espírito Santo</option><option value="GO">Goiás</option><option value="MA">Maranhão</option><option value="MT">Mato Grosso</option><option value="MS">Mato Grosso do Sul</option><option value="MG">Minas Gerais</option><option value="PA">Pará</option><option value="PB">Paraíba</option><option value="PR">Paraná</option><option value="PE">Pernambuco</option><option value="PI">Piauí</option><option value="RJ">Rio de Janeiro</option><option value="RN">Rio Grande do Norte</option><option value="RS">Rio Grande do Sul</option><option value="RO">Rondônia</option><option value="RR">Roraima</option><option value="SC">Santa Catarina</option><option value="SP">São Paulo</option><option value="SE">Sergipe</option><option value="TO">Tocantins</option></select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-label="Estado" role="combobox"><span class="select2-selection__rendered" id="select2-shipping_state-container" role="textbox" aria-readonly="true" title="São Paulo">São Paulo</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span></span></p></div>-->
+																<div id="order_review" class="woocommerce-checkout-review-order">
+																	<h4 id="order_review_heading">Seu pedido</h4>
+																	<div class="cart">
+																		<h2>Finalizar Assinatura</h2>
+																		<ul id="cart-items">
+																		  <!-- Itens do carrinho serão adicionados aqui dinamicamente -->
+																		</ul>
+																		<p id="total">Total: R$ 0.00</p>
+																	  </div>
+																	<!--<table class="shop_table woocommerce-checkout-review-order-table">
+																<thead>
+																	<tr>
+																		<th class="product-name">Produto</th>
+																		<th class="product-total">Subtotal</th>
+																	</tr>
+																</thead>
+																<tbody>
+																					<tr class="cart_item">
+																				<td class="product-name">
+																					Clube Iela Bag&nbsp;						 <strong class="product-quantity">×&nbsp;4</strong>											</td>
+																				<td class="product-total">
+																					<span class="subscription-price"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">R$</span>&nbsp;4,04</bdi></span> <span class="subscription-details"> por 1 mês</span></span>					</td>
+																			</tr>
+																				</tbody>
+																<tfoot>
+															
+																	<tr class="cart-subtotal">
+																		<th>Subtotal</th>
+																		<td><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">R$</span>&nbsp;4,04</bdi></span></td>
+																	</tr>
+															
+																	
+																	
+																	
+																	
+																	
+																	<tr class="order-total">
+																		<th>Total</th>
+																		<td><strong><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">R$</span>&nbsp;4,04</bdi></span></strong> </td>
+																	</tr>
+															
+																	
+																</tfoot>
+															</table> -->
+				
+															
+													<!--	<div id="payment" class="woocommerce-checkout-payment">
+																		<ul class="wc_payment_methods payment_methods methods">
+																		<li class="wc_payment_method payment_method_vindi-credit-card active-payment">
+																<input id="payment_method_vindi-credit-card" type="radio" class="input-radio" name="payment_method" value="vindi-credit-card" checked="checked" data-order_button_text="" style="display: none;">
+															
+																<label for="payment_method_vindi-credit-card">
+																	Cartão de Crédito 	</label>
+																		<div class="payment_box payment_method_vindi-credit-card">
+																		Estamos enfrentando problemas técnicos no momento. Tente novamente mais tarde ou entre em contato.		</div>
+																<span class="mfn-payment-check"><i class="icon-check"></i></span></li>
+																	</ul>
+																	<div class="form-row place-order">
+																	<noscript>
+																		Seu navegador não suporta JavaScript ou ele está desativado. Certifique-se de clicar no botão <em>Atualizar totais</em> antes de finalizar o seu pedido. Você poderá ser cobrado mais do que a quantidade indicada acima, se não fizer isso.			<br/><button type="submit" class="button alt" name="woocommerce_checkout_update_totals" value="Atualizar">Atualizar</button>
+																	</noscript>
+															
+																		<div class="woocommerce-terms-and-conditions-wrapper">
+																	<div class="woocommerce-privacy-policy-text"><p>Os seus dados pessoais serão utilizados para processar a sua compra, apoiar a sua experiência em todo este site e para outros fins descritos na nossa <a href="" class="woocommerce-privacy-policy-link" target="_blank">política de privacidade</a>.</p>
+															</div>
+																		</div>
+																
+																	
+																	<button type="submit" class="button alt" name="woocommerce_checkout_place_order" id="place_order" value="Assinar Agora!" data-value="Assinar Agora!">Assinar Agora!</button>
+																	<a href="http://localhost:10018/carrinho/" class="mfn-woo-cart-link">Retornar para o carrinho</a>
+																	<input type="hidden" id="woocommerce-process-checkout-nonce" name="woocommerce-process-checkout-nonce" value="3581cacef0"><input type="hidden" name="_wp_http_referer" value="/?wc-ajax=update_order_review">	</div>
+															</div>-->
+															
+																</div>
+												
+											</div>
+									
+										</div>
+									<div class="woocommerce-additional-fields">
+										
+										
+											
+												<h3>Informação adicional</h3>
+									
+											
+											<div class="woocommerce-additional-fields__field-wrapper">
+																<p class="form-row notes" id="order_comments_field" data-priority=""><label for="order_comments" class="">Notas do pedido&nbsp;<span class="optional">(opcional)</span></label><span class="woocommerce-input-wrapper"><textarea name="order_comments" style="overflow: hidden;" class="input-text col-12" id="order_comments" placeholder="Notas sobre seu pedido, por exemplo, informações especiais sobre entrega." rows="5" cols="5"></textarea></span></p>					</div>
 									
 										
-											<h3>Informação adicional</h3>
-								
-										
-										<div class="woocommerce-additional-fields__field-wrapper">
-															<p class="form-row notes" id="order_comments_field" data-priority=""><label for="order_comments" class="">Notas do pedido&nbsp;<span class="optional">(opcional)</span></label><span class="woocommerce-input-wrapper"><textarea name="order_comments" style="overflow: hidden;" class="input-text col-12" id="order_comments" placeholder="Notas sobre seu pedido, por exemplo, informações especiais sobre entrega." rows="5" cols="5"></textarea></span></p>					</div>
-								
+										</div>
+										<div id="paymentBrick_container"></div>
+				
+												</div>
+												</div>
+									
+										</div>
+									
+												</div>
+									
+											</div>
+									
 									
 									</div>
-									<div id="paymentBrick_container"></div>
-			
-											</div>
-											</div>
-								
-									</div>
-								
-											</div>
-								
-										</div>
-								
-								
+				
 								</div>
-			
 							</div>
+							<!--<div class="modal-footer">
+							  <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Open second modal</button>
+							</div>-->
+						  </div>
 						</div>
-						<!--<div class="modal-footer">
-						  <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Open second modal</button>
-						</div>-->
 					  </div>
-					</div>
-				  </div>
+
+					<%}else{%>
+						<div class="modal fade modal-xl" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+							<div class="modal-dialog ">
+							  <div class="modal-content">
+								<div class="modal-header">
+								  <h3 class="modal-title fs-5" id="exampleModalToggleLabel">Detalhes de faturamento</h3>
+								  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<div class="the_content_wrapper col-12">
+										<div class="woocommerce col-12">
+										
+										<form class="checkout_coupon woocommerce-form-coupon checkout-form-toggle" method="post" style="display:none">
+										
+											<p>Se você tiver um código de cupom, utilize-o abaixo.</p>
+										
+											<p class="form-row form-row-first">
+												<label for="coupon_code" class="screen-reader-text">Cupom:</label>
+												<input type="text" name="coupon_code" class="input-text" placeholder="Código do cupom" id="coupon_code" value="">
+											</p>
+										
+											<p class="form-row form-row-last">
+												<button type="submit" class="button" name="apply_coupon" value="Aplicar cupom">Aplicar cupom</button>
+											</p>
+										
+											<div class="clear"></div>
+										</form>
+										<div class="woocommerce-notices-wrapper"></div>								
+											
+												
+												<div class="col2-set" id="customer_details">
+													<div class="col-12">
+														<div class="woocommerce-billing-fields">
+											
+												
+										
+											
+											
+											<div style="display: flex;justify-content: space-evenly;" class="woocommerce-billing-fields__field-wrapper col-12">
+												<div class="'col-6">
+												<div style="display:flex;">
+													<p class="form-row form-row-first validate-required" id="billing_first_name_field" data-priority="10">
+														<label for="billing_first_name" class="">Nome&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
+														<span class="woocommerce-input-wrapper">
+															<input type="text" class="input-text" name="name" id="billing_first_name" placeholder="" value="" autocomplete="given-name">
+														</span>
+													</p>
+													<p class="form-row form-row-last validate-required" id="billing_last_name_field" data-priority="20">
+														<label for="billing_last_name" class="">Sobrenome&nbsp;<abbr class="required" title="obrigatório">*</abbr>
+														</label>
+														<span class="woocommerce-input-wrapper">
+															<input type="text" class="input-text " name="lastname" id="billing_last_name" placeholder="" value="" autocomplete="family-name">
+														</span>
+													</p>
+		
+												</div>
+													
+												<div style="display:flex;">
+		
+		
+													<p class="form-row form-row-wide person-type-field" id="billing_cpf_field" data-priority="23">
+														<label for="billing_cpf" class="">CPF&nbsp;
+															<span class="optional">(opcional)</span>
+														</label>
+														<span class="woocommerce-input-wrapper">
+															<input type="text" class="input-text " name="cpf" id="billing_cpf" placeholder="" value="" maxlength="14">
+														</span>
+													</p>
+													<p class="form-row form-row-wide validate-required" id="billing_birthdate_field" data-priority="31">
+														<label for="billing_birthdate" class="">Data de Nascimento&nbsp;<abbr class="required" title="obrigatório">*</abbr>
+														</label>
+														<span class="woocommerce-input-wrapper">
+															<input type="text" class="input-text " name="birthday" id="billing_birthdate" placeholder="" value="" maxlength="10">
+														</span>
+													</p>
+												</div>
+		
+		
+												<div style="display:flex;">
+		
+		
+												
+													<p class="form-row form-row-wide validate-required" id="billing_gender_field" data-priority="32">
+														<label for="billing_gender" class="">Gênero&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
+														<span class="woocommerce-input-wrapper">
+															<select name="billing_gender" id="billing_gender" class="select wc-ecfb-select select2-hidden-accessible" data-allow_clear="true" data-placeholder="Selecionar" tabindex="-1" aria-hidden="true">
+																	<option value="" selected="selected">Selecionar</option>
+																	<option value="Não quero informar">Não quero informar</option>
+																	<option value="Feminino">Feminino</option>
+																	<option value="Masculino">Masculino</option>
+																	<option value="Outro">Outro</option>
+																</select>
+																<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 626.109px;">
+																	<span class="selection">
+																		<span class="select2-selection select2-selection--single" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-billing_gender-container" role="combobox">
+																			<span class="select2-selection__rendered" id="select2-billing_gender-container" role="textbox" aria-readonly="true"><span class="select2-selection__placeholder">
+					
+																			</span>
+																		</span>
+																		<span class="select2-selection__arrow" role="presentation">
+																			<b role="presentation"></b>
+																		</span>
+																	</span>
+																</span>
+																<span class="dropdown-wrapper" aria-hidden="true">
+					
+																</span>
+															</span>
+														</span>
+													</p>
+													<p class="form-row form-row-wide address-field update_totals_on_change validate-required" id="billing_country_field" data-priority="40">
+														<label for="billing_country" class="">País&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
+														<span class="woocommerce-input-wrapper">
+															<strong>Brasil</strong>
+															<input type="hidden" name="country" id="billing_country" value="BR" autocomplete="country" class="country_to_state" readonly="readonly">
+														</span>
+													</p>
+		
+		
+												
+		
+													<p class="form-row address-field validate-required validate-postcode form-row-wide" id="billing_postcode_field" data-priority="45" data-o_class="form-row form-row-wide address-field validate-required validate-postcode">
+														<label for="billing_postcode" class="">CEP&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
+														<span class="woocommerce-input-wrapper">
+															<input type="text" class="input-text " name="cep" id="billing_postcode" placeholder="" value="" autocomplete="postal-code" maxlength="8">
+														</span>
+													</p>
+															
+												</div>
+												<span id="mensagemcep"></span>
+												<div style="display:flex;">
+		
+		
+		
+													<p class="form-row address-field validate-required form-row-wide" id="billing_address_1_field" data-priority="50">
+														<label for="billing_address_1" class="">Endereço&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
+														<span class="woocommerce-input-wrapper">
+															<input type="text" class="input-text " name="address" id="billing_address_1" placeholder="Nome da rua e número da casa" value="" autocomplete="address-line1" data-placeholder="Nome da rua e número da casa">
+														</span>
+													</p>
+													<p class="form-row form-row-wide address-field validate-required" id="billing_number_field" data-priority="55">
+														<label for="billing_number" class="">Número&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
+														<span class="woocommerce-input-wrapper">
+															<input type="text" class="input-text " name="street_number" id="billing_number" placeholder="" value="">
+														</span>
+													</p>
+		
+												</div>
+		
+												<div style="display:flex;">
+		
+		
+												<!--<p class="form-row address-field form-row-wide" id="billing_address_2_field" data-priority="60">
+														<label for="billing_address_2" class="screen-reader-text">Apartamento, suíte, unidade, etc.&nbsp;<span class="optional">(opcional)</span></label>
+														<span class="woocommerce-input-wrapper">
+															<input type="text" class="input-text " name="address2" id="billing_address_2" placeholder="Apartamento, suíte, sala, etc. (opcional)" value="" autocomplete="address-line2" data-placeholder="Apartamento, suíte, sala, etc. (opcional)">
+														</span>
+													</p>-->
+													<p class="form-row form-row-wide address-field" id="billing_neighborhood_field" data-priority="65">
+														<label for="billing_neighborhood" class="">Bairro&nbsp;<span class="optional">(opcional)</span></label>
+														<span class="woocommerce-input-wrapper">
+															<input type="text" class="input-text " name="bairro" id="billing_neighborhood" placeholder="" value="">
+														</span>
+													</p>
+		
+													<p class="form-row address-field validate-required form-row-wide" id="billing_city_field" data-priority="70" data-o_class="form-row form-row-wide address-field validate-required">
+														<label for="billing_city" class="">Cidade&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
+														<span class="woocommerce-input-wrapper">
+															<input type="text" class="input-text " name="city" id="billing_city" placeholder="" value="" autocomplete="address-level2"></span>
+														</p>
+												</div>
+		
+												<div style="display:flex;">
+		
+												
+														<p class="form-row address-field validate-required validate-state woocommerce-validated form-row-wide" id="billing_state_field" data-priority="80" data-o_class="form-row form-row-wide address-field validate-required validate-state">
+															<label for="billing_state" class="">Estado&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
+															<span class="woocommerce-input-wrapper">
+																<select name="state" id="billing_state" class="state_select select2-hidden-accessible" autocomplete="address-level1" data-placeholder="Selecione uma opção…" data-input-classes="" data-label="Estado" tabindex="-1" aria-hidden="true">
+																	<option value="">Selecione uma opção…</option>
+																	<option value="AC">Acre</option>
+																	<option value="AL">Alagoas</option>
+																	<option value="AP">Amapá</option>
+																	<option value="AM">Amazonas</option>
+																	<option value="BA">Bahia</option>
+																	<option value="CE">Ceará</option>
+																	<option value="DF">Distrito Federal</option>
+																	<option value="ES">Espírito Santo</option>
+																	<option value="GO">Goiás</option>
+																	<option value="MA">Maranhão</option>
+																	<option value="MT">Mato Grosso</option>
+																	<option value="MS">Mato Grosso do Sul</option>
+																	<option value="MG">Minas Gerais</option>
+																	<option value="PA">Pará</option>
+																	<option value="PB">Paraíba</option>
+																	<option value="PR">Paraná</option>
+																	<option value="PE">Pernambuco</option>
+																	<option value="PI">Piauí</option>
+																	<option value="RJ">Rio de Janeiro</option>
+																	<option value="RN">Rio Grande do Norte</option>
+																	<option value="RS">Rio Grande do Sul</option>
+																	<option value="RO">Rondônia</option>
+																	<option value="RR">Roraima</option>
+																	<option value="SC">Santa Catarina</option>
+																	<option selected value="SP">São Paulo</option>
+																	<option value="SE">Sergipe</option>
+																	<option value="TO">Tocantins</option>
+																</select>
+																<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
+																	<span class="selection">
+																		<span class="select2-selection select2-selection--single" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-label="Estado" role="combobox">
+																			<span class="select2-selection__rendered" id="select2-billing_state-container" role="textbox" aria-readonly="true" title="São Paulo"></span>
+																			<span class="select2-selection__arrow" role="presentation">
+																				<b role="presentation"></b>
+																			</span>
+																		</span>
+																	</span>
+																	<span class="dropdown-wrapper" aria-hidden="true">
+					
+																	</span>
+																</span>
+															</span>
+														</p>
+														<p class="form-row form-row-wide validate-required validate-phone" id="billing_phone_field" data-priority="100">
+															<label for="billing_phone" class="">Celular&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
+															<span class="woocommerce-input-wrapper">
+																<input type="text" class="input-text " name="phone" id="billing_phone" placeholder="" value="" autocomplete="tel" maxlength="15">
+															</span>
+														</p>
+		
+		
+													</div>
+													<div style="display:flex;">
+		
+		
+														<p class="form-row validate-required validate-phone" id="billing_cellphone_field" data-priority="100">
+															<label for="billing_cellphone" class="">Celular/Whatsapp&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
+															<span class="woocommerce-input-wrapper">
+																<input type="text" class="input-text " name="whatsapp" id="billing_cellphone" placeholder="" value="" autocomplete="tel" maxlength="15">
+															</span>
+														</p>
+														<p class="form-row form-row-wide validate-required validate-email" id="billing_email_field" data-priority="110">
+															<label for="billing_email" class="">Endereço de e-mail&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
+															<span class="woocommerce-input-wrapper">
+																<input type="email" class="input-text " name="email" id="billing_email" placeholder="" value="" autocomplete="email username">
+																<div id="wcbcf-mailsuggest" style="color: rgb(204, 0, 0); font-size: small;">
+																</div>
+															</span>
+														</p>
+													</div>
+		
+		
+													</div>
+		
+													<div class="col-6">
+														<div class="woocommerce-shipping-fields">
+											
+												<h3 id="ship-to-different-address">
+													<label class="woocommerce-form__label woocommerce-form__label-for-checkbox checkbox">
+														<input id="ship-to-different-address-checkbox" class="woocommerce-form__input woocommerce-form__input-checkbox input-checkbox" checked="checked" type="checkbox" name="ship_to_different_address" value="1"> <span>Entregar em um endereço diferente?</span>
+													</label>
+												</h3>
+										
+												<div class="shipping_address" style="">
+										
+					
+												<!--	<div class="woocommerce-shipping-fields__field-wrapper">
+																	<p class="form-row form-row-first validate-required" id="shipping_first_name_field" data-priority="10"><label for="shipping_first_name" class="">Nome&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_first_name" id="shipping_first_name" placeholder="" value="" autocomplete="given-name"></span></p><p class="form-row form-row-last validate-required" id="shipping_last_name_field" data-priority="20"><label for="shipping_last_name" class="">Sobrenome&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_last_name" id="shipping_last_name" placeholder="" value="" autocomplete="family-name"></span></p><p class="form-row form-row-wide" id="shipping_company_field" data-priority="30"><label for="shipping_company" class="">Nome da empresa&nbsp;<span class="optional">(opcional)</span></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_company" id="shipping_company" placeholder="" value="" autocomplete="organization"></span></p><p class="form-row form-row-wide address-field update_totals_on_change validate-required" id="shipping_country_field" data-priority="40"><label for="shipping_country" class="">País&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><strong>Brasil</strong><input type="hidden" name="shipping_country" id="shipping_country" value="BR" autocomplete="country" class="country_to_state" readonly="readonly"></span></p><p class="form-row address-field validate-required validate-postcode form-row-wide" id="shipping_postcode_field" data-priority="45" data-o_class="form-row form-row-wide address-field validate-required validate-postcode"><label for="shipping_postcode" class="">CEP&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="tel" class="input-text " name="shipping_postcode" id="shipping_postcode" placeholder="" value="" autocomplete="postal-code" maxlength="9"></span></p><p class="form-row address-field validate-required form-row-wide" id="shipping_address_1_field" data-priority="50"><label for="shipping_address_1" class="">Endereço&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_address_1" id="shipping_address_1" placeholder="Nome da rua e número da casa" value="" autocomplete="address-line1" data-placeholder="Nome da rua e número da casa"></span></p><p class="form-row form-row-wide address-field validate-required" id="shipping_number_field" data-priority="55"><label for="shipping_number" class="">Número&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_number" id="shipping_number" placeholder="" value=""></span></p><p class="form-row address-field form-row-wide" id="shipping_address_2_field" data-priority="60"><label for="shipping_address_2" class="screen-reader-text">Apartamento, suíte, unidade, etc.&nbsp;<span class="optional">(opcional)</span></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_address_2" id="shipping_address_2" placeholder="Apartamento, suíte, sala, etc. (opcional)" value="" autocomplete="address-line2" data-placeholder="Apartamento, suíte, sala, etc. (opcional)"></span></p><p class="form-row form-row-wide address-field" id="shipping_neighborhood_field" data-priority="65"><label for="shipping_neighborhood" class="">Bairro&nbsp;<span class="optional">(opcional)</span></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_neighborhood" id="shipping_neighborhood" placeholder="" value=""></span></p><p class="form-row address-field validate-required form-row-wide" id="shipping_city_field" data-priority="70" data-o_class="form-row form-row-last address-field validate-required"><label for="shipping_city" class="">Cidade&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_city" id="shipping_city" placeholder="" value="" autocomplete="address-level2"></span></p><p class="form-row address-field validate-required validate-state form-row-wide" id="shipping_state_field" data-priority="80" data-o_class="form-row form-row-wide address-field validate-required validate-state"><label for="shipping_state" class="">Estado&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><select name="shipping_state" id="shipping_state" class="state_select select2-hidden-accessible" autocomplete="address-level1" data-placeholder="Selecione uma opção…" data-input-classes="" data-label="Estado" tabindex="-1" aria-hidden="true"><option value="">Selecione uma opção…</option><option value="AC">Acre</option><option value="AL">Alagoas</option><option value="AP">Amapá</option><option value="AM">Amazonas</option><option value="BA">Bahia</option><option value="CE">Ceará</option><option value="DF">Distrito Federal</option><option value="ES">Espírito Santo</option><option value="GO">Goiás</option><option value="MA">Maranhão</option><option value="MT">Mato Grosso</option><option value="MS">Mato Grosso do Sul</option><option value="MG">Minas Gerais</option><option value="PA">Pará</option><option value="PB">Paraíba</option><option value="PR">Paraná</option><option value="PE">Pernambuco</option><option value="PI">Piauí</option><option value="RJ">Rio de Janeiro</option><option value="RN">Rio Grande do Norte</option><option value="RS">Rio Grande do Sul</option><option value="RO">Rondônia</option><option value="RR">Roraima</option><option value="SC">Santa Catarina</option><option value="SP">São Paulo</option><option value="SE">Sergipe</option><option value="TO">Tocantins</option></select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-label="Estado" role="combobox"><span class="select2-selection__rendered" id="select2-shipping_state-container" role="textbox" aria-readonly="true" title="São Paulo">São Paulo</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span></span></p></div>-->
+																	<div id="order_review" class="woocommerce-checkout-review-order">
+																		<h4 id="order_review_heading">Seu pedido</h4>
+																		<div class="cart">
+																			<h2>Carrinho de Compras</h2>
+																			<ul id="cart-items">
+																			  <!-- Itens do carrinho serão adicionados aqui dinamicamente -->
+																			</ul>
+																			<p id="total">Total: R$ 0.00</p>
+																		  </div>
+																		<!--<table class="shop_table woocommerce-checkout-review-order-table">
+																	<thead>
+																		<tr>
+																			<th class="product-name">Produto</th>
+																			<th class="product-total">Subtotal</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																						<tr class="cart_item">
+																					<td class="product-name">
+																						Clube Iela Bag&nbsp;						 <strong class="product-quantity">×&nbsp;4</strong>											</td>
+																					<td class="product-total">
+																						<span class="subscription-price"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">R$</span>&nbsp;4,04</bdi></span> <span class="subscription-details"> por 1 mês</span></span>					</td>
+																				</tr>
+																					</tbody>
+																	<tfoot>
+																
+																		<tr class="cart-subtotal">
+																			<th>Subtotal</th>
+																			<td><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">R$</span>&nbsp;4,04</bdi></span></td>
+																		</tr>
+																
+																		
+																		
+																		
+																		
+																		
+																		<tr class="order-total">
+																			<th>Total</th>
+																			<td><strong><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">R$</span>&nbsp;4,04</bdi></span></strong> </td>
+																		</tr>
+																
+																		
+																	</tfoot>
+																</table> -->
+					
+																
+														<!--	<div id="payment" class="woocommerce-checkout-payment">
+																			<ul class="wc_payment_methods payment_methods methods">
+																			<li class="wc_payment_method payment_method_vindi-credit-card active-payment">
+																	<input id="payment_method_vindi-credit-card" type="radio" class="input-radio" name="payment_method" value="vindi-credit-card" checked="checked" data-order_button_text="" style="display: none;">
+																
+																	<label for="payment_method_vindi-credit-card">
+																		Cartão de Crédito 	</label>
+																			<div class="payment_box payment_method_vindi-credit-card">
+																			Estamos enfrentando problemas técnicos no momento. Tente novamente mais tarde ou entre em contato.		</div>
+																	<span class="mfn-payment-check"><i class="icon-check"></i></span></li>
+																		</ul>
+																		<div class="form-row place-order">
+																		<noscript>
+																			Seu navegador não suporta JavaScript ou ele está desativado. Certifique-se de clicar no botão <em>Atualizar totais</em> antes de finalizar o seu pedido. Você poderá ser cobrado mais do que a quantidade indicada acima, se não fizer isso.			<br/><button type="submit" class="button alt" name="woocommerce_checkout_update_totals" value="Atualizar">Atualizar</button>
+																		</noscript>
+																
+																			<div class="woocommerce-terms-and-conditions-wrapper">
+																		<div class="woocommerce-privacy-policy-text"><p>Os seus dados pessoais serão utilizados para processar a sua compra, apoiar a sua experiência em todo este site e para outros fins descritos na nossa <a href="" class="woocommerce-privacy-policy-link" target="_blank">política de privacidade</a>.</p>
+																</div>
+																			</div>
+																	
+																		
+																		<button type="submit" class="button alt" name="woocommerce_checkout_place_order" id="place_order" value="Assinar Agora!" data-value="Assinar Agora!">Assinar Agora!</button>
+																		<a href="http://localhost:10018/carrinho/" class="mfn-woo-cart-link">Retornar para o carrinho</a>
+																		<input type="hidden" id="woocommerce-process-checkout-nonce" name="woocommerce-process-checkout-nonce" value="3581cacef0"><input type="hidden" name="_wp_http_referer" value="/?wc-ajax=update_order_review">	</div>
+																</div>-->
+																
+																	</div>
+													
+												</div>
+										
+											</div>
+										<div class="woocommerce-additional-fields">
+											
+											
+												
+													<h3>Informação adicional</h3>
+										
+												
+												<div class="woocommerce-additional-fields__field-wrapper">
+																	<p class="form-row notes" id="order_comments_field" data-priority=""><label for="order_comments" class="">Notas do pedido&nbsp;<span class="optional">(opcional)</span></label><span class="woocommerce-input-wrapper"><textarea name="order_comments" style="overflow: hidden;" class="input-text col-12" id="order_comments" placeholder="Notas sobre seu pedido, por exemplo, informações especiais sobre entrega." rows="5" cols="5"></textarea></span></p>					</div>
+										
+											
+											</div>
+											<div id="paymentBrick_container"></div>
+					
+													</div>
+													</div>
+										
+											</div>
+										
+													</div>
+										
+												</div>
+										
+										
+										</div>
+					
+									</div>
+								</div>
+								<!--<div class="modal-footer">
+								  <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Open second modal</button>
+								</div>-->
+							  </div>
+							</div>
+						  </div>
+
+						<%}%>
+			
+
+
+
+
+
 				  <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
 					<div class="modal-dialog modal-dialog-centered">
 					  <div class="modal-content">
@@ -1817,7 +2209,6 @@ aside#block-6 {
 	const whatsapp = document.getElementById('billing_cellphone')
 	const email = document.getElementById('billing_email')
 	const totalAmount = document.getElementById('total')
-
 	const mp = new MercadoPago(pKey,{
     locale: 'pt-BR'
   });
@@ -1876,7 +2267,8 @@ const totalText = totalElement.textContent;
 const totalValue = parseFloat(totalText.match(/\d+\.\d+/)[0]);
 
 console.log(totalValue); 
-			formData.transaction_amount = totalValue;
+console.log(cartData)
+			formData.transaction_amount = await totalValue;
 			formData.name = await name.value;
 			formData.address = await address.value;
 			formData.phone = await phone.value;
@@ -1887,17 +2279,18 @@ console.log(totalValue);
 			formData.street_number = await street_number.value;
 			formData.state = await state.value;
 			formData.cpf = await cpf.value;
-			formData.description = 'descrição teste'
-			formData.payer.phone = {
+			formData.description = await 'descrição teste'
+			formData.payer.phone = await {
 				area_code:'55',
 				number:phone.value
 			}
-			formData.payer.first_name= name.value
-			formData.payer.last_name = lastname.value
-			formData.payer.email = email.value
-			formData.payer.phone.area_code = '84'
-			formData.payer.identification.number = cpf.value
-			formData.payer.identification.type = 'CPF'
+			formData.items = cartData
+			formData.payer.first_name= await name.value
+			formData.payer.last_name = await lastname.value
+			formData.payer.email = await email.value
+			//formData.payer.phone.area_code = await '84'
+			//formData.payer.identification.number = await cpf.value
+			//formData.payer.identification.type = await 'CPF'
 
 
 console.log(formData.payer)
@@ -2031,16 +2424,14 @@ var mfnwoovars = {"ajaxurl":"http:\/\/localhost:10018\/wp-admin\/admin-ajax.php"
 <script type="text/javascript" src="js/woocommerce_1.js" id="mfn-woojs-js"></script>
 
 <script type="text/javascript" src="js/wpp.js" id="qlwapp-js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
 <div class="cli-modal-backdrop cli-fade cli-settings-overlay"></div>
 <div class="cli-modal-backdrop cli-fade cli-popupbar-overlay"></div>
 <script src="js/jquery-2.2.3.min.js"></script>
 
 <script type="text/javascript">
-
 let cart = [];
-
+cartData = []
 function addToCart(productName, price, quantity) {
   // Converte o preço para ponto flutuante
   const priceFloat = parseFloat(price);
@@ -2066,12 +2457,19 @@ function addToCart(productName, price, quantity) {
   } else {
     // Se o item não está no carrinho, adiciona-o
     cart.push(item);
-
+	cartData.push(cart)
   }
+
 
   updateCart();
   updateTotal();
+
+  console.log(cartData); 
+
 }
+
+
+
 
 function updateCart() {
   const cartList = document.getElementById('cart-items');
@@ -2086,6 +2484,8 @@ function updateCart() {
 	console.log(listItem)
     cartList.appendChild(listItem);
   });
+
+
 }
 
 function updateTotal() {
@@ -2098,7 +2498,64 @@ function updateTotal() {
   totalElement.textContent = `Total: R$ ${total.toFixed(2)}`;
 }
 
+let msgcep = document.getElementById('mensagemcep')
 
+
+jQuery(document).ready(function() {
+    // Ao perder o foco do campo de CEP
+    jQuery('#billing_postcode').blur(function() {
+        // Chama a função de consulta de CEP
+        consultarCEP();
+    });
+});
+
+function consultarCEP() {
+    // Obtém o valor do CEP digitado pelo usuário
+    var _cep = jQuery('#billing_postcode').val();   
+
+    let _address =jQuery('#billing_address_1')
+    let _city =jQuery('#billing_city')
+	let _bairro = jQuery('#billing_neighborhood')
+	let _state = jQuery('#billing_state')
+
+    // Remove caracteres não numéricos do CEP
+
+    // Verifica se o CEP possui 8 dígitos
+    if (_cep.length !== 8) {
+        console.log(_cep.length)
+		msgcep.style.display = 'inline-block'
+        msgcep.style.color = 'red'
+        msgcep.textContent ='CEP inválido. Por favor, insira um CEP válido com 8 dígitos.'
+
+        return;
+    }
+
+    // Faz a requisição à API ViaCEP
+    jQuery.ajax({
+        url: `https://viacep.com.br/ws/${_cep}/json/`,
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            if (!data.erro) {
+                // Exibe as informações na página
+                console.log(data)
+               
+                _address.val(data.logradouro) 
+                _city.val(data.localidade)
+               _bairro.val(data.bairro)
+                _state.val(data.uf)
+				msgcep.style.display = 'none'
+
+            } else {
+                msgcep.style.color = 'red'
+                msgcep.textContent = 'Não possuímos cobertura para o CEP informado';
+            }
+        },
+        error: function () {
+            alert('Erro ao consultar o CEP. Tente novamente mais tarde.');
+        }
+    });
+}
 
 
     function link_soft_scroll()
@@ -2116,5 +2573,7 @@ function updateTotal() {
     }
     link_soft_scroll();
     </script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 </body>
 </html>

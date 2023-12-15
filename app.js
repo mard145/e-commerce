@@ -116,7 +116,9 @@ console.log(transaction_amount)
     requestOptions: {
     idempotencyKey: uuidv4()
     }
-    }).then(console.log).catch(console.log);
+    }).then(()=>{
+      res.redirect('/admin')
+    }).catch(console.log);
 })
 
 app.post('/capture_parcial_payment/:id',(req,res)=>{
@@ -130,13 +132,30 @@ let captureInfo = {id: id, transaction_amount: transaction_amount}
 
 })
 
+app.post('/cancel_payment/:id',async (req,res)=>{
+  let {id, transaction_amount} =await  req.body
+if(!id) {
+  id = req.params.id
+}
+console.log(transaction_amount)
+payment.cancel({
+	id: id,
+	requestOptions: {
+		idempotencyKey: uuidv4()
+	},
+}).then(()=>{
+  res.redirect('/admin')
+}).catch(console.log);
+ 
+})
+
 
 app.post('/process_payment', async (req,res)=>{
 
 
    try {
     let user = req.user
-    const { payer,token,description,transaction_amount,paymentMethodId,installments,issuerId,phone,street_number, cep,address,whatsapp,name,lastname,email,cpf,city } = await req.body;
+    const { payer,token,description,transaction_amount,paymentMethodId,installments,issuerId,phone,street_number, cep,address,whatsapp,name,lastname,email,cpf,city,items,state } = await req.body;
   
     let srt_number = parseInt(street_number)
     console.log(transaction_amount, payer,token,description,cep,city,address,phone)
@@ -145,9 +164,9 @@ app.post('/process_payment', async (req,res)=>{
     const stringTimestamp = timestamp.toString();
     //let stringSemEspacosEHifens = cep.replace(/[\s-]/g, "");
     const clientData = {
-      email: email,
-      first_name: name,
-      last_name: lastname,
+      email: payer.email,
+      first_name: payer.first_name,
+      last_name: payer.last_name,
       phone: payer.phone,
       identification: {
         type: 'CPF',
@@ -161,11 +180,13 @@ app.post('/process_payment', async (req,res)=>{
         street_number: srt_number,
         city: {
           name:city
-        }
+        },
+        phone:payer.phone,
+        state:state
       },
       date_registered: stringTimestamp,
       description: 'Description del user',
-      default_card: 'None'
+      
     };
     
   
@@ -187,6 +208,7 @@ app.post('/process_payment', async (req,res)=>{
           number: payer.identification.number,
         },
       },
+      items:items,
       capture:false
     };
     
@@ -287,7 +309,7 @@ app.get('/admin',eAdmin,async(req,res)=>{
   let payments = await payment.search()
  // console.log(payments.results,'payments')
 
-  res.render('admin/admin',{user:user,users:users,payments:payments.results})
+  res.render('admin/admin',{user:user,users:users,payments:payments.results, msg:false})
   } catch (error) {
     console.log(error)
   }
@@ -437,13 +459,6 @@ app.post('/login',async (req,res,next)=>{
       
 })
 
-app.get('/admin/barman',eAdmin,async(req,res)=>{
-  let orders = await Order.find({})
-  let produtos = await Product.find({})
-  let user = req.user
-  res.render('barman',{user:user, produtos:produtos,orders:orders})
-})
-
 app.post('/saveProduct', async (req,res)=>{
 
   try {
@@ -520,42 +535,52 @@ app.post('/saveOrder',eAdmin, async (req,res)=>{
 })
 
 app.post('/saveUser', async (req,res)=>{
-
+  let user = await req.user
+  let users = await User.find({})
+  let payments = await payment.search()
   try {
-    let {name,email,address,photo,cep,cpf,city,country,state,cnpj,password} = await req.body
-    let user = new User({
-      name:name,
-      email:email,
-      password:bcrypt.hashSync(password, 8),
-      address:address,
-      photo:photo,
-      cep:cep,
-      cpf:cpf,
-      city:city,
-      country:country,
-      state:state,
-      cnpj:cnpj
-    })
-   await user.save()
-   console.log('usuário salvo')
+   
 
-   res.redirect('/admin')
-    try {
-        const items = await User.find({})
-          .sort({ createdAt: 1 }); // Ordena em ordem crescente por createdAt
-      
-        // Atribuir valores numéricos com base na ordem
-        items.forEach((item, index) => {
-          item.rank = index + 1; // +1 porque os índices começam em 0
-        });
-      
-        // Salvar os documentos atualizados
-        await Promise.all(items.map((item) => item.save()));
-      
-        console.log('Documentos atualizados com sucesso.');
-      } catch (error) {
-        console.error('Erro ao atualizar documentos:', error);
-      }
+    let {name,email,address,photo,cep,cpf,city,country,state,cnpj,password} = await req.body
+    const userExistss = await User.findOne({$or: [{email: email},{cpf:cpf}]})
+    if (userExistss == null || userExistss == undefined || !userExistss) {
+      let user = new User({
+        name:name,
+        email:email,
+        password:bcrypt.hashSync(password, 8),
+        address:address,
+        photo:photo,
+        cep:cep,
+        cpf:cpf,
+        city:city,
+        country:country,
+        state:state,
+        cnpj:cnpj
+      })
+     await user.save()
+     console.log('usuário salvo')
+  
+     res.redirect('/admin')
+      try {
+          const items = await User.find({})
+            .sort({ createdAt: 1 }); // Ordena em ordem crescente por createdAt
+        
+          // Atribuir valores numéricos com base na ordem
+          items.forEach((item, index) => {
+            item.rank = index + 1; // +1 porque os índices começam em 0
+          });
+        
+          // Salvar os documentos atualizados
+          await Promise.all(items.map((item) => item.save()));
+        
+          console.log('Documentos atualizados com sucesso.');
+        } catch (error) {
+          console.error('Erro ao atualizar documentos:', error);
+        }
+   }else{
+     res.render('admin/admin',{user:user,payments:payments.results,users:users,msg:'Já existe um E-mail ou CPF cadastrado'})
+   }    
+   
  
   } catch (error) {
     console.log(error)
@@ -567,78 +592,85 @@ app.post('/iela/saveUser', async (req,res)=>{
 
   try {
     let {name,email,address,cep,city,state,password,bairro,country,phone,lastname,address_id} = await req.body
-    let cpf = ''
-    let street_number = '0000'
-    let user = new User({
-      name:name,
-      email:email,
-      password:bcrypt.hashSync(password, 8),
-      address:address,
-      cep:cep,
-      city:city,
-      country:country,
-      state:state,
-      bairro:bairro,
-      phone:phone,
-      lastname:lastname,
-      cpf:cpf,
-      address_id:address_id
-    })
-   await user.save()
-   console.log('usuário salvo')
-   let srt_number = parseInt(street_number)
-
-   const timestamp = Date.now();
-   const stringTimestamp = timestamp.toString();
-   let stringSemEspacosEHifens = cep.replace(/[\s-]/g, "");
+    const userExists = await User.findOne({$or: [{email: email}]})
+    if (userExists == null || userExists == undefined || !userExists) {
+      let cpf = ''
+      let street_number = '0000'
+      let user = new User({
+        name:name,
+        email:email,
+        password:bcrypt.hashSync(password, 8),
+        address:address,
+        cep:cep,
+        city:city,
+        country:country,
+        state:state,
+        bairro:bairro,
+        phone:phone,
+        lastname:lastname,
+        cpf:cpf,
+        address_id:address_id
+      })
+     await user.save()
+     console.log('usuário salvo')
+     let srt_number = parseInt(street_number)
   
+     const timestamp = Date.now();
+     const stringTimestamp = timestamp.toString();
+     let stringSemEspacosEHifens = cep.replace(/[\s-]/g, "");
+    
+  
+     const body = {
+       email: email,
+       first_name: name,
+       last_name: lastname,
+       phone: {
+         area_code: '55',
+         number: phone
+       },
+       identification: {
+         type: 'CPF',
+         number: cpf
+       },
+       default_address: 'Home',
+       address: {
+         id: address_id,
+         zip_code: stringSemEspacosEHifens,
+         street_name: address,
+         street_number: srt_number,
+         city: {
+           name:city
+         }
+       },
+       date_registered: stringTimestamp,
+       description: 'Description del user',
+       default_card: 'None'
+     };
+     
+     customer.create({ body: body }).then(console.log).catch(console.log);
+  
+     res.redirect('/quiz')
+      try {
+          const items = await User.find({})
+            .sort({ createdAt: 1 }); // Ordena em ordem crescente por createdAt
+        
+          // Atribuir valores numéricos com base na ordem
+          items.forEach((item, index) => {
+            item.rank = index + 1; // +1 porque os índices começam em 0
+          });
+        
+          // Salvar os documentos atualizados
+          await Promise.all(items.map((item) => item.save()));
+        
+          console.log('Documentos atualizados com sucesso.');
+        } catch (error) {
+          console.error('Erro ao atualizar documentos:', error);
+        }
+   }else{
+     res.status(403).send('E-mail inválido')
+   }     
 
-   const body = {
-     email: email,
-     first_name: name,
-     last_name: lastname,
-     phone: {
-       area_code: '55',
-       number: phone
-     },
-     identification: {
-       type: 'CPF',
-       number: cpf
-     },
-     default_address: 'Home',
-     address: {
-       id: address_id,
-       zip_code: stringSemEspacosEHifens,
-       street_name: address,
-       street_number: srt_number,
-       city: {
-         name:city
-       }
-     },
-     date_registered: stringTimestamp,
-     description: 'Description del user',
-     default_card: 'None'
-   };
-   
-   customer.create({ body: body }).then(console.log).catch(console.log);
-
-   res.redirect('/')
-    try {
-        const items = await User.find({})
-          .sort({ createdAt: 1 }); // Ordena em ordem crescente por createdAt
-      
-        // Atribuir valores numéricos com base na ordem
-        items.forEach((item, index) => {
-          item.rank = index + 1; // +1 porque os índices começam em 0
-        });
-      
-        // Salvar os documentos atualizados
-        await Promise.all(items.map((item) => item.save()));
-      
-        console.log('Documentos atualizados com sucesso.');
-      } catch (error) {
-        console.error('Erro ao atualizar documentos:', error);
-      }
+  
 
 
  
@@ -810,40 +842,49 @@ app.put('/admin/editUser/:id', eAdmin,async (req,res)=>{
   }
 
   let {name,email,address,photo,cep,cpf,city,country,state,cnpj,phone,whatsapp} = req.body
-
-  let user = await User.findByIdAndUpdate({_id:id},{
-    name:name,
-    email:email,
-    address:address,
-    cep:cep,
-    cpf:cpf,
-    cep:cep,
-    state:state,
-    cnpj:cnpj,
-    city:city,
-    country:country,
-    photo:photo,
-    phone:phone,
-    whatsapp:whatsapp
-  },{new:true})
+  let user = await req.user
+  let users = await User.find({})
+  let payments = await payment.search()
+  const userEx = await User.findOne({$or: [{email: email,cpf:cpf}]})
+  if (userEx == null || userEx == undefined || !userEx) {
+    let user = await User.findByIdAndUpdate({_id:id},{
+      name:name,
+      email:email,
+      address:address,
+      cep:cep,
+      cpf:cpf,
+      cep:cep,
+      state:state,
+      cnpj:cnpj,
+      city:city,
+      country:country,
+      photo:photo,
+      phone:phone,
+      whatsapp:whatsapp
+    },{new:true})
+    
+    res.redirect('/admin')
+    // console.log(motoReferer)
+   
+    // let doc = await check.save()
+    // let mt =await Moto.findByIdAndUpdate({_id:id},{checklists:doc},{new:false})
+    const items = await User.find({})
+    .sort({ createdAt: 1 }); // Ordena em ordem crescente por createdAt
   
-  res.redirect('/admin')
-  // console.log(motoReferer)
+  // Atribuir valores numéricos com base na ordem
+  items.forEach((item, index) => {
+    item.rank = index + 1; // +1 porque os índices começam em 0
+  });
+  
+  // Salvar os documentos atualizados
+  await Promise.all(items.map((item) => item.save()));
+  
+  console.log('Documentos atualizados com sucesso.');
+  }else{
+    res.render('admin/admin',{user:user,payments:payments.results,users:users,msg:'Já existe um E-mail ou CPF cadastrado'})
+  }
+
  
-  // let doc = await check.save()
-  // let mt =await Moto.findByIdAndUpdate({_id:id},{checklists:doc},{new:false})
-  const items = await User.find({})
-  .sort({ createdAt: 1 }); // Ordena em ordem crescente por createdAt
-
-// Atribuir valores numéricos com base na ordem
-items.forEach((item, index) => {
-  item.rank = index + 1; // +1 porque os índices começam em 0
-});
-
-// Salvar os documentos atualizados
-await Promise.all(items.map((item) => item.save()));
-
-console.log('Documentos atualizados com sucesso.');
  
  
   
@@ -885,6 +926,11 @@ console.log('Documentos atualizados com sucesso.');
  
  
   
+})
+
+app.get('/quiz',(req,res)=>{
+  let user = req.user
+  res.render('quiz', {user:user})
 })
 
 

@@ -1,4 +1,4 @@
-</div></div></div></div></div></div></div><div class="section mcb-section mcb-section-1203be5c6 bg-cover" id="contato" style="padding-top:80px;background-image:url(images/img-contato-7as-des.jpg);background-repeat:no-repeat;background-position:left top" ><div class="section_wrapper mcb-section-inner"><div class="wrap mcb-wrap mcb-wrap-f3c619580 one-second  valign-top clearfix" data-col="one-second" style="padding:0 80px"  ><div class="mcb-wrap-inner"><div class="column mcb-column mcb-item-5f6801b68 one column_column"><div class="column_attr clearfix align_center mobile_align_center" style=""><h4>ENTRE EM</h4>
+</div></div></div></div></div></div></div><div class="section mcb-section mcb-section-1203be5c6 bg-cover" id="contato" style="padding-top:80px;background-image:url(images/img-contato-7as-des.jpg);background-repeat:no-repeat;background-position:left top;z-index:0;" ><div class="section_wrapper mcb-section-inner"><div class="wrap mcb-wrap mcb-wrap-f3c619580 one-second  valign-top clearfix" data-col="one-second" style="padding:0 80px"  ><div class="mcb-wrap-inner"><div class="column mcb-column mcb-item-5f6801b68 one column_column"><div class="column_attr clearfix align_center mobile_align_center" style=""><h4>ENTRE EM</h4>
     <h2>CONTATO</h2>
     
     <hr class="no_line" style="margin: 0 auto 15px auto"/>
@@ -322,7 +322,7 @@
     var wpcf7 = {"api":{"root":"http:\/\/localhost:10018\/wp-json\/","namespace":"contact-form-7\/v1"}};
     /* ]]> */
     </script>
-    <script type="text/javascript" src="js/incontactfomrdex.js" id="contact-form-7-js"></script>
+   <!-- <script type="text/javascript" src="js/incontactfomrdex.js" id="contact-form-7-js"></script>-->
     <script type="text/javascript" src="js/jquery.mask.min.js" id="mask-js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" id="boostrap-js"></script>
     <script type="text/javascript" src="js/rbtools.min.js" defer async id="tp-tools-js"></script>
@@ -387,7 +387,7 @@
     </script>
 
 <script>
-    function handleFileSelect() {
+    function handleFileSelectf() {
       const fileInput = document.getElementById('fileInput');
       const imagePreview = document.getElementById('imagePreview');
       const photo = document.getElementById('photo');
@@ -413,6 +413,35 @@
         reader.readAsDataURL(file);
       }
     }
+
+
+    function handleFileSelectGlobal(element) {
+         let id = element.id
+         const fileInput = document.getElementById(id);
+         const imagePreview = document.getElementById(`imagePreview${id}`);
+         const foto = document.getElementById(`${id}1`);
+   
+         const file = fileInput.files[0];
+   console.log(file)
+         if (file) {
+           const reader = new FileReader();
+   
+           reader.onload = function (e) {
+             const base64String = e.target.result;
+             // Aqui você pode usar a string base64 conforme necessário
+             console.log('String Base64:', base64String);
+   
+             // Exibindo a imagem
+             const img = document.createElement('img');
+             foto.value = base64String;
+             img.src = base64String;
+             imagePreview.innerHTML = '';
+             imagePreview.appendChild(img);
+           };
+   
+           reader.readAsDataURL(file);
+         }
+       }
 
 
     function handleFileSelect2() {
