@@ -1318,6 +1318,41 @@ jQuery(document).ready(function() {
     });
 });
 
+function validarCEP(cep) {
+    // Padrões de CEP permitidos
+    const padroesCEP = [
+        /^010[0-9]{5}$/, // 01000 a 01099
+        /^011[0-9]{5}$/,
+        /^012[0-9]{5}$/, // 01200 a 01299
+        /^013[0-9]{5}$/, // 01300 a 01399
+        /^014[0-9]{5}$/, // 01400 a 01499
+        /^015[0-9]{5}$/, // 01500 a 01599
+        /^020[0-9]{5}$/, // 02000 a 02099
+        /^030[0-9]{5}$/, // 03000 a 03099
+        /^031[0-9]{5}$/, // 03100 a 03199
+        /^032[0-9]{5}$/, // 03200 a 03299
+        /^033[0-9]{5}$/, // 03300 a 03399
+        /^040[0-9]{5}$/, // 04000 a 04099
+        /^041[0-9]{5}$/, // 04100 a 04199
+        /^042[0-9]{5}$/, // 04200 a 04299
+        /^043[0-9]{5}$/, // 04300 a 04399
+        /^045[0-9]{5}$/, // 04500 a 04599
+        /^046[0-9]{5}$/, // 04600 a 04699
+        /^050[0-9]{5}$/,
+        /^054[0-9]{5}$/  // 05400 a 05499
+        // Adicione mais padrões conforme necessário
+    ];
+
+    // Verifica se o CEP corresponde a algum dos padrões
+    for (const padrao of padroesCEP) {
+        if (padrao.test(cep)) {
+            return true; // CEP válido
+        }
+    }
+
+    return false; // CEP inválido
+}
+
 function consultarCEP() {
     // Obtém o valor do CEP digitado pelo usuário
     var cep = jQuery('#user_cep').val();   
@@ -1327,11 +1362,12 @@ function consultarCEP() {
 
     // Remove caracteres não numéricos do CEP
 
+    cep = cep.replace(/\D/g, '');
     // Verifica se o CEP possui 8 dígitos
-    if (cep.length !== 9) {
+    if (cep.length !== 8 || !validarCEP(cep)) {
         console.log(cep.length)
         mens.style.color = 'red'
-        mens.textContent ='CEP inválido. Por favor, insira um CEP válido com 8 dígitos.'
+        mens.textContent ='CEP inválido ou não temos cobertura. Por gentileza, tente outro CEP'
         confirmar2.style.display =  'none'
 
         return;

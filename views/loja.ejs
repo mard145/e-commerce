@@ -976,10 +976,66 @@ aside#block-6 {
 				--qlwapp-scheme-font-family:inherit;--qlwapp-scheme-font-size:18px;--qlwapp-scheme-icon-size:60px;--qlwapp-scheme-icon-font-size:24px;--qlwapp-button-animation-name:none;				}
 			</style> 
 
-			
+<link rel="stylesheet" href="css/woocommerce_1.css" type="text/css">
+<style>
+	@media (max-width: 1199px) {
+  .woocommerce-billing-fields__field-wrapper {
+	display:flex;
+    flex-direction: column !important;
+	justify-content: center !important;
+	align-items: center !important;
+  }
+  .querominhabag{
+	display: none !important;
+  }
+  .header-stack.header-center #Top_bar:not(.is-sticky) .menu_wrapper {
+     width: 100% !important; 
+     margin-right: 0px!important;
+}
+
+#Top_bar a.responsive-menu-toggle i {
+    font-size: 22px;
+    line-height: 34px;
+    margin-left: 30px !important;
+}
+
+#Side_slide #menu {
+    display: block!important;
+    margin-bottom: 20px;
+    max-height: none!important;
+    background-color:#191919 !important;
+}
+
+#Side_slide #menu ul li {
+    width: 100%;
+    position: relative;
+    border-top: 0px solid rgba(255,255,255,.03) !important;
+}
+
+.action_button, .action_button:hover {
+    background-color: #f7b8d5;
+    color: #3f3f3f;
+	padding: 10px 20px !important;
+}
+
+}
+
+@media (max-width: 767PX) {
+	#Top_bar a.responsive-menu-toggle i {
+    font-size: 22px;
+    line-height: 34px;
+     margin-left: 0px !important; 
+}
+.
+}
+.brickss{
+width: 100% !important;
+}
+</style>
+
 </head>
 
-<body class="archive post-type-archive post-type-archive-product wp-custom-logo theme-betheme woocommerce-shop woocommerce woocommerce-page woocommerce-no-js  color-custom content-brightness-light input-brightness-light style-default button-round layout-full-width header-stack header-center sticky-header sticky-tb-color ab-hide subheader-both-center menu-link-color menuo-right menuo-no-borders footer-copy-center mobile-tb-center mobile-side-slide mobile-mini-mr-ll tablet-sticky mobile-sticky mobile-header-mini mobile-icon-user-ss mobile-icon-wishlist-ss mobile-icon-search-ss mobile-icon-wpml-ss mobile-icon-action-ss tr-menu be-page-290 be-reg-2518 product-gallery-zoom mobile-row-2-products mfn-variable-swatches">
+<body style="left: 0 !important;" class="archive post-type-archive post-type-archive-product wp-custom-logo theme-betheme woocommerce-shop woocommerce woocommerce-page woocommerce-no-js  color-custom content-brightness-light input-brightness-light style-default button-round layout-full-width header-stack header-center sticky-header sticky-tb-color ab-hide subheader-both-center menu-link-color menuo-right menuo-no-borders footer-copy-center mobile-tb-center mobile-side-slide mobile-mini-mr-ll tablet-sticky mobile-sticky mobile-header-mini mobile-icon-user-ss mobile-icon-wishlist-ss mobile-icon-search-ss mobile-icon-wpml-ss mobile-icon-action-ss tr-menu be-page-290 be-reg-2518 product-gallery-zoom mobile-row-2-products mfn-variable-swatches">
 
 	<!-- mfn_hook_top --><!-- mfn_hook_top -->
 	
@@ -1034,10 +1090,10 @@ aside#block-6 {
 			<div class="top_bar_right ">
 				<div class="top_bar_right_wrapper">
 					
-				<a id="myaccount_button" class="top-bar-right-icon top-bar-right-icon-user toggle-login-modal is-boxed logged-out" href="/minha-conta">
+				<a id="myaccount_button" class="top-bar-right-icon top-bar-right-icon-user toggle-login-modal is-boxed logged-out querominhabag" href="/minha-conta">
 					<svg width="26" viewBox="0 0 26 26"><defs><style>.path{fill:none;stroke:#333333;stroke-width:1.5px;}</style></defs><circle class="path" cx="13" cy="9.7" r="4.1"/>
 						<path class="path" d="M19.51,18.1v2.31h-13V18.1c0-2.37,2.92-4.3,6.51-4.3S19.51,15.73,19.51,18.1Z"/></svg> Minha conta</a>
-						<a href="/cadastro" class="action_button top-bar-right-button " >QUERO MINHA BAG</a>
+						<a href="/cadastro" class="action_button top-bar-right-button querominhabag" >QUERO MINHA BAG</a>
 						<button style="background-color: transparent !important;color: #f7b8d5;"  class="btn" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">
 						<svg xmlns="http://www.w3.org/2000/svg" fill="#f7b8d5" height="40" width="40" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path d="M160 112c0-35.3 28.7-64 64-64s64 28.7 64 64v48H160V112zm-48 48H48c-26.5 0-48 21.5-48 48V416c0 53 43 96 96 96H352c53 0 96-43 96-96V208c0-26.5-21.5-48-48-48H336V112C336 50.1 285.9 0 224 0S112 50.1 112 112v48zm24 48a24 24 0 1 1 0 48 24 24 0 1 1 0-48zm152 24a24 24 0 1 1 48 0 24 24 0 1 1 -48 0z"/></svg>
 						</button>
@@ -1179,7 +1235,7 @@ aside#block-6 {
 									
 										
 										
-										<div style="display: flex;justify-content: space-evenly;" class="woocommerce-billing-fields__field-wrapper col-12">
+										<div style="display: flex;justify-content: space-evenly;" id="bill" class="woocommerce-billing-fields__field-wrapper col-12">
 											<div class="'col-6">
 											<div style="display:flex;">
 												<p class="form-row form-row-first validate-required" id="billing_first_name_field" data-priority="10">
@@ -1776,7 +1832,7 @@ aside#block-6 {
 		
 													</div>
 		
-													<div class="col-6">
+													<div  class="brickss col-6">
 														<div class="woocommerce-shipping-fields">
 											
 												<h3 id="ship-to-different-address">
@@ -2031,7 +2087,7 @@ aside#block-6 {
 
 	
 </form>
-<p class="create_account"><a href="/minha-conta">Criar uma conta?</a></p></div>
+<p class="create_account"><a href="/cadastro">Criar uma conta?</a></p></div>
 
 
 
@@ -2421,7 +2477,7 @@ var mfnwoovars = {"ajaxurl":"http:\/\/localhost:10018\/wp-admin\/admin-ajax.php"
 /* ]]> */
 </script>
 <script type="text/javascript" src="js/woocommerce.js" id="mfn-woojs-js"></script>
-<script type="text/javascript" src="js/woocommerce_1.js" id="mfn-woojs-js"></script>
+<!--<script type="text/javascript" src="js/woocommerce_1.js" id="mfn-woojs-js"></script>-->
 
 <script type="text/javascript" src="js/wpp.js" id="qlwapp-js"></script>
 

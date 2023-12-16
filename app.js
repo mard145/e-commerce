@@ -56,7 +56,7 @@ passport.use(
 //const pix = require('qrcode-pix')
 //const multer = require('multer'); // Biblioteca para lidar com uploads de arquivos
 // const sharp = require('sharp')
-mongoose.connect(process.env.MONGO_ATLAS).then(()=>{
+mongoose.connect(process.env.MONGO_URL).then(()=>{
       console.log('mongo connected')
   }).catch(err=>{
       console.log(err)
@@ -158,7 +158,7 @@ app.post('/process_payment', async (req,res)=>{
     const { payer,token,description,transaction_amount,paymentMethodId,installments,issuerId,phone,street_number, cep,address,whatsapp,name,lastname,email,cpf,city,items,state } = await req.body;
   
     let srt_number = parseInt(street_number)
-    console.log(transaction_amount, payer,token,description,cep,city,address,phone)
+    console.log(transaction_amount, payer,token,description,cep,city,address,phone, items[0])
   
     const timestamp = Date.now();
     const stringTimestamp = timestamp.toString();
@@ -208,13 +208,19 @@ app.post('/process_payment', async (req,res)=>{
           number: payer.identification.number,
         },
       },
-      items:items,
+      additional_info:{
+        items:()=> items.map(itens=> ({
+          title: itens.name,
+          price: itens.price,
+          quantity: itens.quantity
+        }))
+      },
       capture:false
     };
     
     customer.search({options:{email:payer.email}}).then((data)=>{
       console.log(data,data.results.length)
-    if(data.results.length == 0 || !data.id )
+    if(data.results.length == 0)
   {
   
     customer.create({ body: clientData }).then((data)=>{
@@ -266,12 +272,50 @@ app.post('/process_payment', async (req,res)=>{
         res.json({ error });
       });
   }else{
-    customer.update({ email: payer.email, body: paymentData,
-  }).then((data)=>{
-
-    console.log(data,'usuario atualizado pois ja existe um usuario com essas informções.Pedidos e pagamentos atualizados')
-  }).catch(console.log);
+ 
+  payment
+  .create({ body: paymentData })
+  .then(async function (data) {
+    res.status(201).json({
+      detail: data.status_detail,
+      status: data.status,
+      id: data.id,
+      
+    });
+   console.log(data,' <- pagamento criado usuário encontrado' )
   
+/*  let order = new Order({
+    payer:payer,
+   order:data.metadata,
+    total:data.transaction_amount, //transactions_amount
+    status:data.status,
+    status_detail:data.status_detail,
+    currency:data.currency_id,
+    description:data.description,
+    authorization_code:data.authorization_code,
+    taxes_amount:data.taxes_amount,
+    shipping_amount:data.shipping_amount,
+    collector_id:data.collector_id,
+    total_refunded:data.transaction_amount_refunded,  //transactions_refunded_amount
+    cupum_amount:data.coupon_amount,
+    installments:data.installments,
+    transaction_details:data.transaction_details,
+    fee_details:data.fee_details,
+    card:data.card,
+    refunds:data.refunds,
+    processing_mode:data.processing_mode,
+    point_of_interaction:data.point_of_interaction,
+    accounts_info:data.accounts_info,
+    captured:data.captured
+
+  })
+  await order.save()*/
+  })
+  .catch(function (error) {
+    console.log(error);
+//    const { errorMessage, errorStatus } = validateError(error);
+    res.json({ error });
+  });
   }  
     console.log(data)
       }).catch(console.log);
