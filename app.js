@@ -265,6 +265,7 @@ app.post('/process_payment', async (req,res)=>{
   
       })
       await order.save()*/
+      res.redirect('/quiz')
       })
       .catch(function (error) {
         console.log(error);
@@ -276,13 +277,8 @@ app.post('/process_payment', async (req,res)=>{
   payment
   .create({ body: paymentData })
   .then(async function (data) {
-    res.status(201).json({
-      detail: data.status_detail,
-      status: data.status,
-      id: data.id,
-      
-    });
-   console.log(data,' <- pagamento criado usuário encontrado' )
+
+   console.log(data,' <- pagamento criado  e dados do usuário atualizado' )
   
 /*  let order = new Order({
     payer:payer,
@@ -310,6 +306,7 @@ app.post('/process_payment', async (req,res)=>{
 
   })
   await order.save()*/
+  res.redirect('/quiz')
   })
   .catch(function (error) {
     console.log(error);
@@ -934,14 +931,7 @@ app.put('/admin/editUser/:id', eAdmin,async (req,res)=>{
     let paymentsr = await payment.search()
     res.render('admin/admin',{user:userr,payments:paymentsr.results,users:usersr,msg:'Já existe um E-mail ou CPF cadastrado',error:false})
 
-  }
-
-  
-
- 
- 
- 
-  
+  } 
 })
 
 app.put('/admin/editProduct/:id',eAdmin, async (req,res)=>{
@@ -978,16 +968,12 @@ await Promise.all(items.map((item) => item.save()));
 
 console.log('Documentos atualizados com sucesso.');
  
- 
-  
 })
 
 app.get('/quiz',(req,res)=>{
   let user = req.user
   res.render('quiz', {user:user})
 })
-
-
 
 app.listen(port, (error)=>{
   if(error){
