@@ -9,10 +9,77 @@
     </p>
  
       <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
-        <label for="lastName" class="form-label">Nome</label>
-        <input type="text" class="form-control" id="lastName" placeholder="Nome" name="name" value="" required>
+        <label for="name" class="form-label">Nome</label>
+        <input type="text" class="form-control" id="name" placeholder="Nome" name="name" value="" required>
         
       </p>
+      <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
+        <label for="lastName" class="form-label">Sobre nome</label>
+        <input type="text" class="form-control" id="lastName" placeholder="Nome" name="lastname" value="" required>
+        
+      </p>
+
+      <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
+        <label for="lastName" class="form-label">CEP</label>
+        <input type="text" class="form-control" id="cep" placeholder="CEP" name="cep" value="" required>
+        
+      </p>
+
+      <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
+        <label for="street_number" class="form-label">Nº</label>
+        <input type="number" class="form-control" id="street_number" placeholder="Número" name="street_number" value="" required>
+        
+      </p>
+
+      <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
+        <label for="address" class="form-label">Logradouro</label>
+        <input type="text" class="form-control" id="address" placeholder="Seu endereço" name="address" value="" required>
+        
+      </p>
+
+      <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
+        <label for="city" class="form-label">Cidade</label>
+        <input type="text" class="form-control" id="city" placeholder="Cidade" name="city" value="" required>
+        
+      </p>
+
+      <p class="form-row address-field validate-required validate-state woocommerce-validated form-row-wide woocommerce-form-row woocommerce-form-row--first form-row form-row-first" id="billing_state_field" data-priority="80" data-o_class="form-row form-row-wide address-field validate-required validate-state">
+        <label for="billing_state" class="">Estado&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
+        <span class="woocommerce-input-wrapper">
+          <select name="state" id="billing_state" style="background-color: #00000038!important;" data-label="Estado" tabindex="-1" >
+          
+            <option value="AC">Acre</option>
+            <option value="AL">Alagoas</option>
+            <option value="AP">Amapá</option>
+            <option value="AM">Amazonas</option>
+            <option value="BA">Bahia</option>
+            <option value="CE">Ceará</option>
+            <option value="DF">Distrito Federal</option>
+            <option value="ES">Espírito Santo</option>
+            <option value="GO">Goiás</option>
+            <option value="MA">Maranhão</option>
+            <option value="MT">Mato Grosso</option>
+            <option value="MS">Mato Grosso do Sul</option>
+            <option value="MG">Minas Gerais</option>
+            <option value="PA">Pará</option>
+            <option value="PB">Paraíba</option>
+            <option value="PR">Paraná</option>
+            <option value="PE">Pernambuco</option>
+            <option value="PI">Piauí</option>
+            <option value="RJ">Rio de Janeiro</option>
+            <option value="RN">Rio Grande do Norte</option>
+            <option value="RS">Rio Grande do Sul</option>
+            <option value="RO">Rondônia</option>
+            <option value="RR">Roraima</option>
+            <option value="SC">Santa Catarina</option>
+            <option selected value="SP">São Paulo</option>
+            <option value="SE">Sergipe</option>
+            <option value="TO">Tocantins</option>
+          </select>
+          </span>
+          </p>
+
+
 
       <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
         <label for="lastName" class="form-label">Senha</label>
@@ -26,40 +93,17 @@
       </p>
 
       <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
+        <label for="phone" class="form-label">Contato</label>
+        <input type="text" class="form-control" id="phone" placeholder="Telefone pra contato" name="phone" value="" required>
+        
+      </p>
+
+      <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
         <label for="lastName" class="form-label">CPF</label>
         <input type="text" class="form-control" id="lastName" placeholder="CPF" name="cpf" value="" required>
         
       </p>
 
-      
-
-      <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
-        <label for="address" class="form-label">Endereço</label>
-        <input type="text" class="form-control" name="address" id="address" placeholder="Endereço" required="">
-       
-      </p>
-
-      <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
-        <label for="address" class="form-label">Cidade</label>
-        <input type="text" name="city" class="form-control" id="address" placeholder="Cidade" required="">
-       
-      </p>
-
-      <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
-        <label for="zip" class="form-label">CEP</label>
-        <input name="cep" type="text" class="form-control" id="zip" placeholder="" required>
-      </p>
-   
-
-      <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
-        <label for="state" class="form-label">Estado</label>
-        <select name="state" class="form-select" id="state" required>
-          <option value="">Selecione...</option>
-          <option selected value="São Paulo">São Paulo</option>
-        
-        </select>
-       
-    </p>
 
     <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
         <label for="country" class="form-label">País</label>

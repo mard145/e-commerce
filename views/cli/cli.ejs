@@ -1,0 +1,17 @@
+<%- include('head.ejs')%>
+
+<%if(user){%>
+<h1>Bem vindo <%=user.name%></h1>
+<%}%>
+
+<%if(msg){%>
+<h2><%=msg%></h2>
+    <%}%>
+
+<%- include('painel')%>
+<%- include('detalhes')%>
+<%- include('pedidos')%>
+<%- include('assinaturas')%>
+<%- include('endereco')%>
+
+<%- include('foot')%>

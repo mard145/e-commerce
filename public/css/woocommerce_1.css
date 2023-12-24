@@ -298,7 +298,7 @@ body.content-brightness-dark {
 .mfn-header-login .woocommerce-form .form-row.form-row-first label,
 .mfn-header-login .woocommerce-form .form-row.form-row-last label { position: absolute; left: 40px; top: 50%; z-index: 2; transform: translateY(-50%); transition: position 150ms ease-out, font-size 150ms ease-out; }
 .mfn-header-login .woocommerce-form .form-row.form-row-first .input-text,
-.mfn-header-login .woocommerce-form .form-row.form-row-last .input-text {margin:0;padding: 25px 10px 10px 40px; width: 100%;  }
+.mfn-header-login .woocommerce-form .form-row.form-row-last .input-text {margin:0;padding: 15px 5px 15px 40px; width: 100%;  }
 .mfn-header-login .woocommerce-form .form-row.form-row-first.active label,
 .mfn-header-login .woocommerce-form .form-row.form-row-last.active label{ top: 15px; font-size: 80%; opacity: .7; }
 .mfn-header-login .woocommerce-form-login__rememberme { margin-bottom: 10px; }

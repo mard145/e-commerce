@@ -51,6 +51,8 @@
 		<tbody>
 			<%if(payments){%>
 				<%payments.forEach(payment=>{%>
+					<%if(payment.payer.email == user.email){%>
+
 							<tr class="woocommerce-orders-table__row woocommerce-orders-table__row--status-cancelled order">
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Pedido">
 															<a href="#">#<%=payment.id%></a>
@@ -125,7 +127,7 @@
 									
 
 							
-
+<%}%>
 
 									<%})%>
 							<%}%>	

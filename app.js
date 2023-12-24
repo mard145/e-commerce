@@ -74,7 +74,7 @@ mongoose.connect(process.env.MONGO_URL).then(()=>{
       console.log('mongo connection')
   })
 // Step 1: Import the parts of the module you want to use
-let { MercadoPagoConfig, Payment, Customer, MerchantOrder } = require('mercadopago');
+let { MercadoPagoConfig, Payment, Customer, MerchantOrder,PreApproval, PreApprovalPlan } = require('mercadopago');
 
 
 // Step 2: Initialize the client object
@@ -85,6 +85,8 @@ const client = new MercadoPagoConfig({ accessToken: 'TEST-2786362695625116-12040
 const payment = new Payment(client);
 const customer = new Customer(client)
 const merchantOrder = new MerchantOrder(client)
+const preApproval = new PreApproval(client) 
+const preApprovalPlan = new PreApprovalPlan(client)
 const mercadoPagoPublicKey = 'TEST-130be883-07a6-4f31-8cb7-94b71d5e1f50';
 if (!mercadoPagoPublicKey) {
   console.log("Error: public key not defined");
@@ -104,6 +106,115 @@ app.use(express.json({limit: '100mb'}))
 app.use(express.urlencoded({extended:true,limit: '100mb'}))
 app.use(methodOverride('_method'))
 
+app.post('/create_signaturePlan',async(req,res)=>{
+  try {
+    let user = req.user
+    let { reason, auto_recurring, frequency_type, repetitions, frequency,billing_day, billing_day_proportional, frequency_trial, frequency_type_trial, transaction_amount } = await req.body;
+ 
+ const signatureData =   {
+      reason: reason,
+      auto_recurring: {
+        frequency: frequency,
+        frequency_type: frequency_type,
+        repetitions: repetitions,
+        billing_day: billing_day,
+        billing_day_proportional: billing_day_proportional,
+        free_trial: {
+          frequency: frequency_trial,
+          frequency_type: frequency_type_trial
+        },
+        transaction_amount: transaction_amount,
+        currency_id: "BRL"
+      },
+      /*payment_methods_allowed: {
+        payment_types: [
+          {
+            id:'credit_card'
+          }
+        ],
+        payment_methods: [
+          {}
+        ]
+      },*/
+      back_url: "/admin"
+    }
+
+ let signature = await preApprovalPlan.create({body:signatureData})
+ console.log(signature)
+  
+   } catch (error) {
+    console.log(error)
+   }
+
+
+})
+
+app.post('/create_signature',async(req,res)=>{
+  try {
+    let user = req.user
+    let { transaction_amount, payer_email, email, cpf } = await req.body;
+    const dataAtual = new Date();
+    // Adicionar 2 dias
+    const data2 = new Date(dataAtual);
+    const data30 = new Date(dataAtual);
+
+    data2.setDate(dataAtual.getDate() + 2);
+    data30.setDate(dataAtual.getDate() + 30);
+
+    // Formatar as datas para o formato ISO 8601
+const formatoISO = { timeZone: 'UTC' };
+const dataAtualFormatada = data2.toISOString().split('T')[0];
+const dataFuturaFormatada = data30.toISOString().split('T')[0];
+
+console.log('Data Atual:', dataAtualFormatada);
+console.log('Data Futura (2 dias depois):', dataFuturaFormatada);
+    
+ const signatureData =   {
+      reason: 'IelaBag assinatura',
+      //external_reference:external_reference,
+    
+      auto_recurring: {
+        frequency: 30,
+        frequency_type: 'days',
+        start_date:data2,
+        end_date: data30,
+      
+        transaction_amount: transaction_amount,
+        currency_id: "BRL"
+      },
+      status:'pending',
+      payer_email:email,
+      external_reference:cpf,
+      /*payment_methods_allowed: {
+        payment_types: [
+          {
+            id:'credit_card'
+          }
+        ],
+        payment_methods: [
+          {}
+        ]
+      },*/
+      back_url: "https://google.com"
+    }
+
+ let signature = await preApproval.create({body:signatureData})
+ const userexist = await User.findOne({$or: [{payer_id: signature.payer_id}]})
+if(userexist == null || userexist == undefined || !userexist){
+  const usrexist = await User.findOne({$or: [{email: email}]})
+console.log(usrexist, '333333333')
+}
+ 
+
+ console.log(signature)
+  res.redirect('/quiz')
+   } catch (error) {
+    console.log(error)
+   }
+
+
+})
+
 app.post('/capture_payment/:id',(req,res)=>{
   let {id, transaction_amount} = req.body
 if(!id) {
@@ -119,6 +230,66 @@ console.log(transaction_amount)
     }).then(()=>{
       res.redirect('/admin')
     }).catch(console.log);
+})
+
+app.put('/update_signature/:id',async(req,res)=>{
+
+  try {
+
+    let {id, transaction_amount} = await req.body
+    if(!id) {
+      id =  req.params.id
+    }
+    
+    let updateSignature = await preApproval.update({
+      id: id,
+      body:{
+        auto_recurring:{
+        transaction_amount: parseInt(transaction_amount),
+     
+        },
+        
+      },
+      requestOptions: {
+      idempotencyKey:  uuidv4()
+      }
+      })
+    console.log(updateSignature)
+    res.redirect('/admin')
+  } catch (error) {
+    console.log(error)
+  }
+ 
+
+
+
+})
+
+app.put('/cancel_signature/:id',async (req,res)=>{
+
+  try {
+    let {id, transaction_amount} =await  req.body
+    if(!id) {
+      id = req.params.id
+    }
+    console.log(transaction_amount)
+    preApproval.update({
+      id: id,
+      body:{
+        transaction_amount: parseInt(transaction_amount),
+        status:'cancelled'
+      },
+      requestOptions: {
+      idempotencyKey:  uuidv4()
+      }
+      }).then(()=>{
+      res.redirect('/admin')
+    }).catch(console.log);
+     
+  } catch (error) {
+    console.log(error)
+  }
+
 })
 
 app.post('/capture_parcial_payment/:id',(req,res)=>{
@@ -231,12 +402,12 @@ app.post('/process_payment', async (req,res)=>{
     payment
       .create({ body: paymentData })
       .then(async function (data) {
-        res.status(201).json({
+     /*   res.status(201).json({
           detail: data.status_detail,
           status: data.status,
           id: data.id,
           
-        });
+        });*/
        console.log(data,' <- pagamento criado' )
       
     /*  let order = new Order({
@@ -348,17 +519,79 @@ app.get('/admin',eAdmin,async(req,res)=>{
   let user = await req.user
   let users = await User.find({})
   let payments = await payment.search()
- // console.log(payments.results,'payments')
+  let signatures = await preApproval.search()
 
-  res.render('admin/admin',{user:user,users:users,payments:payments.results, msg:false})
+  res.render('admin/admin',{user:user,users:users,payments:payments.results,signatures:signatures.results, msg:false})
   } catch (error) {
     console.log(error)
   }
   
 })
 
+app.put('/update-delivery-address/:id',async(req,res)=>{
+
+  try {
+    let id = req.params.id
+    if(!id){
+      id = req.body.id
+    }
+    let {cep, street_number, address, city, bairro, state, country} = await req.body
+    let deliveryAddress = await User.findByIdAndUpdate({_id:id},{
+      address:address,
+      cep:cep,
+      state:state,
+      city:city,
+      country:country,
+      street_number:street_number,
+      bairro:bairro
+    },{new:true})
+  
+    if(deliveryAddress.admin == true){
+      res.redirect('/admin')
+    }else{
+      res.redirect('/minha-conta')
+    }
+  } catch (error) {
+    console.log(error)
+  }
+
+})
+
+app.put('/update-billing-address/:id',async(req,res)=>{
+
+  try {
+    let id = req.params.id
+    if(!id){
+      id = req.body.id
+    }
+    let {cep, street_number, city, bairro, state, country, address} = await req.body
+    let billingAddress = await User.findByIdAndUpdate({_id:id},{
+      billing_address:{
+        cep:cep,
+        street_number:street_number,
+        city:city,
+        state:state,
+        country:country,
+        bairro:bairro,
+        address:address
+      },
+    
+    },{new:true})
+
+    if(billingAddress.admin == true){
+      res.redirect('/admin')
+    }else{
+      res.redirect('/minha-conta')
+    }
+  } catch (error) {
+    
+  }
+
+})
+
+
 app.get('/',(req,res)=>{
-  res.render('index')
+  res.render('index',{msg:false})
 })
 
 app.get('/quem-somos',(req,res)=>{
@@ -384,10 +617,20 @@ app.get('/termos-e-condicoes',(req,res)=>{
 app.get('/cadastro',(req,res)=>{
   res.render('cadastro',{msg:false})
 })
-
-app.get('/minha-conta',eAdmin,(req,res)=>{
-  let user = req.user
-  res.render('profile',{user:user})
+// GERAR UM PEDIDO, UMA ASSINATURA E PESQUISA DE CLIENTES USANDO E-MAIL TESTE RAFA@RAFA.COM SENHA 123 PRA RENDEZIRAR OS DADOS CORRETAMENTE DINAMICAMENTE DE ACORDO DE COMO ESTA VINDO NO CONSOLE.LOG QUE AINDA VOU FAZER
+app.get('/minha-conta',eAdmin,async(req,res)=>{
+  try {
+    let user = req.user
+    let cli =await customer.get({customerId:user.idmp})
+    let payments = await payment.search()
+    let signatures = await preApproval.search()
+    //console.log(cli,'CLI,',payments,'SIGNATURES')
+   
+    res.render('cli/cli',{user:user,cli:cli,payments:payments.results, signatures:signatures.results,msg:false})
+  } catch (error) {
+    console.log(error)
+  }
+ 
 })
 
 app.post('/sendEmail', express.urlencoded({extended:true}),express.json(),async (req,res)=>{
@@ -461,14 +704,16 @@ src='http://benchmarkemail.benchurl.com/c/o?e=8E4B52&c=91CEA&t=1&l=7889F345&emai
 
 })
 
+
+
 app.post('/login',async (req,res,next)=>{
 
     try {
     
         const {email,password} = await req.body
         const user = await User.findOne({email:email})
-      
-        if( user.password == null || !user.password || user.password == undefined){
+      console.log(user)
+        if(user == null || user == undefined || user.password == null || !user.password || user.password == undefined ){
           res.render('index', {msg:'Usuário ou senha incorretos',error:false})
         }
       
@@ -579,14 +824,52 @@ app.post('/saveUser', async (req,res)=>{
   let user = await req.user
   let users = await User.find({})
   let payments = await payment.search()
+  let signatures = await preApproval.search()
   try {
    
 
-    let {name,email,address,photo,cep,cpf,city,country,state,cnpj,password} = await req.body
+    let {name,email,address,photo,cep,cpf,city,country,state,cnpj,password,street_number, lastname,phone} = await req.body
+    
     const userExistss = await User.findOne({$or: [{email: email},{cpf:cpf}]})
     if (userExistss == null || userExistss == undefined || !userExistss) {
+      let srt_number = parseInt(street_number)
+    const timestamp2 = Date.now();
+    const stringTimestamp2 = timestamp2.toString();
+    const clientData2 = {
+      email: email,
+      first_name: name,
+      last_name: lastname,
+     // phone: phone,
+      identification: {
+        type: 'CPF',
+        number: cpf
+      },
+      default_address: 'Home',
+      address: {
+        id: address,
+        zip_code: cep,
+        street_name: address,
+        street_number: srt_number,
+        city: {
+          name:city
+        },
+     
+        state:state
+      },
+      date_registered: stringTimestamp2,
+      description: 'Description del user',
+      phone:{
+        area_code:'55',
+        number:phone
+      }
+    };
+let newCustomer = await customer.create({body:clientData2})
+console.log(newCustomer)
+
       let user = new User({
         name:name,
+        lastname:lastname,
+        idmp: newCustomer.id,
         email:email,
         password:bcrypt.hashSync(password, 8),
         address:address,
@@ -619,7 +902,7 @@ app.post('/saveUser', async (req,res)=>{
           console.error('Erro ao atualizar documentos:', error);
         }
    }else{
-     res.render('admin/admin',{user:user,payments:payments.results,users:users,msg:'Já existe um E-mail ou CPF cadastrado'})
+     res.render('admin/admin',{user:user,payments:payments.results,users:users,signatures:signatures.results,msg:'Já existe um E-mail ou CPF cadastrado'})
    }    
    
  

@@ -127,6 +127,7 @@
 	<tbody>
 		<%if(signatures){%>
 			<%signatures.forEach(sig=>{%>
+<%if(sig.external_reference == user.cpf){%>
 				<tr class="order woocommerce-orders-table__row woocommerce-orders-table__row--status-cancelled">
 			<td class="subscription-id order-number woocommerce-orders-table__cell woocommerce-orders-table__cell-subscription-id woocommerce-orders-table__cell-order-number" data-title="ID">
 				<a href="#">#<%=sig.payer_id%></a>
@@ -144,6 +145,7 @@
 						<button type="button" data-bs-toggle="modal" data-bs-target="#llll<%=sig.id%>Edited" class="woocommerce-button button view">Visualizar</button>												
 						</td>
 		</tr>
+	<%}%>
 		<%})%>
 		<%}%>
 

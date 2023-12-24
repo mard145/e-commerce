@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const user = new mongoose.Schema({
      admin:{type:Boolean, default:false},
      rank:Number,
+     idmp:String,
      name:String,
      lastname:String,
      nickname:String,
@@ -12,9 +13,19 @@ const user = new mongoose.Schema({
      email:String,
      country:String,
      address:String,
-     address_id:String,
+     payer_id:Number,
+     billing_address:{
+      city:String,
+      address:String,
+      street_number:Number,
+      state:String,
+      country:String,
+      bairro:String,
+      cep:String
+     },
      city:String,
      gender:String,
+     birthday:String,
      cep:String,
      state:String,
      cnpj:String,

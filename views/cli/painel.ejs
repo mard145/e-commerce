@@ -1,0 +1,10 @@
+<div class="woocommerce-MyAccount-content tab-content active" id="tab1">
+	<div class="woocommerce-notices-wrapper"></div>
+	<%if(user){%>
+<p>
+	Olá, <strong><%=user.name%></strong> (não é <strong><%=user.name%></strong>? <a href="/logout">Sair</a>)</p>
+
+<p>
+	A partir do painel de controle de sua conta, você pode ver suas <a href="minha-conta/orders/">compras recentes</a>, gerenciar seus <a href="http://localhost:10018/minha-conta/edit-address/">endereços de entrega e faturamento</a>, e <a href="http://localhost:10018/minha-conta/edit-account/">editar sua senha e detalhes da conta</a>.</p>
+<%}%>
+</div>
