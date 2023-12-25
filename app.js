@@ -652,13 +652,13 @@ app.get('/cadastro',(req,res)=>{
 app.get('/minha-conta',eAdmin,async(req,res)=>{
   try {
     if(req.user.admin == false){
-      let user = req.user
+      let user = await req.user
       let cli =await customer.get({customerId:user.idmp})
       let payments = await payment.search()
       let signatures = await preApproval.search()
-    console.log(signatures,'SIGNATURES')
-   const sigs = signatures.results.filter(sig => sig.external_reference == user.cpf);
-  
+  //  console.log(signatures,'SIGNATURES')
+   const sigs = await signatures.results.filter( sig => sig.external_reference == user.cpf);
+  console.log(sigs)
       res.render('cli/cli',{user:user,cli:cli,payments:payments.results, signatures:sigs,msg:false})
     }else{
       res.redirect('/')

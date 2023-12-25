@@ -12,15 +12,14 @@
 			<div class="modal-body">
   
 		
-		<form action="/update_signature/<%=sig.id%>?_method=PUT" method="post">
+		<form action="/update_signature/<%=sig.id%>?_method=PUT" class="d-flex" method="post">
 			<input name="id" type="hidden" value="<%=sig.id%>">
 			<input id="tamount" name="transaction_amount" type="number" value="<%=sig.auto_recurring.transaction_amount%>">
 			<button type="submit">Capturar valor parcial</button>
 	</form>
 
-	<form action="/cancel_signature/<%=sig.id%>?_method=PUT" method="post">
+	<form action="/cancel_signature/<%=sig.id%>?_method=PUT" class="d-flex" method="post">
 		<input name="id" type="hidden" value="<%=sig.id%>">
-		<input name="transaction_amount" type="number" value="<%=sig.auto_recurring.transaction_amount%>">
 		<button type="submit">Cancelar assinatura</button>
 </form>
 	  
@@ -33,44 +32,7 @@
 <%}%>	
 	<div class="woocommerce_account_subscriptions">
 
-		<form action="/create_signaturePlan" method="post">
-			<h4>Assinatura com plano Associado</h4>
-			<p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
-				<label for="reason" class="form-label">Nome da Assinatura</label>
-				<input name="reason" type="text" class="form-control" id="reason" placeholder="Nome da assinatura" required>
-			  </p>
-			  <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
-				<label for="frequency" class="form-label">Frequẽncia</label>
-				<input name="frequency" type="number" class="form-control" id="frequency" placeholder="Frequẽncia de cobrança" required>
-			  </p>
-			  <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
-				<label for="frequency_type" class="form-label">Tipo de frequência</label>
-				<select name="frequency_type" class="form-select" id="frequency_type" required="">
-				  <option value="days" selected>Dias</option>
-				  <option value="months" >Meses</option>	
-				</select>
-			</p>
-			  <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
-				<label for="billing_day" class="form-label">Dia do mẽs da cobrança</label>
-				<input name="billing_day" type="number" class="form-control" id="billing_day" placeholder="Dia do mẽs da cobrança" required>
-			  </p>
-			  <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
-				<label for="frequency_trial" class="form-label">Mẽs grátis</label>
-				<input name="frequency_trial" type="number" class="form-control" id="frequency_trial" placeholder="Meses de de gustação" required>
-			  </p>
-			  <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
-				<label for="frequency_type_trial" class="form-label">Dias ou meses grátis</label>
-				<select name="frequency_type_trial" class="form-select" id="frequency_type_trial" required="">
-				  <option value="days" selected>Dias</option>
-				  <option value="months" >Meses</option>	
-				</select>
-			</p>
-			  <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
-				<label for="transaction_amount" class="form-label">Valor da assinatura</label>
-				<input name="transaction_amount" type="number" class="form-control" id="transaction_amount" placeholder="" required>
-			  </p>
-			
-		</form>
+		
 
 
 		<!--<form action="/create_signaturePlan" method="post">
