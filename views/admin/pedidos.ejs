@@ -12,13 +12,13 @@
 			<div class="modal-body">
   
 		
-		<form action="/capture_payment/<%=payment.id%>" method="post">
+		<form action="/capture_payment/<%=payment.id%>" class="d-flex" method="post">
 			<input name="id" type="hidden" value="<%=payment.id%>">
 			<input name="transaction_amount" type="number" value="<%=payment.transaction_amount%>">
 			<button>Pagar valor inteiro</button>
 	</form>
 
-	<form action="/cancel_payment/<%=payment.id%>" method="post">
+	<form action="/cancel_payment/<%=payment.id%>" class="d-flex" method="post">
 		<input name="id" type="hidden" value="<%=payment.id%>">
 		<input name="transaction_amount" type="number" value="<%=payment.transaction_amount%>">
 		<button>Pagar valor parcial</button>
