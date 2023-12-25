@@ -2101,8 +2101,19 @@ width: 100%;
 
 <script>
 	const pKeyy = document.getElementById('pKey').value
-	const email = document.getElementById('billing_email')  
-	const cpf = document.getElementById('billing_cpf') 
+	const name = document.getElementById('billing_first_name')
+	const lastname = document.getElementById('billing_last_name')
+	const cpf = document.getElementById('billing_cpf')
+	const address = document.getElementById('billing_address_1')
+	const street_number = document.getElementById('billing_number')
+	const cep = document.getElementById('billing_postcode')
+	const bairro = document.getElementById('billing_neighborhood')
+	const city = document.getElementById('billing_city')
+	const state = document.getElementById('billing_state')
+	const phone = document.getElementById('billing_phone')
+	const whatsapp = document.getElementById('billing_cellphone')
+	const email = document.getElementById('billing_email')
+	const totalAmount = document.getElementById('total')
 	const mpp = new MercadoPago(pKeyy,{
     locale: 'pt-BR'
   });
@@ -2165,7 +2176,34 @@ console.log(cartData)
 formData.transaction_amount = await totalValue1;
 formData.payer_email = await email.value
 formData.email = await email.value
+
+			formData.name = await name.value;
+			formData.address = await address.value;
+			formData.phone = await phone.value;
+			formData.city = await city.value;
+			formData.bairro = await bairro.value;
+			formData.whatsapp = await whatsapp.value;
+			formData.cep = await cep.value;
+			formData.street_number = await street_number.value;
+			formData.state = await state.value;
+		
+			formData.description = await 'descrição teste'
+			formData.payer.phone = await {
+				area_code:'55',
+				number:phone.value
+			}
+			formData.items = cartData
+			formData.payer.first_name= await name.value
+			formData.payer.last_name = await lastname.value
+		
+			//formData.payer.phone.area_code = await '84'
+			//formData.payer.identification.number = await cpf.value
+			//formData.payer.identification.type = await 'CPF'
+
 formData.cpf = await cpf.value
+
+
+
 
 			//formData.payer.phone.area_code = await '84'
 			//formData.payer.identification.number = await cpf.value

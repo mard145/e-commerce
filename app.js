@@ -152,7 +152,7 @@ app.post('/create_signaturePlan',async(req,res)=>{
 app.post('/create_signature',async(req,res)=>{
   try {
     let user = req.user
-    let { transaction_amount, payer_email, email, cpf } = await req.body;
+    let { transaction_amount, payer_email, email, cpf, name, address, city, state, country, cep,phone } = await req.body;
     const dataAtual = new Date();
     // Adicionar 2 dias
     const data2 = new Date(dataAtual);
@@ -174,7 +174,7 @@ console.log('Data Futura (2 dias depois):', dataFuturaFormatada);
       //external_reference:external_reference,
     
       auto_recurring: {
-        frequency: 30,
+        frequency: 2,
         frequency_type: 'days',
         start_date:data2,
         end_date: data30,
@@ -197,16 +197,42 @@ console.log('Data Futura (2 dias depois):', dataFuturaFormatada);
       },*/
       back_url: "https://google.com"
     }
-
  let signature = await preApproval.create({body:signatureData})
+ console.log(signature,'3333333')
  const userexist = await User.findOne({$or: [{payer_id: signature.payer_id}]})
+
 if(userexist == null || userexist == undefined || !userexist){
   const usrexist = await User.findOne({$or: [{email: email}]})
-console.log(usrexist, '333333333')
+    if(usrexist == null || usrexist == undefined || !usrexist){
+        let newuser = new User({
+          name:name,
+          lastname:lastname,
+          payer_id: signature.payer_id,
+          email:email,
+          password:bcrypt.hashSync(uuidv4(), 8),
+          address:address,
+          cep:cep,
+          cpf:cpf,
+          city:city,
+          country:country,
+          state:state,
+     
+          phone:phone
+        })
+        await newuser.save()
+        console.log('usuario salvo mediante assinatura sem plano associado')
+        res.redirect('/')
+    }else{
+      await User.findByIdAndUpdate({_id:usrexist._id},{
+        payer_id:signature.payer_id
+      },{new:true})
+      console.log('payer_id atualizado')
+      res.redirect('/')
+    }
 }
  
 
- console.log(signature)
+ //console.log(signature)
   res.redirect('/quiz')
    } catch (error) {
     console.log(error)
@@ -517,11 +543,16 @@ app.get('/admin',eAdmin,async(req,res)=>{
 
   try {
   let user = await req.user
-  let users = await User.find({})
-  let payments = await payment.search()
-  let signatures = await preApproval.search()
-
-  res.render('admin/admin',{user:user,users:users,payments:payments.results,signatures:signatures.results, msg:false})
+  if(req.user.admin){
+    let users = await User.find({})
+    let payments = await payment.search()
+    let signatures = await preApproval.search()
+  
+    res.render('admin/admin',{user:user,users:users,payments:payments.results,signatures:signatures.results, msg:false})
+  }else{
+    res.redirect('/minha-conta')
+  }
+ 
   } catch (error) {
     console.log(error)
   }
@@ -620,13 +651,19 @@ app.get('/cadastro',(req,res)=>{
 // GERAR UM PEDIDO, UMA ASSINATURA E PESQUISA DE CLIENTES USANDO E-MAIL TESTE RAFA@RAFA.COM SENHA 123 PRA RENDEZIRAR OS DADOS CORRETAMENTE DINAMICAMENTE DE ACORDO DE COMO ESTA VINDO NO CONSOLE.LOG QUE AINDA VOU FAZER
 app.get('/minha-conta',eAdmin,async(req,res)=>{
   try {
-    let user = req.user
-    let cli =await customer.get({customerId:user.idmp})
-    let payments = await payment.search()
-    let signatures = await preApproval.search()
-    //console.log(cli,'CLI,',payments,'SIGNATURES')
+    if(req.user.admin == false){
+      let user = req.user
+      let cli =await customer.get({customerId:user.idmp})
+      let payments = await payment.search()
+      let signatures = await preApproval.search()
+    console.log(signatures,'SIGNATURES')
+   const sigs = signatures.results.filter(sig => sig.external_reference == user.cpf);
+  
+      res.render('cli/cli',{user:user,cli:cli,payments:payments.results, signatures:sigs,msg:false})
+    }else{
+      res.redirect('/')
+    }
    
-    res.render('cli/cli',{user:user,cli:cli,payments:payments.results, signatures:signatures.results,msg:false})
   } catch (error) {
     console.log(error)
   }
@@ -1178,7 +1215,6 @@ app.put('/admin/editUser/:id', eAdmin,async (req,res)=>{
       address:address,
       cep:cep,
       cpf:cpf,
-      cep:cep,
       state:state,
       cnpj:cnpj,
       city:city,
