@@ -158,8 +158,8 @@ app.post('/create_signature',async(req,res)=>{
     const data2 = new Date(dataAtual);
     const data30 = new Date(dataAtual);
 
-    data2.setDate(dataAtual.getDate() + 2);
-    data30.setDate(dataAtual.getDate() + 30);
+    data2.setDate(dataAtual.getDate() );
+    data30.setDate(dataAtual.getDate() + 2);
 
     // Formatar as datas para o formato ISO 8601
 const formatoISO = { timeZone: 'UTC' };
