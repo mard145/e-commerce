@@ -12,13 +12,13 @@
 			<div class="modal-body">
   
 		
-		<form action="/update_signature/<%=sig.id%>?_method=PUT" method="post">
+		<form action="/update_signature/<%=sig.id%>?_method=PUT" class="d-flex" method="post">
 			<input name="id" type="hidden" value="<%=sig.id%>">
 			<input id="tamount" name="transaction_amount" type="number" value="<%=sig.auto_recurring.transaction_amount%>">
 			<button type="submit">Capturar valor parcial</button>
 	</form>
 
-	<form action="/cancel_signature/<%=sig.id%>?_method=PUT" method="post">
+	<form action="/cancel_signature/<%=sig.id%>?_method=PUT" class="d-flex" method="post">
 		<input name="id" type="hidden" value="<%=sig.id%>">
 		<input name="transaction_amount" type="number" value="<%=sig.auto_recurring.transaction_amount%>">
 		<button type="submit">Cancelar assinatura</button>
