@@ -29,8 +29,10 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
   }));
+  app.use(logger('dev'));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(cookieParser())
 
 // Configuração do Passport e estratégia JWT
 const jwtOptions = {
@@ -182,7 +184,7 @@ console.log('Data Futura (2 dias depois):', dataFuturaFormatada);
         transaction_amount: transaction_amount,
         currency_id: "BRL"
       },
-      status:'pending',
+      status:'authorized',
       payer_email:email,
       external_reference:cpf,
       /*payment_methods_allowed: {
@@ -655,11 +657,11 @@ app.get('/minha-conta',eAdmin,async(req,res)=>{
       let user = await req.user
       let cli =await customer.get({customerId:user.idmp})
       let payments = await payment.search()
-      let signatures = await preApproval.search()
+      let signatures = await preApproval.search({})
   //  console.log(signatures,'SIGNATURES')
    const sigs = await signatures.results.filter( sig => sig.external_reference == user.cpf);
   console.log(sigs)
-      res.render('cli/cli',{user:user,cli:cli,payments:payments.results, signatures:sigs,msg:false})
+      res.render('cli/cli',{user:user,cli:cli,payments:payments.results, signatures:signatures.results,msg:false})
     }else{
       res.redirect('/')
     }

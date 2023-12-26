@@ -5,7 +5,7 @@ const auth = async (req, res, next) => {
   try{
       const token = req.headers.cookie.split('Authorization=')[1]
 
-      console.log(req.cookies)
+      console.log(req.cookie)
       console.log(token,'111111')
       const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
       console.log(decoded,'22222222222')

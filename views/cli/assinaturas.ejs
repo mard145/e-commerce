@@ -12,13 +12,13 @@
 			<div class="modal-body">
   
 		
-		<form action="/update_signature/<%=sig.id%>?_method=PUT" class="d-flex" method="post">
+		<form action="/update_signature/<%=sig.id%>/?_method=PUT" class="d-flex" method="post">
 			<input name="id" type="hidden" value="<%=sig.id%>">
 			<input id="tamount" name="transaction_amount" type="number" value="<%=sig.auto_recurring.transaction_amount%>">
-			<button type="submit">Capturar valor parcial</button>
+			<button type="submit">Atualizar valor valor</button>
 	</form>
 
-	<form action="/cancel_signature/<%=sig.id%>?_method=PUT" class="d-flex" method="post">
+	<form action="/cancel_signature/<%=sig.id%>/?_method=PUT" class="d-flex" method="post">
 		<input name="id" type="hidden" value="<%=sig.id%>">
 		<button type="submit">Cancelar assinatura</button>
 </form>
@@ -87,8 +87,9 @@
 	</thead>
 
 	<tbody>
-		<%if(signatures){%>
-			<%signatures.forEach(sig=>{%>
+		<%if(signatures && user){%>
+			<% let sigs = signatures.filter( async sig => await sig.external_reference == await user.cpf)%>
+			<%sigs.forEach(sig=>{%>
 
 				<tr class="order woocommerce-orders-table__row woocommerce-orders-table__row--status-cancelled">
 			<td class="subscription-id order-number woocommerce-orders-table__cell woocommerce-orders-table__cell-subscription-id woocommerce-orders-table__cell-order-number" data-title="ID">
