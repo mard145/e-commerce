@@ -154,14 +154,19 @@ app.post('/create_signaturePlan',async(req,res)=>{
 app.post('/create_signature',async(req,res)=>{
   try {
     let user = req.user
-    let { transaction_amount, payer_email, email, cpf, name, address, city, state, country, cep,phone } = await req.body;
+    
+    let { transaction_amount, payer_email, email, cpf, name, address, city, state, country, cep,phone, method} = await req.body;
+    let token = await req.body.token
+    console.log(token)
+    console.log(req.body)
+   console.log(method)
     const dataAtual = new Date();
     // Adicionar 2 dias
     const data2 = new Date(dataAtual);
     const data30 = new Date(dataAtual);
 
     data2.setDate(dataAtual.getDate() );
-    data30.setDate(dataAtual.getDate() + 2);
+    data30.setDate(dataAtual.getDate() + 30);
 
     // Formatar as datas para o formato ISO 8601
 const formatoISO = { timeZone: 'UTC' };
@@ -174,29 +179,26 @@ console.log('Data Futura (2 dias depois):', dataFuturaFormatada);
  const signatureData =   {
       reason: 'IelaBag assinatura',
       //external_reference:external_reference,
-    
+      card_token_id:token,
       auto_recurring: {
-        frequency: 2,
-        frequency_type: 'days',
+        frequency: 1,
+        frequency_type: 'months',
         start_date:data2,
-        end_date: data30,
-      
+        end_date: data30, 
         transaction_amount: transaction_amount,
         currency_id: "BRL"
       },
       status:'authorized',
       payer_email:email,
       external_reference:cpf,
-      /*payment_methods_allowed: {
+      payment_methods_allowed: {
         payment_types: [
           {
-            id:'credit_card'
+            id:method
           }
         ],
-        payment_methods: [
-          {}
-        ]
-      },*/
+      },
+    
       back_url: "https://google.com"
     }
  let signature = await preApproval.create({body:signatureData})
@@ -237,7 +239,7 @@ if(userexist == null || userexist == undefined || !userexist){
  //console.log(signature)
   res.redirect('/quiz')
    } catch (error) {
-    console.log(error)
+    console.log(error, 'create_signature')
    }
 
 
