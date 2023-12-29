@@ -56,7 +56,7 @@ passport.use(
   })
 );
 //const pix = require('qrcode-pix')
-//const multer = require('multer'); // Biblioteca para lidar com uploads de arquivos
+//const multer = require('multer'); // Biblioteca para lidar com uploads de arquivoss
 // const sharp = require('sharp')
 mongoose.connect(process.env.MONGO_ATLAS).then(()=>{
       console.log('mongo connected')
