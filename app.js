@@ -58,7 +58,7 @@ passport.use(
 //const pix = require('qrcode-pix')
 //const multer = require('multer'); // Biblioteca para lidar com uploads de arquivos
 // const sharp = require('sharp')
-mongoose.connect(process.env.MONGO_ATLAS).then(()=>{
+mongoose.connect(process.env.MONGO_URL).then(()=>{
       console.log('mongo connected')
   }).catch(err=>{
       console.log(err)
@@ -386,7 +386,7 @@ app.post('/process_payment', async (req,res)=>{
         state:state
       },
       date_registered: stringTimestamp,
-      description: 'Description del user',
+      description: description,
       
     };
     
@@ -427,7 +427,7 @@ app.post('/process_payment', async (req,res)=>{
     customer.create({ body: clientData }).then((data)=>{
       console.log(data)
       console.log('novo cliente')
-    }).catch(console.log);
+    }).catch(err => console.log(err));
   
     payment
       .create({ body: paymentData })
@@ -658,11 +658,11 @@ app.get('/minha-conta',eAdmin,async(req,res)=>{
     if(req.user.admin == false){
       let user = await req.user
       let cli =await customer.get({customerId:user.idmp})
-      let payments = await payment.search()
+      let payments = await payment.search({})
       let signatures = await preApproval.search({})
   //  console.log(signatures,'SIGNATURES')
    const sigs = await signatures.results.filter( sig => sig.external_reference == user.cpf);
-  console.log(sigs)
+  //console.log(sigs)
       res.render('cli/cli',{user:user,cli:cli,payments:payments.results, signatures:signatures.results,msg:false})
     }else{
       res.redirect('/')

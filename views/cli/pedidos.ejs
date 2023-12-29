@@ -49,17 +49,20 @@
 		</thead>
 
 		<tbody>
-			<%if(payments){%>
-				<%payments.forEach(payment=>{%>
-					<%if(payment.payer.email == user.email){%>
-
+			<%if(payments && user){%>
+				<% let pays = payments.filter( async payment => await payment.email == await user.email)%>
+				<%pays.forEach(payment=>{%>
+					
+				
 							<tr class="woocommerce-orders-table__row woocommerce-orders-table__row--status-cancelled order">
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Pedido">
 															<a href="#">#<%=payment.id%></a>
 											</td>
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Cliente">
-											
-													<a href="#"><%=payment.payer.first_name%> <%=payment.payer.last_name%></a>
+												<% let newObjectName = JSON.stringify(payment.card.cardholder || {})%>
+												<% console.log("newObjectName:", newObjectName) %>
+												<% let parseObjName = JSON.parse(newObjectName)%>
+													<a href="#"><%=parseObjName.name%></a>
 												
 								            </td>
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="CPF">
@@ -127,7 +130,7 @@
 									
 
 							
-<%}%>
+
 
 									<%})%>
 							<%}%>	

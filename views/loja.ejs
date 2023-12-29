@@ -2337,12 +2337,12 @@ console.log(cartData)
 			formData.street_number = await street_number.value;
 			formData.state = await state.value;
 			formData.cpf = await cpf.value;
-			formData.description = await 'IelaBag Loja'
+			formData.description = await 'IelaBag Assinatura'
 			formData.payer.phone = await {
 				area_code:'55',
-				number:phone.value
+				number:await phone.value
 			}
-			formData.items = cartData
+			formData.items = await cartData
 			formData.payer.first_name= await name.value
 			formData.payer.last_name = await lastname.value
 			formData.payer.email = await email.value
