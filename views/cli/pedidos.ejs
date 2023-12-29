@@ -50,7 +50,7 @@
 
 		<tbody>
 			<%if(payments && user){%>
-				<% let pays = payments.filter( async payment => await payment.email == await user.email)%>
+				<% let pays = payments.filter( async payment => await payment.payer.email == await user.email)%>
 				<%pays.forEach(payment=>{%>
 					
 				
