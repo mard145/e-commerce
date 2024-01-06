@@ -80,7 +80,7 @@ let { MercadoPagoConfig, Payment, Customer, MerchantOrder,PreApproval, PreApprov
 
 
 // Step 2: Initialize the client object
-const client = new MercadoPagoConfig({ accessToken: 'TEST-2786362695625116-120401-0596ae3d8c32e13740229eb17d033c5e-1058457871'});
+const client = new MercadoPagoConfig({ accessToken: 'TEST-955688774459853-113016-e003ea81e5ff84daf834efe581d77d68-1058457871'});
 
 
 // Step 3: Initialize the API object
@@ -89,15 +89,15 @@ const customer = new Customer(client)
 const merchantOrder = new MerchantOrder(client)
 const preApproval = new PreApproval(client) 
 const preApprovalPlan = new PreApprovalPlan(client)
-const mercadoPagoPublicKey = 'TEST-130be883-07a6-4f31-8cb7-94b71d5e1f50';
+const mercadoPagoPublicKey = 'TEST-87ad9869-f2f0-46e9-87f4-971001793df2';
 if (!mercadoPagoPublicKey) {
   console.log("Error: public key not defined");
   process.exit(1);
 }
-
-
-// Step 5: Make the request
-//payment.create(body).then(console.log).catch(console.log);
+ 
+/*payment.search().then(e => console.log(e.results.forEach(f=>{
+  console.log(f.card)
+})))*/
 
 const fs = require('fs');
 app.use(cors())
@@ -350,17 +350,28 @@ payment.cancel({
  
 })
 
+/*app.post('/logout',async (req,res)=>{
+  try {
+    let tk = await req.body.tk
+    console.log(tk)
+   let tt = await jwt.verify(tk,process.env.TOKEN_SECRET).payload
+   await tt.destroy()
+    res.redirect('/')
+  } catch (error) {
+    console.log(error)
+  }
+})
+*/
 
 app.post('/process_payment', async (req,res)=>{
 
 
    try {
     let user = req.user
-    const { payer,token,description,transaction_amount,paymentMethodId,installments,issuerId,phone,street_number, cep,address,whatsapp,name,lastname,email,cpf,city,items,state } = await req.body;
-  
+    const { payer,token,description,transaction_amount,paymentMethodId,installments,issuerId,phone,street_number, cep,address,whatsapp,name,lastname,email,cpf,city,items,state, birthday, gender,country,bairro } = await req.body;
     let srt_number = parseInt(street_number)
-    console.log(transaction_amount, payer,token,description,cep,city,address,phone, items[0])
-  
+    console.log(payer,items[0])
+   let passnew = await uuidv4()
     const timestamp = Date.now();
     const stringTimestamp = timestamp.toString();
     //let stringSemEspacosEHifens = cep.replace(/[\s-]/g, "");
@@ -370,10 +381,10 @@ app.post('/process_payment', async (req,res)=>{
       last_name: payer.last_name,
       phone: payer.phone,
       identification: {
-        type: 'CPF',
-        number: cpf
+        type: payer.identification.ype,
+        number: payer.identification.number
       },
-      default_address: 'Home',
+   //   default_address: 'Home',
       address: {
         id: address,
         zip_code: cep,
@@ -387,7 +398,6 @@ app.post('/process_payment', async (req,res)=>{
       },
       date_registered: stringTimestamp,
       description: description,
-      
     };
     
   
@@ -424,9 +434,41 @@ app.post('/process_payment', async (req,res)=>{
     if(data.results.length == 0)
   {
   
-    customer.create({ body: clientData }).then((data)=>{
+    customer.create({ body: clientData }).then(async (data)=>{
       console.log(data)
       console.log('novo cliente')
+      let order = new User({
+        idmp:data.id,
+        name:data.first_name,
+        lastname:data.last_name,
+        bairro:bairro,
+        password:bcrypt.hashSync(passnew, 8),
+        external_reference:data.external_reference,
+        email:data.email,
+        country:country,
+        address:data.address.street_name,
+        payer_id:data.id,
+        billing_address:{
+         city:city,
+         address:data.address.street_name,
+         street_number:srt_number,
+         state:state,
+         country:country,
+         bairro:bairro,
+         cep:cep
+        },
+        city:city,
+        gender:gender,
+        birthday:birthday,
+        cep:cep,
+        state:state,
+        cpfcnpj:data.identification.number,
+        phone:phone,
+        whatsapp:whatsapp,
+        street_number:srt_number
+        })
+       await  order.save()
+       console.log(order, 'USUÁRIO SALVO NO BANCO')
     }).catch(err => console.log(err));
   
     payment
@@ -440,32 +482,7 @@ app.post('/process_payment', async (req,res)=>{
         });*/
        console.log(data,' <- pagamento criado' )
       
-    /*  let order = new Order({
-        payer:payer,
-       order:data.metadata,
-        total:data.transaction_amount, //transactions_amount
-        status:data.status,
-        status_detail:data.status_detail,
-        currency:data.currency_id,
-        description:data.description,
-        authorization_code:data.authorization_code,
-        taxes_amount:data.taxes_amount,
-        shipping_amount:data.shipping_amount,
-        collector_id:data.collector_id,
-        total_refunded:data.transaction_amount_refunded,  //transactions_refunded_amount
-        cupum_amount:data.coupon_amount,
-        installments:data.installments,
-        transaction_details:data.transaction_details,
-        fee_details:data.fee_details,
-        card:data.card,
-        refunds:data.refunds,
-        processing_mode:data.processing_mode,
-        point_of_interaction:data.point_of_interaction,
-        accounts_info:data.accounts_info,
-        captured:data.captured
-  
-      })
-      await order.save()*/
+ 
       res.redirect('/quiz')
       })
       .catch(function (error) {
@@ -956,28 +973,13 @@ console.log(newCustomer)
 app.post('/iela/saveUser', async (req,res)=>{
 
   try {
-    let {name,email,address,cep,city,state,password,bairro,country,phone,lastname,address_id} = await req.body
+    console.log(await req.body)
+    let {name,email,address,cep,city,state,password,bairro,country,phone,lastname} = await req.body
     const userExists = await User.findOne({$or: [{email: email}]})
     if (userExists == null || userExists == undefined || !userExists) {
       let cpf = ''
       let street_number = '0000'
-      let user = new User({
-        name:name,
-        email:email,
-        password:bcrypt.hashSync(password, 8),
-        address:address,
-        cep:cep,
-        city:city,
-        country:country,
-        state:state,
-        bairro:bairro,
-        phone:phone,
-        lastname:lastname,
-        cpf:cpf,
-        address_id:address_id
-      })
-     await user.save()
-     console.log('usuário salvo')
+   
      let srt_number = parseInt(street_number)
   
      const timestamp = Date.now();
@@ -999,7 +1001,7 @@ app.post('/iela/saveUser', async (req,res)=>{
        },
        default_address: 'Home',
        address: {
-         id: address_id,
+         id: address,
          zip_code: stringSemEspacosEHifens,
          street_name: address,
          street_number: srt_number,
@@ -1008,12 +1010,29 @@ app.post('/iela/saveUser', async (req,res)=>{
          }
        },
        date_registered: stringTimestamp,
-       description: 'Description del user',
+       description: 'IelaBag Assinatura',
        default_card: 'None'
      };
      
-     customer.create({ body: body }).then(console.log).catch(console.log);
-  
+   let cust = await customer.create({ body: body })
+   let user = new User({
+    name:name,
+    idmp : cust.id,
+    email:email,
+    password:bcrypt.hashSync(password, 8),
+    address:address,
+    cep:cep,
+    city:city,
+    country:country,
+    state:state,
+    bairro:bairro,
+    phone:phone,
+    lastname:lastname,
+    cpf:cpf,
+    external_reference:cust.external_reference
+  })
+ await user.save()
+ console.log('usuário salvo')
      res.redirect('/quiz')
       try {
           const items = await User.find({})

@@ -3,17 +3,17 @@
 
  <h2>Clientes</h2>
 
-<div class="d-flex justify-content-between flex-wrap">
+<div class="d-flex justify-content-between flex-wrap" style="width: 100%;">
     <%if(users){%>
     <%users.forEach(user=>{%>
-        <div class="card" style="width: 18rem;">
-            <img src="<%=user.photo%>" style="height: 280px;" class="card-img-top img-fluid" alt="...">
-            <div style="padding: 0;" class="card-body">
+        <div class="card" style="width:70%;display: flex;flex-direction: row; justify-content: space-evenly; align-items: center;align-content: center;padding: 10px;">
+            <img src="<%=user.photo ? user.photo : 'images/lo.webp'%>" style="height: 280px;width: 50%;" class="card-img-top img-fluid" alt="...">
+            <div style="padding: 0;width:50%;" class="card-body">
               <h5 class="card-title"><%=user.name%></h5>
               <p class="card-text"><%=user.email%></p>
-            </div>
+            
         
-            <div style="padding: 0;" class="card-body">
+          
               <p class="card-text"><%=user.cpf%></p>
               <p class="card-text"><%=user.address%></p>
               <p class="card-text"><%=user.city%></p>

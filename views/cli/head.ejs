@@ -1152,7 +1152,25 @@ localStorage.setItem(token,'tokenJWT')
 
 
 					<li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--customer-logout tab-btn">
-				<a href="/logout">Sair</a>
+                     
+				<a onclick="logout()">Sair</a>
+         
 			</li>
 			</ul>
 </nav>
+<script>
+  async function logout(){
+    function deleteCookie(name) {
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+// Definir a nova rota
+var newRoute = '/'; // Substitua '/nova-rota' pela rota desejada
+
+// Redirecionar para a nova rota
+window.location.href = 'http://localhost:3000';
+}
+
+// Remover o cookie 'Authorization'
+deleteCookie('Authorization');
+    }
+    
+</script>

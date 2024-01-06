@@ -2262,6 +2262,9 @@ console.log(formData)
 	const cep = document.getElementById('billing_postcode')
 	const bairro = document.getElementById('billing_neighborhood')
 	const city = document.getElementById('billing_city')
+	const country = document.getElementById('billing_country')
+	const gender = document.getElementById('billing_gender')
+	const birthday = document.getElementById('billing_birthdate')
 	const state = document.getElementById('billing_state')
 	const phone = document.getElementById('billing_phone')
 	const whatsapp = document.getElementById('billing_cellphone')
@@ -2346,6 +2349,9 @@ console.log(cartData)
 			formData.payer.first_name= await name.value
 			formData.payer.last_name = await lastname.value
 			formData.payer.email = await email.value
+			formData.country = await country.value
+			formData.gender = await gender.value
+			formData.birthday = await birthday.value
 			//formData.payer.phone.area_code = await '84'
 			//formData.payer.identification.number = await cpf.value
 			//formData.payer.identification.type = await 'CPF'
