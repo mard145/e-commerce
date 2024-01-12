@@ -2907,9 +2907,9 @@ blockquote:after{ content:'\e909';font-family:"mfn-icons";font-size:65px;positio
 	.image_frame .image_wrapper .mask:after{content:"";display:block;position:absolute;left:0;width:100%;height:100%;z-index:3;opacity:0}
 	.image_frame:hover .image_wrapper .mask:after,.image_frame.hover .image_wrapper .mask:after{opacity:1}
 	.image_frame.no_link:hover .image_wrapper .mask:after{opacity:0}
-	.image_frame .image_wrapper .image_links{ display: flex; width:100%;height:60px;position:absolute;left:0;bottom:-60px;z-index:4;overflow:hidden}
+	.image_frame .image_wrapper .image_links{ display: flex; width:100%;height:60px;position:absolute;left:0;bottom:-60px;z-index:4;overflow:hidden; justify-content: space-evenly;}
 	.image_frame:hover .image_wrapper .image_links,.image_frame.hover .image_wrapper .image_links{bottom:0}
-	.image_frame .image_wrapper .image_links a{display:flex;justify-content:center;align-items:center; flex: 1;position: relative;width:100%; border-style: solid; border-color: transparent; }
+	.image_frame .image_wrapper .image_links a{display:flex;justify-content:center;align-items:center;position: relative;width:100%; border-style: solid; border-color: transparent; }
     .image_frame .image_wrapper .image_links a:not(:last-child){border-right-width: 1px;}
     .image_frame .image_wrapper .image_links a svg { width: 32px; }
     .image_frame .image_wrapper .image_links a.loading svg { visibility: hidden; }

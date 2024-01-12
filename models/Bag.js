@@ -1,27 +1,24 @@
 const mongoose = require('mongoose')
 
-const produto = new mongoose.Schema({
+const bag = new mongoose.Schema({
      rank:Number,
      name:String,
      description:String,
      price:Number,
-     category:String,
-     sales:Number,
      photo:String,
-     promotion:Number,
-     size:String,
+     items:{ type: mongoose.Schema.Types.Mixed, ref: 'Product' },
      createdAt: {
         type: Date,
         default: Date.now, // Esta é a data de criação
       },
     });
 
-const ProductModel = mongoose.model('product', produto);
+const BagModel = mongoose.model('bag', bag);
 
 // Consulta para obter documentos ordenados por data de criação
 async function attSortRank(){
     try {
-        const items = await ProductModel.find({})
+        const items = await BagModel.find({})
           .sort({ createdAt: 1 }); // Ordena em ordem crescente por createdAt
       
         // Atribuir valores numéricos com base na ordem
@@ -39,5 +36,5 @@ async function attSortRank(){
 }
 attSortRank()
 
-module.exports = ProductModel
+module.exports = BagModel
 

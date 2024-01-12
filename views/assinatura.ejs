@@ -2090,10 +2090,6 @@ width: 100%;
 	</div>
   </div>
 </div>
-
-
-
-
  
 	
 <script src="https://sdk.mercadopago.com/js/v2"></script>
@@ -2192,11 +2188,11 @@ formData.email = await email.value
 				area_code:'55',
 				number:phone.value
 			}
-			formData.items = cartData
+			formData.items = await cartData
 			formData.payer.first_name= await name.value
 			formData.payer.last_name = await lastname.value
-			formData.token = formData.token
-			formData.method = selectedPaymentMethod
+			formData.token = await formData.token
+			formData.method = await selectedPaymentMethod
 			//formData.payer.phone.area_code = await '84'
 			//formData.payer.identification.number = await cpf.value
 			//formData.payer.identification.type = await 'CPF'

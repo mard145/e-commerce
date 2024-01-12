@@ -16,6 +16,7 @@ const logger = require('morgan');
 const passport = require('passport');
 const methodOverride = require('method-override')
 const User = require('./models/User')
+const Bag = require('./models/Bag')
 const Product = require('./models/Product')
 const Order = require('./models/Order')
 const passportJWT = require('passport-jwt');
@@ -155,8 +156,8 @@ app.post('/create_signature',async(req,res)=>{
   try {
     let user = req.user
     
-    let { transaction_amount, payer_email, email, cpf, name, address, city, state, country, cep,phone, method} = await req.body;
-    let token = await req.body.token
+    let { transaction_amount, payer_email, email, cpf, name, address, city, state, country, cep,phone, method, token} = await req.body;
+   // let token = await req.body.token
     console.log(token)
     console.log(req.body)
    console.log(method)
@@ -166,7 +167,7 @@ app.post('/create_signature',async(req,res)=>{
     const data30 = new Date(dataAtual);
 
     data2.setDate(dataAtual.getDate() );
-    data30.setDate(dataAtual.getDate() + 30);
+    data30.setDate(dataAtual.getDate() + 2);
 
     // Formatar as datas para o formato ISO 8601
 const formatoISO = { timeZone: 'UTC' };
@@ -182,22 +183,22 @@ console.log('Data Futura (2 dias depois):', dataFuturaFormatada);
       card_token_id:token,
       auto_recurring: {
         frequency: 1,
-        frequency_type: 'months',
+        frequency_type: 'days',
         start_date:data2,
         end_date: data30, 
         transaction_amount: transaction_amount,
         currency_id: "BRL"
       },
-      status:'authorized',
+      status:'pending',
       payer_email:email,
-      external_reference:cpf,
+    /*  external_reference:cpf,
       payment_methods_allowed: {
         payment_types: [
           {
             id:method
           }
         ],
-      },
+      },*/
     
       back_url: "https://google.com"
     }
@@ -481,8 +482,6 @@ app.post('/process_payment', async (req,res)=>{
           
         });*/
        console.log(data,' <- pagamento criado' )
-      
- 
       res.redirect('/quiz')
       })
       .catch(function (error) {
@@ -539,10 +538,6 @@ app.post('/process_payment', async (req,res)=>{
     console.log(error)
    }
 
-
- 
-
-
 })
 
 //app.get('/', (req,res)=>{
@@ -553,7 +548,8 @@ app.get('/loja',async (req,res)=>{
   try {
     let user = await req.user
     let products = await Product.find({})
-    res.render('loja',{user:user,publicKey:mercadoPagoPublicKey, products:products}) 
+    let bags = await Bag.find({})
+    res.render('loja',{user:user,publicKey:mercadoPagoPublicKey, products:products,bags:bags}) 
   } catch (error) {
     console.log(error)
   }
@@ -566,10 +562,12 @@ app.get('/admin',eAdmin,async(req,res)=>{
   let user = await req.user
   if(req.user.admin){
     let users = await User.find({})
+    let products = await Product.find({})
+
     let payments = await payment.search()
     let signatures = await preApproval.search()
   
-    res.render('admin/admin',{user:user,users:users,payments:payments.results,signatures:signatures.results, msg:false})
+    res.render('admin/admin',{user:user,users:users,payments:payments.results,signatures:signatures.results, products, msg:false})
   }else{
     res.redirect('/minha-conta')
   }
@@ -605,6 +603,38 @@ app.put('/update-delivery-address/:id',async(req,res)=>{
     }
   } catch (error) {
     console.log(error)
+  }
+
+})
+
+app.post('/registerBag',async (req,res)=>{
+
+  try {
+    let {products, name, price,photo, description} = await req.body // Obter os produtos do corpo da requisição
+
+    // Verifique se 'products' é um array e não está vazio
+    if (!Array.isArray(products) || products.length === 0) {
+      return res.status(400).json({ error: 'Formato de produtos inválido' });
+    }
+console.log(products)
+    // Crie uma nova instância de Bag
+    const newBag = new Bag({ 
+      name:name,
+      price:price,
+      photo:photo,
+      items:products,
+      description:description
+    })
+    // Adicione os produtos à lista de items da nova sacola
+   // newBag.items = products.map(product => product._id); // Supondo que 'products' contenha IDs de produtos válidos
+    // Salve a nova sacola no banco de dados
+    await newBag.save();
+
+    console.log('Nova bag criada:', newBag);
+    res.status(200).json({ message: 'bag criada com sucesso' });
+  } catch (error) {
+    console.error('Erro ao criar a bag:', error);
+    res.status(500).json({ error: 'Erro ao criar a bag' });
   }
 
 })

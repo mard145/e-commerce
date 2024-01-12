@@ -1062,25 +1062,38 @@ width: 100%;
 	<input type="hidden" name="paged" value="1" />
 	</form>
 </div>
-				
+
 <div class="products_wrapper mfn-woo-products isotope_wrapper default-woo-loop lm_wrapper">
 	<ul class="products columns-3 grid d-flex" style="display: flex;">
-        <%if(products){%>
-            <%products.forEach(product=>{%>
-<input type="hidden" name="" id="" value="<%=product._id%>">
+        <%if(bags){%>
+            <%bags.forEach(bag=>{%>
+				<%console.log(bag.items)%>
+<input type="hidden" name="" id="" value="<%=bag._id%>">
 					<li class="isotope-item align-center product type-product post-935 status-publish first instock product_cat-clube-de-assinatura has-post-thumbnail sale shipping-taxable purchasable product-type-subscription" >
 
 	<div class="mfn-li-product-row mfn-li-product-row-image"><div class="image_frame scale-with-grid product-loop-thumb" ontouchstart="this.classList.toggle('hover');">
 	<span class="onsale onsale-label">Promoção</span>
 <div class="image_wrapper ">
 	<div class="mask"></div>
-	<img width="1068" height="1068" src="<%=product.photo%>" class="image-primary scale-with-grid wp-post-image" alt="" decoding="async" fetchpriority="high" srcset="<%=product.photo%> 1068w, <%=product.photo%> 500w, <%=product.photo%> 300w, <%=product.photo%> 800w, <%=product.photo%> 1024w, <%=product.photo%> 150w, <%=product.photo%> 768w, <%=product.photo%> 146w, <%=product.photo%> 50w, <%=product.photo%> 75w, <%=product.photo%> 85w, <%=product.photo%> 80w" sizes="(max-width: 1068px) 100vw, 1068px" />
+	<img width="1068" height="1068" src="<%=bag.photo%>" class="image-primary scale-with-grid wp-post-image" alt="" decoding="async" fetchpriority="high" srcset="<%=bag.photo%> 1068w, <%=bag.photo%> 500w, <%=bag.photo%> 300w, <%=bag.photo%> 800w, <%=bag.photo%> 1024w, <%=bag.photo%> 150w, <%=bag.photo%> 768w, <%=bag.photo%> 146w, <%=bag.photo%> 50w, <%=bag.photo%> 75w, <%=bag.photo%> 85w, <%=bag.photo%> 80w" sizes="(max-width: 1068px) 100vw, 1068px" />
 	<div class="image_links">
-		<a rel="nofollow" href="#" class="" data-id="5" data-name="<%=product.name%>" data-summary="summary 5" data-price="<%=product.price%>" data-quantity="1" data-image="<%=product.photo%>" class="add-to-cart" onclick="addToCart('<%=product.name%>', <%=product.price%>, 1)" class="add-to-cart btn btn-danger my-cart-btn add_to_cart_button ajax_add_to_cart product_type_simple">
 		
+		<a rel="nofollow" style="width: 35%;"  data-id="5" data-name="<%=bag.name%>" data-summary="summary 5" data-price="<%=bag.price%>" data-description="<%=bag.description%>" data-quantity="1" data-image="<%=bag.photo%>" class="add-to-cart" onclick="addToCart('<%=bag.name%>', <%=bag.price%>, 1, '<%=bag.description%>', '<%=bag._id%>')" class="add-to-cart btn btn-danger my-cart-btn add_to_cart_button ajax_add_to_cart product_type_simple">
+
+        
+			<span style="font-weight: 900;font-size: 25px;">+</span><svg viewBox="0 0 26 26"><defs><style>.path{fill:none;stroke:#333;stroke-miterlimit:10;stroke-width:1.5px;}</style></defs><polygon class="path" points="20.4 20.4 5.6 20.4 6.83 10.53 19.17 10.53 20.4 20.4"></polygon><path class="path" d="M9.3,10.53V9.3a3.7,3.7,0,1,1,7.4,0v1.23"></path></svg>
+		  </a>
+
+		   
+		<a rel="nofollow" style="width: 35%;background-color: #f7b8d5;" data-id="5" data-name="<%=bag.name%>" data-summary="summary 5" data-price="<%=bag.price%>" data-size="<%=bag.size%>" data-quantity="1" data-image="<%=bag.photo%>" class="add-to-cart" onclick="decrementQuantity('<%=bag._id%>')" class="add-to-cart btn btn-danger my-cart-btn add_to_cart_button ajax_add_to_cart product_type_simple">
+
 	
-			<svg viewBox="0 0 26 26"><defs><style>.path{fill:none;stroke:#333;stroke-miterlimit:10;stroke-width:1.5px;}</style></defs><polygon class="path" points="20.4 20.4 5.6 20.4 6.83 10.53 19.17 10.53 20.4 20.4"></polygon><path class="path" d="M9.3,10.53V9.3a3.7,3.7,0,1,1,7.4,0v1.23"></path></svg></a><a class="link" href="http://localhost:10018/produto/clube-iela-bag/"><svg viewBox="0 0 26 26"><defs><style>.path{fill:none;stroke:#333;stroke-miterlimit:10;stroke-width:1.5px;}</style></defs><g><path d="M10.17,8.76l2.12-2.12a5,5,0,0,1,7.07,0h0a5,5,0,0,1,0,7.07l-2.12,2.12" class="path"/><path d="M15.83,17.24l-2.12,2.12a5,5,0,0,1-7.07,0h0a5,5,0,0,1,0-7.07l2.12-2.12" class="path"/><line x1="10.17" y1="15.83" x2="15.83" y2="10.17" class="path"/></g></svg>
-			</a>
+		  <span style="font-weight: 900;font-size: 25px;">-</span><svg viewBox="0 0 26 26"><defs><style>.path{fill:none;stroke:#333;stroke-miterlimit:10;stroke-width:1.5px;}</style></defs><polygon class="path" points="20.4 20.4 5.6 20.4 6.83 10.53 19.17 10.53 20.4 20.4"></polygon><path class="path" d="M9.3,10.53V9.3a3.7,3.7,0,1,1,7.4,0v1.23"></path></svg>
+		</a>
+		<%bag.items.forEach(product=>{%>
+<!--  -->
+		<%})%>
+			
 		</div>
 	</div>
 			
@@ -1090,9 +1103,9 @@ width: 100%;
 	</div>
 	<div class="desc">
 
-		<h4><a href="#"><%=product.name%></a></h4>
-		
-	<span class="price"><del aria-hidden="true"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#82;&#36;</span>&nbsp;<%=product.price%></bdi></span></del> <ins><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#82;&#36;</span>&nbsp;<%=product.price%></bdi></span></ins> <span class="subscription-details"> por 1 mês</span></span>
+		<h4><a href="#"><%=bag.name%></a> </h4>
+		<h3><%=bag.description%></h3>
+	<span class="price"><del aria-hidden="true"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#82;&#36;</span>&nbsp;<%=bag.price%></bdi></span></del> <ins><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#82;&#36;</span>&nbsp;<%=bag.price%></bdi></span></ins> <span class="subscription-details"> por 1 mês</span></span>
 <div class="mfn-li-product-row mfn-li-product-row-button hide-button"></div>
 	</div>
 
@@ -1101,8 +1114,7 @@ width: 100%;
 				<%}%>					
 				
 	</ul>
-</div>
-				
+</div>			
 				</div></div>
 
 				<%if(user){%>
@@ -1737,7 +1749,7 @@ width: 100%;
 															</span>
 														</p>
 													</div>
-		
+		carc
 		
 													</div>
 		
@@ -2280,22 +2292,15 @@ console.log(formData)
           /*
             "amount" é a quantia total a pagar por todos os meios de pagamento com exceção da Conta Mercado Pago e Parcelas sem cartão de crédito, que têm seus valores de processamento determinados no backend através do "preferenceId"
           */
-          amount: 10000,
-          preferenceId: "123",
-          payer: {
-            firstName: "",
-            lastName: "",
-            email: "",
-			phone:{
-				area_code:"55",
-				number:""
-			}
-          },
+         preferenceId: "123",
+         amount:100
 		 
 		},
 		
         customization: {
           visual: {
+			hideStatusDetails: true,
+            hideTransactionDate: true,
             style: {
               theme: "bootstrap",
 			  customVariables:{
@@ -2305,16 +2310,17 @@ console.log(formData)
           },
           paymentMethods: {
             creditCard: "all",
-										atm: "all",
-            maxInstallments: 1
+			//atm: "all",
+          //  maxInstallments: 1
           },
         },
         callbacks: {
           onReady: () => {
-            /*
-             Callback chamado quando o Brick está pronto.
-             Aqui, você pode ocultar seu site, por exemplo.
-            */
+          console.log('bricks inicializado')
+          },
+		  onError: (error) => {
+            // callback chamado para todos os casos de erro do Brick
+            console.log(error);
           },
           onSubmit:async ({ selectedPaymentMethod, formData}) => {
             try {
@@ -2345,7 +2351,7 @@ console.log(cartData)
 				area_code:'55',
 				number:await phone.value
 			}
-			formData.items = await cartData
+			formData.items = await cart
 			formData.payer.first_name= await name.value
 			formData.payer.last_name = await lastname.value
 			formData.payer.email = await email.value
@@ -2382,10 +2388,7 @@ console.log(formData.payer)
 				console.log(error)
 			}
           },
-          onError: (error) => {
-            // callback chamado para todos os casos de erro do Brick
-            console.error(error);
-          },
+         
         },
       };
       window.paymentBrickController = await bricksBuilder.create(
@@ -2397,6 +2400,8 @@ console.log(formData.payer)
     renderPaymentBrick(bricksBuilder);
 
   </script>
+
+  
   <script type="text/javascript">
 	(function () {
 		var c = document.body.className;
@@ -2494,7 +2499,7 @@ var mfn = {"mobileInit":"1240","parallax":"stellar","responsive":"1","sidebarSti
 <script src="js/jquery-2.2.3.min.js"></script>
 
 <script type="text/javascript">
-let cart = [];
+ cart = [];
 cartData = []
 itemCount = 0
 function addToCart(productName, price, quantity) {
@@ -2510,7 +2515,7 @@ function addToCart(productName, price, quantity) {
   const item = {
     name: productName,
     price: priceFloat,
-    quantity: quantity
+    quantity: quantity,
   };
 
   // Verifica se o item já está no carrinho
@@ -2522,13 +2527,14 @@ function addToCart(productName, price, quantity) {
   } else {
     // Se o item não está no carrinho, adiciona-o
     cart.push(item);
+	
 	cartData.push(cart)
   }
 
 
   updateCart();
   updateTotal();
- 
+  console.log(cart,'cart')
   console.log(cartData); 
   
 
@@ -2564,6 +2570,17 @@ function updateTotal() {
 
   // Atualiza o total
   totalElement.textContent = `Total: R$ ${total.toFixed(2)}`;
+}
+
+function decrementQuantity(itemId) {
+  const itemIndex = cart.findIndex((item) => item.id === itemId);
+
+  if (itemIndex !== -1 && cart[itemIndex].quantity > 0) {
+    cart[itemIndex].quantity--;
+    updateCart();
+    updateTotal();
+    console.log(cart)
+  }
 }
 
 let msgcep = document.getElementById('mensagemcep')
