@@ -1,0 +1,53 @@
+<div class="products_wrapper mfn-woo-products isotope_wrapper default-woo-loop lm_wrapper">
+	<ul class="products columns-3 grid d-flex" style="display: flex;">
+        <%if(bags){%>
+            <%bags.forEach(bag=>{%>
+				<%console.log(bag.items)%>
+<input type="hidden" name="" id="" value="<%=bag._id%>">
+					<li class="isotope-item align-center product type-product post-935 status-publish first instock product_cat-clube-de-assinatura has-post-thumbnail sale shipping-taxable purchasable product-type-subscription" >
+
+	<div class="mfn-li-product-row mfn-li-product-row-image"><div class="image_frame scale-with-grid product-loop-thumb" ontouchstart="this.classList.toggle('hover');">
+	<span class="onsale onsale-label">Promoção</span>
+<div class="image_wrapper ">
+	<div class="mask"></div>
+	<img width="1068" height="1068" src="<%=bag.photo%>" class="image-primary scale-with-grid wp-post-image" alt="" decoding="async" fetchpriority="high" srcset="<%=bag.photo%> 1068w, <%=bag.photo%> 500w, <%=bag.photo%> 300w, <%=bag.photo%> 800w, <%=bag.photo%> 1024w, <%=bag.photo%> 150w, <%=bag.photo%> 768w, <%=bag.photo%> 146w, <%=bag.photo%> 50w, <%=bag.photo%> 75w, <%=bag.photo%> 85w, <%=bag.photo%> 80w" sizes="(max-width: 1068px) 100vw, 1068px" />
+	<div class="image_links">
+		<!--   CRIAR UMA FORMA DE RENDERIZAR CADA PRODUTO NA BAG PRA EDITAR PEGANDO PELO ID E ASSIM ATUALIZANDO TBM NO BANCO DE DADOS ONDE ESTÁ O PRODUTO  -->
+		<a rel="nofollow" style="width: 35%;"  data-id="5" data-name="<%=bag.name%>" data-summary="summary 5" data-price="<%=bag.price%>" data-description="<%=bag.description%>" data-quantity="1" data-image="<%=bag.photo%>" class="add-to-cart" onclick="addToCart('<%=bag.name%>', <%=bag.price%>, 1, '<%=bag.description%>', '<%=bag._id%>')" class="add-to-cart btn btn-danger my-cart-btn add_to_cart_button ajax_add_to_cart product_type_simple">
+
+        
+			<span style="font-weight: 900;font-size: 25px;">+</span><svg viewBox="0 0 26 26"><defs><style>.path{fill:none;stroke:#333;stroke-miterlimit:10;stroke-width:1.5px;}</style></defs><polygon class="path" points="20.4 20.4 5.6 20.4 6.83 10.53 19.17 10.53 20.4 20.4"></polygon><path class="path" d="M9.3,10.53V9.3a3.7,3.7,0,1,1,7.4,0v1.23"></path></svg>
+		  </a>
+
+		   
+		<a rel="nofollow" style="width: 35%;background-color: #f7b8d5;" data-id="5" data-name="<%=bag.name%>" data-summary="summary 5" data-price="<%=bag.price%>"  data-quantity="1" data-image="<%=bag.photo%>" class="add-to-cart" onclick="decrementQuantity('<%=bag._id%>')" class="add-to-cart btn btn-danger my-cart-btn add_to_cart_button ajax_add_to_cart product_type_simple">
+
+	
+		  <span style="font-weight: 900;font-size: 25px;">-</span><svg viewBox="0 0 26 26"><defs><style>.path{fill:none;stroke:#333;stroke-miterlimit:10;stroke-width:1.5px;}</style></defs><polygon class="path" points="20.4 20.4 5.6 20.4 6.83 10.53 19.17 10.53 20.4 20.4"></polygon><path class="path" d="M9.3,10.53V9.3a3.7,3.7,0,1,1,7.4,0v1.23"></path></svg>
+		</a>
+		<%bag.items.forEach(product=>{%>
+
+<!--  -->
+		<%})%>
+			
+		</div>
+	</div>
+			
+				<span class="product-loading-icon added-cart"></span>
+			
+		</div>
+	</div>
+	<div class="desc">
+
+		<h4><a href="#"><%=bag.name%></a> </h4>
+		<h3><%=bag.description%></h3>
+	<span class="price"><del aria-hidden="true"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#82;&#36;</span>&nbsp;<%=bag.price%></bdi></span></del> <ins><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#82;&#36;</span>&nbsp;<%=bag.price%></bdi></span></ins> <span class="subscription-details"> por 1 mês</span></span>
+<div class="mfn-li-product-row mfn-li-product-row-button hide-button"></div>
+	</div>
+
+</li>
+<%})%>
+				<%}%>					
+				
+	</ul>
+</div>		

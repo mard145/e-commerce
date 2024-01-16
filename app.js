@@ -277,9 +277,7 @@ app.put('/update_signature/:id',async(req,res)=>{
       body:{
         auto_recurring:{
         transaction_amount: parseInt(transaction_amount),
-     
         },
-        
       },
       requestOptions: {
       idempotencyKey:  uuidv4()
@@ -429,7 +427,8 @@ app.post('/process_payment', async (req,res)=>{
       },
       capture:false
     };
-    
+    //  COLOCAR O PEDIDO DENTRO DO ARRAY order E SALVAR NO MODEL ORDER.JS EM CADA CASO ONDE USO O MÉTODO paymente.create SERÁ NECESSÁRIO ATUALIZAR O USUÁRIO COM O PEDIDO OU CRIAR UM NOVO 
+    // USUÁRIO  COM NOVO PEDIDO GERADO 
     customer.search({options:{email:payer.email}}).then((data)=>{
       console.log(data,data.results.length)
     if(data.results.length == 0)
@@ -438,7 +437,7 @@ app.post('/process_payment', async (req,res)=>{
     customer.create({ body: clientData }).then(async (data)=>{
       console.log(data)
       console.log('novo cliente')
-      let order = new User({
+      let newUser1 = new User({
         idmp:data.id,
         name:data.first_name,
         lastname:data.last_name,
@@ -459,6 +458,7 @@ app.post('/process_payment', async (req,res)=>{
          cep:cep
         },
         city:city,
+      
         gender:gender,
         birthday:birthday,
         cep:cep,
@@ -468,8 +468,8 @@ app.post('/process_payment', async (req,res)=>{
         whatsapp:whatsapp,
         street_number:srt_number
         })
-       await  order.save()
-       console.log(order, 'USUÁRIO SALVO NO BANCO')
+       await  newUser1.save()
+       console.log(newUser1, 'USUÁRIO SALVO NO BANCO')
     }).catch(err => console.log(err));
   
     payment
@@ -481,6 +481,10 @@ app.post('/process_payment', async (req,res)=>{
           id: data.id,
           
         });*/
+        let order1 = new Order({
+          order:data
+        })
+       await order1.save()
        console.log(data,' <- pagamento criado' )
       res.redirect('/quiz')
       })
@@ -523,6 +527,10 @@ app.post('/process_payment', async (req,res)=>{
 
   })
   await order.save()*/
+  let order = new Order({
+    order:data
+  })
+ await order.save()
   res.redirect('/quiz')
   })
   .catch(function (error) {
@@ -635,6 +643,29 @@ console.log(products)
   } catch (error) {
     console.error('Erro ao criar a bag:', error);
     res.status(500).json({ error: 'Erro ao criar a bag' });
+  }
+
+})
+
+app.put('/editBag/:id',async (req,res)=>{
+
+
+  try {
+    let id = await req.params.id
+    if(!id){
+      id = await  req.body.id
+    }
+    let {price, description, photo, items,name} = await req.body
+    let bag = await Bag.findByIdAndUpdate({_id:id},{
+     price:price,
+     descriptiom:description,
+     photo:photo,
+     items:items,
+     name:name
+    },{new:true})
+  res.redirect('/admin')
+  } catch (error) {
+    console.log(error)
   }
 
 })

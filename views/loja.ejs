@@ -1062,7 +1062,7 @@ width: 100%;
 	<input type="hidden" name="paged" value="1" />
 	</form>
 </div>
-
+''
 <div class="products_wrapper mfn-woo-products isotope_wrapper default-woo-loop lm_wrapper">
 	<ul class="products columns-3 grid d-flex" style="display: flex;">
         <%if(bags){%>
@@ -1749,7 +1749,6 @@ width: 100%;
 															</span>
 														</p>
 													</div>
-		carc
 		
 													</div>
 		
@@ -2293,7 +2292,8 @@ console.log(formData)
             "amount" é a quantia total a pagar por todos os meios de pagamento com exceção da Conta Mercado Pago e Parcelas sem cartão de crédito, que têm seus valores de processamento determinados no backend através do "preferenceId"
           */
          preferenceId: "123",
-         amount:100
+         amount:100,
+		
 		 
 		},
 		
@@ -2311,7 +2311,7 @@ console.log(formData)
           paymentMethods: {
             creditCard: "all",
 			//atm: "all",
-          //  maxInstallments: 1
+            maxInstallments: 1
           },
         },
         callbacks: {
@@ -2499,10 +2499,12 @@ var mfn = {"mobileInit":"1240","parallax":"stellar","responsive":"1","sidebarSti
 <script src="js/jquery-2.2.3.min.js"></script>
 
 <script type="text/javascript">
- cart = [];
-cartData = []
+ const cart = [];
+ const cartData = []
+ const itemList = []
+
 itemCount = 0
-function addToCart(productName, price, quantity) {
+function addToCart(productName, price, quantity, description, id) {
   // Converte o preço para ponto flutuante
   const priceFloat = parseFloat(price);
 
@@ -2516,6 +2518,8 @@ function addToCart(productName, price, quantity) {
     name: productName,
     price: priceFloat,
     quantity: quantity,
+	description:description,
+	id:id
   };
 
   // Verifica se o item já está no carrinho
@@ -2531,7 +2535,7 @@ function addToCart(productName, price, quantity) {
 	cartData.push(cart)
   }
 
-
+  itemCount++;
   updateCart();
   updateTotal();
   console.log(cart,'cart')
@@ -2545,6 +2549,7 @@ function addToCart(productName, price, quantity) {
 
 function updateCart() {
   const cartList = document.getElementById('cart-items');
+  const cartCount = document.getElementById('cartCount');
 
   // Limpa a lista do carrinho
   cartList.innerHTML = '';
@@ -2552,12 +2557,19 @@ function updateCart() {
   // Adiciona itens ao carrinho
   cart.forEach(item => {
     const listItem = document.createElement('li');
-    listItem.textContent = `${item.name} - R$ ${item.price.toFixed(2)} x ${item.quantity}`;
+	listItem.style.listStyle = 'none';
+
+    listItem.textContent = `${item.name} - R$ ${item.price.toFixed(2)} x ${item.quantity} ${item.description}`;
 	console.log(listItem)
     cartList.appendChild(listItem);
+	let lt = cartList.textContent.replace(/$/, ' ')
+            itemList.push(lt)
+            console.log(lt)
+            if(item.quantity == 0){
+              listItem.textContent = ''
+            }
   });
-  const cartCount = document.getElementById('cartCount');
-itemCount++;
+
 cartCount.innerText = itemCount;
 
 }
@@ -2577,6 +2589,8 @@ function decrementQuantity(itemId) {
 
   if (itemIndex !== -1 && cart[itemIndex].quantity > 0) {
     cart[itemIndex].quantity--;
+	itemCount--
+
     updateCart();
     updateTotal();
     console.log(cart)

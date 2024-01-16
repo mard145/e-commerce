@@ -33,7 +33,7 @@ const user = new mongoose.Schema({
      phone:String,
      whatsapp:String,
      street_number:Number,
-     orders:[{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
+     orders:[{ type: mongoose.Schema.Types.Mixed, ref: 'Order' }],
      createdAt: {
         type: Date,
         default: Date.now, // Esta é a data de criação
