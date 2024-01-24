@@ -1,27 +1,78 @@
 <div class="woocommerce-MyAccount-content tab-content" id="tab3">
 	<div class="woocommerce-notices-wrapper"></div>
-	<%if(payments){%>
-		<%payments.forEach(payment=>{%>
-	<div class="modal fade" id="llll<%=payment.id%>Edited" tabindex="-1" aria-labelledby="llll<%=payment.id%>edit" aria-hidden="true">
+	<%if(user){%>
+		<%user.orders.forEach(payment=>{%>
+
+	
+	<div class="modal fade" id="llll<%=payment.order.id%>Edited" tabindex="-1" aria-labelledby="llll<%=payment.order.id%>edit" aria-hidden="true">
 		<div class="modal-dialog">
 		  <div class="modal-content">
 			<div class="modal-header">
-			  <h1 class="modal-title fs-5" id="llll<%=payment.id%>edit">Capturar pagamento</h1>
+			  <h1 class="modal-title fs-5" id="llll<%=payment.order.id%>edit">Capturar pagamento</h1>
 			  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
   
-		
-		<form action="/capture_payment/<%=payment.id%>" method="post">
-			<input name="id" type="hidden" value="<%=payment.id%>">
-			<input name="transaction_amount" type="number" value="<%=payment.transaction_amount%>">
+		<!--    TENTAR PEGAR PELO CHILDREN DO FORMA E USAR NO JAVASCRIPT LA EMBAIXO NA TAG SCRIPT PEGANDO PELO ELEMENT OU PELO THIS  -->
+		<form action="/capture_payment/<%=payment.order.id%>" method="post">
+			<span style="background-color: pink;border-radius: 50%;position:absolute;color: white ;padding:5px;width:15px;height:15px;display:flex;align-items: center;align-content: center;justify-content: center;" id="cartCount<%=payment.order.id%>">0</span>
+
+			<div class="cart<%=payment.order.id%>">
+				<h2>Seu pedido</h2>
+				<ul id="cart-items<%=payment.order.id%>">
+				  <!-- Itens do carrinho serão adicionados aqui dinamicamente -->
+				</ul>
+				<p id="total<%=payment.order.id%>">Total: R$ <%=payment.order.transaction_amount%></p>
+			  </div>
+
+			<%if(payment.items && payment.items.length != 0){%>
+
+				
+
+				<%payment.items.forEach(bag=>{%>
+
+					<div class="image_links" style="display: flex;">
+						<img width="50" height="50" src="<%=bag.photo%>" class="image-primary scale-with-grid wp-post-image" alt="" decoding="async" fetchpriority="high" srcset="<%=bag.photo%> 1068w, <%=bag.photo%> 500w, <%=bag.photo%> 300w, <%=bag.photo%> 800w, <%=bag.photo%> 1024w, <%=bag.photo%> 150w, <%=bag.photo%> 768w, <%=bag.photo%> 146w, <%=bag.photo%> 50w, <%=bag.photo%> 75w, <%=bag.photo%> 85w, <%=bag.photo%> 80w" sizes="(max-width: 1068px) 100vw, 1068px" />
+						<% 
+						const statusy = bag.photo || bag.photo != '' || bag.photo == undefined ? bag.photo : 'https://cdn.awsli.com.br/300x300/2536/2536143/produto/206840930/produto-sem-foto-itptos.jpg';
+						%>
+						
+						<a rel="nofollow" style="color: #f7b8d5;margin-right: 10px;"  data-id="5" data-name="<%=bag.name%>" data-summary="summary 5" data-price="<%=bag.price%>" data-description="<%=bag.description%>" data-quantity="1" data-image="" onclick="addToCart('<%=bag.name%>', <%=bag.price%>, 1, '<%=bag.id%>','<%=statusy%>')" class="add-to-cart">
+				
+						
+							<span style="font-weight: 900;font-size: 25px;">+</span>
+						  </a>
+				
+						   
+						<a rel="nofollow" style="color: #f7b8d5;margin-left: 10px;" data-id="5" data-name="<%=bag.name%>" data-summary="summary 5" data-price="<%=bag.price%>" data-size="<%=bag.size%>" data-quantity="1" data-image="<%=bag.photo%>" class="add-to-cart" onclick="decrementQuantity('<%=bag.id%>')">
+				
+					
+						  <span style="font-weight: 900;font-size: 25px;">-</span>
+						</a>
+						
+							
+						</div>
+					<%})%>
+	
+					<%}%>
+
+					<input name="_id" type="hidden" value="<%=payment._id%>">
+					<input name="userid" type="hidden" value="<%=user._id%>">
+
+			<input name="id" type="hidden" value="<%=payment.order.id%>">
+			<input name="transaction_amount" type="number" value="<%=payment.order.transaction_amount%>">
+
 			<button>Pagar valor inteiro</button>
 	</form>
 
-	<form action="/cancel_payment/<%=payment.id%>" method="post">
-		<input name="id" type="hidden" value="<%=payment.id%>">
-		<input name="transaction_amount" type="number" value="<%=payment.transaction_amount%>">
-		<button>Pagar valor parcial</button>
+	<form action="/cancel_payment/<%=payment.order.id%>" method="post">
+
+		<input name="_id" type="hidden" value="<%=payment._id%>">
+		<input name="userid" type="hidden" value="<%=user._id%>">
+		<input name="id" type="hidden" value="<%=payment.order.id%>">
+		<input name="transaction_amount" type="number" value="<%=payment.order.transaction_amount%>">
+
+		<button>Cancelar pagamento</button> pagamento
 </form>
 	  
 	</div>
@@ -31,6 +82,10 @@
 </div>
 <%})%>
 <%}%>	
+
+<%if(msg){%>
+<h4><%msg.message%></h4>
+	<%}%>
 	<table class="woocommerce-orders-table woocommerce-MyAccount-orders shop_table shop_table_responsive my_account_orders account-orders-table col-12">
 		<thead>
 			<tr>
@@ -39,8 +94,6 @@
 									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-number"><span class="nobr">CPF</span></th>
 									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-number"><span class="nobr">Contato</span></th>
 									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-number"><span class="nobr">E-mail</span></th>
-								
-
 									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-date"><span class="nobr">Data</span></th>
 									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-status"><span class="nobr">Status</span></th>
 									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-total"><span class="nobr">Total</span></th>
@@ -49,83 +102,104 @@
 		</thead>
 
 		<tbody>
-			<%if(payments && user){%>
+			<%if(user){%>
 
-				<%payments.forEach(payment=>{%>
+				<%user.orders.forEach(payment=>{%>
 
-					<%if( payment.payer.email == 'test_user_80507629@testuser.com' ){%>
-
-					
+		
 							<tr class="woocommerce-orders-table__row woocommerce-orders-table__row--status-cancelled order">
-											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Pedido">
-															<a href="#">#<%=payment.id%></a>
+											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Pedido">		
+												<%if(payment.order.id && payment.order.id != undefined){%>
+															<a href="#">#<%=payment.order.id%></a>
+															<%}else{%>
+																ID de pagamento não encontrado
+																<%}%>
 											</td>
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Cliente">
-												<% let newObjectName = JSON.stringify(payment.card.cardholder || {})%>
-												<% let parseObjName = JSON.parse(newObjectName)%>
-													<a href="#"><%=parseObjName.name%></a>
-												
+										<%if(payment.order.card && payment.order.card.cardholder){%>
+													<a href="#"><%=payment.order.card.cardholder.name%></a>
+												<%}else{%>
+													<a href="#">Nome não encontrado</a>
+													<%}%>
 								            </td>
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="CPF">
-												<a href="#"><%=payment.payer.identification.number%></a>
+												<%if(payment.order.payer && payment.order.payer.identification){%>
+												<a href="#"><%=payment.order.payer.identification.number%></a>
+												<%}else{%>
+													<a href="#">CPF ou CNPJ não encontrado</a>
+													<%}%>%>
 								            </td>
+
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Contato">
-												<a href="#">+55<%=payment.payer.phone.area_code%> <%=payment.payer.phone.number%></a>
+												<%if(payment.order.payer && payment.order.payer.phone){%>
+												<a href="#">+55<%=payment.order.payer.phone.area_code%> <%=payment.order.payer.phone.number%></a>
+												<%}else{%>
+													<a href="#">Contato não encontrado</a>
+													<%}%>%>
 								            </td>
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="E-mail">
-												<a href="#"><%=payment.payer.email%></a>
+												<%if(payment.order.payer && payment.order.payer.email){%>
+
+												<a href="#"><%=payment.order.payer.email%></a>
+												<%}else{%>
+													<a href="#">E-mail não encontrado</a>
+													<%}%>%>
 								            </td>
 										
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-date" data-title="Data">
-															<time datetime="<%=payment.date_created%>"><%=payment.date_created%></time>
+												<%if(payment.order.date_created){%>
+															<time datetime="<%=payment.order.date_created%>"><%=payment.order.date_created%></time>
+															<%}else{%>
+																Data não encontrada ou não registrada
+																<%}%>
 													</td>
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-status" data-title="Status">
-												<%if(payment.status_detail == 'pending_capture'){%>
-													<%=payment.status%>: Captura pendente
-													<%}else if(payment.status_detail == 'accredited'){%>
-														<%=payment.status%>: Aprovado
-														<%}else if(payment.status_detail == 'cc_rejected_other_reason'){%>
-															<%=payment.status%>: Pagamento rejeitado por alguma razão
-															<%}else if(payment.status_detail == 'pending_waiting_transfer'){%>
-																<%=payment.status%>: Pendente aguardando transferência
-																<%}else if(payment.status_detail == 'pending_contingency'){%>
-																	<%=payment.status%>: O pagamento está sendo processado
-																	<%}else if(payment.status_detail == 'pending_review_manual'){%>
-																		<%=payment.status%>: O pagamento está em análise
-																		<%}else if(payment.status_detail == 'cc_rejected_bad_filled_date'){%>
-																			<%=payment.status%>: Data de válidade incorreta
-																			<%}else if(payment.status_detail == 'cc_rejected_bad_filled_other'){%>
-																				<%=payment.status%>: Detalhes incorretos do cartão
-																				<%}else if(payment.status_detail == 'cc_rejected_bad_filled_security_code'){%>
-																					<%=payment.status%>: CVV incorreto
-																					<%}else if(payment.status_detail == 'cc_rejected_blacklist'){%>
-																						<%=payment.status%>: O cartão está em uma lista negra(roubo/reclamações/fraude) 
-																						<%}else if(payment.status_detail == 'cc_rejected_call_for_authorize'){%>
-																							<%=payment.status%>: O meio de pagamento requer autorização prévia do valor da operação
-																							<%}else if(payment.status_detail = 'cc_rejected_card_disabled'){%>
-																								<%=payment.status%>: O cartão está inativo
-																								<%}else if(payment.status_detail == 'cc_rejected_duplicated_payment'){%>
-																									<%=payment.status%>: Transação duplicada
-																									<%}else if(payment.status_detail == 'cc_rejected_high_risk'){%>
-																										<%=payment.status%>: Rechaçado por prevenção de fraude
-																										<%}else if(payment.status_detail == 'cc_rejected_insufficient_amount'){%>
-																											<%=payment.status%>: Saldo insuficiente
-																											<%}else if(payment.status_detail == 'cc_rejected_invalid_installments'){%>
-																												<%=payment.status%>: Número de parcelas inválido
-																												<%}else if(payment.status_detail == 'cc_rejected_max_attempts'){%>
-																													<%=payment.status%>: Número máximo de tentativas excedido
-																													<%}else if(payment.status_detail == 'cc_rejected_other_reason'){%>
-																														<%=payment.status%>: Erro genérico
-																														<%}else{%>
+												
+
+												<%if(payment.order.status_detail == 'pending_capture' && payment.order.status != undefined){%>
+													<%=payment.order.status%>: Captura pendente
+													<%}else if(payment.order.status_detail == 'accredited' && payment.order.status != undefined){%>
+														<%=payment.order.status%>: Aprovado
+														<%}else if(payment.order.status_detail == 'cc_rejected_other_reason' && payment.order.status != undefined){%>
+															<%=payment.order.status%>: Pagamento rejeitado por alguma razão
+															<%}else if(payment.order.status_detail == 'pending_waiting_transfer' && payment.order.status != undefined){%>
+																<%=payment.order.status%>: Pendente aguardando transferência
+																<%}else if(payment.order.status_detail == 'pending_contingency' && payment.order.status != undefined){%>
+																	<%=payment.order.status%>: O pagamento está sendo processado
+																	<%}else if(payment.status_detail == 'pending_review_manual' && payment.order.status != undefined){%>
+																		<%=payment.order.status%>: O pagamento está em análise
+																		<%}else if(payment.order.status_detail == 'cc_rejected_bad_filled_date' && payment.order.status != undefined){%>
+																			<%=payment.order.status%>: Data de válidade incorreta
+																			<%}else if(payment.status_detail == 'cc_rejected_bad_filled_other' && payment.order.status != undefined){%>
+																				<%=payment.order.status%>: Detalhes incorretos do cartão
+																				<%}else if(payment.order.status_detail == 'cc_rejected_bad_filled_security_code' && payment.order.status != undefined){%>
+																					<%=payment.order.status%>: CVV incorreto
+																					<%}else if(payment.order.status_detail == 'cc_rejected_blacklist' && payment.order.status != undefined){%>
+																						<%=payment.order.status%>: O cartão está em uma lista negra(roubo/reclamações/fraude) 
+																						<%}else if(payment.order.status_detail == 'cc_rejected_call_for_authorize' && payment.order.status != undefined){%>
+																							<%=payment.order.status%>: O meio de pagamento requer autorização prévia do valor da operação
+																							<%}else if(payment.order.status_detail = 'cc_rejected_card_disabled' && payment.order.status != undefined){%>
+																								<%=payment.order.status%>: O cartão está inativo
+																								<%}else if(payment.order.status_detail == 'cc_rejected_duplicated_payment' && payment.order.status != undefined){%>
+																									<%=payment.order.status%>: Transação duplicada
+																									<%}else if(payment.order.status_detail == 'cc_rejected_high_risk' && payment.order.status != undefined){%>
+																										<%=payment.order.status%>: Rechaçado por prevenção de fraude
+order																										<%}else if(payment.order.status_detail == 'cc_rejected_insufficient_amount' && payment.order.status != undefined){%>
+																											<%=payment.order.status%>: Saldo insuficiente
+																											<%}else if(payment.order.status_detail == 'cc_rejected_invalid_installments' && payment.order.status != undefined){%>
+																												<%=payment.order.status%>: Número de parcelas inválido
+																												<%}else if(payment.order.status_detail == 'cc_rejected_max_attempts' && payment.order.status != undefined){%>
+																													<%=payment.order.status%>: Número máximo de tentativas excedido
+																													<%}else{%>
 																															<%console.log('log')%>
 																														<%}%>
 															
 													</td>
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-total" data-title="Total">
-															<span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"><%=payment.currency_id%></span>&nbsp;<%=payment.transaction_amount%></span>
+															<span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"><%=payment.order.currency_id%></span>&nbsp;<%=payment.order.transaction_amount%></span>
 													</td>
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-actions" data-title="Ações">
-															<button type="button" data-bs-toggle="modal" data-bs-target="#llll<%=payment.id%>Edited" class="woocommerce-button button view">Visualizar</button>												
+															<button type="button" data-bs-toggle="modal" data-bs-target="#llll<%=payment.order.id%>Edited" class="woocommerce-button button view">Visualizar</button>												
 															</td>
 									</tr>
 									
@@ -133,7 +207,7 @@
 							
 
 
-									<%}%>
+								
 									<%})%>
 							<%}%>	
 						</tbody>
@@ -143,3 +217,120 @@
 	
 
 </div>
+<script type="text/javascript">
+	const cart = [];
+   const cartData = []
+   const itemList = []
+	itemCount = 0
+	function addToCart(productName, price, quantity,id,photo) {
+	  // Converte o preço para ponto flutuante
+	  const priceFloat = parseFloat(price);
+	
+	  // Verifica se o preço é um número válido
+	  if (isNaN(priceFloat) || priceFloat <= 0) {
+		alert("Por favor, insira um preço válido.");
+		return;
+	  }
+
+
+	
+	  const item = {
+		name: productName,
+		price: priceFloat,
+		quantity: quantity,
+		description:`${quantity}x ${productName} R$ ${priceFloat},00`,
+		id:id,
+		photo:photo
+	  };
+	
+	  // Verifica se o item já está no carrinho
+	  const existingItemIndex = cart.findIndex(cartItem => cartItem.name === productName);
+	
+	  if (existingItemIndex !== -1) {
+		// Se o item já está no carrinho, apenas atualiza a quantidade
+		cart[existingItemIndex].quantity += quantity;
+	  } else {
+		// Se o item não está no carrinho, adiciona-o
+		cart.push(item);
+		cartData.push(cart)
+	  }
+	
+	  itemCount++;
+	  updateCart();
+	  updateTotal();
+	 
+	  console.log(cartData); 
+	  
+	
+	}
+
+
+
+	function updateCart() {
+	  const cartList = document.getElementById('cart-items');
+	  const cartCount = document.getElementById('cartCount');
+	  // Limpa a lista do carrinho
+	  cartList.innerHTML = '';
+	
+	  // Adiciona itens ao carrinho
+	  cart.forEach(item => {
+		const listItem = document.createElement('li');
+		listItem.style.listStyle = 'none';
+		listItem.textContent = `${item.name} - R$ ${item.price.toFixed(2)} x ${item.quantity} ${item.size}`;
+	  
+		cartList.appendChild(listItem);
+		let lt = cartList.textContent.replace(/$/, ' ')
+		itemList.push(lt)
+		console.log(lt)
+		if(item.quantity == 0){
+		  listItem.textContent = ''
+		 
+		}
+	  
+	  });
+	
+  
+	cartCount.innerText = itemCount;
+	
+	
+	}
+	
+	function updateTotal() {
+	  const totalElement = document.getElementById('total');
+	
+	  // Calcula o total
+	  const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+	
+	  // Atualiza o total
+	  totalElement.textContent = `Total: R$ ${total.toFixed(2)}`;
+	}
+
+	function decrementQuantity(itemId) {
+const itemIndex = cart.findIndex((item) => item.id === itemId);
+
+if (itemIndex !== -1 && cart[itemIndex].quantity > 0) {
+cart[itemIndex].quantity--;
+itemCount--
+
+updateCart();
+updateTotal();
+console.log(cart)
+}
+}
+ 
+	
+	  /*  function link_soft_scroll()
+		{
+			jQuery('a[href^="#"]').on('click', function(e) {
+				if(jQuery(this).hasClass('close')) return;
+				e.preventDefault();
+				var id = jQuery(this).attr('href'),
+						targetOffset = jQuery(id).offset();
+						
+				jQuery('html, body').animate({ 
+					scrollTop: targetOffset - 270
+				}, 1000);
+			});
+		}
+		link_soft_scroll();*/
+		</script>

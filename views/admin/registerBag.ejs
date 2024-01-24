@@ -53,7 +53,7 @@
         <img width="1068" height="1068" src="<%=product.photo%>" class="image-primary scale-with-grid wp-post-image" alt="" decoding="async" fetchpriority="high" srcset="<%=product.photo%> 1068w, <%=product.photo%> 500w, <%=product.photo%> 300w, <%=product.photo%> 800w, <%=product.photo%> 1024w, <%=product.photo%> 150w, <%=product.photo%> 768w, <%=product.photo%> 146w, <%=product.photo%> 50w, <%=product.photo%> 75w, <%=product.photo%> 85w, <%=product.photo%> 80w" sizes="(max-width: 1068px) 100vw, 1068px" />
         <div class="image_links">
           
-            <a rel="nofollow" style="width: 35%;"  data-id="5" data-name="<%=product.name%>" data-summary="summary 5" data-price="<%=product.price%>" data-size="<%=product.size%>" data-quantity="1" data-image="<%=product.photo%>" class="add-to-cart" onclick="addToCart('<%=product.name%>', <%=product.price%>, 1, '<%=product.size%>', '<%=product._id%>')" class="add-to-cart btn btn-danger my-cart-btn add_to_cart_button ajax_add_to_cart product_type_simple">
+            <a rel="nofollow" style="width: 35%;"  data-id="5" data-name="<%=product.name%>" data-summary="summary 5" data-price="<%=product.price%>" data-size="<%=product.size%>" data-quantity="1" data-image="<%=product.photo%>" class="add-to-cart" onclick="addToCart('<%=product.name%>', <%=product.price%>, 1, '<%=product.size%>', '<%=product._id%>', '<%=product.photo%>')" class="add-to-cart btn btn-danger my-cart-btn add_to_cart_button ajax_add_to_cart product_type_simple">
 
         
                 <span style="font-weight: 900;font-size: 25px;">+</span><svg viewBox="0 0 26 26"><defs><style>.path{fill:none;stroke:#333;stroke-miterlimit:10;stroke-width:1.5px;}</style></defs><polygon class="path" points="20.4 20.4 5.6 20.4 6.83 10.53 19.17 10.53 20.4 20.4"></polygon><path class="path" d="M9.3,10.53V9.3a3.7,3.7,0,1,1,7.4,0v1.23"></path></svg>
@@ -93,10 +93,12 @@
 
     <script type="text/javascript">
         const cart = [];
+        const lop 
        const cartData = []
        const itemList = []
+
         itemCount = 0
-        function addToCart(productName, price, quantity,size, id) {
+        function addToCart(productName, price, quantity,size, id, photo) {
           // Converte o preço para ponto flutuante
           const priceFloat = parseFloat(price);
         
@@ -111,6 +113,8 @@
             price: priceFloat,
             quantity: quantity,
             size:size,
+            photo:photo,
+            description:`${quantity}x ${productName} R$ ${priceFloat},00`,
             id:id
           };
         
@@ -147,15 +151,14 @@
           cart.forEach(item => {
             const listItem = document.createElement('li');
             listItem.style.listStyle = 'none';
-            listItem.textContent = `${item.name} - R$ ${item.price.toFixed(2)} x ${item.quantity} ${item.size}`;
-          
+            listItem.innerHTML = `${item.name} - R$ ${item.price.toFixed(2)} x ${item.quantity} ${item.size} <img style='width:25px;height:25px;' src="${item.photo}" alt="${item.name}">`;
+            lop = listItem.textContent
             cartList.appendChild(listItem);
             let lt = cartList.textContent.replace(/$/, ' ')
             itemList.push(lt)
             console.log(lt)
             if(item.quantity == 0){
               listItem.textContent = ''
-             
             }
           
           });
@@ -227,7 +230,7 @@ method: 'POST',
 headers: {
  'Content-Type': 'application/json',
 },
-body: JSON.stringify({ products:cart, name:nameProduct.value, price:totalValue, photo:photoBag.value, description:itemList[0] }), // Enviar os produtos como um objeto no corpo da requisição
+body: JSON.stringify({ products:cart, name:nameProduct.value, price:totalValue, photo:photoBag.value, description:lop }), // Enviar os produtos como um objeto no corpo da requisição
 })
 .then(response => response.json())
 .then(data => {

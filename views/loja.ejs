@@ -1078,7 +1078,7 @@ width: 100%;
 	<img width="1068" height="1068" src="<%=bag.photo%>" class="image-primary scale-with-grid wp-post-image" alt="" decoding="async" fetchpriority="high" srcset="<%=bag.photo%> 1068w, <%=bag.photo%> 500w, <%=bag.photo%> 300w, <%=bag.photo%> 800w, <%=bag.photo%> 1024w, <%=bag.photo%> 150w, <%=bag.photo%> 768w, <%=bag.photo%> 146w, <%=bag.photo%> 50w, <%=bag.photo%> 75w, <%=bag.photo%> 85w, <%=bag.photo%> 80w" sizes="(max-width: 1068px) 100vw, 1068px" />
 	<div class="image_links">
 		
-		<a rel="nofollow" style="width: 35%;"  data-id="5" data-name="<%=bag.name%>" data-summary="summary 5" data-price="<%=bag.price%>" data-description="<%=bag.description%>" data-quantity="1" data-image="<%=bag.photo%>" class="add-to-cart" onclick="addToCart('<%=bag.name%>', <%=bag.price%>, 1, '<%=bag.description%>', '<%=bag._id%>')" class="add-to-cart btn btn-danger my-cart-btn add_to_cart_button ajax_add_to_cart product_type_simple">
+		<a rel="nofollow" style="width: 35%;"  data-id="5" data-name="<%=bag.name%>" data-summary="summary 5" data-price="<%=bag.price%>" data-description="<%=bag.description%>" data-quantity="1" data-image="<%=bag.photo%>" class="add-to-cart" onclick="addToCart('<%=bag.name%>', <%=bag.price%>, 1, '<%=bag._id%>')" class="add-to-cart btn btn-danger my-cart-btn add_to_cart_button ajax_add_to_cart product_type_simple">
 
         
 			<span style="font-weight: 900;font-size: 25px;">+</span><svg viewBox="0 0 26 26"><defs><style>.path{fill:none;stroke:#333;stroke-miterlimit:10;stroke-width:1.5px;}</style></defs><polygon class="path" points="20.4 20.4 5.6 20.4 6.83 10.53 19.17 10.53 20.4 20.4"></polygon><path class="path" d="M9.3,10.53V9.3a3.7,3.7,0,1,1,7.4,0v1.23"></path></svg>
@@ -2504,7 +2504,7 @@ var mfn = {"mobileInit":"1240","parallax":"stellar","responsive":"1","sidebarSti
  const itemList = []
 
 itemCount = 0
-function addToCart(productName, price, quantity, description, id) {
+function addToCart(productName, price, quantity, id) {
   // Converte o preço para ponto flutuante
   const priceFloat = parseFloat(price);
 
@@ -2518,7 +2518,7 @@ function addToCart(productName, price, quantity, description, id) {
     name: productName,
     price: priceFloat,
     quantity: quantity,
-	description:description,
+	description:`${quantity}x ${productName} R$ ${priceFloat},00`,
 	id:id
   };
 
@@ -2559,7 +2559,7 @@ function updateCart() {
     const listItem = document.createElement('li');
 	listItem.style.listStyle = 'none';
 
-    listItem.textContent = `${item.name} - R$ ${item.price.toFixed(2)} x ${item.quantity} ${item.description}`;
+    listItem.textContent = `${item.name} - R$ ${item.price.toFixed(2)} x ${item.quantity}`;
 	console.log(listItem)
     cartList.appendChild(listItem);
 	let lt = cartList.textContent.replace(/$/, ' ')

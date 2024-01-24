@@ -18,6 +18,7 @@ const methodOverride = require('method-override')
 const User = require('./models/User')
 const Bag = require('./models/Bag')
 const Product = require('./models/Product')
+const Signature = require('./models/Signature')
 const Order = require('./models/Order')
 const passportJWT = require('passport-jwt');
 const { v4: uuidv4 } = require('uuid');
@@ -81,7 +82,7 @@ let { MercadoPagoConfig, Payment, Customer, MerchantOrder,PreApproval, PreApprov
 
 
 // Step 2: Initialize the client object
-const client = new MercadoPagoConfig({ accessToken: 'TEST-955688774459853-113016-e003ea81e5ff84daf834efe581d77d68-1058457871'});
+const client = new MercadoPagoConfig({ accessToken: 'TEST-4911284730753864-010809-73732c6bb200ed0a86ceaea651e856c0-1058457871'});
 
 
 // Step 3: Initialize the API object
@@ -90,15 +91,13 @@ const customer = new Customer(client)
 const merchantOrder = new MerchantOrder(client)
 const preApproval = new PreApproval(client) 
 const preApprovalPlan = new PreApprovalPlan(client)
-const mercadoPagoPublicKey = 'TEST-87ad9869-f2f0-46e9-87f4-971001793df2';
+const mercadoPagoPublicKey = 'TEST-f609a46a-df09-4fe6-a4b2-e7688d449f94';
 if (!mercadoPagoPublicKey) {
   console.log("Error: public key not defined");
   process.exit(1);
 }
  
-/*payment.search().then(e => console.log(e.results.forEach(f=>{
-  console.log(f.card)
-})))*/
+
 
 const fs = require('fs');
 app.use(cors())
@@ -203,6 +202,7 @@ console.log('Data Futura (2 dias depois):', dataFuturaFormatada);
       back_url: "https://google.com"
     }
  let signature = await preApproval.create({body:signatureData})
+ 
  console.log(signature,'3333333')
  const userexist = await User.findOne({$or: [{payer_id: signature.payer_id}]})
 
@@ -246,21 +246,42 @@ if(userexist == null || userexist == undefined || !userexist){
 
 })
 
-app.post('/capture_payment/:id',(req,res)=>{
-  let {id, transaction_amount} = req.body
+app.post('/capture_payment/:id',async(req,res)=>{
+
+  try {
+    let user = await req.user
+  let {id, transaction_amount, _id, userid} = await req.body
 if(!id) {
   id = req.params.id
 }
-console.log(transaction_amount)
+console.log(transaction_amount, id, _id,userid, 'HEYAH')
   payment.capture({
     id: id,
     transaction_amount: parseInt(transaction_amount),
     requestOptions: {
     idempotencyKey: uuidv4()
     }
-    }).then(()=>{
-      res.redirect('/admin')
-    }).catch(console.log);
+    }).then(async (da)=>{
+//console.log(da)
+
+const updatedUser = await User.findByIdAndUpdate(
+  userid,
+  { $set: { "orders.$[elem].order.status_detail": da.status_detail } },
+  { new: true, arrayFilters: [{ "elem._id": new mongoose.Types.ObjectId(_id) }] }
+);
+console.log(updatedUser, 'updated capture')
+
+let nowOrder1 = await Order.findByIdAndUpdate({_id:_id}, da, { new: false })
+console.log(nowOrder1,'PEDIDO ATUALIZADO')
+      res.redirect('/minha-conta')
+
+    }).catch(async err=>{
+    res.json(err.message)
+    });
+  } catch (error) {
+    console.log(error)
+  }
+
 })
 
 app.put('/update_signature/:id',async(req,res)=>{
@@ -289,9 +310,6 @@ app.put('/update_signature/:id',async(req,res)=>{
     console.log(error)
   }
  
-
-
-
 })
 
 app.put('/cancel_signature/:id',async (req,res)=>{
@@ -312,6 +330,9 @@ app.put('/cancel_signature/:id',async (req,res)=>{
       idempotencyKey:  uuidv4()
       }
       }).then(()=>{
+
+
+
       res.redirect('/admin')
     }).catch(console.log);
      
@@ -333,7 +354,7 @@ let captureInfo = {id: id, transaction_amount: transaction_amount}
 })
 
 app.post('/cancel_payment/:id',async (req,res)=>{
-  let {id, transaction_amount} =await  req.body
+  let {id, transaction_amount, _id, userid} = await req.body
 if(!id) {
   id = req.params.id
 }
@@ -343,7 +364,18 @@ payment.cancel({
 	requestOptions: {
 		idempotencyKey: uuidv4()
 	},
-}).then(()=>{
+}).then(async (da)=>{
+
+  const updatedUser = await User.findByIdAndUpdate(
+    userid,
+    { $set: { "orders.$[elem].order.status_detail": da.status_detail } },
+    { new: true, arrayFilters: [{ "elem._id": new mongoose.Types.ObjectId(_id) }] }
+  );
+  console.log(updatedUser, 'updated cancel payment')
+  let nowOrder = Order.findByIdAndUpdate({_id:_id}, data, { new: true })
+console.log(nowOrder,'PEDIDO ATUALIZADO')
+        res.redirect('/admin')
+
   res.redirect('/admin')
 }).catch(console.log);
  
@@ -369,7 +401,7 @@ app.post('/process_payment', async (req,res)=>{
     let user = req.user
     const { payer,token,description,transaction_amount,paymentMethodId,installments,issuerId,phone,street_number, cep,address,whatsapp,name,lastname,email,cpf,city,items,state, birthday, gender,country,bairro } = await req.body;
     let srt_number = parseInt(street_number)
-    console.log(payer,items[0])
+    console.log(payer,items)
    let passnew = await uuidv4()
     const timestamp = Date.now();
     const stringTimestamp = timestamp.toString();
@@ -399,7 +431,7 @@ app.post('/process_payment', async (req,res)=>{
       description: description,
     };
     
-  
+  ///// RESOLVER APARTE DA RENDERIZAÇÃO DOS ITEMS /////////////////////////////////////////////////////////
     const paymentData = {
       transaction_amount: transaction_amount,
       token: token,
@@ -420,12 +452,14 @@ app.post('/process_payment', async (req,res)=>{
       },
       additional_info:{
         items:()=> items.map(itens=> ({
+          id:itens.id,
           title: itens.name,
           price: itens.price,
           quantity: itens.quantity
         }))
       },
       capture:false
+      
     };
     //  COLOCAR O PEDIDO DENTRO DO ARRAY order E SALVAR NO MODEL ORDER.JS EM CADA CASO ONDE USO O MÉTODO paymente.create SERÁ NECESSÁRIO ATUALIZAR O USUÁRIO COM O PEDIDO OU CRIAR UM NOVO 
     // USUÁRIO  COM NOVO PEDIDO GERADO 
@@ -437,64 +471,130 @@ app.post('/process_payment', async (req,res)=>{
     customer.create({ body: clientData }).then(async (data)=>{
       console.log(data)
       console.log('novo cliente')
-      let newUser1 = new User({
-        idmp:data.id,
-        name:data.first_name,
-        lastname:data.last_name,
-        bairro:bairro,
-        password:bcrypt.hashSync(passnew, 8),
-        external_reference:data.external_reference,
-        email:data.email,
-        country:country,
-        address:data.address.street_name,
-        payer_id:data.id,
-        billing_address:{
-         city:city,
-         address:data.address.street_name,
-         street_number:srt_number,
-         state:state,
-         country:country,
-         bairro:bairro,
-         cep:cep
-        },
-        city:city,
+
+
+      const userEmail1 = await User.findOne({$or: [{email: payer.email}]})
+console.log(userEmail1, 'USER EMAILLLLLLLLLLLLLLLLL')
+if(userEmail1){
+
+  payment
+  .create({ body: paymentData })
+  .then(async function (data) {
+ /*   res.status(201).json({
+      detail: data.status_detail,
+      status: data.status,
+      id: data.id,
       
-        gender:gender,
-        birthday:birthday,
-        cep:cep,
-        state:state,
-        cpfcnpj:data.identification.number,
-        phone:phone,
-        whatsapp:whatsapp,
-        street_number:srt_number
-        })
-       await  newUser1.save()
-       console.log(newUser1, 'USUÁRIO SALVO NO BANCO')
-    }).catch(err => console.log(err));
-  
-    payment
-      .create({ body: paymentData })
-      .then(async function (data) {
-     /*   res.status(201).json({
-          detail: data.status_detail,
-          status: data.status,
-          id: data.id,
-          
-        });*/
-        let order1 = new Order({
-          order:data
-        })
-       await order1.save()
-       console.log(data,' <- pagamento criado' )
-      res.redirect('/quiz')
-      })
-      .catch(function (error) {
-        console.log(error);
-    //    const { errorMessage, errorStatus } = validateError(error);
-        res.json({ error });
-      });
-  }else{
+    });*/
+    let order1 = new Order({
+      order:data,
+      items:()=> items.map(itens=> ({
+        id:itens.id,
+        title: itens.name,
+        price: itens.price,
+        quantity: itens.quantity
+      }))
+    })
+   await order1.save()
+
+   let usr = await User.findByIdAndUpdate({_id:userEmail1._id},{$push: { orders: order1 }},{new:true})
+   console.log(usr)
+   console.log(data,' <- pagamento criado' )
+  res.redirect('/quiz')
+  })
+  .catch(function (error) {
+    console.log(error);
+//    const { errorMessage, errorStatus } = validateError(error);
+    res.json({ error });
+  });
+
  
+   console.log('USUÁRIO SALVO NO BANCO')
+//   res.redirect('/quiz')
+
+}else{
+  const newUser1 = new User({
+    idmp:data.id,
+    name:data.first_name,
+    lastname:data.last_name,
+    bairro:bairro,
+    password:bcrypt.hashSync(passnew, 8),
+    external_reference:data.external_reference,
+    email:data.email,
+    country:country,
+    address:data.address.street_name,
+    payer_id:data.id,
+    billing_address:{
+     city:city,
+     address:data.address.street_name,
+     street_number:srt_number,
+     state:state,
+     country:country,
+     bairro:bairro,
+     cep:cep
+    },
+    city:city,
+    orders:data,
+    gender:gender,
+    birthday:birthday,
+    cep:cep,
+    state:state,
+    cpfcnpj:data.identification.number,
+    phone:phone,
+    whatsapp:whatsapp,
+    street_number:srt_number
+    })
+   await  newUser1.save()
+
+   let order2 = new Order({
+    order:data,
+    items:()=> items.map(itens=> ({
+      id:itens.id,
+      title: itens.name,
+      price: itens.price,
+      quantity: itens.quantity
+    }))
+  })
+ await order2.save()
+ let usrs = await User.findByIdAndUpdate({_id:newUser1._id},{$push: { orders: order2 }},{new:true})
+
+   res.redirect('/quiz')
+
+}
+
+
+         
+    payment
+    .create({ body: paymentData })
+    .then(async function (data) {
+   /*   res.status(201).json({
+        detail: data.status_detail,
+        status: data.status,
+        id: data.id,
+        
+      });*/
+      let order1 = new Order({
+        order:data,
+        items:()=> items.map(itens=> ({
+          id:itens.id,
+          title: itens.name,
+          price: itens.price,
+          quantity: itens.quantity
+        }))
+        
+      })
+     await order1.save()
+     console.log(data,' <- pagamento criado' )
+    res.redirect('/quiz')
+    })
+    .catch(function (error) {
+      console.log(error);
+  //    const { errorMessage, errorStatus } = validateError(error);
+      res.json({ error });
+    });
+    }).catch(err => console.log(err));
+
+  }else{
   payment
   .create({ body: paymentData })
   .then(async function (data) {
@@ -527,12 +627,30 @@ app.post('/process_payment', async (req,res)=>{
 
   })
   await order.save()*/
-  let order = new Order({
+  /*let order = new Order({
     order:data
   })
- await order.save()
+  let ord = [...order3]
+
+ await order.save()*/
+ const userEmail = await User.findOne({$or: [{email: payer.email}]})
+ console.log(userEmail, 'USER EMAILLLLLLLLLLLLLLLLL')
+
+ let order3 = await new Order({
+  order:data,
+  items:items
+  
+})
+await order3.save()
+
+
+
+
+ let usr = await User.findByIdAndUpdate({_id:userEmail._id},{$push: { orders: order3 }},{new:true})
+ console.log(usr, 'EMAIL ENCONTRADO')
   res.redirect('/quiz')
   })
+
   .catch(function (error) {
     console.log(error);
 //    const { errorMessage, errorStatus } = validateError(error);
@@ -540,8 +658,9 @@ app.post('/process_payment', async (req,res)=>{
   });
   }  
     console.log(data)
+
       }).catch(console.log);
-  
+     // res.redirect('/quiz')
    } catch (error) {
     console.log(error)
    }
@@ -571,11 +690,21 @@ app.get('/admin',eAdmin,async(req,res)=>{
   if(req.user.admin){
     let users = await User.find({})
     let products = await Product.find({})
-
+    let orders = await Order.find({})
     let payments = await payment.search()
     let signatures = await preApproval.search()
+    let totalPaid = await payments.results
+    .filter((f) => f.captured === true)
+    .reduce((sum, transaction) => {
+      const netReceivedAmount = transaction.transaction_details.net_received_amount;
   
-    res.render('admin/admin',{user:user,users:users,payments:payments.results,signatures:signatures.results, products, msg:false})
+      return sum + netReceivedAmount;
+    }, 0);
+    const formattedTotal = totalPaid.toFixed(2);
+
+    console.log("Total Net Received Amount (Last Two Decimals):", totalPaid / 100); // Convertendo de centavos para reais
+
+    res.render('admin/admin',{user:user,users:users,payments:payments.results,signatures:signatures.results, products:products,orders:orders,total:formattedTotal, msg:false})
   }else{
     res.redirect('/minha-conta')
   }
@@ -735,13 +864,13 @@ app.get('/minha-conta',eAdmin,async(req,res)=>{
   try {
     if(req.user.admin == false){
       let user = await req.user
-      let cli =await customer.get({customerId:user.idmp})
-      let payments = await payment.search({})
-      let signatures = await preApproval.search({})
+   //   let cli =await customer.get({customerId:user.idmp})
+     // let payments = await payment.search({})
+      //let signatures = await preApproval.search({})
   //  console.log(signatures,'SIGNATURES')
-   const sigs = await signatures.results.filter( sig => sig.external_reference == user.cpf);
+  // const sigs = await signatures.results.filter( sig => sig.external_reference == user.cpf);
   //console.log(sigs)
-      res.render('cli/cli',{user:user,cli:cli,payments:payments.results, signatures:signatures.results,msg:false})
+      res.render('cli/cli',{user:user,msg:false})
     }else{
       res.redirect('/')
     }
@@ -976,7 +1105,7 @@ app.post('/saveUser', async (req,res)=>{
         state:state
       },
       date_registered: stringTimestamp2,
-      description: 'Description del user',
+      description: '',
       phone:{
         area_code:'55',
         number:phone
@@ -1076,6 +1205,8 @@ app.post('/iela/saveUser', async (req,res)=>{
      };
      
    let cust = await customer.create({ body: body })
+   
+   console.log(cust, 'CUSTOMER')
    let user = new User({
     name:name,
     idmp : cust.id,
@@ -1090,7 +1221,7 @@ app.post('/iela/saveUser', async (req,res)=>{
     phone:phone,
     lastname:lastname,
     cpf:cpf,
-    external_reference:cust.external_reference
+  //  external_reference:cust.external_reference
   })
  await user.save()
  console.log('usuário salvo')

@@ -1,7 +1,7 @@
 <div class="woocommerce-MyAccount-content tab-content"  id="tab4">
 	<div class="woocommerce-notices-wrapper"></div>
-	<%if(signatures){%>
-		<%signatures.forEach(sig=>{%>
+	<%if(user){%>
+		<%user.signatures.forEach(sig=>{%>
 	<div class="modal fade" id="llll<%=sig.id%>Edited" tabindex="-1" aria-labelledby="llll<%=sig.id%>edit" aria-hidden="true">
 		<div class="modal-dialog">
 		  <div class="modal-content">
@@ -87,8 +87,8 @@
 	</thead>
 
 	<tbody>
-		<%if(signatures && user){%>
-			<%signatures.forEach(sig=>{%>
+		<%if(user){%>
+			<%user.signatures.forEach(sig=>{%>
 <%console.log(sig)%>
 <%if(sig.external_reference == user.cpf){%>
 

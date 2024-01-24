@@ -1,22 +1,21 @@
 const mongoose = require('mongoose')
 
-const Order = new mongoose.Schema({
+const Signature = new mongoose.Schema({
      rank:Number,
-    // payer:{ type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-     order:{ type: mongoose.Schema.Types.Mixed},
-     items:{ type: mongoose.Schema.Types.Mixed},
+     payer:{ type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+     signature:[{ type: mongoose.Schema.Types.Mixed}],
      createdAt: {
         type: Date,
         default: Date.now, // Esta é a data de criação
       },
     });
 
-const OrderModel = mongoose.model('Pedido', Order);
+const SignatureModel = mongoose.model('Signature', Signature);
 
 // Consulta para obter documentos ordenados por data de criação
 async function attSortRank(){
     try {
-        const items = await OrderModel.find({})
+        const items = await SignatureModel.find({})
           .sort({ createdAt: 1 }); // Ordena em ordem crescente por createdAt
       
         // Atribuir valores numéricos com base na ordem
@@ -34,5 +33,5 @@ async function attSortRank(){
 }
 attSortRank()
 
-module.exports = OrderModel
+module.exports = SignatureModel
 

@@ -34,6 +34,7 @@ const user = new mongoose.Schema({
      whatsapp:String,
      street_number:Number,
      orders:[{ type: mongoose.Schema.Types.Mixed, ref: 'Order' }],
+     signatures:[{ type: mongoose.Schema.Types.Mixed, ref: 'Signature' }],
      createdAt: {
         type: Date,
         default: Date.now, // Esta é a data de criação
