@@ -399,9 +399,10 @@ app.post('/process_payment', async (req,res)=>{
 
    try {
     let user = req.user
-    const { payer,token,description,transaction_amount,paymentMethodId,installments,issuerId,phone,street_number, cep,address,whatsapp,name,lastname,email,cpf,city,items,state, birthday, gender,country,bairro } = await req.body;
+    const { payer,token,description,transaction_amount,paymentMethodId,installments,issuerId,phone,street_number, cep,address,whatsapp,name,lastname,email,items,cpf,city,state, birthday, gender,country,bairro } = await req.body;
     let srt_number = parseInt(street_number)
     console.log(payer,items)
+    console.log(req.body)
    let passnew = await uuidv4()
     const timestamp = Date.now();
     const stringTimestamp = timestamp.toString();
@@ -450,9 +451,7 @@ app.post('/process_payment', async (req,res)=>{
           number: payer.identification.number,
         },
       },
-      additional_info:{
-        items:items
-      },
+    
       capture:false
       
     };
@@ -464,12 +463,12 @@ app.post('/process_payment', async (req,res)=>{
   {
   
     customer.create({ body: clientData }).then(async (data)=>{
-      console.log(data)
+     // console.log(data)
       console.log('novo cliente')
 
 
       const userEmail1 = await User.findOne({$or: [{email: payer.email}]})
-console.log(userEmail1, 'USER EMAILLLLLLLLLLLLLLLLL')
+//console.log(userEmail1, 'USER EMAILLLLLLLLLLLLLLLLL')
 if(userEmail1){
 
   payment
@@ -488,8 +487,8 @@ if(userEmail1){
    await order1.save()
 
    let usr = await User.findByIdAndUpdate({_id:userEmail1._id},{$push: { orders: order1 }},{new:true})
-   console.log(usr)
-   console.log(data,' <- pagamento criado' )
+  // console.log(usr)
+  // console.log(data,' <- pagamento criado' )
   res.redirect('/quiz')
   })
   .catch(function (error) {
@@ -563,7 +562,7 @@ if(userEmail1){
         items:items
       })
      await order1.save()
-     console.log(data,' <- pagamento criado' )
+  //   console.log(data,' <- pagamento criado' )
     res.redirect('/quiz')
     })
     .catch(function (error) {
@@ -578,7 +577,7 @@ if(userEmail1){
   .create({ body: paymentData })
   .then(async function (data) {
 
-   console.log(data,' <- pagamento criado  e dados do usuário atualizado' )
+ //  console.log(data,' <- pagamento criado  e dados do usuário atualizado' )
   
 /*  let order = new Order({
     payer:payer,
@@ -626,7 +625,7 @@ await order3.save()
 
 
  let usr = await User.findByIdAndUpdate({_id:userEmail._id},{$push: { orders: order3 }},{new:true})
- console.log(usr, 'EMAIL ENCONTRADO')
+ //console.log(usr, 'EMAIL ENCONTRADO')
   res.redirect('/quiz')
   })
 
@@ -636,7 +635,7 @@ await order3.save()
     res.json({ error });
   });
   }  
-    console.log(data)
+   // console.log(data)
 
       }).catch(console.log);
      // res.redirect('/quiz')

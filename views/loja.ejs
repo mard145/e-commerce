@@ -2349,7 +2349,7 @@ console.log(cartData)
 				area_code:'55',
 				number:await phone.value
 			}
-			formData.items = await JSON.stringify(cart)
+			formData.items = await cart
 			formData.payer.first_name= await name.value
 			formData.payer.last_name = await lastname.value
 			formData.payer.email = await email.value
