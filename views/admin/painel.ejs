@@ -1,11 +1,11 @@
 <div class="woocommerce-MyAccount-content tab-content active" id="tab1">
-	<div class="woocommerce-notices-wrapper"></div>
+	<div class="woocommerce-notices-wrapper"></div><
 	<%if(user){%>
 <p>
-	Olá, <strong><%=user.name%></strong> (não é <strong><%=user.name%></strong>? <a href="/logout">Sair</a>)</p>
+	Olá, <strong><%=user.name%></strong> (não é <strong><%=user.name%></strong>? <a onclick="logout()">Sair</a>)</p>
 
 <p>
-	A partir do painel de controle de sua conta, você pode ver suas <span> <a href="minha-conta/orders/">compras recentes</a></span>, gerenciar seus <a href="http://localhost:10018/minha-conta/edit-address/">endereços de entrega e faturamento</a>, e <a href="http://localhost:10018/minha-conta/edit-account/">editar sua senha e detalhes da conta</a>.</p>
+	A partir do painel de controle de sua conta, você pode ver suas <span onclick="openTab(event, 'tab3')"> <a href="#tab3">compras recentes</a></span>, gerenciar seus <span onclick="openTab(event, 'tab5')"><a href="#tab5">endereços de entrega e faturamento</a></span>, e <span onclick="openTab(event, 'tab2')"><a href="#tab2">editar sua senha e detalhes da conta</a></span>.</p>
 <%}%>
 
 <div>

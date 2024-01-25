@@ -1,25 +1,25 @@
 <div class="woocommerce-MyAccount-content tab-content" id="tab3">
 	<div class="woocommerce-notices-wrapper"></div>
-	<%if(payments){%>
-		<%payments.forEach(payment=>{%>
-	<div class="modal fade" id="llll<%=payment.id%>Edited" tabindex="-1" aria-labelledby="llll<%=payment.id%>edit" aria-hidden="true">
+	<%if(orders){%>
+		<%orders.forEach(payment=>{%>
+	<div class="modal fade" id="llll<%=payment.order.id%>Edited" tabindex="-1" aria-labelledby="llll<%=payment.order.id%>edit" aria-hidden="true">
 		<div class="modal-dialog">
 		  <div class="modal-content">
 			<div class="modal-header">
-			  <h1 class="modal-title fs-5" id="llll<%=payment.id%>edit">Capturar pagamento</h1>
+			  <h1 class="modal-title fs-5" id="llll<%=payment.order.id%>edit">Capturar pagamento</h1>
 			  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
   
 		
-		<form action="/capture_payment/<%=payment.id%>" class="d-flex" method="post">
-			<input name="id" type="hidden" value="<%=payment.id%>">
-			<input name="transaction_amount" type="number" value="<%=payment.transaction_amount%>">
+		<form action="/capture_payment/<%=payment.order.id%>" class="d-flex" method="post">
+			<input name="id" type="hidden" value="<%=payment.order.id%>">
+			<input name="transaction_amount" type="number" value="<%=payment.order.transaction_amount%>">
 			<button>Pagar valor inteiro</button>
 	</form>
 
-	<form action="/cancel_payment/<%=payment.id%>" class="d-flex" method="post">
-		<input name="id" type="hidden" value="<%=payment.id%>">
+	<form action="/cancel_payment/<%=payment.order.id%>" class="d-flex" method="post">
+		<input name="id" type="hidden" value="<%=payment.order.id%>">
 		
 		<button>Cancelar pagamento</button>
 </form>
@@ -49,77 +49,105 @@
 		</thead>
 
 		<tbody>
-			<%if(payments){%>
-				<%payments.forEach(payment=>{%>
-							<tr class="woocommerce-orders-table__row woocommerce-orders-table__row--status-cancelled order">
+			<%if(orders){%>
+				<%orders.forEach(payment=>{%>
+				
+							<tr class="woocommerce-orders-table__row woocommerce-o rders-table__row--status-cancelled order">
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Pedido">
-															<a href="#">#<%=payment.id%></a>
+															<a href="#">#<%=payment.order.id%></a>
 											</td>
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Cliente">
-											
-													<a href="#"><%=payment.payer.first_name%> <%=payment.payer.last_name%></a>
+												<a href="#">
+											<%if(payment.order.card && payment.order.card.cardholder){%>
+												<%=payment.order.card.cardholder.name%>
+												<%}else{%>
+													<span>Nome do cliente não encontrado</span>
+													<%}%>
+													
+														</a>
+
+													
 												
 								            </td>
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="CPF">
-												<a href="#"><%=payment.payer.identification.number%></a>
+												<a href="#">
+												<%if(payment.order.payer && payment.order.payer.identification){%>
+													<%=payment.order.payer.identification.number%>	
+												   <%}else{%>
+														<span>CPF ou CNPJ do cliente não encontrado</span>
+														<%}%>
+													</a>	
 								            </td>
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Contato">
-												<a href="#">+55<%=payment.payer.phone.area_code%> <%=payment.payer.phone.number%></a>
+												<a href="#">
+													<%if(payment.order.payer && payment.order.payer.phone){%>
+														<a href="#">+55<%=payment.order.payer.phone.area_code%> <%=payment.order.payer.phone.number%></a>
+														<%}else{%>
+															<a href="#">Contato não encontrado</a>
+															<%}%>%>
+												
+
+											</a>
 								            </td>
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="E-mail">
-												<a href="#"><%=payment.payer.email%></a>
+												<%if(payment.order.payer && payment.order.payer.email){%>
+		<a href="#"><%=payment.order.payer.email%></a>
+															<%}else{%>
+														<a href="#">Contato não encontrado</a>
+														<%}%>%>
+										
 								            </td>
 										
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-date" data-title="Data">
-															<time datetime="<%=payment.date_created%>"><%=payment.date_created%></time>
+															<time datetime="<%=payment.order.date_created%>"><%=payment.order.date_created%></time>
 													</td>
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-status" data-title="Status">
-												<%if(payment.status_detail == 'pending_capture'){%>
-													<%=payment.status%>: Captura pendente
-													<%}else if(payment.status_detail == 'accredited'){%>
-														<%=payment.status%>: Aprovado
-														<%}else if(payment.status_detail == 'cc_rejected_other_reason'){%>
-															<%=payment.status%>: Pagamento rejeitado por alguma razão
-															<%}else if(payment.status_detail == 'pending_waiting_transfer'){%>
-																<%=payment.status%>: Pendente aguardando transferência
-																<%}else if(payment.status_detail == 'pending_contingency'){%>
-																	<%=payment.status%>: O pagamento está sendo processado
-																	<%}else if(payment.status_detail == 'pending_review_manual'){%>
-																		<%=payment.status%>: O pagamento está em análise
-																		<%}else if(payment.status_detail == 'cc_rejected_bad_filled_date'){%>
-																			<%=payment.status%>: Data de válidade incorreta
-																			<%}else if(payment.status_detail == 'cc_rejected_bad_filled_other'){%>
-																				<%=payment.status%>: Detalhes incorretos do cartão
-																				<%}else if(payment.status_detail == 'cc_rejected_bad_filled_security_code'){%>
-																					<%=payment.status%>: CVV incorreto
-																					<%}else if(payment.status_detail == 'cc_rejected_blacklist'){%>
-																						<%=payment.status%>: O cartão está em uma lista negra(roubo/reclamações/fraude) 
-																						<%}else if(payment.status_detail == 'cc_rejected_call_for_authorize'){%>
-																							<%=payment.status%>: O meio de pagamento requer autorização prévia do valor da operação
-																							<%}else if(payment.status_detail = 'cc_rejected_card_disabled'){%>
-																								<%=payment.status%>: O cartão está inativo
+												<%if(payment.order.status_detail == 'pending_capture'){%>
+													<%=payment.order.status%>: Captura pendente
+													<%}else if(payment.order.status_detail == 'accredited'){%>
+														<%=payment.order.status%>: Aprovado
+														<%}else if(payment.order.status_detail == 'cc_rejected_other_reason'){%>
+															<%=payment.order.status%>: Pagamento rejeitado por alguma razão
+															<%}else if(payment.order.status_detail == 'pending_waiting_transfer'){%>
+																<%=payment.order.status%>: Pendente aguardando transferência
+																<%}else if(payment.order.status_detail == 'pending_contingency'){%>
+																	<%=payment.order.status%>: O pagamento está sendo processado
+																	<%}else if(payment.order.status_detail == 'pending_review_manual'){%>
+																		<%=payment.order.status%>: O pagamento está em análise
+																		<%}else if(payment.order.status_detail == 'cc_rejected_bad_filled_date'){%>
+																			<%=payment.order.status%>: Data de válidade incorreta
+																			<%}else if(payment.order.status_detail == 'cc_rejected_bad_filled_other'){%>
+																				<%=payment.order.status%>: Detalhes incorretos do cartão
+																				<%}else if(payment.order.status_detail == 'cc_rejected_bad_filled_security_code'){%>
+																					<%=payment.order.status%>: CVV incorreto
+																					<%}else if(payment.order.status_detail == 'cc_rejected_blacklist'){%>
+																						<%=payment.order.status%>: O cartão está em uma lista negra(roubo/reclamações/fraude) 
+																						<%}else if(payment.order.status_detail == 'cc_rejected_call_for_authorize'){%>
+																							<%=payment.order.status%>: O meio de pagamento requer autorização prévia do valor da operação
+																							<%}else if(payment.order.status_detail = 'cc_rejected_card_disabled'){%>
+																								<%=payment.order.status%>: O cartão está inativo
 																								<%}else if(payment.status_detail == 'cc_rejected_duplicated_payment'){%>
-																									<%=payment.status%>: Transação duplicada
-																									<%}else if(payment.status_detail == 'cc_rejected_high_risk'){%>
-																										<%=payment.status%>: Rechaçado por prevenção de fraude
-																										<%}else if(payment.status_detail == 'cc_rejected_insufficient_amount'){%>
-																											<%=payment.status%>: Saldo insuficiente
-																											<%}else if(payment.status_detail == 'cc_rejected_invalid_installments'){%>
-																												<%=payment.status%>: Número de parcelas inválido
-																												<%}else if(payment.status_detail == 'cc_rejected_max_attempts'){%>
-																													<%=payment.status%>: Número máximo de tentativas excedido
-																													<%}else if(payment.status_detail == 'cc_rejected_other_reason'){%>
-																														<%=payment.status%>: Erro genérico
+																									<%=payment.order.status%>: Transação duplicada
+																									<%}else if(payment.order.status_detail == 'cc_rejected_high_risk'){%>
+																										<%=payment.order.status%>: Rechaçado por prevenção de fraude
+																										<%}else if(payment.order.status_detail == 'cc_rejected_insufficient_amount'){%>
+																											<%=payment.order.status%>: Saldo insuficiente
+																											<%}else if(payment.order.status_detail == 'cc_rejected_invalid_installments'){%>
+																												<%=payment.order.status%>: Número de parcelas inválido
+																												<%}else if(payment.order.status_detail == 'cc_rejected_max_attempts'){%>
+																													<%=payment.order.status%>: Número máximo de tentativas excedido
+																													<%}else if(payment.order.status_detail == 'cc_rejected_other_reason'){%>
+																														<%=payment.order.status%>: Erro genérico
 																														<%}else{%>
 																															<%console.log('log')%>
 																														<%}%>
 															
 													</td>
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-total" data-title="Total">
-															<span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"><%=payment.currency_id%></span>&nbsp;<%=payment.transaction_amount%></span>
+															<span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"><%=payment.order.currency_id%></span>&nbsp;<%=payment.order.transaction_amount%></span>
 													</td>
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-actions" data-title="Ações">
-															<button type="button" data-bs-toggle="modal" data-bs-target="#llll<%=payment.id%>Edited" class="woocommerce-button button view">Visualizar</button>												
+															<button type="button" data-bs-toggle="modal" data-bs-target="#llll<%=payment.order.id%>Edited" class="woocommerce-button button view">Visualizar</button>												
 															</td>
 									</tr>
 									

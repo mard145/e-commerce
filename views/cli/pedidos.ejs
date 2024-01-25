@@ -14,7 +14,7 @@
 			<div class="modal-body">
   
 		<!--    TENTAR PEGAR PELO CHILDREN DO FORMA E USAR NO JAVASCRIPT LA EMBAIXO NA TAG SCRIPT PEGANDO PELO ELEMENT OU PELO THIS  -->
-		<form action="/capture_payment/<%=payment.order.id%>" method="post">
+		<form id="form<%=payment.order.id%>" action="/capture_payment/<%=payment.order.id%>" method="post">
 			<span style="background-color: pink;border-radius: 50%;position:absolute;color: white ;padding:5px;width:15px;height:15px;display:flex;align-items: center;align-content: center;justify-content: center;" id="cartCount<%=payment.order.id%>">0</span>
 
 			<div class="cart<%=payment.order.id%>">
@@ -32,10 +32,11 @@
 				<%payment.items.forEach(bag=>{%>
 
 					<div class="image_links" style="display: flex;">
-						<img width="50" height="50" src="<%=bag.photo%>" class="image-primary scale-with-grid wp-post-image" alt="" decoding="async" fetchpriority="high" srcset="<%=bag.photo%> 1068w, <%=bag.photo%> 500w, <%=bag.photo%> 300w, <%=bag.photo%> 800w, <%=bag.photo%> 1024w, <%=bag.photo%> 150w, <%=bag.photo%> 768w, <%=bag.photo%> 146w, <%=bag.photo%> 50w, <%=bag.photo%> 75w, <%=bag.photo%> 85w, <%=bag.photo%> 80w" sizes="(max-width: 1068px) 100vw, 1068px" />
 						<% 
-						const statusy = bag.photo || bag.photo != '' || bag.photo == undefined ? bag.photo : 'https://cdn.awsli.com.br/300x300/2536/2536143/produto/206840930/produto-sem-foto-itptos.jpg';
+						const statusy = bag.photo ? bag.photo : 'https://cdn.awsli.com.br/300x300/2536/2536143/produto/206840930/produto-sem-foto-itptos.jpg';
 						%>
+						<img width="50" height="50" src="<%=statusy%>" class="image-primary scale-with-grid wp-post-image" alt="" decoding="async" fetchpriority="high"  sizes="(max-width: 1068px) 100vw, 1068px" />
+						
 						
 						<a rel="nofollow" style="color: #f7b8d5;margin-right: 10px;"  data-id="5" data-name="<%=bag.name%>" data-summary="summary 5" data-price="<%=bag.price%>" data-description="<%=bag.description%>" data-quantity="1" data-image="" onclick="addToCart('<%=bag.name%>', <%=bag.price%>, 1, '<%=bag.id%>','<%=statusy%>')" class="add-to-cart">
 				
@@ -72,7 +73,7 @@
 		<input name="id" type="hidden" value="<%=payment.order.id%>">
 		<input name="transaction_amount" type="number" value="<%=payment.order.transaction_amount%>">
 
-		<button>Cancelar pagamento</button> pagamento
+		<button>Cancelar pagamento</button>
 </form>
 	  
 	</div>
@@ -184,7 +185,7 @@
 																									<%=payment.order.status%>: Transação duplicada
 																									<%}else if(payment.order.status_detail == 'cc_rejected_high_risk' && payment.order.status != undefined){%>
 																										<%=payment.order.status%>: Rechaçado por prevenção de fraude
-order																										<%}else if(payment.order.status_detail == 'cc_rejected_insufficient_amount' && payment.order.status != undefined){%>
+																										<%}else if(payment.order.status_detail == 'cc_rejected_insufficient_amount' && payment.order.status != undefined){%>
 																											<%=payment.order.status%>: Saldo insuficiente
 																											<%}else if(payment.order.status_detail == 'cc_rejected_invalid_installments' && payment.order.status != undefined){%>
 																												<%=payment.order.status%>: Número de parcelas inválido

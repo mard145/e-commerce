@@ -271,7 +271,7 @@ const updatedUser = await User.findByIdAndUpdate(
 );
 console.log(updatedUser, 'updated capture')
 
-let nowOrder1 = await Order.findByIdAndUpdate({_id:_id}, da, { new: false })
+let nowOrder1 = await Order.findByIdAndUpdate({_id:_id}, {order:da}, { new: true })
 console.log(nowOrder1,'PEDIDO ATUALIZADO')
       res.redirect('/minha-conta')
 
