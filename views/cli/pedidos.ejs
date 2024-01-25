@@ -24,18 +24,18 @@
 				</ul>
 				<p id="total<%=payment.order.id%>">Total: R$ <%=payment.order.transaction_amount%></p>
 			  </div>
-
-			<%if(payment.items && payment.items.length != 0){%>
+<%console.log(payment.items)%>
+			<%if(payment.items && payment.items.length > 0){%>
 
 				
 
 				<%payment.items.forEach(bag=>{%>
 
-					<div class="image_links" style="display: flex;">
+					<div class="image_links" style="display: flex;justify-content: center;align-items: center;align-content: center;">
 						<% 
 						const statusy = bag.photo ? bag.photo : 'https://cdn.awsli.com.br/300x300/2536/2536143/produto/206840930/produto-sem-foto-itptos.jpg';
 						%>
-						<img width="50" height="50" src="<%=statusy%>" class="image-primary scale-with-grid wp-post-image" alt="" decoding="async" fetchpriority="high"  sizes="(max-width: 1068px) 100vw, 1068px" />
+						<img width="50" height="50" src="<%=statusy%>" class="image-primary scale-with-grid wp-post-image" style="align-self: center;" alt="" decoding="async" fetchpriority="high"  sizes="(max-width: 1068px) 100vw, 1068px" />
 						
 						
 						<a rel="nofollow" style="color: #f7b8d5;margin-right: 10px;"  data-id="5" data-name="<%=bag.name%>" data-summary="summary 5" data-price="<%=bag.price%>" data-description="<%=bag.description%>" data-quantity="1" data-image="" onclick="addToCart('<%=bag.name%>', <%=bag.price%>, 1, '<%=bag.id%>','<%=statusy%>')" class="add-to-cart">
@@ -44,7 +44,7 @@
 							<span style="font-weight: 900;font-size: 25px;">+</span>
 						  </a>
 				
-						   <p><%=bag.quantity%>x <%=bag.name%> R$<%=bag.price%></p>
+						   <p style="align-self: center;margin: 0;"><%=bag.quantity%>x <%=bag.name%> R$<%=bag.price%></p>
 						<a rel="nofollow" style="color: #f7b8d5;margin-left: 10px;" data-id="5" data-name="<%=bag.name%>" data-summary="summary 5" data-price="<%=bag.price%>" data-size="<%=bag.size%>" data-quantity="1" data-image="<%=bag.photo%>" class="add-to-cart" onclick="decrementQuantity('<%=bag.id%>')">
 				
 					
@@ -53,6 +53,125 @@
 						
 							
 						</div>
+
+						<script type="text/javascript">
+							const cart = [];
+						   const cartData = []
+						   const itemList = []
+							itemCount = 0
+							function addToCart(productName, price, quantity,id,photo) {
+							  // Converte o preço para ponto flutuante
+							  const priceFloat = parseFloat(price);
+							
+							  // Verifica se o preço é um número válido
+							  if (isNaN(priceFloat) || priceFloat <= 0) {
+								alert("Por favor, insira um preço válido.");
+								return;
+							  }
+						
+						
+							
+							  const item = {
+								name: productName,
+								price: priceFloat,
+								quantity: quantity,
+								description:`${quantity}x ${productName} R$ ${priceFloat},00`,
+								id:id,
+								photo:photo
+							  };
+							
+							  // Verifica se o item já está no carrinho
+							  const existingItemIndex = cart.findIndex(cartItem => cartItem.name === productName);
+							
+							  if (existingItemIndex !== -1) {
+								// Se o item já está no carrinho, apenas atualiza a quantidade
+								cart[existingItemIndex].quantity += quantity;
+							  } else {
+								// Se o item não está no carrinho, adiciona-o
+								cart.push(item);
+								cartData.push(cart)
+							  }
+							
+							  itemCount++;
+							  updateCart();
+							  updateTotal();
+							 
+							  console.log(cartData); 
+							  
+							
+							}
+						
+						
+						
+							function updateCart() {
+							  const cartList = document.getElementById('cart-items<%=payment.order.id%>');
+							  const cartCount = document.getElementById('cartCount<%=payment.order.id%>');
+							  // Limpa a lista do carrinho
+							  cartList.innerHTML = '';
+							
+							  // Adiciona itens ao carrinho
+							  cart.forEach(item => {
+								const listItem = document.createElement('li');
+								listItem.style.listStyle = 'none';
+								listItem.textContent = `${item.name} - R$ ${item.price.toFixed(2)} x ${item.quantity} ${item.size}`;
+							  
+								cartList.appendChild(listItem);
+								let lt = cartList.textContent.replace(/$/, ' ')
+								itemList.push(lt)
+								console.log(lt)
+								if(item.quantity == 0){
+								  listItem.textContent = ''
+								 
+								}
+							  
+							  });
+							
+						  
+							cartCount.innerText = itemCount;
+							
+							
+							}
+							
+							function updateTotal() {
+							  const totalElement = document.getElementById('total<%=payment.order.id%>');
+							
+							  // Calcula o total
+							  const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+							
+							  // Atualiza o total
+							  totalElement.textContent = `Total: R$ ${total.toFixed(2)}`;
+							}
+						
+							function decrementQuantity(itemId) {
+						const itemIndex = cart.findIndex((item) => item.id === itemId);
+						
+						if (itemIndex !== -1 && cart[itemIndex].quantity > 0) {
+						cart[itemIndex].quantity--;
+						itemCount--
+						
+						updateCart();
+						updateTotal();
+						console.log(cart)
+						}
+						}
+						 
+							
+							  /*  function link_soft_scroll()
+								{
+									jQuery('a[href^="#"]').on('click', function(e) {
+										if(jQuery(this).hasClass('close')) return;
+										e.preventDefault();
+										var id = jQuery(this).attr('href'),
+												targetOffset = jQuery(id).offset();
+												
+										jQuery('html, body').animate({ 
+											scrollTop: targetOffset - 270
+										}, 1000);
+									});
+								}
+								link_soft_scroll();*/
+								</script>
+
 					<%})%>
 	
 					<%}%>
@@ -208,120 +327,3 @@
 	
 
 </div>
-<script type="text/javascript">
-	const cart = [];
-   const cartData = []
-   const itemList = []
-	itemCount = 0
-	function addToCart(productName, price, quantity,id,photo) {
-	  // Converte o preço para ponto flutuante
-	  const priceFloat = parseFloat(price);
-	
-	  // Verifica se o preço é um número válido
-	  if (isNaN(priceFloat) || priceFloat <= 0) {
-		alert("Por favor, insira um preço válido.");
-		return;
-	  }
-
-
-	
-	  const item = {
-		name: productName,
-		price: priceFloat,
-		quantity: quantity,
-		description:`${quantity}x ${productName} R$ ${priceFloat},00`,
-		id:id,
-		photo:photo
-	  };
-	
-	  // Verifica se o item já está no carrinho
-	  const existingItemIndex = cart.findIndex(cartItem => cartItem.name === productName);
-	
-	  if (existingItemIndex !== -1) {
-		// Se o item já está no carrinho, apenas atualiza a quantidade
-		cart[existingItemIndex].quantity += quantity;
-	  } else {
-		// Se o item não está no carrinho, adiciona-o
-		cart.push(item);
-		cartData.push(cart)
-	  }
-	
-	  itemCount++;
-	  updateCart();
-	  updateTotal();
-	 
-	  console.log(cartData); 
-	  
-	
-	}
-
-
-
-	function updateCart() {
-	  const cartList = document.getElementById('cart-items');
-	  const cartCount = document.getElementById('cartCount');
-	  // Limpa a lista do carrinho
-	  cartList.innerHTML = '';
-	
-	  // Adiciona itens ao carrinho
-	  cart.forEach(item => {
-		const listItem = document.createElement('li');
-		listItem.style.listStyle = 'none';
-		listItem.textContent = `${item.name} - R$ ${item.price.toFixed(2)} x ${item.quantity} ${item.size}`;
-	  
-		cartList.appendChild(listItem);
-		let lt = cartList.textContent.replace(/$/, ' ')
-		itemList.push(lt)
-		console.log(lt)
-		if(item.quantity == 0){
-		  listItem.textContent = ''
-		 
-		}
-	  
-	  });
-	
-  
-	cartCount.innerText = itemCount;
-	
-	
-	}
-	
-	function updateTotal() {
-	  const totalElement = document.getElementById('total');
-	
-	  // Calcula o total
-	  const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-	
-	  // Atualiza o total
-	  totalElement.textContent = `Total: R$ ${total.toFixed(2)}`;
-	}
-
-	function decrementQuantity(itemId) {
-const itemIndex = cart.findIndex((item) => item.id === itemId);
-
-if (itemIndex !== -1 && cart[itemIndex].quantity > 0) {
-cart[itemIndex].quantity--;
-itemCount--
-
-updateCart();
-updateTotal();
-console.log(cart)
-}
-}
- 
-	
-	  /*  function link_soft_scroll()
-		{
-			jQuery('a[href^="#"]').on('click', function(e) {
-				if(jQuery(this).hasClass('close')) return;
-				e.preventDefault();
-				var id = jQuery(this).attr('href'),
-						targetOffset = jQuery(id).offset();
-						
-				jQuery('html, body').animate({ 
-					scrollTop: targetOffset - 270
-				}, 1000);
-			});
-		}
-		link_soft_scroll();*/
-		</script>
