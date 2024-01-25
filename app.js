@@ -451,12 +451,7 @@ app.post('/process_payment', async (req,res)=>{
         },
       },
       additional_info:{
-        items:()=> items.map(itens=> ({
-          id:itens.id,
-          title: itens.name,
-          price: itens.price,
-          quantity: itens.quantity
-        }))
+        items:items
       },
       capture:false
       
@@ -488,12 +483,7 @@ if(userEmail1){
     });*/
     let order1 = new Order({
       order:data,
-      items:()=> items.map(itens=> ({
-        id:itens.id,
-        title: itens.name,
-        price: itens.price,
-        quantity: itens.quantity
-      }))
+      items:items
     })
    await order1.save()
 
@@ -548,12 +538,7 @@ if(userEmail1){
 
    let order2 = new Order({
     order:data,
-    items:()=> items.map(itens=> ({
-      id:itens.id,
-      title: itens.name,
-      price: itens.price,
-      quantity: itens.quantity
-    }))
+    items:items
   })
  await order2.save()
  let usrs = await User.findByIdAndUpdate({_id:newUser1._id},{$push: { orders: order2 }},{new:true})
@@ -575,13 +560,7 @@ if(userEmail1){
       });*/
       let order1 = new Order({
         order:data,
-        items:()=> items.map(itens=> ({
-          id:itens.id,
-          title: itens.name,
-          price: itens.price,
-          quantity: itens.quantity
-        }))
-        
+        items:items
       })
      await order1.save()
      console.log(data,' <- pagamento criado' )

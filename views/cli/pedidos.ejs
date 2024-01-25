@@ -18,7 +18,7 @@
 			<span style="background-color: pink;border-radius: 50%;position:absolute;color: white ;padding:5px;width:15px;height:15px;display:flex;align-items: center;align-content: center;justify-content: center;" id="cartCount<%=payment.order.id%>">0</span>
 
 			<div class="cart<%=payment.order.id%>">
-				<h2>Seu pedido</h2>
+				<h2>Sua Bag</h2>
 				<ul id="cart-items<%=payment.order.id%>">
 				  <!-- Itens do carrinho serão adicionados aqui dinamicamente -->
 				</ul>
@@ -44,7 +44,7 @@
 							<span style="font-weight: 900;font-size: 25px;">+</span>
 						  </a>
 				
-						   
+						   <p><%=bag.quantity%>x <%=bag.name%> R$<%=bag.price%></p>
 						<a rel="nofollow" style="color: #f7b8d5;margin-left: 10px;" data-id="5" data-name="<%=bag.name%>" data-summary="summary 5" data-price="<%=bag.price%>" data-size="<%=bag.size%>" data-quantity="1" data-image="<%=bag.photo%>" class="add-to-cart" onclick="decrementQuantity('<%=bag.id%>')">
 				
 					
@@ -65,16 +65,6 @@
 
 			<button>Pagar valor inteiro</button>
 	</form>
-
-	<form action="/cancel_payment/<%=payment.order.id%>" method="post">
-
-		<input name="_id" type="hidden" value="<%=payment._id%>">
-		<input name="userid" type="hidden" value="<%=user._id%>">
-		<input name="id" type="hidden" value="<%=payment.order.id%>">
-		<input name="transaction_amount" type="number" value="<%=payment.order.transaction_amount%>">
-
-		<button>Cancelar pagamento</button>
-</form>
 	  
 	</div>
 	

@@ -37,7 +37,7 @@
                             <div class="d-none" id="imagePreviewBag"></div>
 
         </div>
-
+<input id="descr" type="hidden">
 
     <div class="products_wrapper mfn-woo-products isotope_wrapper default-woo-loop lm_wrapper">
         <ul class="products columns-3 grid d-flex" style="display: flex;">
@@ -78,7 +78,7 @@
     
             <h4><a href="#"><%=product.name%></a> <%=product.size%></h4>
             
-        <span class="price"><del aria-hidden="true"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#82;&#36;</span>&nbsp;<%=product.price%></bdi></span></del> <ins><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#82;&#36;</span>&nbsp;<%=product.price%></bdi></span></ins> <span class="subscription-details"> por 1 mês</span></span>
+        <span class="price"><del aria-hidden="true"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#82;&#36;</span>&nbsp;<%=product.price%></bdi></span></del> <ins><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#82;&#36;</span>&nbsp;<%=product.price%></bdi></span></ins> <span class="subscription-details"></span></span>
     <div class="mfn-li-product-row mfn-li-product-row-button hide-button"></div>
         </div>
     
@@ -93,9 +93,11 @@
 
     <script type="text/javascript">
         const cart = [];
-        const lop 
+      
        const cartData = []
        const itemList = []
+       const descr = document.getElementById('descr')
+
 
         itemCount = 0
         function addToCart(productName, price, quantity,size, id, photo) {
@@ -117,7 +119,7 @@
             description:`${quantity}x ${productName} R$ ${priceFloat},00`,
             id:id
           };
-        
+        //  descr.value = item.description
           // Verifica se o item já está no carrinho
           const existingItemIndex = cart.findIndex(cartItem => cartItem.name === productName);
         
@@ -152,9 +154,9 @@
             const listItem = document.createElement('li');
             listItem.style.listStyle = 'none';
             listItem.innerHTML = `${item.name} - R$ ${item.price.toFixed(2)} x ${item.quantity} ${item.size} <img style='width:25px;height:25px;' src="${item.photo}" alt="${item.name}">`;
-            lop = listItem.textContent
             cartList.appendChild(listItem);
             let lt = cartList.textContent.replace(/$/, ' ')
+            descr.value = lt
             itemList.push(lt)
             console.log(lt)
             if(item.quantity == 0){
@@ -213,7 +215,6 @@
     const totalElement = document.getElementById('total');
     const nameProduct = document.getElementById('nameProduct')
     const photoBag = document.getElementById('photoBag')
-
 // Obtém o texto dentro do elemento
  
 
@@ -230,7 +231,7 @@ method: 'POST',
 headers: {
  'Content-Type': 'application/json',
 },
-body: JSON.stringify({ products:cart, name:nameProduct.value, price:totalValue, photo:photoBag.value, description:lop }), // Enviar os produtos como um objeto no corpo da requisição
+body: JSON.stringify({ products:cart, name:nameProduct.value, price:totalValue, photo:photoBag.value, description:descr.value }), // Enviar os produtos como um objeto no corpo da requisição
 })
 .then(response => response.json())
 .then(data => {
