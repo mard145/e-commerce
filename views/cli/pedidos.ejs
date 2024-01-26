@@ -22,7 +22,7 @@
 				<ul id="cart-items<%=payment.order.id%>">
 				  <!-- Itens do carrinho serão adicionados aqui dinamicamente -->
 				</ul>
-				<p id="total<%=payment.order.id%>">Total: R$ <%=payment.order.transaction_amount%>,00</p>
+				<p id="total<%=payment.order.id%>">Total: R$ <%=payment.order.transaction_amount%>.00</p>
 			  </div>
 
 			<%if(payment.items && payment.items.length > 0){%>
@@ -50,7 +50,7 @@
 							<span style="font-weight: 900;font-size: 25px;">+</span>
 						  </a>
 				
-						  <img width="50" height="50" src="<%=b.photo%>" class="image-primary scale-with-grid wp-post-image" style="align-self: center;" alt="" decoding="async" fetchpriority="high"  sizes="(max-width: 1068px) 100vw, 1068px" />
+						  <img width="50" height="50" src="<%=statusy%>" class="image-primary scale-with-grid wp-post-image" style="align-self: center;" alt="" decoding="async" fetchpriority="high"  sizes="(max-width: 1068px) 100vw, 1068px" />
 
 						
 						<a rel="nofollow" style="color: #f7b8d5;margin-left: 10px;" data-id="5" data-name="<%=b.name%>" data-summary="summary 5" data-price="<%=b.price%>" data-size="<%=b.size%>" data-quantity="1" data-image="<%=b.photo%>" class="add-to-cart" onclick="decrementQuantity('<%=b.id%>')">
@@ -142,7 +142,7 @@
 							  cart<%=payment.order.id%>.forEach(item => {
 								const listItem<%=payment.order.id%> = document.createElement('li');
 								listItem<%=payment.order.id%>.style.listStyle = 'none';
-								listItem<%=payment.order.id%>.textContent = `${item.name} ${item.quantity}x  ${item.size} - R$ ${item.price.toFixed(2)}  `;
+								listItem<%=payment.order.id%>.textContent = `${item.quantity}x  ${item.name} ${item.size} - R$ ${item.price.toFixed(2)}  `;
 							  
 								cartList<%=payment.order.id%>.appendChild(listItem<%=payment.order.id%>);
 								let lt<%=payment.order.id%> = cartList<%=payment.order.id%>.textContent.replace(/$/, ' ')
@@ -319,7 +319,7 @@
 															<span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"><%=payment.order.currency_id%></span>&nbsp;<%=payment.order.transaction_amount%></span>
 													</td>
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-actions" data-title="Ações">
-															<button type="button" data-bs-toggle="modal" data-bs-target="#llll<%=payment.order.id%>Edited" class="woocommerce-button button view">Visualizar</button>												
+															<button type="button" data-bs-toggle="modal" data-bs-target="#llll<%=payment.order.id%>Edited" class="woocommerce-button button view">Visualizar Bag</button>												
 															</td>
 									</tr>
 									

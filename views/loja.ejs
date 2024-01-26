@@ -2558,7 +2558,7 @@ function updateCart() {
     const listItem = document.createElement('li');
 	listItem.style.listStyle = 'none';
 
-    listItem.textContent = `${item.name} - R$ ${item.price.toFixed(2)} x ${item.quantity}`;
+    listItem.textContent = `${item.quantity} ${item.name} - R$ ${item.price.toFixed(2)}`;
 	console.log(listItem)
     cartList.appendChild(listItem);
 	let lt = cartList.textContent.replace(/$/, ' ')
