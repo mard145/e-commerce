@@ -8,7 +8,7 @@
 		<div class="modal-dialog">
 		  <div class="modal-content">
 			<div class="modal-header">
-			  <h1 class="modal-title fs-5" id="llll<%=payment.order.id%>edit">Capturar pagamento</h1>
+			  <h1 class="modal-title fs-5" id="llll<%=payment.order.id%>edit">-</h1>
 			  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
@@ -35,7 +35,7 @@
 						
 					
 
-					<div class="image_links" style="display: flex;justify-content: center;align-items: center;align-content: center;">
+					<div class="image_links" style="display: flex;justify-content: center;align-items: center;align-content: center;flex-direction: column;">
 						<%bag.items.forEach(b=>{%>
 
 					
@@ -43,22 +43,27 @@
 						const statusy = b.photo ? b.photo : 'https://cdn.awsli.com.br/300x300/2536/2536143/produto/206840930/produto-sem-foto-itptos.jpg';
 						%>
 						
-						
-						<a rel="nofollow" style="color: #f7b8d5;margin-right: 10px;"  data-id="5" data-name="<%=b.name%>" data-summary="summary 5" data-price="<%=b.price%>" data-description="<%=b.description%>" data-quantity="1" data-image="" onclick="addToCart<%=payment.order.id%>('<%=b.name%>', <%=b.price%>, 1, '<%=b.size%>', '<%=b.id%>','<%=statusy%>')" class="add-to-cart">
+						<div style="display: flex; justify-content: space-evenly;align-items: center;align-content: center;padding: 10px;">
+						<a rel="nofollow" href="#"  style="color: #f7b8d5;margin-right: 10px;"  data-id="5" data-name="<%=b.name%>" data-summary="summary 5" data-price="<%=b.price%>" data-description="<%=b.description%>" data-quantity="1" data-image="" onclick="addToCart<%=payment.order.id%>('<%=b.name%>', <%=b.price%>, 1, '<%=b.size%>', '<%=b.id%>','<%=statusy%>')" class="add-to-cart">
 				
 						
 							<span style="font-weight: 900;font-size: 25px;">+</span>
 						  </a>
 				
-						  <img width="50" height="50" src="<%=statusy%>" class="image-primary scale-with-grid wp-post-image" style="align-self: center;" alt="" decoding="async" fetchpriority="high"  sizes="(max-width: 1068px) 100vw, 1068px" />
 
+						  <div style="display: flex; justify-content: space-evenly;align-items: center;align-content: center;">
+						  <img width="50" height="50" src="<%=statusy%>" class="image-primary scale-with-grid wp-post-image" style="align-self: center;margin-right: 5px;" alt="" decoding="async" fetchpriority="high"  sizes="(max-width: 1068px) 100vw, 1068px" />
+						  <div><%=b.quantity%>x <%=b.name%> R$  <%=b.price%></div>
+
+						 
+						</div>
 						
-						<a rel="nofollow" style="color: #f7b8d5;margin-left: 10px;" data-id="5" data-name="<%=b.name%>" data-summary="summary 5" data-price="<%=b.price%>" data-size="<%=b.size%>" data-quantity="1" data-image="<%=b.photo%>" class="add-to-cart" onclick="decrementQuantity('<%=b.id%>')">
+						<a rel="nofollow" href="#" style="color: #f7b8d5;margin-left: 10px;" data-id="5" data-name="<%=b.name%>" data-summary="summary 5" data-price="<%=b.price%>" data-size="<%=b.size%>" data-quantity="1" data-image="<%=b.photo%>" class="add-to-cart" onclick="decrementQuantity('<%=b.id%>')">
 				
 					
 						  <span style="font-weight: 900;font-size: 25px;">-</span>
 						</a>
-						
+					</div>
 						<%})%>
 						</div>
 

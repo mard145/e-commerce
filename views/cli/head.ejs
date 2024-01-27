@@ -1092,7 +1092,7 @@ localStorage.setItem(token,'tokenJWT')
 			</div>
 
 			<div class="top_bar_right "><div class="top_bar_right_wrapper"><a id="myaccount_button" class="top-bar-right-icon top-bar-right-icon-user toggle-login-modal is-boxed logged-in" href="/minha-conta">
-                <%if(user){%>
+                <%if(user.photo){%>
                     <img alt='' src='<%=user.photo%>' srcset='<%=user.photo%>' class='avatar avatar-32 photo' height='32' width='32' decoding='async'/>
                     <%}else{%>
                 <img alt='' src='https://1.gravatar.com/avatar/180f93b6d576af74898cedc6b48463d8?s=32&#038;d=mm&#038;r=g' srcset='https://1.gravatar.com/avatar/180f93b6d576af74898cedc6b48463d8?s=64&#038;d=mm&#038;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' decoding='async'/>
