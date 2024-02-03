@@ -81,7 +81,7 @@ mongoose.connect(process.env.MONGO_ATLAS).then(()=>{
 
 const axios = require('axios')
 
-let { MercadoPagoConfig, Payment, Customer, MerchantOrder,PreApproval, PreApprovalPlan, CustomerCard } = require('mercadopago');
+let { MercadoPagoConfig, Payment, Customer, MerchantOrder,PreApproval, PreApprovalPlan, CustomerCard , CardToken} = require('mercadopago');
 
 
 // Step 2: Initialize the client object
@@ -95,15 +95,18 @@ const merchantOrder = new MerchantOrder(client)
 const preApproval = new PreApproval(client) 
 const preApprovalPlan = new PreApprovalPlan(client)
 const customerCard = new CustomerCard(client)
+const cardToken = new CardToken(client)
 const mercadoPagoPublicKey = 'TEST-f609a46a-df09-4fe6-a4b2-e7688d449f94';
 if (!mercadoPagoPublicKey) {
   console.log("Error: public key not defined");
   process.exit(1);
 }
  
-customer.search({}).then(data=>{
-  console.log(data)
-}).catch(err=>console.log(err))
+async function jk(){
+  let hj = await customer.listCards({customerId:'1642011778-8UfOsg4PcyvaKy' })
+console.log(hj)
+}
+jk()
 
 
 const fs = require('fs');
@@ -357,6 +360,7 @@ app.post('/parcial/:id',async (req,res)=>{
   try {
     let user = await req.user
     let {id, transaction_amount, _id, userid, issuer_id, cart} = await req.body
+   
     console.log(JSON.stringify(cart))
   if(!id) {
     id = await req.params.id
@@ -456,21 +460,21 @@ console.log(nowOrder1,'PEDIDO ATUALIZADO')
     const userEmail1 = await User.findOne({$or: [{email: ord.order.payer.email}]})
 //console.log(userEmail1)
 
-
 let customerGet = await customer.get({ customerId: '1642011778-8UfOsg4PcyvaKy' })
 
 console.log(customerGet,'RESUKTTTTT')
 
 const body = {
-     token : customerGet.token,
+     cardholder : ord.order.card.cardholder,
      issuer_id: ord.order.issuer_id,
-     payment_method: ord.order.payment_method.type 
+     payment_method: ord.order.payment_method.type,
+     card:ord.order.card,
 };
 
-let crCustomer = await customerCard.create({ body:body })
+let crCustomer = await cardToken.create({ body:body })
 console.log(crCustomer,'CRRRRRRRRRRR')
 let y = {
-  token: result.token,
+  token: crCustomer,
    transaction_amount: parseFloat(transaction_amount),
    description: `Pagamento parcial capturado ${id}`,
    payment_method_id: ord.order.payment_method_id,
@@ -485,8 +489,8 @@ let y = {
      email:userid1.email
    }
    }
-  console.log(crCustomer,'DDDDDDDDDDDDDDDD')
-  let npayment = await payment.create({ body: y})
+
+   let npayment = await payment.create({ body: y})
     
   
         let order3 = await new Order({
