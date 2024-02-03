@@ -78,7 +78,10 @@ mongoose.connect(process.env.MONGO_ATLAS).then(()=>{
       console.log('mongo connection')
   })
 // Step 1: Import the parts of the module you want to use
-let { MercadoPagoConfig, Payment, Customer, MerchantOrder,PreApproval, PreApprovalPlan } = require('mercadopago');
+
+const axios = require('axios')
+
+let { MercadoPagoConfig, Payment, Customer, MerchantOrder,PreApproval, PreApprovalPlan, CustomerCard } = require('mercadopago');
 
 
 // Step 2: Initialize the client object
@@ -86,20 +89,26 @@ const client = new MercadoPagoConfig({ accessToken: 'TEST-4911284730753864-01080
 
 
 // Step 3: Initialize the API object
-const payment = new Payment(client);
+const payment = new Payment(client)
 const customer = new Customer(client)
 const merchantOrder = new MerchantOrder(client)
 const preApproval = new PreApproval(client) 
 const preApprovalPlan = new PreApprovalPlan(client)
+const customerCard = new CustomerCard(client)
 const mercadoPagoPublicKey = 'TEST-f609a46a-df09-4fe6-a4b2-e7688d449f94';
 if (!mercadoPagoPublicKey) {
   console.log("Error: public key not defined");
   process.exit(1);
 }
  
+customer.search({}).then(data=>{
+  console.log(data)
+}).catch(err=>console.log(err))
 
 
 const fs = require('fs');
+const { truncate } = require('fs/promises')
+const Cart = require('cestino')
 app.use(cors())
 app.use(express.static(path.join(__dirname,'public')))
 app.set('view engine', 'ejs')
@@ -201,6 +210,7 @@ console.log('Data Futura (2 dias depois):', dataFuturaFormatada);
     
       back_url: "https://google.com"
     }
+
  let signature = await preApproval.create({body:signatureData})
  
  console.log(signature,'3333333')
@@ -342,15 +352,191 @@ app.put('/cancel_signature/:id',async (req,res)=>{
 
 })
 
-app.post('/capture_parcial_payment/:id',(req,res)=>{
-  let {id, transaction_amount} = req.body
-if(!id) {
-  id = req.params.id
-}
+app.post('/parcial/:id',async (req,res)=>{
 
-let captureInfo = {id: id, transaction_amount: transaction_amount}
+  try {
+    let user = await req.user
+    let {id, transaction_amount, _id, userid, issuer_id, cart} = await req.body
+    console.log(JSON.stringify(cart))
+  if(!id) {
+    id = await req.params.id
+  }
+  console.log(await req.body, 'HEYAH')
+
+/*  let cap = await payment.capture({
+    id: id,
+    transaction_amount: 12.34,
+    requestOptions: {
+    idempotencyKey: '123'
+    
+    },
+    status:true
+    })
+    console.log(cap)
+      let accessToken = 'TEST-4911284730753864-010809-73732c6bb200ed0a86ceaea651e856c0-1058457871'
+    let tr = parseFloat(transaction_amount)
+    const url = `https://api.mercadopago.com/v1/payments/${id}`;
+    const updateData = {
+      status_detail:'accredited',
+      transaction_amount:tr,
+      
+      // Adicione outros campos que deseja atualizar
+    };
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer TEST-4911284730753864-010809-73732c6bb200ed0a86ceaea651e856c0-1058457871`,
+      },
+    };    
+let rsp = await axios.put(url, updateData, config)
+console.log(rsp)
+
+let da = await payment.capture({
+  id: id,
+  transaction_amount: parseInt(transaction_amount),
+
+  }) 
+
+const updatedUser = await User.findByIdAndUpdate(
+  userid,
+  { $set: { "orders.$[elem].order.status_detail": rsp.data.status_detail } },
+  { new: true, arrayFilters: [{ "elem._id": new mongoose.Types.ObjectId(_id) }] }
+);
+let nowOrder1 = await Order.findByIdAndUpdate({_id:_id}, {order:da}, { new: true })
+console.log(nowOrder1,'PEDIDO ATUALIZADO')
+      res.redirect('/minha-conta')    */
+   
+      const timestamp1 = await Date.now();
+      const stringTimestamp1 = await timestamp1.toString();
 
 
+  let userid1 = await User.findById({_id:userid})
+  let ord = await Order.findById({_id:_id})
+
+  let customerSearch = await  customer.search({options:{email:userid1.email}})
+  console.log(customerSearch, 'SEARCHED')
+  console.log(ord.order.payer.email, ord.order.payer)
+
+ const clientData1 = {
+    email: userid1.email,
+   first_name: ord.order.payer.first_name,
+    last_name: ord.order.payer.last_name,
+    phone:{
+      number:ord.order.payer.phone.number,
+      area_code:ord.order.payer.phone.area_code
+    },
+    identification: {
+      type: ord.order.payer.identification.type,
+      number: ord.order.payer.identification.number
+    },
+ //   default_address: 'Home',
+    address: {
+      id: userid1.address,
+      zip_code: userid1.cep,
+      street_name: userid1.address,
+      street_number: userid1.street_number,
+      city: {
+        name:userid1.city
+      },
+    
+   
+    },
+   
+  
+  };
+
+  if(customerSearch.results.length == 0){
+  let nCustomer =  await customer.create({ body: clientData1 })
+  console.log(cardCustomer)
+
+  let cardCustomer =  await customerCard.create({customerId:nCustomer,body:{token:nCustomer.token}})
+  console.log(cardCustomer)
+  }
+
+    const userEmail1 = await User.findOne({$or: [{email: ord.order.payer.email}]})
+//console.log(userEmail1)
+
+
+let customerGet = await customer.get({ customerId: '1642011778-8UfOsg4PcyvaKy' })
+
+console.log(customerGet,'RESUKTTTTT')
+
+const body = {
+     token : customerGet.token,
+     issuer_id: ord.order.issuer_id,
+     payment_method: ord.order.payment_method.type 
+};
+
+let crCustomer = await customerCard.create({ body:body })
+console.log(crCustomer,'CRRRRRRRRRRR')
+let y = {
+  token: result.token,
+   transaction_amount: parseFloat(transaction_amount),
+   description: `Pagamento parcial capturado ${id}`,
+   payment_method_id: ord.order.payment_method_id,
+   issuer_id:issuer_id,
+   installments:1,
+   capture:true,
+   payer:{
+     first_name:ord.order.payer.first_name,
+     last_name:ord.order.payer.lasr_name,
+     identification:ord.order.payer.identification,
+     entity_type:ord.order.payer.entity_type,
+     email:userid1.email
+   }
+   }
+  console.log(crCustomer,'DDDDDDDDDDDDDDDD')
+  let npayment = await payment.create({ body: y})
+    
+  
+        let order3 = await new Order({
+          order:npayment,
+          items:await JSON.parse(cart)
+        })
+  
+       await order3.save()
+       let usrs = await User.findByIdAndUpdate({_id:userid1._id},{$push: { orders: order3 }},{new:true})
+  
+        console.log(npayment,'PAGAMENTO CAPTURADO')
+  
+        const removeOrderIndUser = await User.findByIdAndUpdate(
+          userid,
+          { $pull: { orders: { _id: new mongoose.Types.ObjectId(_id) } } },
+          { new: true }
+        );
+        console.log(removeOrderIndUser, 'removed order and its related array');
+  
+  
+        // Excluir o documento relacionado na coleção Order
+  const removedOrder = await Order.findByIdAndRemove({ _id: _id });
+  console.log(removedOrder, 'removed order');
+  console.log('pedido re,ovido ou atualizado')  
+  
+      
+  
+    //let customerCreate = await customer.create({ body: clientData1 })
+  
+  
+    
+  
+  
+  
+  
+  
+    
+          res.redirect('/minha-conta')
+
+
+
+
+
+
+
+  } catch (error) {
+    console.log(error)
+  }
+ 
+  
 })
 
 app.post('/cancel_payment/:id',async (req,res)=>{
@@ -381,7 +567,7 @@ console.log(nowOrder,'PEDIDO ATUALIZADO')
  
 })
 
-/*app.post('/logout',async (req,res)=>{
+app.post('/logout',async (req,res)=>{
   try {
     let tk = await req.body.tk
     console.log(tk)
@@ -392,7 +578,7 @@ console.log(nowOrder,'PEDIDO ATUALIZADO')
     console.log(error)
   }
 })
-*/
+
 
 app.post('/process_payment', async (req,res)=>{
 
@@ -413,7 +599,7 @@ app.post('/process_payment', async (req,res)=>{
       last_name: payer.last_name,
       phone: payer.phone,
       identification: {
-        type: payer.identification.ype,
+        type: payer.identification.type,
         number: payer.identification.number
       },
    //   default_address: 'Home',
@@ -619,10 +805,8 @@ if(userEmail1){
   items:items
   
 })
+
 await order3.save()
-
-
-
 
  let usr = await User.findByIdAndUpdate({_id:userEmail._id},{$push: { orders: order3 }},{new:true})
  //console.log(usr, 'EMAIL ENCONTRADO')
@@ -644,6 +828,9 @@ await order3.save()
    }
 
 })
+
+
+
 
 //app.get('/', (req,res)=>{
   //  res.render('index',{msg:false,error:false})
@@ -848,7 +1035,7 @@ app.get('/minha-conta',eAdmin,async(req,res)=>{
   //  console.log(signatures,'SIGNATURES')
   // const sigs = await signatures.results.filter( sig => sig.external_reference == user.cpf);
   //console.log(sigs)
-      res.render('cli/cli',{user:user,msg:false})
+      res.render('cli/cli',{user:user,msg:false, publicKey:mercadoPagoPublicKey})
     }else{
       res.redirect('/')
     }

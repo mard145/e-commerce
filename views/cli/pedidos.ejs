@@ -1,4 +1,13 @@
 <div class="woocommerce-MyAccount-content tab-content" id="tab3">
+	<input type="hidden" id="pKey" value="<%=publicKey%>">
+	<script src="https://sdk.mercadopago.com/js/v2"></script>
+	<script type="text/javascript">
+const pKey = document.getElementById('pKey').value
+const mp = new MercadoPago(pKey,{
+locale: 'pt-BR'
+});
+	</script>
+
 	<div class="woocommerce-notices-wrapper"></div>
 	<%if(user){%>
 		<%user.orders.forEach(payment=>{%>
@@ -15,14 +24,14 @@
   
 		<!--    TENTAR PEGAR PELO CHILDREN DO FORMA E USAR NO JAVASCRIPT LA EMBAIXO NA TAG SCRIPT PEGANDO PELO ELEMENT OU PELO THIS  -->
 		<form id="form<%=payment.order.id%>" action="/capture_payment/<%=payment.order.id%>" method="post">
-			<span style="background-color: pink;border-radius: 50%;position:absolute;color: white ;padding:5px;width:15px;height:15px;display:flex;align-items: center;align-content: center;justify-content: center;" id="cartCount<%=payment.order.id%>">0</span>
+			<span style="background-color: pink;border-radius: 50%;position:absolute;color: white ;padding:15px;width:15px;height:15px;display:flex;align-items: center;align-content: center;justify-content: center;" id="cartCount<%=payment.order.id%>">0</span>
 
 			<div class="cart<%=payment.order.id%>">
 				<h2>Sua Bag</h2>
 				<ul id="cart-items<%=payment.order.id%>">
 				  <!-- Itens do carrinho serão adicionados aqui dinamicamente -->
 				</ul>
-				<p id="total<%=payment.order.id%>">Total: R$ <%=payment.order.transaction_amount%>.00</p>
+				<p id="total<%=payment.order.id%>">Total: R$ <%=payment.order.transaction_amount%></p>
 			  </div>
 
 			<%if(payment.items && payment.items.length > 0){%>
@@ -44,21 +53,22 @@
 						%>
 						
 						<div style="display: flex; justify-content: space-evenly;align-items: center;align-content: center;padding: 10px;">
-						<a rel="nofollow" href="#"  style="color: #f7b8d5;margin-right: 10px;"  data-id="5" data-name="<%=b.name%>" data-summary="summary 5" data-price="<%=b.price%>" data-description="<%=b.description%>" data-quantity="1" data-image="" onclick="addToCart<%=payment.order.id%>('<%=b.name%>', <%=b.price%>, 1, '<%=b.size%>', '<%=b.id%>','<%=statusy%>')" class="add-to-cart">
+						<a rel="nofollow" href="#"  style="color: #f7b8d5;margin-right: 10px;"  data-id="5" data-name="<%=b.name%>" data-summary="summary 5" data-price="<%=b.price%>" data-description="<%=b.description%>" data-quantity="1" data-image="" onclick="addToCart<%=payment.order.id%>('<%=b.name%>', <%=b.price%>, 1, '<%=b.size%>', '<%=b.id%><%=payment._id%>','<%=statusy%>')" class="add-to-cart">
 				
 						
 							<span style="font-weight: 900;font-size: 25px;">+</span>
 						  </a>
 				
 
-						  <div style="display: flex; justify-content: space-evenly;align-items: center;align-content: center;">
-						  <img width="50" height="50" src="<%=statusy%>" class="image-primary scale-with-grid wp-post-image" style="align-self: center;margin-right: 5px;" alt="" decoding="async" fetchpriority="high"  sizes="(max-width: 1068px) 100vw, 1068px" />
+						  <div id="p<%=payment.order.id%>" style="display: flex; justify-content: space-evenly;align-items: center;align-content: center;">
+
+						  <img width="50" height="50" src="<%=statusy%>" class="image-primary scale-with-grid wp-post-image" style="align-self: center;margin-right: 5px;width:25px;height:25px" alt="" decoding="async" fetchpriority="high"  sizes="(max-width: 1068px) 100vw, 1068px" />
 						  <div><%=b.quantity%>x <%=b.name%> R$  <%=b.price%></div>
 
 						 
 						</div>
 						
-						<a rel="nofollow" href="#" style="color: #f7b8d5;margin-left: 10px;" data-id="5" data-name="<%=b.name%>" data-summary="summary 5" data-price="<%=b.price%>" data-size="<%=b.size%>" data-quantity="1" data-image="<%=b.photo%>" class="add-to-cart" onclick="decrementQuantity('<%=b.id%>')">
+						<a rel="nofollow" href="#" style="color: #f7b8d5;margin-left: 10px;" data-id="5" data-name="<%=b.name%>" data-summary="summary 5" data-price="<%=b.price%>" data-size="<%=b.size%>" data-quantity="1" data-image="<%=b.photo%>" class="add-to-cart" onclick="decrementQuantity<%=payment.order.id%>('<%=b.id%><%=payment._id%>')">
 				
 					
 						  <span style="font-weight: 900;font-size: 25px;">-</span>
@@ -79,132 +89,159 @@
 			<input name="id" type="hidden" value="<%=payment.order.id%>">
 			<input name="transaction_amount" type="number" value="<%=payment.order.transaction_amount%>">
 
-			<button>Pagar valor inteiro</button>
+		
+			<button type="submit">Pagar valor inteiro</button>
+		
+
 	</form>
+
+	<form  action='/parcial/<%=payment.order.id%>' method="post">
+
+		<input name="_id" type="hidden" value="<%=payment._id%>">
+		<input name="userid" type="hidden" value="<%=user._id%>">
+		<input name="issuer_id" type="hidden" value="<%=payment.order.issuer_id%>">
+<input type="hidden" id="ccart<%=payment.order.id%>" name="cart">
+<input name="id" type="hidden" value="<%=payment.order.id%>">
+<input name="transaction_amount" id="parcial<%= payment.order.id %>" type="number">
+
+
+		<button type="submit" >Pagar parcial</button>
+
+		</form>
+		
+	
+
+	
 	  
 	</div>
 	
   </div>
 </div>
 </div>
-	<script id="<%=payment.order.id%>" type="text/javascript">
-							const cart<%=payment.order.id%> = [];
-						   const cartData<%=payment.order.id%> = []
-						   const itemList<%=payment.order.id%> = []
-							itemCount<%=payment.order.id%> = 0
-							function addToCart<%=payment.order.id%>(productName, price, quantity, size, id,photo) {
-							  // Converte o preço para ponto flutuante
-							  const priceFloat<%=payment.order.id%> = parseFloat(price);
-							
-							  // Verifica se o preço é um número válido
-							  if (isNaN(priceFloat<%=payment.order.id%>) || priceFloat<%=payment.order.id%> <= 0) {
-								alert("Por favor, insira um preço válido.");
-								return;
-							  }
-						
-						
-							
-							  const item<%=payment.order.id%> = {
-								name: productName,
-								price: priceFloat<%=payment.order.id%>,
-								quantity: quantity,
-								description:`${quantity}x ${productName} ${size} R$ ${priceFloat<%=payment.order.id%>},00`,
-								size:size,
-								id:id,
-								photo:photo
-							  };
-							
-							  // Verifica se o item já está no carrinho
-							  const existingItemIndex<%=payment.order.id%> = cart<%=payment.order.id%>.findIndex(cartItem => cartItem.name === productName);
-							
-							  if (existingItemIndex<%=payment.order.id%> !== -1) {
-								// Se o item já está no carrinho, apenas atualiza a quantidade
-								cart<%=payment.order.id%>[existingItemIndex<%=payment.order.id%>].quantity += quantity;
-							  } else {
-								// Se o item não está no carrinho, adiciona-o
-								cart<%=payment.order.id%>.push(item<%=payment.order.id%>);
-								cartData<%=payment.order.id%>.push(cart<%=payment.order.id%>)
-							  }
-							
-							  itemCount<%=payment.order.id%>++;
-							  updateCart<%=payment.order.id%>();
-							  updateTotal<%=payment.order.id%>();
-							 
-							  console.log(cartData<%=payment.order.id%>); 
-							  
-							
-							}
-						
-						
-						
-							function updateCart<%=payment.order.id%>() {
-							  const cartList<%=payment.order.id%> = document.getElementById('cart-items<%=payment.order.id%>');
-							  const cartCount<%=payment.order.id%> = document.getElementById('cartCount<%=payment.order.id%>');
-							  // Limpa a lista do carrinho
-							  cartList<%=payment.order.id%>.innerHTML = '';
-							
-							  // Adiciona itens ao carrinho
-							  cart<%=payment.order.id%>.forEach(item => {
-								const listItem<%=payment.order.id%> = document.createElement('li');
-								listItem<%=payment.order.id%>.style.listStyle = 'none';
-								listItem<%=payment.order.id%>.textContent = `${item.quantity}x  ${item.name} ${item.size} - R$ ${item.price.toFixed(2)}  `;
-							  
-								cartList<%=payment.order.id%>.appendChild(listItem<%=payment.order.id%>);
-								let lt<%=payment.order.id%> = cartList<%=payment.order.id%>.textContent.replace(/$/, ' ')
-								itemList<%=payment.order.id%>.push(lt<%=payment.order.id%>)
-								console.log(lt<%=payment.order.id%>)
-								if(item.quantity == 0){
-								  listItem<%=payment.order.id%>.textContent = ''
-								 
-								}
-							  
-							  });
-							
-						  
-							cartCount<%=payment.order.id%>.innerText = itemCount<%=payment.order.id%>;
-							
-							
-							}
-							
-							function updateTotal<%=payment.order.id%>() {
-							  const totalElement<%=payment.order.id%> = document.getElementById('total<%=payment.order.id%>');
-							
-							  // Calcula o total
-							  const total<%=payment.order.id%> = cart<%=payment.order.id%>.reduce((acc, item) => acc + item.price * item.quantity, 0);
-							
-							  // Atualiza o total
-							  totalElement<%=payment.order.id%>.textContent<%=payment.order.id%> = `Total: R$ ${total<%=payment.order.id%>.toFixed(2)}`;
-							}
-						
-							function decrementQuantity(itemId) {
-						const itemIndex<%=payment.order.id%> = cart<%=payment.order.id%>.findIndex((item) => item.id === itemId);
-						
-						if (itemIndex<%=payment.order.id%> !== -1 && cart<%=payment.order.id%>[itemIndex<%=payment.order.id%>].quantity > 0) {
-						cart<%=payment.order.id%>[itemIndex<%=payment.order.id%>].quantity--;
-						itemCount<%=payment.order.id%>--
-						
-						updateCart<%=payment.order.id%>();
-						updateTotal<%=payment.order.id%>();
-						console.log(cart<%=payment.order.id%>)
-						}
-						}
-						 
-							
-							  /*  function link_soft_scroll()
-								{
-									jQuery('a[href^="#"]').on('click', function(e) {
-										if(jQuery(this).hasClass('close')) return;
-										e.preventDefault();
-										var id = jQuery(this).attr('href'),
-												targetOffset = jQuery(id).offset();
-												
-										jQuery('html, body').animate({ 
-											scrollTop: targetOffset - 270
-										}, 1000);
-									});
-								}
-								link_soft_scroll();*/
-								</script>-
+<script id="<%= payment.order.id %>" type="text/javascript">
+	const cart<%= payment.order.id %> = [];
+	const itemList<%= payment.order.id %> = [];
+	let ccart<%=payment.order.id%> = document.getElementById('ccart<%=payment.order.id%>')
+	let parcial<%= payment.order.id %> = document.getElementById('parcial<%= payment.order.id %>')
+	
+	let itemCount<%= payment.order.id %> = 0;
+  
+	// Função para carregar um carrinho pré-existente
+	function loadCart<%= payment.order.id %>(preloadedCart) {
+	  cart<%= payment.order.id %>.push(...preloadedCart);
+	  itemCount<%= payment.order.id %> = cart<%= payment.order.id %>.reduce((total, item) => total + item.quantity, 0);
+	  updateCart<%= payment.order.id %>();
+	  updateTotal<%= payment.order.id %>();
+	}
+  
+	function addToCart<%= payment.order.id %>(productName, price, quantity, size, id, photo) {
+	  const priceFloat<%= payment.order.id %> = parseFloat(price);
+  
+	  if (isNaN(priceFloat<%= payment.order.id %>) || priceFloat<%= payment.order.id %> <= 0) {
+		alert("Por favor, insira um preço válido.");
+		return;
+	  }
+  
+	  const item<%= payment.order.id %> = {
+		name: productName,
+		price: priceFloat<%= payment.order.id %>,
+		quantity: quantity,
+		description: `${quantity}x ${productName} ${size} R$ ${priceFloat<%= payment.order.id %>.toFixed(2)}`,
+		size: size,
+		id: id,
+		photo: photo
+	  };
+  
+	  const existingItemIndex<%= payment.order.id %> = cart<%= payment.order.id %>.findIndex(cartItem => cartItem.id === id);
+  
+	  if (existingItemIndex<%= payment.order.id %> !== -1) {
+		cart<%= payment.order.id %>[existingItemIndex<%= payment.order.id %>].quantity += quantity;
+	  } else {
+		cart<%= payment.order.id %>.push(item<%= payment.order.id %>);
+	  }
+  
+	  itemCount<%= payment.order.id %> += quantity;
+	  updateCart<%= payment.order.id %>();
+	  updateTotal<%= payment.order.id %>();
+	  console.log(cart<%= payment.order.id %>);
+	}
+  
+	function updateCart<%= payment.order.id %>() {
+	  const cartList<%= payment.order.id %> = document.getElementById('cart-items<%= payment.order.id %>');
+	  const cartCount<%= payment.order.id %> = document.getElementById('cartCount<%= payment.order.id %>');
+	  let p<%=payment.order.id%> = document.getElementById(`p<%=payment.order.id%>`)
+	  console.log(p<%=payment.order.id%>)
+	  // Limpa a lista do carrinho
+	  cartList<%= payment.order.id %>.innerHTML = '';
+  
+	  // Adiciona itens ao carrinho
+	  cart<%= payment.order.id %>.forEach(item<%= payment.order.id %> => {
+		const listItem<%= payment.order.id %> = document.createElement('li');
+		listItem<%= payment.order.id %>.id = `${<%=payment.order.id%>}list`;
+		listItem<%= payment.order.id %>.style.listStyle = 'none';
+		listItem<%= payment.order.id %>.textContent = `${item<%= payment.order.id %>.quantity}x ${item<%= payment.order.id %>.name} ${item<%= payment.order.id %>.size} - R$ ${item<%= payment.order.id %>.price.toFixed(2)}`;
+	
+		cartList<%= payment.order.id %>.appendChild(listItem<%= payment.order.id %>);
+		let lt<%= payment.order.id %> = `${item<%= payment.order.id %>.quantity}x ${item<%= payment.order.id %>.name} ${item<%= payment.order.id %>.size} - R$ ${item<%= payment.order.id %>.price.toFixed(2)}`;
+		itemList<%= payment.order.id %>.push(lt<%= payment.order.id %>);
+		console.log(lt<%= payment.order.id %>);
+  
+		if (item<%= payment.order.id %>.quantity === 0) {
+		  listItem<%= payment.order.id %>.textContent = '';
+		}
+	  });
+  ccart<%= payment.order.id %> .value = cart<%= payment.order.id %> 
+	  cartCount<%= payment.order.id %>.innerText = itemCount<%= payment.order.id %>;
+	}
+  
+	function updateTotal<%= payment.order.id %>() {
+	  const totalElement<%= payment.order.id %> = document.getElementById('total<%= payment.order.id %>');
+	  const total<%= payment.order.id %> = cart<%= payment.order.id %>.reduce((acc, item) => acc + item.price * item.quantity, 0);
+	  totalElement<%= payment.order.id %>.textContent = `Total: R$ ${total<%= payment.order.id %>.toFixed(2)}`;
+	  parcial<%= payment.order.id %> .value  = total<%= payment.order.id %>
+	}
+
+	function decrementQuantity<%= payment.order.id %>(itemId) {
+	  const itemIndex<%= payment.order.id %> = cart<%= payment.order.id %>.findIndex((item) => item.id === itemId);
+  console.log(itemIndex<%= payment.order.id %>)
+	  if (itemIndex<%= payment.order.id %> !== -1 && cart<%= payment.order.id %>[itemIndex<%= payment.order.id %>].quantity > 0) {
+		cart<%= payment.order.id %>[itemIndex<%= payment.order.id %>].quantity--;
+		itemCount<%= payment.order.id %>--;
+  
+		updateCart<%= payment.order.id %>();
+		updateTotal<%= payment.order.id %>();
+		console.log(cart<%= payment.order.id %>);
+	  }
+	}
+  
+	// Carrega um carrinho pré-existente ao inicializar a página
+	const preloadedCart<%= payment.order.id %> = [
+	  <% if (payment.items && payment.items.length > 0) { %>
+		<% payment.items.forEach(bag => { %>
+		  <% if (bag.items && bag.items.length > 0) { %>
+			<% bag.items.forEach(b => { %>
+			  {
+				name: '<%= b.name %>',
+				price: <%= b.price %>,
+				quantity: <%= b.quantity %>,
+				description: '<%= b.description %>',
+				size: '<%= b.size %>',
+				photo: '<%= b.photo %>',
+				id: '<%= b.id %>'
+			  },
+			<% }) %>
+		  <% } %>
+		<% }) %>
+	  <% } %>
+	];
+  
+  </script>
+
+
+
+
+
+  
 <%})%>
 <%}%>	
 
@@ -234,7 +271,7 @@
 		
 							<tr class="woocommerce-orders-table__row woocommerce-orders-table__row--status-cancelled order">
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Pedido">		
-												<%if(payment.order.id && payment.order.id != undefined){%>
+												<%if(payment.order && payment.order.id){%>
 															<a href="#">#<%=payment.order.id%></a>
 															<%}else{%>
 																ID de pagamento não encontrado
@@ -339,6 +376,7 @@
 	</table>
 
 	
+
 	
 
 </div>

@@ -5,6 +5,7 @@ const Order = new mongoose.Schema({
     // payer:{ type: mongoose.Schema.Types.ObjectId, ref: 'User'},
      order:{ type: mongoose.Schema.Types.Mixed},
      items:{ type: mongoose.Schema.Types.Mixed},
+     token:String,
      createdAt: {
         type: Date,
         default: Date.now, // Esta é a data de criação

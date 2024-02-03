@@ -5,6 +5,7 @@ const user = new mongoose.Schema({
      rank:Number,
      idmp:String,
      name:String,
+     token:String,
      lastname:String,
      nickname:String,
      photo:String,
