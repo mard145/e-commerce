@@ -116,8 +116,8 @@ if (!mercadoPagoPublicKey) {
 }
  
 async function jk(){
-  let hj = await customer.listCards({customerId:'1642011778-8UfOsg4PcyvaKy' })
-console.log(hj)
+  let hj = await customer.search({options:{id:'1642011778-8UfOsg4PcyvaKy'} })
+console.log(hj.results[0].email)
 }
 jk()
 
@@ -369,6 +369,8 @@ app.put('/cancel_signature/:id',async (req,res)=>{
 })
 
 app.post('/parcial/:id',async (req,res)=>{
+
+  cardToken.create
 
   try {
     let user = await req.user
@@ -1137,7 +1139,7 @@ app.post('/sendEmail', express.urlencoded({extended:true}),express.json(),async 
                   justify-content: center;
                   height: 100px;
                   width: 100px;
-                  background-color: #65c18c;
+                  background-color: pink;
                   color: #fff;
                   font-size: 50px;
                   border-radius: 50%;
@@ -1157,7 +1159,7 @@ app.post('/sendEmail', express.urlencoded({extended:true}),express.json(),async 
                   display: block;
               }
               .cmn-btn.btn-bg-1 {
-                  background: #6176f6;
+                  background: pink;
                   color: #fff;
                   border: 2px solid transparent;
                   border-radius:3px;
@@ -1176,8 +1178,8 @@ app.post('/sendEmail', express.urlencoded({extended:true}),express.json(),async 
                               <div class="congratulation-contents-icon">
                                   <i class="fas fa-check"></i>
                               </div>
-                              <h4 class="congratulation-contents-title"> Obrigado! ${await req.body.nome} </h4>
-                              <p class="congratulation-contents-para"> Aguarde o contato do nosso suporte ou admnistração. </p>
+                              <h4 class="congratulation-contents-title"> Obrigado pelo contsato ${await req.body.nome}! </h4>
+                              <p class="congratulation-contents-para"> Aguarde o contato do suporte ou administração. </p>
                               <div class="btn-wrapper mt-4">
                                   <a href="javascript:void(0)" class="cmn-btn btn-bg-1"> Voltar para o site </a>
                               </div>
