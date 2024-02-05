@@ -116,8 +116,8 @@ if (!mercadoPagoPublicKey) {
 }
  
 async function jk(){
- await customerCard.list({ customerId: '1642011778-8UfOsg4PcyvaKy' }).then(console.log).catch(console.log);
-
+let a = await  customer.search({options:{email:'ada@upsoft.com'}})
+console.log(a)
 }
 jk()
 
@@ -378,13 +378,13 @@ if(!id) {
 }
 console.log(await req.body, 'HEYAH')
 
-customerCard.list({ customerId: '1642011778-8UfOsg4PcyvaKy' })
+customerCard.list({ customerId: user.idmp })
 	.then((result) => {
 
 console.log(result,'RESULT1')
   const body = {
     transaction_amount: parseFloat(transaction_amount),
-    token: result[0].token,
+    token: token,
     description: `Pagamento parcial ${cart}`,
     installments: 1,
     payment_method_id: payment_method_id,
@@ -538,10 +538,10 @@ app.post('/process_payment', async (req,res)=>{
     if(data.results.length == 0)
   {
   
-    customer.create({ body: clientData }).then(async (data)=>{
+    customer.create({ body: clientData }).then(async (data1)=>{
      // console.log(data)
       console.log('novo cliente')
-    await  customerCard.create({ customerId: data.id, body: {
+    await  customerCard.create({ customerId: data1.id, body: {
         token: token,
       } }).then(console.log).catch(console.log);
 
@@ -551,7 +551,7 @@ if(userEmail1){
 
   payment
   .create({ body: paymentData })
-  .then(async function (data) {
+  .then(async function (data2) {
  /*   res.status(201).json({
       detail: data.status_detail,
       status: data.status,
@@ -559,12 +559,12 @@ if(userEmail1){
       
     });*/
     let order1 = new Order({
-      order:data,
+      order:data2,
       items:items
     })
    await order1.save()
 
-   let usr = await User.findByIdAndUpdate({_id:userEmail1._id},{$push: { orders: order1 }},{new:true})
+   let usr = await User.findByIdAndUpdate({_id:userEmail1._id},{idmp:data.results[0].id},{$push: { orders: order1 }},{new:true})
   // console.log(usr)
   // console.log(data,' <- pagamento criado' )
   res.redirect('/quiz')
@@ -618,7 +618,7 @@ if(userEmail1){
     items:items
   })
  await order2.save()
- let usrs = await User.findByIdAndUpdate({_id:newUser1._id},{$push: { orders: order2 }},{new:true})
+ let usrs = await User.findByIdAndUpdate({_id:newUser1._id},{idmp:data.results[0].id},{$push: { orders: order2 }},{new:true})
 
    res.redirect('/quiz')
 
@@ -628,7 +628,7 @@ if(userEmail1){
          
     payment
     .create({ body: paymentData })
-    .then(async function (data) {
+    .then(async function (dataPayment) {
    /*   res.status(201).json({
         detail: data.status_detail,
         status: data.status,
@@ -636,7 +636,7 @@ if(userEmail1){
         
       });*/
       let order1 = new Order({
-        order:data,
+        order:dataPayment,
         items:items
       })
      await order1.save()
@@ -714,6 +714,8 @@ if(userEmail1){
 await order3.save()
 
  let usr = await User.findByIdAndUpdate({_id:userEmail._id},{$push: { orders: order3 }},{new:true})
+ let usr0 = await User.findByIdAndUpdate({_id:userEmail._id},{idmp:data.results[0].id},{new:true})
+
  //console.log(usr, 'EMAIL ENCONTRADO')
   res.redirect('/quiz')
   })
