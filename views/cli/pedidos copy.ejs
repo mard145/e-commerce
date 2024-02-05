@@ -1,7 +1,7 @@
 <div class="woocommerce-MyAccount-content tab-content" id="tab3">
 	<input type="hidden" id="pKey" value="<%=publicKey%>">
 	<script src="https://sdk.mercadopago.com/js/v2"></script>
-
+	
 
 	<div class="woocommerce-notices-wrapper"></div>
 	<%if(user){%>
@@ -90,6 +90,20 @@
 
 	</form>
 
+	<form action="/parcial/<%=payment.order.id%>" method="post">
+
+		<input name="_id" type="hidden" value="<%=payment._id%>">
+		<input name="userid" type="hidden" value="<%=user._id%>">
+		<input name="issuer_id" type="hidden" value="<%=payment.order.issuer_id%>">
+<input type="hidden" id="ccart<%=payment.order.id%>" name="cart">
+<input name="id" type="hidden" value="<%=payment.order.id%>">
+<input name="transaction_amount" id="parcial<%= payment.order.id %>" type="number">
+
+
+<button type="submit">Pagar valor parcial</button>
+
+	</form>
+
 
 	<div>
 
@@ -99,6 +113,14 @@
       flex-direction: column;
       max-width: 600px;
     }
+
+    .container {
+      height: 18px;
+      display: inline-block;
+      border: 1px solid rgb(118, 118, 118);
+      border-radius: 2px;
+      padding: 1px 2px;
+    }
   </style>
 
   <form id="form-checkout<%=payment.order.id%>" method="POST" action="/parcial/<%=payment.order.id%>">
@@ -106,15 +128,13 @@
 	<input name="_id" type="hidden" value="<%=payment._id%>">
 	<input name="userid" type="hidden" value="<%=user._id%>">
 	<input name="issuer_id" type="hidden" value="<%=payment.order.issuer_id%>">
-	<input name="payment_method_id" type="hidden" value="<%=payment.order.payment_method_id%>">
-
 <input type="hidden" id="ccart<%=payment.order.id%>" name="cart">
 <input name="id" type="hidden" value="<%=payment.order.id%>">
 <input name="transaction_amount" id="parcial<%= payment.order.id %>" type="number">
     <select type="text" id="form-checkout__cardId<%=payment.order.id%>"></select>
     <div id="form-checkout__securityCode-container<%=payment.order.id%>" class="container"></div>
     <input name="token" id="token<%=payment.order.id%>" hidden>
-    <button type="submit">Parcial</button>
+    <button>Parcial</button>
 
   </form>
 
@@ -128,7 +148,6 @@
     }).mount('form-checkout__securityCode-container<%=payment.order.id%>');
 
     const customerCards<%=payment.order.id%> = [
-
 		<%if(cards){%>
 			<%cards.forEach(card=>{%>
 	{
@@ -137,11 +156,13 @@
       "last_four_digits": "<%=card.last_four_digits%>",
       "payment_method": {
         "name": "<%=card.payment_method.name%>",
+		"id":"<%=card.payment_method.id%>",
+		"payment_type_id": "<%=card.payment_method.payment_type_id%>"
       },
       "security_code": {
-        "length": "<%=card.security_code.length%>",
+        "length": <%=card.security_code.length%>,
       }
-    },
+    }
 	<%})%>
 	<%}%>
 
@@ -167,15 +188,12 @@
     const createCardToken<%=payment.order.id%> = async (event) => {
       try {
         const tokenElement<%=payment.order.id%> = document.getElementById('token<%=payment.order.id%>');
-		console.log( tokenElement<%=payment.order.id%>, 'COOL')
         if (!tokenElement<%=payment.order.id%>.value) {
           event.preventDefault();
           const token<%=payment.order.id%> = await tokenmp<%=payment.order.id%>.fields.createCardToken({
             cardId: document.getElementById('form-checkout__cardId<%=payment.order.id%>').value
           });
-		  console.log(token<%=payment.order.id%>);
-
-          tokenElement<%=payment.order.id%>.value = token<%=payment.order.id%>.id;
+          tokenElement<%=payment.order.id%>.value = token.id;
           console.log(tokenElement<%=payment.order.id%>);
         }
       } catch (e) {
@@ -185,6 +203,163 @@
 
 
 </script>
+
+	</div>
+
+	<div>
+
+
+<div id="paymentBrick_container<%= payment.order.id %>"></div>
+
+
+	</div>
+		
+	
+
+	
+	  
+	</div>
+	
+  </div>
+</div>
+</div>
+
+
+<script id="NNN<%=payment.order.id%>">
+	const pKey<%=payment.order.id%> = document.getElementById('pKey').value
+	const totalElement<%=payment.order.id%> = document.getElementById('parcial<%=payment.order.id%>');
+
+	/*const name = document.getElementById('billing_first_name')
+	const lastname = document.getElementById('billing_last_name')
+	const cpf = document.getElementById('billing_cpf')
+	const address = document.getElementById('billing_address_1')
+	const street_number = document.getElementById('billing_number')
+	const cep = document.getElementById('billing_postcode')
+	const bairro = document.getElementById('billing_neighborhood')
+	const city = document.getElementById('billing_city')
+	const country = document.getElementById('billing_country')
+	const gender = document.getElementById('billing_gender')
+	const birthday = document.getElementById('billing_birthdate')
+	const state = document.getElementById('billing_state')
+	const phone = document.getElementById('billing_phone')
+	const whatsapp = document.getElementById('billing_cellphone')
+	const email = document.getElementById('billing_email')
+	const totalAmount = document.getElementById('total')*/
+	const mp<%=payment.order.id%> = new MercadoPago(pKey<%=payment.order.id%>,{
+    locale: 'pt-BR'
+  });
+	const bricksBuilder<%=payment.order.id%> = mp<%=payment.order.id%>.bricks();
+    const renderPaymentBrick<%=payment.order.id%> = async (bricksBuilder<%=payment.order.id%>) => {
+      const settings<%=payment.order.id%> = {
+        initialization: {
+          /*
+            "amount" é a quantia total a pagar por todos os meios de pagamento com exceção da Conta Mercado Pago e Parcelas sem cartão de crédito, que têm seus valores de processamento determinados no backend através do "preferenceId"
+          */
+         preferenceId: "123",
+         amount:100,
+		
+		 
+		},
+		
+        customization: {
+          visual: {
+			hideStatusDetails: true,
+            hideTransactionDate: true,
+            style: {
+              theme: "bootstrap",
+			  customVariables:{
+				formBackgroundColor:'pink'
+			  }
+            },
+          },
+          paymentMethods: {
+            creditCard: "all",
+			//atm: "all",
+            maxInstallments: 1
+          },
+        },
+        callbacks: {
+          onReady: () => {
+          console.log('bricks inicializado')
+          },
+		  onError: (error) => {
+            // callback chamado para todos os casos de erro do Brick
+            console.log(error);
+          },
+          onSubmit:async ({ selectedPaymentMethod, formData}) => {
+            try {
+				// callback chamado quando há click no botão de envio de dados
+
+// Obtém o texto dentro do elemento
+const totalText<%=payment.order.id%> = totalElement<%=payment.order.id%>.textContent;
+
+// Usa expressão regular para extrair apenas os números e ponto decimal
+
+			formData.transaction_amount = await parseFloat(totalElement<%=payment.order.id%>.value);
+			formData.name =  '<%=user.name%>';
+			formData.address =  '<%=user.address%>';
+			formData.phone =  '<%=user.phone%>';
+			formData.city =  '<%=user.city%>';
+			formData.bairro =  '<%=user.bairro%>';
+			formData.whatsapp =  '<%=user.phone%>';
+			formData.cep =  '<%=user.cep%>';
+			formData.street_number =  '<%=user.street_number%>';
+			formData.state =  '<%=user.state%>';
+			formData.cpf =  '<%=user.cpfcnpj%>';
+			formData.description =  'IelaBag Assinatura pagamento parcial'
+			formData.payer.phone =  {
+				area_code:'55',
+				number: '<%=user.phone%>'
+			}
+			formData.items =  cart<%=payment.order.id%>
+			formData.payer.first_name=  '<%=payment.order.payer.first_name%>'
+			formData.payer.last_name =  '<%=payment.order.payer.last_name%>'
+			formData.payer.email =  '<%=user.email%>'
+			formData.country =  '<%=user.country%>'
+			formData.gender =  '<%=user.gender%>'
+			formData.birthday =  '<%=user.birthday%>'
+			//formData.payer.phone.area_code = await '84'
+			//formData.payer.identification.number = await cpf.value
+			//formData.payer.identification.type = await 'CPF'
+
+
+console.log(formData.payer)
+            return new Promise((resolve, reject) => {
+              fetch("/process_payment", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+              })
+                .then((response) => {
+					console.log(response)
+				return	response.json()})
+                .then((response) => {
+                  // receber o resultado do pagamento
+                  resolve();
+                })
+                .catch((error) => {
+                  // manejar a resposta de erro ao tentar criar um pagamento
+                  reject();
+                });
+            });
+			} catch (error) {
+				console.log(error)
+			}
+          },
+         
+        },
+      };
+      window.paymentBrickController = await bricksBuilder<%=payment.order.id%>.create(
+        "payment",
+        "paymentBrick_container<%= payment.order.id %>",
+        settings<%=payment.order.id%>
+      );
+    };
+    renderPaymentBrick<%=payment.order.id%>(bricksBuilder<%=payment.order.id%>);
+
+  </script>
 
 
 <script id="<%= payment.order.id %>" type="text/javascript">
@@ -241,39 +416,37 @@
 	  let p<%=payment.order.id%> = document.getElementById(`p<%=payment.order.id%>`)
 	  console.log(p<%=payment.order.id%>)
 	  // Limpa a lista do carrinho
-	  cartList<%= payment.order.id %>.innerHTML = ''
+	  cartList<%= payment.order.id %>.innerHTML = '';
   
 	  // Adiciona itens ao carrinho
 	  cart<%= payment.order.id %>.forEach(item<%= payment.order.id %> => {
-		const listItem<%= payment.order.id %> = document.createElement('li')
-
-		listItem<%= payment.order.id %>.id = `${<%=payment.order.id%>}list`
-		listItem<%= payment.order.id %>.style.listStyle = 'none'
-		listItem<%= payment.order.id %>.textContent = `${item<%= payment.order.id %>.quantity}x ${item<%= payment.order.id %>.name} ${item<%= payment.order.id %>.size} - R$ ${item<%= payment.order.id %>.price.toFixed(2)}`
+		const listItem<%= payment.order.id %> = document.createElement('li');
+		listItem<%= payment.order.id %>.id = `${<%=payment.order.id%>}list`;
+		listItem<%= payment.order.id %>.style.listStyle = 'none';
+		listItem<%= payment.order.id %>.textContent = `${item<%= payment.order.id %>.quantity}x ${item<%= payment.order.id %>.name} ${item<%= payment.order.id %>.size} - R$ ${item<%= payment.order.id %>.price.toFixed(2)}`;
 	
-		cartList<%= payment.order.id %>.appendChild(listItem<%= payment.order.id %>)
-		let lt<%= payment.order.id %> = `${item<%= payment.order.id %>.quantity}x ${item<%= payment.order.id %>.name} ${item<%= payment.order.id %>.size} - R$ ${item<%= payment.order.id %>.price.toFixed(2)}`
-		itemList<%= payment.order.id %>.push(lt<%= payment.order.id %>)
-		console.log(lt<%= payment.order.id %>)
+		cartList<%= payment.order.id %>.appendChild(listItem<%= payment.order.id %>);
+		let lt<%= payment.order.id %> = `${item<%= payment.order.id %>.quantity}x ${item<%= payment.order.id %>.name} ${item<%= payment.order.id %>.size} - R$ ${item<%= payment.order.id %>.price.toFixed(2)}`;
+		itemList<%= payment.order.id %>.push(lt<%= payment.order.id %>);
+		console.log(lt<%= payment.order.id %>);
   
 		if (item<%= payment.order.id %>.quantity === 0) {
-		  listItem<%= payment.order.id %>.textContent = ''
+		  listItem<%= payment.order.id %>.textContent = '';
 		}
-	  })
-	  
+	  });
   ccart<%= payment.order.id %> .value = cart<%= payment.order.id %> 
-	  cartCount<%= payment.order.id %>.innerText = itemCount<%= payment.order.id %>
+	  cartCount<%= payment.order.id %>.innerText = itemCount<%= payment.order.id %>;
 	}
   
 	function updateTotal<%= payment.order.id %>() {
-	  const totalElement<%= payment.order.id %> = document.getElementById('total<%= payment.order.id %>')
-	  const total<%= payment.order.id %> = cart<%= payment.order.id %>.reduce((acc, item) => acc + item.price * item.quantity, 0)
-	  totalElement<%= payment.order.id %>.textContent = `Total: R$ ${total<%= payment.order.id %>.toFixed(2)}`
-	  parcial<%= payment.order.id %>.value  = total<%= payment.order.id %>
+	  const totalElement<%= payment.order.id %> = document.getElementById('total<%= payment.order.id %>');
+	  const total<%= payment.order.id %> = cart<%= payment.order.id %>.reduce((acc, item) => acc + item.price * item.quantity, 0);
+	  totalElement<%= payment.order.id %>.textContent = `Total: R$ ${total<%= payment.order.id %>.toFixed(2)}`;
+	  parcial<%= payment.order.id %> .value  = total<%= payment.order.id %>
 	}
 
 	function decrementQuantity<%= payment.order.id %>(itemId) {
-	  const itemIndex<%= payment.order.id %> = cart<%= payment.order.id %>.findIndex((item) => item.id === itemId)
+	  const itemIndex<%= payment.order.id %> = cart<%= payment.order.id %>.findIndex((item) => item.id === itemId);
   console.log(itemIndex<%= payment.order.id %>)
 	  if (itemIndex<%= payment.order.id %> !== -1 && cart<%= payment.order.id %>[itemIndex<%= payment.order.id %>].quantity > 0) {
 		cart<%= payment.order.id %>[itemIndex<%= payment.order.id %>].quantity--;
@@ -307,22 +480,6 @@
 	];
   
   </script>
-
-	</div>
-
-	
-		
-	
-
-	
-	  
-	</div>
-	
-  </div>
-</div>
-</div>
-
-
 
 
 

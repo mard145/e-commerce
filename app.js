@@ -116,8 +116,8 @@ if (!mercadoPagoPublicKey) {
 }
  
 async function jk(){
-  let hj = await customer.search({options:{id:'1642011778-8UfOsg4PcyvaKy'} })
-console.log(hj.results[0].email)
+ await customerCard.list({ customerId: '1642011778-8UfOsg4PcyvaKy' }).then(console.log).catch(console.log);
+
 }
 jk()
 
@@ -370,187 +370,58 @@ app.put('/cancel_signature/:id',async (req,res)=>{
 
 app.post('/parcial/:id',async (req,res)=>{
 
-  cardToken.create
-
   try {
     let user = await req.user
-    let {id, transaction_amount, _id, userid, issuer_id, cart} = await req.body
-   
-    console.log(JSON.stringify(cart))
-  if(!id) {
-    id = await req.params.id
-  }
-  console.log(await req.body, 'HEYAH')
+  let {id, transaction_amount, _id, userid, payment_method_id, issuer_id,cart, token} = await req.body
+if(!id) {
+  id = req.params.id
+}
+console.log(await req.body, 'HEYAH')
 
-/*  let cap = await payment.capture({
-    id: id,
-    transaction_amount: 12.34,
-    requestOptions: {
-    idempotencyKey: '123'
-    
-    },
-    status:true
-    })
-    console.log(cap)
-      let accessToken = 'TEST-4911284730753864-010809-73732c6bb200ed0a86ceaea651e856c0-1058457871'
-    let tr = parseFloat(transaction_amount)
-    const url = `https://api.mercadopago.com/v1/payments/${id}`;
-    const updateData = {
-      status_detail:'accredited',
-      transaction_amount:tr,
-      
-      // Adicione outros campos que deseja atualizar
-    };
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer TEST-4911284730753864-010809-73732c6bb200ed0a86ceaea651e856c0-1058457871`,
-      },
-    };    
-let rsp = await axios.put(url, updateData, config)
-console.log(rsp)
+customerCard.list({ customerId: '1642011778-8UfOsg4PcyvaKy' })
+	.then((result) => {
 
-let da = await payment.capture({
-  id: id,
-  transaction_amount: parseInt(transaction_amount),
+console.log(result,'RESULT1')
+  const body = {
+    transaction_amount: parseFloat(transaction_amount),
+    token: result[0].token,
+    description: `Pagamento parcial ${cart}`,
+    installments: 1,
+    payment_method_id: payment_method_id,
+    issuer_id: issuer_id,
+    payer: {
+      type: 'customer',
+      id: result[0].customer_id
+  },
+  capture:true
 
-  }) 
-
-const updatedUser = await User.findByIdAndUpdate(
-  userid,
-  { $set: { "orders.$[elem].order.status_detail": rsp.data.status_detail } },
-  { new: true, arrayFilters: [{ "elem._id": new mongoose.Types.ObjectId(_id) }] }
-);
-let nowOrder1 = await Order.findByIdAndUpdate({_id:_id}, {order:da}, { new: true })
-console.log(nowOrder1,'PEDIDO ATUALIZADO')
-      res.redirect('/minha-conta')    */
-   
-      const timestamp1 = await Date.now();
-      const stringTimestamp1 = await timestamp1.toString();
-
-
-  let userid1 = await User.findById({_id:userid})
-  let ord = await Order.findById({_id:_id})
-
-  let customerSearch = await  customer.search({options:{email:userid1.email}})
-  console.log(customerSearch, 'SEARCHED')
-  console.log(ord.order.payer.email, ord.order.payer)
-
- const clientData1 = {
-    email: userid1.email,
-   first_name: ord.order.payer.first_name,
-    last_name: ord.order.payer.last_name,
-    phone:{
-      number:ord.order.payer.phone.number,
-      area_code:ord.order.payer.phone.area_code
-    },
-    identification: {
-      type: ord.order.payer.identification.type,
-      number: ord.order.payer.identification.number
-    },
- //   default_address: 'Home',
-    address: {
-      id: userid1.address,
-      zip_code: userid1.cep,
-      street_name: userid1.address,
-      street_number: userid1.street_number,
-      city: {
-        name:userid1.city
-      },
-    
-   
-    },
-   
-  
-  };
-
-  if(customerSearch.results.length == 0){
-  let nCustomer =  await customer.create({ body: clientData1 })
-  console.log(cardCustomer)
-
-  let cardCustomer =  await customerCard.create({customerId:nCustomer,body:{token:nCustomer.token}})
-  console.log(cardCustomer)
-  }
-
-    const userEmail1 = await User.findOne({$or: [{email: ord.order.payer.email}]})
-//console.log(userEmail1)
-
-let customerGet = await customer.get({ customerId: '1642011778-8UfOsg4PcyvaKy' })
-
-console.log(customerGet,'RESUKTTTTT')
-
-const body = {
-     cardholder : ord.order.card.cardholder,
-     issuer_id: ord.order.issuer_id,
-     payment_method: ord.order.payment_method.type,
-     card:ord.order.card,
 };
 
-let crCustomer = await cardToken.create({ body:body })
-console.log(crCustomer,'CRRRRRRRRRRR')
-let y = {
-  token: crCustomer,
-   transaction_amount: parseFloat(transaction_amount),
-   description: `Pagamento parcial capturado ${id}`,
-   payment_method_id: ord.order.payment_method_id,
-   issuer_id:issuer_id,
-   installments:1,
-   capture:true,
-   payer:{
-     first_name:ord.order.payer.first_name,
-     last_name:ord.order.payer.lasr_name,
-     identification:ord.order.payer.identification,
-     entity_type:ord.order.payer.entity_type,
-     email:userid1.email
-   }
-   }
-
-   let npayment = await payment.create({ body: y})
+  payment.create({ body: body }).then(async(result) => {
     
-  
-        let order3 = await new Order({
-          order:npayment,
-          items:await JSON.parse(cart)
-        })
-  
-       await order3.save()
-       let usrs = await User.findByIdAndUpdate({_id:userid1._id},{$push: { orders: order3 }},{new:true})
-  
-        console.log(npayment,'PAGAMENTO CAPTURADO')
-  
-        const removeOrderIndUser = await User.findByIdAndUpdate(
-          userid,
-          { $pull: { orders: { _id: new mongoose.Types.ObjectId(_id) } } },
-          { new: true }
-        );
-        console.log(removeOrderIndUser, 'removed order and its related array');
-  
-  
-        // Excluir o documento relacionado na coleção Order
-  const removedOrder = await Order.findByIdAndRemove({ _id: _id });
-  console.log(removedOrder, 'removed order');
-  console.log('pedido re,ovido ou atualizado')  
-  
-      
-  
-    //let customerCreate = await customer.create({ body: clientData1 })
-  
-  
+    const updatedUser = await User.findByIdAndUpdate(
+      userid,
+      { $set: { "orders.$[elem].order.status_detail": result.status_detail } },
+      { new: true, arrayFilters: [{ "elem._id": new mongoose.Types.ObjectId(_id) }] }
+    );
+    console.log(updatedUser, 'updated capture')
     
-  
-  
-  
-  
-  
-    
+    let nowOrder1 = await Order.findByIdAndUpdate({_id:_id}, {order:result}, { new: true })
+    console.log(nowOrder1,'PEDIDO ATUALIZADO')
           res.redirect('/minha-conta')
+    
+    console.log(result)
+  
+  }).catch(err=>{
+    console.log(err)
+  })
+}).catch(err=>{
+  console.log(err)
+})
 
 
 
-
-
-
-
+ 
   } catch (error) {
     console.log(error)
   }
@@ -662,7 +533,7 @@ app.post('/process_payment', async (req,res)=>{
     };
     //  COLOCAR O PEDIDO DENTRO DO ARRAY order E SALVAR NO MODEL ORDER.JS EM CADA CASO ONDE USO O MÉTODO paymente.create SERÁ NECESSÁRIO ATUALIZAR O USUÁRIO COM O PEDIDO OU CRIAR UM NOVO 
     // USUÁRIO  COM NOVO PEDIDO GERADO 
-    customer.search({options:{email:payer.email}}).then((data)=>{
+    customer.search({options:{email:payer.email}}).then(async (data)=>{
       console.log(data,data.results.length)
     if(data.results.length == 0)
   {
@@ -670,7 +541,9 @@ app.post('/process_payment', async (req,res)=>{
     customer.create({ body: clientData }).then(async (data)=>{
      // console.log(data)
       console.log('novo cliente')
-
+    await  customerCard.create({ customerId: data.id, body: {
+        token: token,
+      } }).then(console.log).catch(console.log);
 
       const userEmail1 = await User.findOne({$or: [{email: payer.email}]})
 //console.log(userEmail1, 'USER EMAILLLLLLLLLLLLLLLLL')
@@ -778,9 +651,22 @@ if(userEmail1){
     }).catch(err => console.log(err));
 
   }else{
+
+  
+   await customerCard.create({ customerId: data.results[0].id, body: {
+      token: token,
+    } }).then(console.log).catch(console.log);
+
   payment
   .create({ body: paymentData })
-  .then(async function (data) {
+  .then(async function (data1) {
+
+ //let ccard = await customerCard.get({ customerId: data.results[0].id, cardId : data.results[0].cards[0].config.options.integratorId }).then(console.log).catch(console.log);
+
+
+    await  customerCard.create({ customerId: data.results[0].id, body: {
+      token: token,
+    } }).then(console.log).catch(console.log);
 
  //  console.log(data,' <- pagamento criado  e dados do usuário atualizado' )
   
@@ -820,7 +706,7 @@ if(userEmail1){
  console.log(userEmail, 'USER EMAILLLLLLLLLLLLLLLLL')
 
  let order3 = await new Order({
-  order:data,
+  order:data1,
   items:items
   
 })
@@ -857,7 +743,7 @@ await order3.save()
 
 app.get('/loja',async (req,res)=>{
   try {
-    let user = await req.user
+    let user = await req.userparcial
     let products = await Product.find({})
     let bags = await Bag.find({})
     res.render('loja',{user:user,publicKey:mercadoPagoPublicKey, products:products,bags:bags}) 
@@ -1048,13 +934,15 @@ app.get('/minha-conta',eAdmin,async(req,res)=>{
   try {
     if(req.user.admin == false){
       let user = await req.user
+    let tkCard =  await customerCard.list({ customerId: '1642011778-8UfOsg4PcyvaKy' });
+
    //   let cli =await customer.get({customerId:user.idmp})
      // let payments = await payment.search({})
       //let signatures = await preApproval.search({})
   //  console.log(signatures,'SIGNATURES')
   // const sigs = await signatures.results.filter( sig => sig.external_reference == user.cpf);
   //console.log(sigs)
-      res.render('cli/cli',{user:user,msg:false, publicKey:mercadoPagoPublicKey})
+      res.render('cli/cli',{user:user, cards:tkCard, msg:false, publicKey:mercadoPagoPublicKey})
     }else{
       res.redirect('/')
     }
