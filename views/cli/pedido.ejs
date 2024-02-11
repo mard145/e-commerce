@@ -1,0 +1,356 @@
+<div class="woocommerce-MyAccount-content tab-content" id="tab3">
+	<input type="hidden" id="pKey" value="<%=publicKey%>">
+
+	<script src="https://sdk.mercadopago.com/js/v2"></script>
+	
+
+	<div class="woocommerce-notices-wrapper"></div>
+	<%if(user){%>
+		<%user.orders.forEach(payment=>{%>
+
+			<%if(payment.order.id == pedido.order.id){%>
+	
+	<div class="modal" id="llllEdited" tabindex="-1" aria-labelledby="lllledit" aria-hidden="true">
+		<div class="modal-dialog">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <h1 class="modal-title fs-5" id="lllledit">-</h1>
+			  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+  
+		<!--    TENTAR PEGAR PELO CHILDREN DO FORMA E USAR NO JAVASCRIPT LA EMBAIXO NA TAG SCRIPT PEGANDO PELO ELEMENT OU PELO THIS  -->
+		<form id="form" action="/capture_payment/<%=payment.order.id%>" method="post">
+			<span style="background-color: pink;border-radius: 50%;position:absolute;color: white ;padding:15px;width:15px;height:15px;display:flex;align-items: center;align-content: center;justify-content: center;" id="cartCount">0</span>
+
+			<div class="cart">
+				<h2>Sua Bag</h2>
+				<ul id="cart-items">
+				  <!-- Itens do carrinho serão adicionados aqui dinamicamente -->
+				</ul>
+				<p id="total">Total: R$ <%=payment.order.transaction_amount%></p>
+			  </div>
+
+			<%if(payment.items && payment.items.length > 0){%>
+
+				
+
+				<%payment.items.forEach(bag=>{%>
+					<%if(bag.items && bag.items.length > 0){%>
+
+						
+					
+
+					<div class="image_links" style="display: flex;justify-content: center;align-items: center;align-content: center;flex-direction: column;">
+						<%bag.items.forEach(b=>{%>
+
+					
+						<% 
+						const statusy = b.photo ? b.photo : 'https://cdn.awsli.com.br/300x300/2536/2536143/produto/206840930/produto-sem-foto-itptos.jpg';
+						%>
+						
+						<div style="display: flex; justify-content: space-evenly;align-items: center;align-content: center;padding: 10px;">
+						<a rel="nofollow" href="#"  style="color: #f7b8d5;margin-right: 10px;"  data-id="5" data-name="<%=b.name%>" data-summary="summary 5" data-price="<%=b.price%>" data-description="<%=b.description%>" data-quantity="1" data-image="" onclick="addToCart('<%=b.name%>', <%=b.price%>, 1, '<%=b.size%>', '<%=b.id%><%=payment._id%>','<%=statusy%>')" class="add-to-cart">
+				
+						
+							<span style="font-weight: 900;font-size: 25px;">+</span>
+						  </a>
+				
+
+						  <div id="p<%=payment.order.id%>" style="display: flex; justify-content: space-evenly;align-items: center;align-content: center;">
+
+						  <img width="50" height="50" src="<%=statusy%>" class="image-primary scale-with-grid wp-post-image" style="align-self: center;margin-right: 5px;width:25px;height:25px" alt="" decoding="async" fetchpriority="high"  sizes="(max-width: 1068px) 100vw, 1068px" />
+						  <div><%=b.quantity%>x <%=b.name%> R$  <%=b.price%></div>
+
+						 
+						</div>
+						
+						<a rel="nofollow" href="#" style="color: #f7b8d5;margin-left: 10px;" data-id="5" data-name="<%=b.name%>" data-summary="summary 5" data-price="<%=b.price%>" data-size="<%=b.size%>" data-quantity="1" data-image="<%=b.photo%>" class="add-to-cart" onclick="decrementQuantity('<%=b.id%><%=payment._id%>')">
+				
+					
+						  <span style="font-weight: 900;font-size: 25px;">-</span>
+						</a>
+					</div>
+						<%})%>
+						</div>
+
+						<%}%>
+
+					<%})%>
+	
+					<%}%>
+
+					<input name="_id" type="hidden" value="<%=payment._id%>">
+					<input name="userid" type="hidden" value="<%=user._id%>">
+
+			<input name="id" type="hidden" value="<%=payment.order.id%>">
+			<input name="transaction_amount" type="number" value="<%=payment.order.transaction_amount%>">
+
+		
+			<button type="submit">Pagar valor inteiro</button>
+		
+
+	</form>
+
+
+	<div>
+
+
+
+  <form id="form-checkout" method="POST" action="/parcial/<%=payment.order.id%>">
+
+	<input name="_id" type="hidden" id="_id" value="<%=payment._id%>">
+	<input name="userid" type="hidden" id="userid" value="<%=user._id%>">
+	<input name="issuer_id" type="hidden" id="issuer_id" value="<%=payment.order.issuer_id%>">
+	<input name="payment_method_id" id="payment_method_id" type="hidden" value="<%=payment.order.payment_method_id%>">
+
+<input type="hidden" id="ccart" name="cart">
+<input name="id" type="hidden" id="idid" value="<%=payment.order.id%>">
+<input name="transaction_amount" id="parcial" type="number">
+   
+    <button>Parcial</button>
+
+  </form>
+
+  <div id="cardPaymentBrick_container"></div>
+      <script id="bricksuserid">
+		const parciall = document.getElementById('parcial')
+
+		const _id = document.getElementById('_id')
+		const userid = document.getElementById('userid')
+		const issuer_id = document.getElementById('issuer_id')
+		const payment_method_id = document.getElementById('payment_method_id')
+		const idid = document.getElementById('idid')
+
+        const mp = new MercadoPago('<%=publicKey%>', {
+          locale: 'pt-BR'
+        });
+        const bricksBuilder = mp.bricks();
+        const renderCardPaymentBrick = async (bricksBuilder) => {
+
+          const settings = {
+            initialization: {
+              amount: 100, // valor total a ser pago
+			payer:{
+				email:"ada@upsoft.com",
+				customerId:"<%=user.idmp%>",
+				cardsIds:'1707070065287'
+			}
+            },
+            customization: {
+              visual: {
+                hideFormTitle: true,
+                hidePaymentButton: true,
+                style: {
+				  theme: 'bootstrap',
+                  customVariables: {
+					formBackgroundColor:'pink'
+                  }
+                }
+              },
+                paymentMethods: {
+                  types: {
+                    excluded: ['debit_card']
+                  }, 
+                  maxInstallments: 1,
+                }
+            },
+            callbacks: {
+              onReady: () => {
+				console.log('bricks inicializado')
+
+                // callback chamado quando o Brick estiver pronto
+              },
+              onSubmit: (cardFormData) => {
+                //  callback chamado o usuário clicar no botão de submissão dos dados
+                //  exemplo de envio dos dados coletados pelo Brick para seu servidor
+				cardFormData.transaction_amount = parciall.value
+				cardFormData.cart = cart
+				cardFormData._id = _id.value
+				cardFormData.id = idid.value
+				cardFormData.issuer_id = issuer_id.value
+				cardFormData.payment_method_id = payment_method_id.value
+				cardFormData.userid = userid.value
+
+                return new Promise((resolve, reject) => {
+                  fetch("/parcial/<%=payment.order.id%>", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(cardFormData)
+                  })
+                    .then((response) => {
+                      // receber o resultado do pagamento
+                      resolve();
+                    })
+                    .catch((error) => {
+                      // lidar com a resposta de erro ao tentar criar o pagamento
+                      reject();
+                    })
+                });
+              },
+              onError: (error) => {
+                // callback chamado para todos os casos de erro do Brick
+              },
+            },
+          };
+          window.cardPaymentBrickController = await bricksBuilder.create('cardPayment', 'cardPaymentBrick_container', settings);
+        };
+        renderCardPaymentBrick(bricksBuilder);
+      </script>
+
+<script id="" type="text/javascript">
+	const cart = [];
+	const itemList = [];
+	let ccart = document.getElementById('ccart')
+	let parcial = document.getElementById('parcial')
+	
+	let itemCount = 0;
+  
+	// Função para carregar um carrinho pré-existente
+	function loadCart(preloadedCart) {
+	  cart.push(...preloadedCart);
+	  itemCount = cart.reduce((total, item) => total + item.quantity, 0);
+	  updateCart();
+	  updateTotal();
+	}
+  
+	function addToCart(productName, price, quantity, size, id, photo) {
+	  const priceFloat = parseFloat(price);
+  
+	  if (isNaN(priceFloat) || priceFloat <= 0) {
+		alert("Por favor, insira um preço válido.");
+		return;
+	  }
+  
+	  const item = {
+		name: productName,
+		price: priceFloat,
+		quantity: quantity,
+		description: `${quantity}x ${productName} ${size} R$ ${priceFloat.toFixed(2)}`,
+		size: size,
+		id: id,
+		photo: photo
+	  };
+  
+	  const existingItemIndex = cart.findIndex(cartItem => cartItem.id === id);
+  
+	  if (existingItemIndex !== -1) {
+		cart[existingItemIndex].quantity += quantity;
+	  } else {
+		cart.push(item);
+	  }
+  
+	  itemCount += quantity;
+	  updateCart();
+	  updateTotal();
+	  console.log(cart);
+	}
+  
+	function updateCart() {
+	  const cartList = document.getElementById('cart-items');
+	  const cartCount = document.getElementById('cartCount');
+	
+	  // Limpa a lista do carrinho
+	  cartList.innerHTML = ''
+  
+	  // Adiciona itens ao carrinho
+	  cart.forEach(item => {
+		const listItem = document.createElement('li')
+
+		listItem.id = `list`
+		listItem.style.listStyle = 'none'
+		listItem.textContent = `${item.quantity}x ${item.name} ${item.size} - R$ ${item.price.toFixed(2)}`
+	
+		cartList.appendChild(listItem)
+		let lt = `${item.quantity}x ${item.name} ${item.size} - R$ ${item.price.toFixed(2)}`
+		itemList.push(lt)
+		console.log(lt)
+  
+		if (item.quantity === 0) {
+		  listItem.textContent = ''
+		}
+	  })
+	  
+  ccart.value = cart
+	  cartCount.innerText = itemCount
+	}
+  
+	function updateTotal() {
+	  const totalElement = document.getElementById('total')
+	  const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0)
+	  totalElement.textContent = `Total: R$ ${total.toFixed(2)}`
+	  parcial.value  = total
+	}
+
+	function decrementQuantity(itemId) {
+	  const itemIndex = cart.findIndex((item) => item.id === itemId)
+  console.log(itemIndex)
+	  if (itemIndex !== -1 && cart[itemIndex].quantity > 0) {
+		cart[itemIndex].quantity--;
+		itemCount--;
+  
+		updateCart();
+		updateTotal();
+		console.log(cart);
+	  }
+	}
+  
+	// Carrega um carrinho pré-existente ao inicializar a página
+	const preloadedCart = [
+	  <% if (payment.items && payment.items.length > 0) { %>
+		<% payment.items.forEach(bag => { %>
+		  <% if (bag.items && bag.items.length > 0) { %>
+			<% bag.items.forEach(b => { %>
+			  {
+				name: '<%= b.name %>',
+				price: <%= b.price %>,
+				quantity: <%= b.quantity %>,
+				description: '<%= b.description %>',
+				size: '<%= b.size %>',
+				photo: '<%= b.photo %>',
+				id: '<%= b.id %>'
+			  },
+			<% }) %>
+		  <% } %>
+		<% }) %>
+	  <% } %>
+	];
+  
+  </script>
+
+	</div>
+
+	
+		
+	
+
+	
+	  
+	</div>
+	
+  </div>
+</div>
+</div>
+
+<%}%>
+
+
+
+
+<%})%>	
+  
+
+<%}%>	
+
+<%if(msg){%>
+<h4><%msg.message%></h4>
+	<%}%>
+	
+
+	
+
+	
+
+</div>

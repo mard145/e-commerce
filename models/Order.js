@@ -5,6 +5,8 @@ const Order = new mongoose.Schema({
     // payer:{ type: mongoose.Schema.Types.ObjectId, ref: 'User'},
      order:{ type: mongoose.Schema.Types.Mixed},
      items:{ type: mongoose.Schema.Types.Mixed},
+     partial:{type:Boolean, default:false},
+     partialData:{type: mongoose.Schema.Types.Mixed},
      token:String,
      createdAt: {
         type: Date,

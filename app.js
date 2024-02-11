@@ -73,7 +73,7 @@ passport.use(
 //const pix = require('qrcode-pix')
 //const multer = require('multer'); // Biblioteca para lidar com uploads de arquivoss
 // const sharp = require('sharp')
-mongoose.connect(process.env.MONGO_ATLAS).then(()=>{
+mongoose.connect(process.env.MONGO_URL).then(()=>{
       console.log('mongo connected')
   }).catch(err=>{
       console.log(err)
@@ -115,11 +115,12 @@ if (!mercadoPagoPublicKey) {
   process.exit(1);
 }
  
-async function jk(){
+/*async function jk(){
 let a = await  customer.search({options:{email:'ada@upsoft.com'}})
-console.log(a)
+let b = await customerCard.list({customerId:a.results[0].id})
+console.log(b)
 }
-jk()
+jk()*/
 
 
 const fs = require('fs');
@@ -127,11 +128,128 @@ const { truncate } = require('fs/promises')
 //const Cart = require('cestino')
 app.use(cors())
 app.use(express.static(path.join(__dirname,'public')))
+
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname,'views'))
 app.use(express.json({limit: '100mb'}))
 app.use(express.urlencoded({extended:true,limit: '100mb'}))
 app.use(methodOverride('_method'))
+
+app.get('/pedido/:_id',eAdmin, async (req,res)=>{
+
+try {
+  let user = await req.user
+ // console.log(user)
+  //let tkCard1 =  await customerCard.list({ customerId: user.idmp });
+
+  let {id, _id} = await req.body
+  if(!_id){
+   _id = await  req.params._id
+   // console.log(_id,'PARAMS')
+  } 
+  let pedido  = await Order.findById({_id:_id})
+ // console.log(pedido, _id, await req.body, 'PEDIDO')
+
+  let cards = await customerCard.list({ customerId: user.idmp })
+	console.log(cards, 'CARDS')
+  res.render( './cli/parcial', {pedido:pedido, user:user, cards:cards, publicKey:mercadoPagoPublicKey,msg:false})
+} catch (error) {
+  console.log(error)
+}
+
+})
+
+app.post('/parcial/:id',eAdmin,async (req,res)=>{
+
+  try {
+    let user = await req.user
+  let {id, transaction_amount, _id, userid, payment_method_id, issuer_id,cart, tokenn} = await req.body
+if(!id) {
+  id = req.params.id
+}
+console.log(await req.body, 'HEYAH')
+
+customerCard.list({ customerId: user.idmp })
+	.then((result) => {
+
+console.log(result,'RESULT1')
+  const body = {
+    transaction_amount: parseFloat(transaction_amount),
+    token: tokenn,
+    description: `Pagamento parcial ${cart}`,
+    installments: 1,
+    payment_method_id: payment_method_id,
+    issuer_id: issuer_id,
+    payer: {
+      type: 'customer',
+      id: result[0].customer_id
+  },
+  capture:true
+
+};
+
+  payment.create({ body: body }).then(async(result) => {
+    
+    const updatedUserr = await User.findByIdAndUpdate(
+      userid,
+      { $set: { "orders.$[elem].order.status_detail": result.status_detail, "orders.$[elem].order.transaction_amount": result.transaction_amount, "orders.$[elem].order.id": result.id, "orders.$[elem].order.date_last_updated":result.date_last_updated  } },
+      { new: true, arrayFilters: [{ "elem._id": new mongoose.Types.ObjectId(_id) }] }
+    );
+    console.log(updatedUserr, 'updated capture')
+
+    let orrd = await Order.findById(_id)
+ //   let or = Order.findByIdAndUpdate({_id:_id}, {partialData:orrd}, { new: true })
+    console.log(orrd, 'ORRRD')
+    let nowOrder1 = await Order.findByIdAndUpdate({_id:_id}, {order:result, partial:true}, { new: true })
+    console.log(nowOrder1,'PEDIDO ATUALIZADO')
+         // res.redirect('/minha-conta')
+    
+    console.log(result)
+  
+  }).catch(err=>{
+    console.log(err)
+  })
+
+payment.cancel({
+	id: id,
+	requestOptions: {
+		idempotencyKey: uuidv4()
+	},
+}).then(async (da)=>{
+
+ /* const updatedUser = await User.findByIdAndUpdate(
+    userid,
+    { $set: { "orders.$[elem].order.status_detail": da.status_detail } },
+    { new: true, arrayFilters: [{ "elem._id": new mongoose.Types.ObjectId(_id) }] }
+  );
+  console.log(updatedUser, 'updated cancel payment') */
+  let nowOrder = Order.findByIdAndUpdate({_id:_id}, da, { new: true })
+console.log(nowOrder,'PEDIDO ATUALIZADO, cancel')
+
+  
+if(user.admin == true){
+  res.redirect('/admin')
+}else{
+  res.redirect('/minha-conta')
+}
+
+}).catch(console.log);
+
+
+}).catch(err=>{
+  console.log(err)
+})
+
+
+
+ 
+  } catch (error) {
+    console.log(error)
+  }
+ 
+  
+})
+
 
 app.post('/create_signaturePlan',async(req,res)=>{
   try {
@@ -368,66 +486,6 @@ app.put('/cancel_signature/:id',async (req,res)=>{
 
 })
 
-app.post('/parcial/:id',async (req,res)=>{
-
-  try {
-    let user = await req.user
-  let {id, transaction_amount, _id, userid, payment_method_id, issuer_id,cart, token} = await req.body
-if(!id) {
-  id = req.params.id
-}
-console.log(await req.body, 'HEYAH')
-
-customerCard.list({ customerId: user.idmp })
-	.then((result) => {
-
-console.log(result,'RESULT1')
-  const body = {
-    transaction_amount: parseFloat(transaction_amount),
-    token: token,
-    description: `Pagamento parcial ${cart}`,
-    installments: 1,
-    payment_method_id: payment_method_id,
-    issuer_id: issuer_id,
-    payer: {
-      type: 'customer',
-      id: result[0].customer_id
-  },
-  capture:true
-
-};
-
-  payment.create({ body: body }).then(async(result) => {
-    
-    const updatedUser = await User.findByIdAndUpdate(
-      userid,
-      { $set: { "orders.$[elem].order.status_detail": result.status_detail } },
-      { new: true, arrayFilters: [{ "elem._id": new mongoose.Types.ObjectId(_id) }] }
-    );
-    console.log(updatedUser, 'updated capture')
-    
-    let nowOrder1 = await Order.findByIdAndUpdate({_id:_id}, {order:result}, { new: true })
-    console.log(nowOrder1,'PEDIDO ATUALIZADO')
-          res.redirect('/minha-conta')
-    
-    console.log(result)
-  
-  }).catch(err=>{
-    console.log(err)
-  })
-}).catch(err=>{
-  console.log(err)
-})
-
-
-
- 
-  } catch (error) {
-    console.log(error)
-  }
- 
-  
-})
 
 app.post('/cancel_payment/:id',async (req,res)=>{
   let {id, transaction_amount, _id, userid} = await req.body
@@ -564,7 +622,8 @@ if(userEmail1){
     })
    await order1.save()
 
-   let usr = await User.findByIdAndUpdate({_id:userEmail1._id},{idmp:data.results[0].id},{$push: { orders: order1 }},{new:true})
+   let usr = await User.findByIdAndUpdate({_id:userEmail1._id},{$push: { orders: order1 }},{new:true})
+   let usr0 = await User.findByIdAndUpdate({_id:userEmail._id},{idmp:data.results[0].id},{new:true})
   // console.log(usr)
   // console.log(data,' <- pagamento criado' )
   res.redirect('/quiz')
@@ -618,7 +677,8 @@ if(userEmail1){
     items:items
   })
  await order2.save()
- let usrs = await User.findByIdAndUpdate({_id:newUser1._id},{idmp:data.results[0].id},{$push: { orders: order2 }},{new:true})
+ let usrs = await User.findByIdAndUpdate({_id:newUser1._id},{$push: { orders: order2 }},{new:true})
+ let usr0 = await User.findByIdAndUpdate({_id:userEmail._id},{idmp:data.results[0].id},{new:true})
 
    res.redirect('/quiz')
 
@@ -936,7 +996,7 @@ app.get('/minha-conta',eAdmin,async(req,res)=>{
   try {
     if(req.user.admin == false){
       let user = await req.user
-    let tkCard =  await customerCard.list({ customerId: '1642011778-8UfOsg4PcyvaKy' });
+    let tkCard =  await customerCard.list({ customerId: user.idmp });
 
    //   let cli =await customer.get({customerId:user.idmp})
      // let payments = await payment.search({})
@@ -1313,8 +1373,9 @@ console.log(newCustomer)
 app.post('/iela/saveUser', async (req,res)=>{
 
   try {
-    console.log(await req.body)
+    
     let {name,email,address,cep,city,state,password,bairro,country,phone,lastname} = await req.body
+    console.log(await req.body)
     const userExists = await User.findOne({$or: [{email: email}]})
     if (userExists == null || userExists == undefined || !userExists) {
       let cpf = ''

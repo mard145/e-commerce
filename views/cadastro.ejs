@@ -1065,10 +1065,15 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
     <div class="timeline">
         <li class="timeline-item active" id="timeline-item1">Dados de acesso</li>
         <li class="timeline-item" id="timeline-item2">Localização</li>
-        <li class="timeline-item" id="timeline-item3">Confirmar Pedido</li>
+        <li class="timeline-item" id="timeline-item3">Quiz</li>
+        <li class="timeline-item" id="timeline-item4">Quiz</li>
+        <li class="timeline-item" id="timeline-item5">Quiz</li>
+        <li class="timeline-item" id="timeline-item6">Quiz</li>
+        <li class="timeline-item" id="timeline-item7">Confirmar cadastro</li>
     </div>
 
     <div id="registrationForm" class="slider"  style="box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; padding: 48px;">
+
         <div class="container slide active" id="step1">
             <h3 class="stepTitle">Informações Básicas</h3>
             <!-- Etapa 1: Inserir usuário/email e senha -->
@@ -1138,8 +1143,166 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
                 </div>
             </div>
         </div>
-    
+
+
         <div class="container slide next" id="step3">
+            <h3 class="stepTitle">Quiz</h3>
+            <div class="form-wrapper">
+                <!-- Etapa 2: Adicionar endereço, cidade e CEP -->
+                <div class="mb-3" id="" style="margin-bottom: 24px">
+                    <label for="birthday">Data de nascimento *</label>
+                    <input type="date" class="form-control" id="birthday" name="birthday">
+                    <small id="addressHelp" class="error-feedback d-none"></small>
+                </div>
+                <div class="mb-3" id="" style="margin-bottom: 24px">
+                    <label for="user_city">Profissão *</label>
+                    <input type="text" class="form-control" id="profissao" name="profissao">
+                    <small id="cityHelp" class="error-feedback d-none"></small>
+                </div>
+                <div class="mb-3" id="" style="margin-bottom: 24px">
+                    <label for="estado_civil">Estado civil *</label>
+                    <input type="text" class="form-control" id="estado_civil" name="civil_state">
+                    <small id="cityHelp" class="error-feedback d-none"></small>
+                </div>
+                <div class="mb-3" id="" style="margin-bottom: 24px">
+                    <label for="rede_social">Rede Social *</label>
+                    <input type="text" class="form-control" id="rede_social" name="social_network">
+                    <small id="cityHelp" class="error-feedback d-none"></small>
+                </div>
+                <div class="mb-3" id="" style="margin-bottom: 24px">
+                    <label for="onde_conheceu">Onde conheceu a Iela Bag? *</label>
+                    <input type="text" class="form-control" id="onde_conheceu" name="onde_conheceu">
+                    <small id="cityHelp" class="error-feedback d-none"></small>
+                </div>
+                
+                <div class="action-wrapper">
+                    <button type="button" class="btn btn-secondary" onclick="previousStep(3)">Voltar</button>
+                    <button type="button" class="btn btn-primary" id="confirmar3" onclick="nextStep(3)">Avançar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container slide next" id="step4">
+            <h3 class="stepTitle">Quiz</h3>
+            <div class="form-wrapper">
+                <!-- Etapa 2: Adicionar endereço, cidade e CEP -->
+                <div class="mb-3" id="" style="margin-bottom: 24px">
+                    <label for="ligacao">Gostaria de receber uma ligação para discutir suas preferências e necessidades de moda? *</label>
+                    <input type="text" class="form-control" id="ligacao" name="ligacao">
+                    <small id="addressHelp" class="error-feedback d-none"></small>
+                </div>
+                <div class="mb-3" id="" style="margin-bottom: 24px">
+                    <label for="oqbusca">Você busca conforto ou estilo ao escolher suas roupas? *</label>
+                    <input type="text" class="form-control" id="oqbusca" name="oqbusca">
+                    <small id="cityHelp" class="error-feedback d-none"></small>
+                </div>
+                <div class="mb-3" id="" style="margin-bottom: 24px">
+                    <label for="favoinfluencers">Quais são suas celebridades ou influenciadores de moda favoritos? *</label>
+                    <input type="text" class="form-control" id="favoinfluencers" name="favoinfluencers">
+                    <small id="cityHelp" class="error-feedback d-none"></small>
+                </div>
+                <div class="mb-3" id="" style="margin-bottom: 24px">
+                    <label for="tamanho">Qual é o seu tamanho de roupa (P, M, G, etc.)? *</label>
+                    <input type="text" class="form-control" id="tamanho" name="tamanho">
+                    <small id="cityHelp" class="error-feedback d-none"></small>
+                </div>
+                <div class="mb-3" id="" style="margin-bottom: 24px">
+                    <label for="altura">Qual é a sua altura? *</label>
+                    <input type="text" class="form-control" id="altura" name="altura">
+                    <small id="cityHelp" class="error-feedback d-none"></small>
+                </div>
+
+            
+                
+                <div class="action-wrapper">
+                    <button type="button" class="btn btn-secondary" onclick="previousStep(4)">Voltar</button>
+                    <button type="button" class="btn btn-primary" id="confirmar4" onclick="nextStep(4)">Avançar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container slide next" id="step5">
+            <h3 class="stepTitle">Quiz</h3>
+            <div class="form-wrapper">
+                <div class="mb-3" id="" style="margin-bottom: 24px">
+                    <label for="peso">Qual é a seu peso? *</label>
+                    <input type="text" class="form-control" id="peso" name="peso">
+                    <small id="cityHelp" class="error-feedback d-none"></small>
+                </div>
+            
+                <!-- Etapa 2: Adicionar endereço, cidade e CEP -->
+                <div class="mb-3" id="" style="margin-bottom: 24px">
+                    <label for="roupas_soltas">Prefere roupas mais justas ou mais soltas? *</label>
+                    <input type="text" class="form-control" id="roupas_soltas" name="roupas_soltas">
+                    <small id="addressHelp" class="error-feedback d-none"></small>
+                </div>
+                <div class="mb-3" id="" style="margin-bottom: 24px">
+                    <label for="gosta_acessorios">Gosta de usar acessórios como joias, bolsas ou sapatos? *</label>
+                    <input type="text" class="form-control" id="gosta_acessorios" name="gosta_acessorios">
+                    <small id="cityHelp" class="error-feedback d-none"></small>
+                </div>
+                <div class="mb-3" id="" style="margin-bottom: 24px">
+                    <label for="interesse">Tem interesse em receber moda fitness, praia ou pijamas? *</label>
+                    <input type="text" class="form-control" id="interesse" name="interesse">
+                    <small id="cityHelp" class="error-feedback d-none"></small>
+                </div>
+                <div class="mb-3" id="" style="margin-bottom: 24px">
+                    <label for="manter_estilo">Está aberta a experimentar novos estilos ou prefere manter-se fiel ao que já conhece? *</label>
+                    <input type="text" class="form-control" id="manter_estilo" name="manter_estilo">
+                    <small id="cityHelp" class="error-feedback d-none"></small>
+                </div>
+            
+                
+                <div class="action-wrapper">
+                    <button type="button" class="btn btn-secondary" onclick="previousStep(5)">Voltar</button>
+                    <button type="button" class="btn btn-primary" id="confirmar5" onclick="nextStep(5)">Avançar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container slide next" id="step6">
+            <h3 class="stepTitle">Quiz</h3>
+            <div class="form-wrapper">
+                <!-- Etapa 2: Adicionar endereço, cidade e CEP -->
+
+
+                <div class="mb-3" id="" style="margin-bottom: 24px">
+                    <label for="comquemmora">Mora sozinha ou com outras pessoas? *</label>
+                    <input type="text" class="form-control" id="comquemmora" name="comquemmora">
+                    <small id="cityHelp" class="error-feedback d-none"></small>
+                </div>
+                <div class="mb-3" id="" style="margin-bottom: 24px">
+                    <label for="portaria">Sua residência possui algum sistema de portaria disponível para receber sua bag? *</label>
+                    <input type="text" class="form-control" id="portaria" name="portaria">
+                    <small id="addressHelp" class="error-feedback d-none"></small>
+                </div>
+                <div class="mb-3" id="" style="margin-bottom: 24px">
+                    <label for="tempet">Possui algum animal de estimação? Se sim, qual é o nome dele(a)? *</label>
+                    <input type="text" class="form-control" id="tempet" name="tempet">
+                    <small id="cityHelp" class="error-feedback d-none"></small>
+                </div>
+                <div class="mb-3" id="" style="margin-bottom: 24px">
+                    <label for="detalhe_especifico">Algum detalhe específico sobre você que ache importante saber? *</label>
+                    <input type="text" class="form-control" id="detalhe_especifico" name="detalhe_especifico">
+                    <small id="cityHelp" class="error-feedback d-none"></small>    
+                </div>
+
+                <div class="mb-3" id="" style="margin-bottom: 24px">
+                    <label for="detalhe_especifico">Envie fotos suas.: Nenhum arquivo escolhido (OPCIONAL)</label>
+                    <input type="file" id="fileInput" name="fotos" multiple onchange="handleFileSelectGlobal(this)">
+                    <small id="cityHelp" class="error-feedback d-none"></small>    
+                    <div id="imagePreviewContainer">         </div>            
+                </div>
+                
+                
+                <div class="action-wrapper">
+                    <button type="button" class="btn btn-secondary" onclick="previousStep(6)">Voltar</button>
+                    <button type="button" class="btn btn-primary" id="confirmar6" onclick="nextStep(6)">Avançar</button>
+                </div>
+            </div>
+        </div>
+    
+        <div class="container slide next" id="step7">
             <h3 class="stepTitle">Conclusão</h3>
             <div class="form-wrapper" style="margin-bottom: 24px">
                 <table style="max-width: 600px; margin: auto; margin-bottom: 24px;">
@@ -1187,7 +1350,7 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
             <div class="action-wrapper">
                
 
-                 <form action="/iela/saveUser" method="post">
+                 <form action="/iela/saveUser" method="post" enctype="multipart/form-data">
                     <input type="text" id="inputName" class="d-none"  name="name">
                     <input type="text" id="inputLastName" class="d-none"  name="lastname">
 
@@ -1201,8 +1364,9 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
                     <input type="text" id="inputBairro" class="d-none"  name="bairro">
                     <input type="text" id="inputPhone" class="d-none"  name="phone">
                     <input type="text" id="address_id" class="d-none"  name="address_id">
+                    input
 
-                    <button type="button"  class="btn btn-secondary" onclick="previousStep(3)">Voltar</button>
+                    <button type="button"  class="btn btn-secondary" onclick="previousStep(7)">Voltar</button>
                     <button type="submit" class="btn btn-primary" >Concluir Cadastro</button>
 
                 </form>
@@ -1222,6 +1386,52 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
     </div>
 </div>
 
+<script>
+  function handleFileSelectGlobal(element) {
+    const fileInput = element;
+    const id = fileInput.id; // Obtém o ID do elemento input
+    const imagePreview = document.getElementById(`imagePreview${id}`);
+    
+    // Cria o contêiner para as fotos se não existir
+    let fotosContainer = document.getElementById(`${id}Container`);
+    if (!fotosContainer) {
+        fotosContainer = document.createElement('div');
+        fotosContainer.id = `${id}Container`;
+        document.body.appendChild(fotosContainer); // Adiciona o contêiner ao final do body
+    }
+
+    const files = fileInput.files;
+
+    if (files.length > 0) {
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const base64String = e.target.result;
+
+                // Exibindo a imagem
+                const img = document.createElement('img');
+                img.src = base64String;
+
+                // Criar um input hidden para cada imagem e armazenar a base64
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = `foto${i+1}`;
+                input.value = base64String;
+
+                // Adicionar a imagem e o input ao contêiner
+                fotosContainer.appendChild(img);
+                fotosContainer.appendChild(input);
+            };
+
+            reader.readAsDataURL(file);
+        }
+    }
+}
+
+
+</script>
 
 
 <script>

@@ -1,8 +1,7 @@
 <div class="woocommerce-MyAccount-content tab-content" id="tab3">
 	<input type="hidden" id="pKey" value="<%=publicKey%>">
-
 	<script src="https://sdk.mercadopago.com/js/v2"></script>
-	
+
 
 	<div class="woocommerce-notices-wrapper"></div>
 	<%if(user){%>
@@ -94,19 +93,124 @@
 
 	<div>
 
+<style id="style<%=payment.order.id%>">
+    #form-checkout<%=payment.order.id%> {
+      display: flex;
+      flex-direction: column;
+      max-width: 600px;
+    }
+  </style>
 
+  <form id="form-checkout<%=payment.order.id%>" method="POST" action="/parcial/<%=payment.order.id%>">
 
-
-	<input name="_id" type="hidden" id="_id<%=payment.order.id%>" value="<%=payment._id%>">
-	<input name="userid" type="hidden" id="userid<%=payment.order.id%>" value="<%=user._id%>">
-	<input name="issuer_id" type="hidden" id="issuer_id<%=payment.order.id%>" value="<%=payment.order.issuer_id%>">
-	<input name="payment_method_id" id="payment_method_id<%=payment.order.id%>" type="hidden" value="<%=payment.order.payment_method_id%>">
+	<input name="_id" type="hidden" value="<%=payment._id%>">
+	<input name="userid" type="hidden" value="<%=user._id%>">
+	<input name="issuer_id" type="hidden" value="<%=payment.order.issuer_id%>">
+	<input name="payment_method_id" type="hidden" value="<%=payment.order.payment_method_id%>">
 
 <input type="hidden" id="ccart<%=payment.order.id%>" name="cart">
-<input name="id" type="hidden" id="idid<%=payment.order.id%>" value="<%=payment.order.id%>">
+<input name="id" type="hidden" value="<%=payment.order.id%>">
 <input name="transaction_amount" id="parcial<%= payment.order.id %>" type="number">
-   
- 
+    <select type="text" id="form-checkout__cardId<%=payment.order.id%>"></select>
+    <div id="form-checkout__securityCode-container<%=payment.order.id%>" class="container"></div>
+    <input name="token" id="token<%=payment.order.id%>" hidden>
+    <button>Parcial</button>
+
+  </form>
+
+<script id="tokenscript<%=payment.order.id%>">
+		const ppKey<%=payment.order.id%> = document.getElementById('pKey').value
+
+    const tokenmp<%=payment.order.id%> = new MercadoPago('<%=publicKey%>');
+
+    const securityCodeElement<%=payment.order.id%> = tokenmp<%=payment.order.id%>.fields.create('securityCode', {
+      placeholder: "CVV",
+    }).mount('form-checkout__securityCode-container<%=payment.order.id%>');
+
+    const customerCards<%=payment.order.id%> = [
+
+		<%if(cards){%>
+			<%cards.forEach(card=>{%>
+	{
+      "id": "<%=card.id%>",
+	  "customer_id":"<%=card.customer_id%>",
+      "last_four_digits": "<%=card.last_four_digits%>",
+	  "expiration_month":"<%=card.expiration_month%>",
+	  "expiration_year":"<%=card.expiration_year%>",
+	  "first_six_digits":"<%=card.first_six_digits%>",
+	  "cardholder":{
+		"name":"<%=card.cardholder.name%>",
+		"identification":{
+			"number":"<%=card.cardholder.identification.number%>",
+			"type":"<%=card.cardholder.identification.type%>"
+		}
+	  },
+	  "user_id":"<%=card.user_id%>",
+	  "issuer":{
+		"id":"<%=card.issuer.id%>",
+		"name":"<%=card.issuer.name%>"
+	  },
+	  "":"",
+	  "":"",
+      "payment_method": {
+        "name": "<%=card.payment_method.name%>",
+		"payment_type_id": "<%=card.payment_method.payment_type_id%>",
+		"thumbnail":"<%=card.payment_method.thumbnail%>",
+		"secure_thumbnail":"<%=card.payment_method.secure_thumbnail%>"
+      },
+      "security_code": {
+        "length":<%= parseInt(card.security_code.length)%>,
+		"card_location":"<%=card.security_code.location%>"
+      }
+    },
+	<%})%>
+	<%}%>
+
+];
+
+    function appendCardToSelect<%=payment.order.id%>() {
+      const selectElement<%=payment.order.id%> = document.getElementById('form-checkout__cardId<%=payment.order.id%>');
+      const tmpFragment<%=payment.order.id%> = document.createDocumentFragment();
+      customerCards<%=payment.order.id%>.forEach(({ id, last_four_digits, payment_method, security_code, customer_id, expiration_month, expiration_year, first_six_digits}) => {
+        const optionElement<%=payment.order.id%> = document.createElement('option');
+        optionElement<%=payment.order.id%>.setAttribute('value', id)
+        optionElement<%=payment.order.id%>.innerHTML = `
+	<span> <img src='${payment_method.thumbnail}' />	${payment_method.name} com final ${last_four_digits} </span>
+		`
+        tmpFragment<%=payment.order.id%>.appendChild(optionElement<%=payment.order.id%>);
+		console.log(tmpFragment<%=payment.order.id%>)
+      })
+      selectElement<%=payment.order.id%>.appendChild(tmpFragment<%=payment.order.id%>)
+    }
+
+    appendCardToSelect<%=payment.order.id%>();
+
+
+	const formElement<%=payment.order.id%> = document.getElementById('form-checkout<%=payment.order.id%>');
+    formElement<%=payment.order.id%>.addEventListener('submit', e => createCardToken<%=payment.order.id%>(e));
+    const createCardToken<%=payment.order.id%> = async (event) => {
+      try {
+        const tokenElement<%=payment.order.id%> = document.getElementById('token<%=payment.order.id%>');
+		console.log( tokenElement<%=payment.order.id%>, 'COOL')
+        if (!tokenElement<%=payment.order.id%>.value) {
+         event.preventDefault();
+          const token<%=payment.order.id%> = await tokenmp<%=payment.order.id%>.fields.createCardToken({
+            cardId: document.getElementById('form-checkout__cardId<%=payment.order.id%>').value,
+		
+          });
+		  console.log(token<%=payment.order.id%>);
+
+          tokenElement<%=payment.order.id%>.value = token<%=payment.order.id%>.id;
+          console.log(tokenElement<%=payment.order.id%>);
+        }
+      } catch (e) {
+        console.error('error creating card token: ', e)
+      }
+    }
+
+
+</script>
+
 
 <script id="<%= payment.order.id %>" type="text/javascript">
 	const cart<%= payment.order.id %> = [];
@@ -256,7 +360,7 @@
 <%if(msg){%>
 <h4><%msg.message%></h4>
 	<%}%>
-	<table id="tabela-dados" class="woocommerce-orders-table woocommerce-MyAccount-orders shop_table shop_table_responsive my_account_orders account-orders-table col-12">
+	<table class="woocommerce-orders-table woocommerce-MyAccount-orders shop_table shop_table_responsive my_account_orders account-orders-table col-12">
 		<thead>
 			<tr>
 									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-number"><span class="nobr">Pedido</span></th>
@@ -317,34 +421,8 @@
 								            </td>
 										
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-date" data-title="Data">
-												<%if(payment.order.date_last_updated){%>
-
-
-													<% 
-													// Função para formatar a data
-													function formatarData(dataString) {
-														const data = new Date(dataString);
-														const options = { 
-															timeZoneName: 'short',
-															year: 'numeric',
-															month: '2-digit',
-															day: '2-digit',
-															hour: '2-digit',
-															minute: '2-digit',
-															second: '2-digit' 
-														};
-														return data.toLocaleString('pt-BR', options);
-													}
-												
-													// Data no formato "2024-02-04T13:59:35.970-04:00"
-													
-												
-													// Formatar a data
-												
-													%>
-
-
-															<time datetime="<%=payment.order.date_last_updated%>"><%=formatarData(payment.order.date_last_updated)%></time>
+												<%if(payment.order.date_created){%>
+															<time datetime="<%=payment.order.date_created%>"><%=payment.order.date_created%></time>
 															<%}else{%>
 																Data não encontrada ou não registrada
 																<%}%>
@@ -394,15 +472,9 @@
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-total" data-title="Total">
 															<span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"><%=payment.order.currency_id%></span>&nbsp;<%=payment.order.transaction_amount%></span>
 													</td>
-													<%if(payment.order.status_detail == 'accredited' && payment.order.status != undefined){%>
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-actions" data-title="Ações">
-														<a href="#">	<button type="button" disabled  class="woocommerce-button button view">Visualizar Bag</button>	</a>											
+															<button type="button" data-bs-toggle="modal" data-bs-target="#llll<%=payment.order.id%>Edited" class="woocommerce-button button view">Visualizar Bag</button>												
 															</td>
-															<%}else{%>
-														<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-actions" data-title="Ações">
-														<a href="/pedido/<%=payment._id%>">	<button type="button"  class="woocommerce-button button view">Visualizar Bag</button>	</a>											
-															</td>
-																<%}%>
 									</tr>
 									
 
