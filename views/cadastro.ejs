@@ -1297,7 +1297,7 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
                 
                 <div class="action-wrapper">
                     <button type="button" class="btn btn-secondary" onclick="previousStep(6)">Voltar</button>
-                    <button type="button" class="btn btn-primary" id="confirmar6" onclick="nextStep(6)">Avançar</button>
+                    <button type="button" class="btn btn-primary" id="confirmar6" onclick="pushDatad()">Avançar</button>
                 </div>
             </div>
         </div>
@@ -1350,7 +1350,7 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
             <div class="action-wrapper">
                
 
-                 <form action="/iela/saveUser" method="post" enctype="multipart/form-data">
+                 <form action="/iela/saveUser" method="post">
                     <input type="text" id="inputName" class="d-none"  name="name">
                     <input type="text" id="inputLastName" class="d-none"  name="lastname">
 
@@ -1361,10 +1361,32 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
                     <input type="text" id="inputCity" class="d-none" name="city">
                     <input type="text" id="inputState" class="d-none" name="state">
                     <input type="text" id="inputCountry" class="d-none" value="Brasil" name="country">
+
+                    <input type="date" class="form-control d-none" id="birthday1" name="birthday">
+                    <input type="text" class="form-control d-none" id="profissao1" name="profissao">
+                    <input type="text" class="form-control d-none" id="estado_civil1" name="civil_state">
+                    <input type="text" class="form-control d-none" id="rede_social1" name="social_network">
+                    <input type="text" class="form-control d-none" id="onde_conheceu1" name="onde_conheceu">
+                    <input type="text" class="form-control d-none" id="ligacao1" name="ligacao">
+                    <input type="text" class="form-control d-none" id="oqbusca1" name="oqbusca">
+                    <input type="text" class="form-control d-none" id="favoinfluencers1" name="favoinfluencers">
+                    <input type="text" class="form-control d-none" id="tamanho1" name="tamanho">
+                    <input type="text" class="form-control d-none" id="altura1" name="altura">
+                    <input type="text" class="form-control d-none" id="peso1" name="peso">
+                    <input type="text" class="form-control d-none" id="roupas_soltas1" name="roupas_soltas">
+                    <input type="text" class="form-control d-none" id="gosta_acessorios1" name="gosta_acessorios">
+                    <input type="text" class="form-control d-none" id="interesse1" name="interesse">
+                    <input type="text" class="form-control d-none" id="manter_estilo1" name="manter_estilo">
+                    <input type="text" class="form-control d-none" id="comquemmora1" name="comquemmora">
+                    <input type="text" class="form-control d-none" id="portaria1" name="portaria">
+                    <input type="text" class="form-control d-none" id="tempet1" name="tempet">
+                    <input type="text" class="form-control d-none" id="detalhe_especifico1" name="detalhe_especifico">
+
+
                     <input type="text" id="inputBairro" class="d-none"  name="bairro">
                     <input type="text" id="inputPhone" class="d-none"  name="phone">
                     <input type="text" id="address_id" class="d-none"  name="address_id">
-                    input
+                    <input type="text" class="d-none" name="fotos[]" id="arf">
 
                     <button type="button"  class="btn btn-secondary" onclick="previousStep(7)">Voltar</button>
                     <button type="submit" class="btn btn-primary" >Concluir Cadastro</button>
@@ -1391,7 +1413,7 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
     const fileInput = element;
     const id = fileInput.id; // Obtém o ID do elemento input
     const imagePreview = document.getElementById(`imagePreview${id}`);
-    
+    let arf = document.getElementById('arf')
     // Cria o contêiner para as fotos se não existir
     let fotosContainer = document.getElementById(`${id}Container`);
     if (!fotosContainer) {
@@ -1419,7 +1441,8 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
                 input.type = 'hidden';
                 input.name = `foto${i+1}`;
                 input.value = base64String;
-
+                arf.value = base64String
+                console.log(arf.value, input.value)
                 // Adicionar a imagem e o input ao contêiner
                 fotosContainer.appendChild(img);
                 fotosContainer.appendChild(input);
@@ -1460,6 +1483,48 @@ const address_id = document.getElementById('address_id')
 
 const user_password = document.getElementById('user_password')
 const lk = document.getElementById('lk')
+const birthday1 = document.getElementById('birthday1')
+const birthday = document.getElementById('birthday')
+
+const profissao1 = document.getElementById('profissao1')
+const profissao = document.getElementById('profissao')
+const civil_state = document.getElementById('estado_civil1')
+const civil_state1 = document.getElementById('estado_civil')
+const rede_social1 = document.getElementById('rede_social1')
+const rede_social = document.getElementById('rede_social')
+const onde_conheceu1 = document.getElementById('onde_conheceu1')
+const onde_conheceu = document.getElementById('onde_conheceu')
+const ligacao1 = document.getElementById('ligacao1')
+const ligacao = document.getElementById('ligacao')
+const oqbusca1 = document.getElementById('oqbusca1')
+const oqbusca = document.getElementById('oqbusca')
+const favoinfluencers1 = document.getElementById('favoinfluencers1')
+const favoinfluencers = document.getElementById('favoinfluencers')
+const tamanho1 = document.getElementById('tamanho1')
+const tamanho = document.getElementById('tamanho')
+const altura1 = document.getElementById('altura1')
+const altura = document.getElementById('altura')
+const peso1 = document.getElementById('peso1')
+const peso = document.getElementById('peso')
+const roupas_soltas = document.getElementById('roupas_soltas')
+const roupas_soltas1 = document.getElementById('roupas_soltas1')
+const gosta_acessorios = document.getElementById('gosta_acessorios')
+const gosta_acessorios1 = document.getElementById('gosta_acessorios1')
+const interesse1 = document.getElementById('interesse1')
+const interesse = document.getElementById('interesse')
+const manter_estilo1 = document.getElementById('manter_estilo1')
+const manter_estilo = document.getElementById('manter_estilo')
+const comquemmora1 = document.getElementById('comquemmora1')
+const comquemmora = document.getElementById('comquemmora')
+const portaria1 = document.getElementById('portaria1')
+const portaria = document.getElementById('portaria')
+const tempet1 = document.getElementById('tempet1')
+const tempet = document.getElementById('tempet')
+const detalhe_especifico1 = document.getElementById('detalhe_especifico1')
+const detalhe_especifico = document.getElementById('detalhe_especifico')
+
+
+
 
 
 
@@ -1475,6 +1540,32 @@ cid.style.display = 'none'
 confirmar2.style.display = 'none'
 
 
+function pushDatad(){
+    birthday1.value = birthday.value
+    profissao1.value = profissao.value
+    civil_state1.value = civil_state.value
+    rede_social1.value = rede_social.value
+    onde_conheceu1.value = onde_conheceu.value
+    ligacao1.value = ligacao.value
+    oqbusca1.value = oqbusca.value
+    favoinfluencers1.value = favoinfluencers.value
+    tamanho1.value = tamanho.value
+    altura1.value = altura.value
+    peso1.value = peso.value
+    roupas_soltas1.value = roupas_soltas.value
+    gosta_acessorios1.value = gosta_acessorios.value
+    interesse1.value = interesse.value
+    manter_estilo1.value = manter_estilo.value
+    comquemmora1.value = comquemmora.value
+    portaria1.value = portaria.value
+    tempet1.value = tempet.value
+    detalhe_especifico1.value = detalhe_especifico.value
+
+   nextStep(6)
+
+}
+
+
 jQuery(document).ready(function() {
     jQuery('#confirmar1').click(function() {
         // Pega o valor do campo
@@ -1488,7 +1579,8 @@ jQuery(document).ready(function() {
             data: { email: email },
             success: function(resposta, textStatus,jqXHR){
               console.log(textStatus)
-              if(jqXHR.status==200){
+
+              if(jqXHR.status==200 || email.length < 6){
                 step_user_email.textContent = email
                 step_user_name.textContent = nome
                 inputName.value = nome
@@ -1496,6 +1588,27 @@ jQuery(document).ready(function() {
                 inputLastName.value = user_lastname.value
                 inputPhone.value = user_phone.value
                 inputPassword.value = user_password.value
+                
+
+                // Atualiza a mensagem com a resposta do servidor
+        
+                lk.style.color = 'red'
+                lk.textContent = 'Digite um e-mail válido'
+        
+                
+                
+              }
+             
+              if(jqXHR.status==200 && email.includes('@') && email.length >= 6){
+                step_user_email.textContent = email
+                step_user_name.textContent = nome
+                inputName.value = nome
+                inputEmail.value = email
+                inputLastName.value = user_lastname.value
+                inputPhone.value = user_phone.value
+                inputPassword.value = user_password.value
+                
+
                 // Atualiza a mensagem com a resposta do servidor
         
                 lk.style.color = 'green'

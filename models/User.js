@@ -46,7 +46,7 @@ const user = new mongoose.Schema({
      portaria:String,
      tempet:String,
      detalhe_especifico:String,
-     fotos:[{type:mongoose.Schema.Types.Mixed}],
+     fotos:{type:mongoose.Schema.Types.Mixed},
      cep:String,
      state:String,
      cpfcnpj:String,

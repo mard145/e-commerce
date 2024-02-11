@@ -1374,7 +1374,7 @@ app.post('/iela/saveUser', async (req,res)=>{
 
   try {
     
-    let {name,email,address,cep,city,state,password,bairro,country,phone,lastname} = await req.body
+    let {name,email,address,cep,city,state,password,bairro,country,phone,lastname,birthday, profissao, civil_state, social_network, onde_conheceu, ligacao, oqbusca, favoinfluencers, tamanho, altura, peso, roupas_soltas, gosta_acessorios, interesse, manter_estilo, comquemmora, portaria, tempet, detalhe_especifico, fotos} = await req.body
     console.log(await req.body)
     const userExists = await User.findOne({$or: [{email: email}]})
     if (userExists == null || userExists == undefined || !userExists) {
@@ -1389,7 +1389,7 @@ app.post('/iela/saveUser', async (req,res)=>{
     
   
      const body = {
-       email: email,
+     //  email: email,
        first_name: name,
        last_name: lastname,
        phone: {
@@ -1432,6 +1432,26 @@ app.post('/iela/saveUser', async (req,res)=>{
     phone:phone,
     lastname:lastname,
     cpf:cpf,
+    birthday:birthday,
+    profissao:profissao,
+    civil_state:civil_state,
+    social_network:social_network,
+    onde_conheceu:onde_conheceu,
+    ligacao:ligacao,
+    oqbusca:oqbusca,
+    favoinfluencers:favoinfluencers,
+    tamanho:tamanho,
+    altura:altura,
+    peso:peso,
+    roupas_soltas:roupas_soltas,
+    gosta_acessorios:gosta_acessorios,
+    interesse:interesse,
+    manter_estilo:manter_estilo,
+    comquemmora:comquemmora,
+    portaria:portaria,
+    tempet:tempet,
+    detalhe_especifico:detalhe_especifico,
+    fotos:fotos
   //  external_reference:cust.external_reference
   })
  await user.save()
