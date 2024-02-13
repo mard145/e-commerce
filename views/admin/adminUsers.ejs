@@ -128,6 +128,128 @@
             </div>
           </div>
           </div>
+
+
+
+
+									<div class="modal fade" id="llll<%=user.id%>quiz" tabindex="-1" aria-labelledby="llll<%=user.id%>quizz" aria-hidden="true">
+										<div class="modal-dialog">
+										  <div class="modal-content">
+											<div class="modal-header">
+											  <h1 class="modal-title fs-5" id="llll<%=user.id%>quizz">-</h1>
+											  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+
+											<div class="modal-body">
+												<div>
+								  <p>Data de nascimento *</p>
+								  <p><%=user.birthday%></p>
+								</div>
+
+                  <div>
+            <p>Profissão *</p>
+            <p><%=user.profissao%></p>
+          </div>
+
+            <div>
+      <p>Estado Civil *</p>
+      <p><%=user.civil_state%></p>
+    </div>	
+    
+												<div>
+								  <p>Rede Sicial
+								  <p><%=user.social_network%></p>
+								</div>
+
+                <div>
+                  <p>Onde conheceu a Iela Bag? *</p>
+                  <p><%=user.onde_conheceu%></p>
+                </div>
+
+                <div>
+                  <p>Gostaria de receber uma ligação para discutir suas preferências e necessidades de moda? *</p>
+                  <p><%=user.ligacao%></p>
+                </div>
+
+                <div>
+                  <p>Você busca conforto ou estilo ao escolher suas roupas? * </p>
+                  <p><%=user.oqbusca%></p>
+                </div>
+
+                <div>
+                  <p>Quais são suas celebridades ou influenciadores de moda favoritos? * </p>
+                  <p><%=user.favoinfluencers%></p>
+                </div>
+
+                <div>
+                  <p>Qual é o seu tamanho de roupa (P, M, G, etc.)? *</p>
+                  <p><%=user.tamanho%></p>
+                </div>
+
+                <div>
+                  <p>Qual é a sua altura *</p>
+                  <p><%=user.altura%></p>
+                </div>
+
+                <div>
+                  <p>Qual é a seu peso? *</p>
+                  <p><%=user.peso%></p>
+                </div>
+
+                <div>
+                  <p>Prefere roupas mais justas ou mais soltas? * </p>
+                  <p><%=user.roupas_soltas%></p>
+                </div>
+
+                <div>
+                  <p>Gosta de usar acessórios como joias, bolsas ou sapatos? * </p>
+                  <p><%=user.gosta_acessorios%></p>
+                </div>
+								
+                <div>
+                  <p>Tem interesse em receber moda fitness, praia ou pijamas? * </p>
+                  <p><%=user.interesse%></p>
+                </div>
+
+                <div>
+                  <p>Está aberta a experimentar novos estilos ou prefere manter-se fiel ao que já conhece? *</p>
+                  <p><%=user.manter_estilo%></p>
+                </div>
+
+                <div>
+                  <p>Mora sozinha ou com outras pessoas? *</p>
+                  <p><%=user.comquemmora%></p>
+                </div>
+										
+                <div>
+                  <p>Sua residência possui algum sistema de portaria disponível para receber sua bag? *</p>
+                  <p><%=user.portaria%></p>
+                </div>
+                
+                <div>
+                  <p>Possui algum animal de estimação? Se sim, qual é o nome dele(a)? * </p>
+                  <p><%=user.tempet%></p>
+                </div>
+
+                 <div>
+                  <p>Algum detalhe específico sobre você que ache importante saber? * </p>
+                  <p><%=user.detalhe_especifico%></p>
+                </div>
+
+                <div>
+                  <img src="<%=user.fotos[0]%>" alt="">
+                </div>
+
+
+									
+								
+									
+									  
+									</div>
+									
+								  </div>
+								</div>
+								</div>
           
           <div class="d-none" id="imagePreview<%=user._id%>"></div>
 
@@ -188,7 +310,7 @@
                                   Data não encontrada ou não registrada
                                   <%}%>
                             </td>
-                     
+                          
                         
                         <td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-actions" data-title="Ações">
                           <div class="d-flex justify-content-evenly">
@@ -197,6 +319,8 @@
                               <input type="hidden" name="id" value=<%=user._id%>>
                           <button type="submit" class="bg-transparent"><svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg></button>
                           </form>
+                          <button type="button" data-bs-toggle="modal" data-bs-target="#llll<%=user.id%>quiz" class="bg-transparent"><svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 576 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M0 64C0 28.7 28.7 0 64 0H224V128c0 17.7 14.3 32 32 32H384v38.6C310.1 219.5 256 287.4 256 368c0 59.1 29.1 111.3 73.7 143.3c-3.2 .5-6.4 .7-9.7 .7H64c-35.3 0-64-28.7-64-64V64zm384 64H256V0L384 128zm48 96a144 144 0 1 1 0 288 144 144 0 1 1 0-288zm0 240a24 24 0 1 0 0-48 24 24 0 1 0 0 48zM368 321.6V328c0 8.8 7.2 16 16 16s16-7.2 16-16v-6.4c0-5.3 4.3-9.6 9.6-9.6h40.5c7.7 0 13.9 6.2 13.9 13.9c0 5.2-2.9 9.9-7.4 12.3l-32 16.8c-5.3 2.8-8.6 8.2-8.6 14.2V384c0 8.8 7.2 16 16 16s16-7.2 16-16v-5.1l23.5-12.3c15.1-7.9 24.5-23.6 24.5-40.6c0-25.4-20.6-45.9-45.9-45.9H409.6c-23 0-41.6 18.6-41.6 41.6z"/></svg></button>
+
                           </div>                                </td>
                     </tr>
                     

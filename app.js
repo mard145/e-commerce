@@ -73,7 +73,7 @@ passport.use(
 //const pix = require('qrcode-pix')
 //const multer = require('multer'); // Biblioteca para lidar com uploads de arquivoss
 // const sharp = require('sharp')
-mongoose.connect(process.env.MONGO_URL).then(()=>{
+mongoose.connect(process.env.ATLAS).then(()=>{
       console.log('mongo connected')
   }).catch(err=>{
       console.log(err)
@@ -1089,8 +1089,8 @@ app.get('/minha-conta',eAdmin,async(req,res)=>{
         let nj = await User.findOneAndUpdate({_id:user._id},{idmp:nuser.id},{new:true})  
       }
 
-    let tkCard =  await customerCard.list({ customerId: user.idmp });
-let allPayments = await payment.search({options:{criteria:'desc',sort:'date_last_updated'}})
+ //  let tkCard =  await customerCard.list({ customerId: user.idmp });
+let allPayments = await payment.search()
    let paymentsUser =await  customer.get({customerId:user.idmp})
 console.log(paymentsUser)
    //   let cli =await customer.get({customerId:user.idmp})
@@ -1099,7 +1099,7 @@ console.log(paymentsUser)
   //  console.log(signatures,'SIGNATURES')
   // const sigs = await signatures.results.filter( sig => sig.external_reference == user.cpf);
   //console.log(sigs)
-      res.render('cli/cli',{user:user, cards:tkCard, msg:false,payments:allPayments.results, publicKey:mercadoPagoPublicKey})
+      res.render('cli/cli',{user:user, msg:false,payments:allPayments.results, publicKey:mercadoPagoPublicKey})
     }else{
       res.redirect('/')
     }
