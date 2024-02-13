@@ -4,138 +4,213 @@
  <h2>Clientes</h2>
 
 <div class="d-flex justify-content-between flex-wrap" style="width: 100%;">
-    <%if(users){%>
-    <%users.forEach(user=>{%>
-        <div class="card" style="width:70%;display: flex;flex-direction: row; justify-content: space-evenly; align-items: center;align-content: center;padding: 10px;">
-            <img src="<%=user.photo ? user.photo : 'images/lo.webp'%>" style="height: 280px;width: 50%;" class="card-img-top img-fluid" alt="...">
-            <div style="padding: 0;width:50%;" class="card-body">
-              <h5 class="card-title"><%=user.name%></h5>
-              <p class="card-text"><%=user.email%></p>
-            
-        
+   
+
+
+
+
+    <table id="tabela-dados1" class="woocommerce-orders-table woocommerce-MyAccount-orders shop_table shop_table_responsive my_account_orders account-orders-table col-12" style="z-index: 0;">
+      <thead>
+        <tr>
+                    <th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-number"><span class="nobr">ID</span></th>
+                    <th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-number"><span class="nobr">NOME</span></th>
+                    <th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-number"><span class="nobr">E-MAIL</span></th>
+                    <th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-number"><span class="nobr">CPF/CNPJ</span></th>
+                    <th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-number"><span class="nobr">CONTATO</span></th>
+                  
+  
+                    <th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-date"><span class="nobr">ENDEREÇO</span></th>
+                    <th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-status"><span class="nobr">DATA DE CADASTRO</span></th>
+                    <th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-actions" style="text-align: center;"><span class="nobr">Ações</span></th>
+                </tr>
+      </thead>
+  
+      <tbody>
+        <%if(users){%>
+          <%users.forEach(user=>{%>
+         
           
-              <p class="card-text"><%=user.cpf%></p>
-              <p class="card-text"><%=user.address%></p>
-              <p class="card-text"><%=user.city%></p>
-              <p class="card-text"><%=user.state%></p>
-              <p class="card-text"><%=user.cep%></p>
-              <p class="card-text"><%=user.country%></p>
-              <div class="d-flex justify-content-evenly">
-                <button type="button" data-bs-toggle="modal" data-bs-target="#llll<%=user._id%>Edited" class="bg-transparent"><svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z"/></svg></button>
-                <form action="/admin/user/<%=user._id%>?_method=DELETE" method="post">
-                  <input type="hidden" name="id" value=<%=user._id%>>
-              <button type="submit" class="bg-transparent"><svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg></button>
-              </form>
+          
+          
+                <div class="modal fade" id="llll<%=user._id%>Edited" tabindex="-1" aria-labelledby="llll<%=user._id%>edit" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="llll<%=user._id%>edit">Edição de usuário</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+            
+                <form action="/admin/editUser/<%=user._id%>?_method=PUT" method="post">
+                  <div class="mb-3">
+                      <label for="formFile" class="form-label">Upload</label>
+                      <input class="form-control" type="file" id="<%=user._id%>" onchange="handleFileSelectGlobal(this)">
+                    </div>
+                    <div class="row g-3">
+             
+          
+                      <div class="col-sm-6">
+                        <label for="lastName" class="form-label">Nome</label>
+                        <input type="text" class="form-control" id="lastName" placeholder="Nome" name="name" value="<%=user.name%>" required>
+                        
+                      </div>
+              
+                      <div class="col-12">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="<%=user.email%>" placeholder="voce@example.com">
+                      </div>
+              
+                      <div class="col-12">
+                        <label for="address" class="form-label">CPF</label>
+                        <input type="text" class="form-control" name="cpf" id="cpf" value="<%=user.cpf%>" placeholder="" required="">
+                       
+                      </div>
+          
+                      <div class="col-12">
+                        <label for="address" class="form-label">Telefone</label>
+                        <input type="text" class="form-control" name="phone" id="cpf" value="<%=user.phone%>" placeholder="" required="">
+                       
+                      </div>
+          
+                      <div class="col-12">
+                        <label for="address" class="form-label">WhatsApp</label>
+                        <input type="text" class="form-control" name="whatsapp" id="cpf" value="<%=user.whatsapp%>" placeholder="" required="">
+                       
+                      </div>
+          
+                      <div class="col-12">
+                        <label for="address" class="form-label">Address</label>
+                        <input type="text" class="form-control" name="address" id="address" value="<%=user.address%>" placeholder="" required="">
+                       
+                      </div>
+              
+                      <div class="col-md-5">
+                        <label for="country" class="form-label">País</label>
+                        <select name="country" class="form-select" id="country" required="">
+                          <option selected value="Brasil">Brasil</option>
+                          
+                        </select>
+                      </div>
+              
+                      <div class="col-md-4">
+                        <label for="state" class="form-label">Estado</label>
+                        <select  name="state" class="form-select" id="state" required>
+                          <option value="<%=user.state%>"><%=user.state%></option>
+                         
+                        </select>
+                       
+                      </div>
+              
+                      <div class="col-md-3">
+                        <label for="zip" class="form-label">CEP</label>
+                        <input name="cep" type="text" class="form-control" id="zip" value="<%=user.cep%>" placeholder="" required>
+                      </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                      <label for="inputEmail4" class="form-label">Foto</label>
+                      <input type="text" hidden name="photo" id="<%=user._id%>1" value="<%=user.photo%>" class="form-control" id="inputEmail4">
+                    </div>
+                   
+                  <input type="text" hidden name="id" value="<%=user._id%>">
+          
+                    <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary col-md-6">Editar usuário</button>
+                   
+                      <button type="button" class="btn btn-secondary col-md-6" data-bs-dismiss="modal">Fechar</button>
+                  </div>
+                    
+                  </form>
+          
+        
               </div>
               
             </div>
           </div>
-    
-    
-    
-          <div class="modal fade" id="llll<%=user._id%>Edited" tabindex="-1" aria-labelledby="llll<%=user._id%>edit" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="llll<%=user._id%>edit">Edição de usuário</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-      
-          <form action="/admin/editUser/<%=user._id%>?_method=PUT" method="post">
-            <div class="mb-3">
-                <label for="formFile" class="form-label">Upload</label>
-                <input class="form-control" type="file" id="<%=user._id%>" onchange="handleFileSelectGlobal(this)">
-              </div>
-              <div class="row g-3">
-       
-    
-                <div class="col-sm-6">
-                  <label for="lastName" class="form-label">Nome</label>
-                  <input type="text" class="form-control" id="lastName" placeholder="Nome" name="name" value="<%=user.name%>" required>
-                  
-                </div>
-        
-                <div class="col-12">
-                  <label for="email" class="form-label">Email</label>
-                  <input type="email" class="form-control" id="email" name="email" value="<%=user.email%>" placeholder="voce@example.com">
-                </div>
-        
-                <div class="col-12">
-                  <label for="address" class="form-label">CPF</label>
-                  <input type="text" class="form-control" name="cpf" id="cpf" value="<%=user.cpf%>" placeholder="" required="">
-                 
-                </div>
-    
-                <div class="col-12">
-                  <label for="address" class="form-label">Telefone</label>
-                  <input type="text" class="form-control" name="phone" id="cpf" value="<%=user.phone%>" placeholder="" required="">
-                 
-                </div>
-    
-                <div class="col-12">
-                  <label for="address" class="form-label">WhatsApp</label>
-                  <input type="text" class="form-control" name="whatsapp" id="cpf" value="<%=user.whatsapp%>" placeholder="" required="">
-                 
-                </div>
-    
-                <div class="col-12">
-                  <label for="address" class="form-label">Address</label>
-                  <input type="text" class="form-control" name="address" id="address" value="<%=user.address%>" placeholder="" required="">
-                 
-                </div>
-        
-                <div class="col-md-5">
-                  <label for="country" class="form-label">País</label>
-                  <select name="country" class="form-select" id="country" required="">
-                    <option selected value="Brasil">Brasil</option>
-                    
-                  </select>
-                </div>
-        
-                <div class="col-md-4">
-                  <label for="state" class="form-label">Estado</label>
-                  <select  name="state" class="form-select" id="state" required>
-                    <option value="<%=user.state%>"><%=user.state%></option>
-                   
-                  </select>
-                 
-                </div>
-        
-                <div class="col-md-3">
-                  <label for="zip" class="form-label">CEP</label>
-                  <input name="cep" type="text" class="form-control" id="zip" value="<%=user.cep%>" placeholder="" required>
-                </div>
-              </div>
-              
-              <div class="col-md-6">
-                <label for="inputEmail4" class="form-label">Foto</label>
-                <input type="text" hidden name="photo" id="<%=user._id%>1" value="<%=user.photo%>" class="form-control" id="inputEmail4">
-              </div>
-             
-            <input type="text" hidden name="id" value="<%=user._id%>">
-    
-              <div class="d-flex justify-content-between">
-              <button type="submit" class="btn btn-primary col-md-6">Editar usuário</button>
-             
-                <button type="button" class="btn btn-secondary col-md-6" data-bs-dismiss="modal">Fechar</button>
-            </div>
-              
-            </form>
-    
+          </div>
+          
+          <div class="d-none" id="imagePreview<%=user._id%>"></div>
+
+                <tr class="woocommerce-orders-table__row woocommerce-o rders-table__row--status-cancelled order">
+                        <td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Rank">
+                                <a href="#">#<%=user.rank%></a>
+                        </td>
+                        <td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Nome">
+                          <a href="#"> <img style="border-radius: 50%;width: 50px;height: 50px;" src="<%=user.photo ? user.photo : "https://imgs.search.brave.com/tMQPetqPG2D5f1NdEJEiL3y3gS11KQCUq2wlWGPuGn0/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9jZG4t/aWNvbnMtcG5nLmZs/YXRpY29uLmNvbS81/MTIvMTcvMTcwMDQu/cG5n"%>"/> <%=user.name%> <%=user.lastname%></a>
+                          
+                              </td>
+                        <td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="E-mail">
+                          <a href="#"><%=user.email%></a>	
+                              </td>
+                        <td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="CPF OU CNPJ">
+                          <a href="#"><%=user.cpfcnpj%></a>
+                              </td>
+                        <td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Contato">
+      <a href="https://wa.me/+55<%=user.phone%>?text=Atendimento%20especializado%20ielaBag" target="_blank"><%=user.phone%></a>
+                             
+                              </td>
+
+                              <td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-status" data-title="Endereço">
+                                <a href="#"><%=user.address%></a>
+
+                              </td>
+                      
+                        <td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-date" data-title="Data">
+                          <%if(user.createdAt){%>
   
-        </div>
+  
+                            <% 
+                            // Função para formatar a data
+                            function formatarData(dataString) {
+                              const data = new Date(dataString);
+                              const options = { 
+                                timeZoneName: 'short',
+                                year: 'numeric',
+                                month: '2-digit',
+                                day: '2-digit',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                second: '2-digit' 
+                              };
+                              return data.toLocaleString('pt-BR', options);
+                            }
+                          
+                            // Data no formato "2024-02-04T13:59:35.970-04:00"
+                            
+                          
+                            // Formatar a data
+                          
+                            %>
+  
+  
+                                <time datetime="<%=user.createdAt%>"><%=formatarData(user.createdAt)%></time>
+                                <%}else{%>
+                                  Data não encontrada ou não registrada
+                                  <%}%>
+                            </td>
+                     
+                        
+                        <td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-actions" data-title="Ações">
+                          <div class="d-flex justify-content-evenly">
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#llll<%=user._id%>Edited" class="bg-transparent"><svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z"/></svg></button>
+                            <form action="/admin/user/<%=user._id%>?_method=DELETE" method="post">
+                              <input type="hidden" name="id" value=<%=user._id%>>
+                          <button type="submit" class="bg-transparent"><svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg></button>
+                          </form>
+                          </div>                                </td>
+                    </tr>
+                    
+  
+                    <%})%>
+                    <%}%>
+            
+  
+  
+              </tbody>
+    </table>
+
+    
         
-      </div>
-    </div>
-    </div>
-    
-    <div class="d-none" id="imagePreview<%=user._id%>"></div>
-
-    
-        <%})%>
-        <%}%>
-
       </div>
     
 

@@ -93,8 +93,10 @@ mongoose.connect(process.env.MONGO_URL).then(()=>{
 // Step 1: Import the parts of the module you want to use
 
 const axios = require('axios')
+const {CronJob} = require('cron')
 
-let { MercadoPagoConfig, Payment, Customer, MerchantOrder,PreApproval, PreApprovalPlan, CustomerCard , CardToken} = require('mercadopago');
+
+let { MercadoPagoConfig, Payment, Customer, MerchantOrder,PreApproval, PreApprovalPlan, CustomerCard , CardToken } = require('mercadopago');
 
 
 // Step 2: Initialize the client object
@@ -102,6 +104,7 @@ const client = new MercadoPagoConfig({ accessToken: 'TEST-4911284730753864-01080
 
 
 // Step 3: Initialize the API object
+
 const payment = new Payment(client)
 const customer = new Customer(client)
 const merchantOrder = new MerchantOrder(client)
@@ -114,13 +117,107 @@ if (!mercadoPagoPublicKey) {
   console.log("Error: public key not defined");
   process.exit(1);
 }
- 
-/*async function jk(){
-let a = await  customer.search({options:{email:'ada@upsoft.com'}})
-let b = await customerCard.list({customerId:a.results[0].id})
-console.log(b)
+
+
+async function capture2Days() {
+  try {
+    
+      // Buscar todos os pagamentos com status "pending_capture"
+      const response = await payment.search({
+          qs: {
+              status_detail: 'pending_capture'
+          }
+      });
+
+      const pagamentosPendentesCapture = response.results;
+
+      // Capturar pagamentos que têm exatamente dois dias de idade e não são "approved"
+      const dataAtual = new Date();
+      const doisDiasEmMilissegundos = 2 * 24 * 60 * 60 * 1000; // 2 dias em milissegundos
+
+      for (const pagamento of pagamentosPendentesCapture) {
+          const dataCriacaoPagamento = new Date(pagamento.date_created);
+          const diferencaTempo = dataAtual - dataCriacaoPagamento;
+
+          // Verificar se o pagamento tem exatamente dois dias de idade e não é "approved"
+          if (diferencaTempo >= doisDiasEmMilissegundos &&
+              pagamento.status !== 'approved' &&
+              diferencaTempo <= (doisDiasEmMilissegundos + 1000)) { // Leva em conta uma margem de erro de 1 segundo
+              await payment.capture({
+                  id: pagamento.id,
+                  transaction_amount: pagamento.transaction_amount,
+                  requestOptions: {
+                      idempotencyKey: uuidv4()
+                  }
+              });
+              console.log(`Pagamento ${pagamento.id} capturado com sucesso.`);
+          }
+      }
+  } catch (error) {
+      console.error('Erro ao capturar pagamentos:', error);
+  }
 }
-jk()*/
+
+
+// Função para buscar e atualizar os pedidos pendentes no banco de dados
+async function atualizarPedidosPendentes() {
+  try {
+    // Buscar pedidos pendentes na API do MercadoPago
+    const pedidosPendentes = await payment.search();
+
+    // Atualizar ou inserir os pedidos no banco de dados
+    for (const pedido of pedidosPendentes.results) {
+     // console.log(pedido)
+
+      const filter = { 'order.id': pedido.id };
+      const update = { $set: { order: pedido } };
+      const options = { upsert: true };
+      const options1 = { upsert: false };
+      const existingPedido = await Order.findOne({ 'order.id': pedido.id });
+      console.log(existingPedido)
+      if(existingPedido.order.id != undefined || existingPedido.order.id != null){
+        await Order.updateOne(filter, update, options1);
+       console.log('atualizado', existingPedido.order.id, existingPedido.id)
+
+      }else if (existingPedido.order.id == undefined){
+         let uio = await new Order({
+              order:pedido
+             });
+
+      console.log('criado', uio.order.id)
+
+      }else{
+        console.log('pedido')
+      }
+    }
+
+    console.log('Pedidos pendentes atualizados com sucesso.');
+  } catch (error) {
+    console.error('Erro ao atualizar pedidos pendentes:', error);
+  }
+}
+
+
+// Executar a função periodicamente usando cronjob
+/*const jobb = new CronJob(
+	'* * * * * *', // cronTime
+	atualizarPedidosPendentes, // onTick
+	null, // onComplete
+	true, // start
+  'America/Sao_Paulo' // timeZone
+);
+*/
+
+
+
+//  '0 0 */2 * *' 
+const job = new CronJob(
+	'0 0 */2 * *', // cronTime
+	capture2Days, // onTick
+	null, // onComplete
+	true, // start
+  'America/Sao_Paulo' // timeZone
+);
 
 
 const fs = require('fs');
@@ -135,7 +232,7 @@ app.use(express.json({limit: '100mb'}))
 app.use(express.urlencoded({extended:true,limit: '100mb'}))
 app.use(methodOverride('_method'))
 
-app.get('/pedido/:_id',eAdmin, async (req,res)=>{
+app.get('/pedido/:id',eAdmin, async (req,res)=>{
 
 try {
   let user = await req.user
@@ -143,16 +240,16 @@ try {
   //let tkCard1 =  await customerCard.list({ customerId: user.idmp });
 
   let {id, _id} = await req.body
-  if(!_id){
-   _id = await  req.params._id
+  if(!id){
+   id = await  req.params.id
    // console.log(_id,'PARAMS')
   } 
-  let pedido  = await Order.findById({_id:_id})
- // console.log(pedido, _id, await req.body, 'PEDIDO')
+ // let pedido  = await Order.findOne({'order.id':id})
+  //console.log(pedido, _id, await req.body, 'PEDIDO')
 
   let cards = await customerCard.list({ customerId: user.idmp })
-	console.log(cards, 'CARDS')
-  res.render( './cli/parcial', {pedido:pedido, user:user, cards:cards, publicKey:mercadoPagoPublicKey,msg:false})
+	//console.log(cards, 'CARDS')
+  res.render( './cli/parcial', {pedido:id, user:user, cards:cards, publicKey:mercadoPagoPublicKey,msg:false})
 } catch (error) {
   console.log(error)
 }
@@ -205,7 +302,7 @@ console.log(result,'RESULT1')
          // res.redirect('/minha-conta')
     
     console.log(result)
-  
+  //  atualizarPedidosPendentes()
   }).catch(err=>{
     console.log(err)
   })
@@ -232,7 +329,7 @@ if(user.admin == true){
 }else{
   res.redirect('/minha-conta')
 }
-
+//atualizarPedidosPendentes()
 }).catch(console.log);
 
 
@@ -417,6 +514,7 @@ console.log(updatedUser, 'updated capture')
 
 let nowOrder1 = await Order.findByIdAndUpdate({_id:_id}, {order:da}, { new: true })
 console.log(nowOrder1,'PEDIDO ATUALIZADO')
+atualizarPedidosPendentes()
       res.redirect('/minha-conta')
 
     }).catch(async err=>{
@@ -488,30 +586,36 @@ app.put('/cancel_signature/:id',async (req,res)=>{
 
 
 app.post('/cancel_payment/:id',async (req,res)=>{
-  let {id, transaction_amount, _id, userid} = await req.body
-if(!id) {
-  id = req.params.id
-}
-console.log(transaction_amount)
-payment.cancel({
-	id: id,
-	requestOptions: {
-		idempotencyKey: uuidv4()
-	},
-}).then(async (da)=>{
 
-  const updatedUser = await User.findByIdAndUpdate(
-    userid,
-    { $set: { "orders.$[elem].order.status_detail": da.status_detail } },
-    { new: true, arrayFilters: [{ "elem._id": new mongoose.Types.ObjectId(_id) }] }
-  );
-  console.log(updatedUser, 'updated cancel payment')
-  let nowOrder = Order.findByIdAndUpdate({_id:_id}, data, { new: true })
-console.log(nowOrder,'PEDIDO ATUALIZADO')
-        res.redirect('/admin')
+  try {
+    let {id, transaction_amount, _id, userid} = await req.body
+    if(!id) {
+      id = req.params.id
+    }
+    console.log(transaction_amount)
+    payment.cancel({
+      id: id,
+      requestOptions: {
+        idempotencyKey: uuidv4()
+      },
+    }).then(async (da)=>{
+    
+      const updatedUser = await User.findByIdAndUpdate(
+        userid,
+        { $set: { "orders.$[elem].order": da } },
+        { new: true, arrayFilters: [{ "elem._id": new mongoose.Types.ObjectId(_id) }] }
+      );
+      console.log(updatedUser, 'updated cancel payment')
+      let nowOrder = Order.findByIdAndUpdate({_id:_id}, {order:da}, { new: true })
+    console.log(nowOrder,'PEDIDO ATUALIZADO')
+    atualizarPedidosPendentes()
+            res.redirect('/admin')
+    
+    }).catch(console.log);
+  } catch (error) {
+    console.log(error)
+  }
 
-  res.redirect('/admin')
-}).catch(console.log);
  
 })
 
@@ -528,12 +632,12 @@ app.post('/logout',async (req,res)=>{
 })
 
 
-app.post('/process_payment', async (req,res)=>{
+app.post('/process_payment',eAdmin, async (req,res)=>{
 
 
    try {
     let user = req.user
-    const { payer,token,description,transaction_amount,paymentMethodId,installments,issuerId,phone,street_number, cep,address,whatsapp,name,lastname,email,items,cpf,city,state, birthday, gender,country,bairro } = await req.body;
+    const { payer,token,description,transaction_amount,paymentMethodId,installments,issuerId,phone,street_number, cep,address,whatsapp,name,lastname,email,items,cpfcnpj,city,state, birthday, gender,country,bairro } = await req.body;
     let srt_number = parseInt(street_number)
     console.log(payer,items)
     console.log(req.body)
@@ -599,9 +703,7 @@ app.post('/process_payment', async (req,res)=>{
     customer.create({ body: clientData }).then(async (data1)=>{
      // console.log(data)
       console.log('novo cliente')
-    await  customerCard.create({ customerId: data1.id, body: {
-        token: token,
-      } }).then(console.log).catch(console.log);
+  let dff =  await  customerCard.create({ customerId: data1.id, body: {token: token,}})
 
       const userEmail1 = await User.findOne({$or: [{email: payer.email}]})
 //console.log(userEmail1, 'USER EMAILLLLLLLLLLLLLLLLL')
@@ -616,17 +718,21 @@ if(userEmail1){
       id: data.id,
       
     });*/
-    let order1 = new Order({
+    let order1 = await new Order({
       order:data2,
       items:items
     })
    await order1.save()
 
    let usr = await User.findByIdAndUpdate({_id:userEmail1._id},{$push: { orders: order1 }},{new:true})
-   let usr0 = await User.findByIdAndUpdate({_id:userEmail._id},{idmp:data.results[0].id},{new:true})
+   let usr0 = await User.findByIdAndUpdate({_id:userEmail1._id},{idmp:dff.customer_id},{new:true})
   // console.log(usr)
   // console.log(data,' <- pagamento criado' )
-  res.redirect('/quiz')
+  if(user.admin ==true){
+    res.redirect('/admin')
+  }else{
+    res.redirect('/minha-conta')
+  }
   })
   .catch(function (error) {
     console.log(error);
@@ -635,21 +741,21 @@ if(userEmail1){
   });
 
  
-   console.log('USUÁRIO SALVO NO BANCO')
+   console.log('USUÁRIO atualizado NO BANCO')
 //   res.redirect('/quiz')
+atualizarPedidosPendentes()
 
 }else{
   const newUser1 = new User({
-    idmp:data.id,
-    name:data.first_name,
-    lastname:data.last_name,
+    idmp:data1.id,
+    name:data1.first_name,
+    lastname:data1.last_name,
     bairro:bairro,
     password:bcrypt.hashSync(passnew, 8),
-    external_reference:data.external_reference,
-    email:data.email,
+    external_reference:data1.external_reference,
+    email:data1.email,
     country:country,
-    address:data.address.street_name,
-    payer_id:data.id,
+    address:data1.address.street_name,
     billing_address:{
      city:city,
      address:data.address.street_name,
@@ -660,12 +766,12 @@ if(userEmail1){
      cep:cep
     },
     city:city,
-    orders:data,
+    orders:data1,
     gender:gender,
     birthday:birthday,
     cep:cep,
     state:state,
-    cpfcnpj:data.identification.number,
+    cpfcnpj:data1.identification.number,
     phone:phone,
     whatsapp:whatsapp,
     street_number:srt_number
@@ -673,14 +779,18 @@ if(userEmail1){
    await  newUser1.save()
 
    let order2 = new Order({
-    order:data,
+    order:data1,
     items:items
   })
  await order2.save()
  let usrs = await User.findByIdAndUpdate({_id:newUser1._id},{$push: { orders: order2 }},{new:true})
- let usr0 = await User.findByIdAndUpdate({_id:userEmail._id},{idmp:data.results[0].id},{new:true})
-
-   res.redirect('/quiz')
+ let usr0 = await User.findByIdAndUpdate({_id:newUser1._id},{idmp:data1.id},{new:true})
+ atualizarPedidosPendentes()
+ if(user.admin ==true){
+  res.redirect('/admin')
+}else{
+  res.redirect('/minha-conta')
+}
 
 }
 
@@ -701,7 +811,12 @@ if(userEmail1){
       })
      await order1.save()
   //   console.log(data,' <- pagamento criado' )
-    res.redirect('/quiz')
+  atualizarPedidosPendentes()
+ if(user.admin ==true){
+  res.redirect('/admin')
+}else{
+  res.redirect('/minha-conta')
+}
     })
     .catch(function (error) {
       console.log(error);
@@ -713,13 +828,10 @@ if(userEmail1){
   }else{
 
   
-   await customerCard.create({ customerId: data.results[0].id, body: {
-      token: token,
-    } }).then(console.log).catch(console.log);
 
   payment
   .create({ body: paymentData })
-  .then(async function (data1) {
+  .then(async function (data4) {
 
  //let ccard = await customerCard.get({ customerId: data.results[0].id, cardId : data.results[0].cards[0].config.options.integratorId }).then(console.log).catch(console.log);
 
@@ -730,43 +842,11 @@ if(userEmail1){
 
  //  console.log(data,' <- pagamento criado  e dados do usuário atualizado' )
   
-/*  let order = new Order({
-    payer:payer,
-   order:data.metadata,
-    total:data.transaction_amount, //transactions_amount
-    status:data.status,
-    status_detail:data.status_detail,
-    currency:data.currency_id,
-    description:data.description,
-    authorization_code:data.authorization_code,
-    taxes_amount:data.taxes_amount,
-    shipping_amount:data.shipping_amount,
-    collector_id:data.collector_id,
-    total_refunded:data.transaction_amount_refunded,  //transactions_refunded_amount
-    cupum_amount:data.coupon_amount,
-    installments:data.installments,
-    transaction_details:data.transaction_details,
-    fee_details:data.fee_details,
-    card:data.card,
-    refunds:data.refunds,
-    processing_mode:data.processing_mode,
-    point_of_interaction:data.point_of_interaction,
-    accounts_info:data.accounts_info,
-    captured:data.captured
-
-  })
-  await order.save()*/
-  /*let order = new Order({
-    order:data
-  })
-  let ord = [...order3]
-
- await order.save()*/
  const userEmail = await User.findOne({$or: [{email: payer.email}]})
  console.log(userEmail, 'USER EMAILLLLLLLLLLLLLLLLL')
 
  let order3 = await new Order({
-  order:data1,
+  order:data4,
   items:items
   
 })
@@ -776,8 +856,14 @@ await order3.save()
  let usr = await User.findByIdAndUpdate({_id:userEmail._id},{$push: { orders: order3 }},{new:true})
  let usr0 = await User.findByIdAndUpdate({_id:userEmail._id},{idmp:data.results[0].id},{new:true})
 
- //console.log(usr, 'EMAIL ENCONTRADO')
-  res.redirect('/quiz')
+ console.log(data4, 'EMAIL ENCONTRADO')
+ atualizarPedidosPendentes()
+
+ if(user.admin ==true){
+  res.redirect('/admin')
+}else{
+  res.redirect('/minha-conta')
+}
   })
 
   .catch(function (error) {
@@ -803,9 +889,9 @@ await order3.save()
   //  res.render('index',{msg:false,error:false})
 //})
 
-app.get('/loja',async (req,res)=>{
+app.get('/assinatura',eAdmin,async (req,res)=>{
   try {
-    let user = await req.userparcial
+    let user = await req.user
     let products = await Product.find({})
     let bags = await Bag.find({})
     res.render('loja',{user:user,publicKey:mercadoPagoPublicKey, products:products,bags:bags}) 
@@ -823,7 +909,8 @@ app.get('/admin',eAdmin,async(req,res)=>{
     let users = await User.find({})
     let products = await Product.find({})
     let orders = await Order.find({})
-    let payments = await payment.search()
+    let payments = await payment.search({options:{criteria:'desc',sort:'date_created'}})
+    console.log(payments)
     let signatures = await preApproval.search()
     let totalPaid = await payments.results
     .filter((f) => f.captured === true)
@@ -996,15 +1083,23 @@ app.get('/minha-conta',eAdmin,async(req,res)=>{
   try {
     if(req.user.admin == false){
       let user = await req.user
-    let tkCard =  await customerCard.list({ customerId: user.idmp });
 
+      if(user.idmp == '' || user.idmp == undefined || user.idmp == null){
+        let nuser =await customer.create({body:{email:user.email}})
+        let nj = await User.findOneAndUpdate({_id:user._id},{idmp:nuser.id},{new:true})  
+      }
+
+    let tkCard =  await customerCard.list({ customerId: user.idmp });
+let allPayments = await payment.search({options:{criteria:'desc',sort:'date_last_updated'}})
+   let paymentsUser =await  customer.get({customerId:user.idmp})
+console.log(paymentsUser)
    //   let cli =await customer.get({customerId:user.idmp})
      // let payments = await payment.search({})
       //let signatures = await preApproval.search({})
   //  console.log(signatures,'SIGNATURES')
   // const sigs = await signatures.results.filter( sig => sig.external_reference == user.cpf);
   //console.log(sigs)
-      res.render('cli/cli',{user:user, cards:tkCard, msg:false, publicKey:mercadoPagoPublicKey})
+      res.render('cli/cli',{user:user, cards:tkCard, msg:false,payments:allPayments.results, publicKey:mercadoPagoPublicKey})
     }else{
       res.redirect('/')
     }
@@ -1333,11 +1428,10 @@ console.log(newCustomer)
         address:address,
         photo:photo,
         cep:cep,
-        cpf:cpf,
+        cpfcnpj:cpfcnpj,
         city:city,
         country:country,
         state:state,
-        cnpj:cnpj
       })
      await user.save()
      console.log('usuário salvo')
@@ -1415,12 +1509,12 @@ app.post('/iela/saveUser', async (req,res)=>{
        default_card: 'None'
      };
      
-   let cust = await customer.create({ body: body })
+   //let cust = await customer.create({ body: body })
    
-   console.log(cust, 'CUSTOMER')
+   //console.log(cust, 'CUSTOMER')
    let user = new User({
     name:name,
-    idmp : cust.id,
+   // idmp : cust.id,
     email:email,
     password:bcrypt.hashSync(password, 8),
     address:address,
@@ -1456,7 +1550,7 @@ app.post('/iela/saveUser', async (req,res)=>{
   })
  await user.save()
  console.log('usuário salvo')
-     res.redirect('/quiz')
+     res.redirect('/')
       try {
           const items = await User.find({})
             .sort({ createdAt: 1 }); // Ordena em ordem crescente por createdAt

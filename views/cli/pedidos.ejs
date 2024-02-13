@@ -2,39 +2,195 @@
 	<input type="hidden" id="pKey" value="<%=publicKey%>">
 
 	<script src="https://sdk.mercadopago.com/js/v2"></script>
+	<table id="tabela-dados" class="woocommerce-orders-table woocommerce-MyAccount-orders shop_table shop_table_responsive my_account_orders account-orders-table col-12">
+		<thead>
+			<tr>
+									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-number"><span class="nobr">Pedido</span></th>
+									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-number"><span class="nobr">Cliente</span></th>
+									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-number"><span class="nobr">CPF</span></th>
+									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-number"><span class="nobr">Contato</span></th>
+									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-number"><span class="nobr">E-mail</span></th>
+									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-date"><span class="nobr">Data</span></th>
+									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-status"><span class="nobr">Status</span></th>
+									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-total"><span class="nobr">Total</span></th>
+									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-actions"><span class="nobr">Ações</span></th>
+							</tr>
+		</thead>
+	
+		
 	
 
 	<div class="woocommerce-notices-wrapper"></div>
 	<%if(user){%>
-		<%user.orders.forEach(payment=>{%>
+		<%user.orders.forEach(ord=>{%>
 
+			<tbody>
+		
 	
-	<div class="modal fade" id="llll<%=payment.order.id%>Edited" tabindex="-1" aria-labelledby="llll<%=payment.order.id%>edit" aria-hidden="true">
+		
+				<tr class="woocommerce-orders-table__row woocommerce-orders-table__row--status-cancelled order">
+								<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Pedido">		
+									<%if(ord.order && ord.order.id){%>
+												<a href="#">#<%=ord.order.id%></a>
+												<%}else{%>
+													ID de pagamento não encontrado
+													<%}%>
+								</td>
+								<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Cliente">
+							<%if(ord.order.card && ord.order.card.cardholder){%>
+										<a href="#"><%=ord.order.card.cardholder.name%></a>
+									<%}else{%>
+										<a href="#">Nome não encontrado</a>
+										<%}%>
+								</td>
+								<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="CPF">
+									<%if(ord.order.payer && ord.order.payer.identification){%>
+									<a href="#"><%=ord.order.payer.identification.number%></a>
+									<%}else{%>
+										<a href="#">CPF ou CNPJ não encontrado</a>
+										<%}%>%>
+								</td>
+
+								<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Contato">
+									<%if(ord.order.payer && ord.order.payer.phone){%>
+									<a href="#">+55<%=ord.order.payer.phone.area_code%> <%=ord.order.payer.phone.number%></a>
+									<%}else{%>
+										<a href="#">Contato não encontrado</a>
+										<%}%>%>
+								</td>
+								<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="E-mail">
+									<%if(ord.order.payer && ord.order.payer.email){%>
+
+									<a href="#"><%=ord.order.payer.email%></a>
+									<%}else{%>
+										<a href="#">E-mail não encontrado</a>
+										<%}%>%>
+								</td>
+							
+								<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-date" data-title="Data">
+									<%if(ord.order.date_created){%>
+
+
+										<% 
+										// Função para formatar a data
+										function formatarData(dataString) {
+											const data = new Date(dataString);
+											const options = { 
+												timeZoneName: 'short',
+												year: 'numeric',
+												month: '2-digit',
+												day: '2-digit',
+												hour: '2-digit',
+												minute: '2-digit',
+												second: '2-digit' 
+											};
+											return data.toLocaleString('pt-BR', options);
+										}
+									
+										// Data no formato "2024-02-04T13:59:35.970-04:00"
+										
+									
+										// Formatar a data
+									
+										%>
+
+
+												<time datetime="<%=ord.order.date_created%>"><%=formatarData(ord.order.date_created)%></time>
+												<%}else{%>
+													Data não encontrada ou não registrada
+													<%}%>
+										</td>
+								<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-status" data-title="Status">
+									
+
+									<%if(ord.order.status_detail == 'pending_capture' && ord.order.status != undefined){%>
+										<%=ord.order.status%>: Captura pendente
+										<%}else if(ord.order.status_detail == 'accredited' && ord.order.status != undefined){%>
+											<%=ord.order.status%>: Aprovado
+											<%}else if(ord.order.status_detail == 'cc_rejected_other_reason' && ord.order.status != undefined){%>
+												<%=ord.order.status%>: Pagamento rejeitado por alguma razão
+												<%}else if(ord.order.status_detail == 'pending_waiting_transfer' && ord.order.status != undefined){%>
+													<%=ord.order.status%>: Pendente aguardando transferência
+													<%}else if(ord.order.status_detail == 'pending_contingency' && ord.order.status != undefined){%>
+														<%=ord.order.order.status%>: O pagamento está sendo processado
+														<%}else if(ord.order.status_detail == 'pending_review_manual' && ord.order.status != undefined){%>
+															<%=ord.order.status%>: O pagamento está em análise
+															<%}else if(ord.order.status_detail == 'cc_rejected_bad_filled_date' && ord.order.status != undefined){%>
+																<%=ord.order.status%>: Data de válidade incorreta
+																<%}else if(ord.order.status_detail == 'cc_rejected_bad_filled_other' && ord.order.status != undefined){%>
+																	<%=ord.order.status%>: Detalhes incorretos do cartão
+																	<%}else if(ord.order.status_detail == 'cc_rejected_bad_filled_security_code' && ord.order.status != undefined){%>
+																		<%=ord.order.status%>: CVV incorreto
+																		<%}else if(ord.order.status_detail == 'cc_rejected_blacklist' && ord.order.status != undefined){%>
+																			<%=ord.order.status%>: O cartão está em uma lista negra(roubo/reclamações/fraude) 
+																			<%}else if(ord.order.status_detail == 'cc_rejected_call_for_authorize' && ord.order.status != undefined){%>
+																				<%=ord.order.status%>: O meio de pagamento requer autorização prévia do valor da operação
+																				<%}else if(ord.order.status_detail = 'cc_rejected_card_disabled' && ord.order.status != undefined){%>
+																					<%=ord.order.status%>: O cartão está inativo
+																					<%}else if(ord.order.status_detail == 'cc_rejected_duplicated_payment' && ord.order.status != undefined){%>
+																						<%=ord.order.status%>: Transação duplicada
+																						<%}else if(ord.order.status_detail == 'cc_rejected_high_risk' && ord.order.status != undefined){%>
+																							<%=ord.order.status%>: Rechaçado por prevenção de fraude
+																							<%}else if(ord.order.status_detail == 'cc_rejected_insufficient_amount' && ord.order.status != undefined){%>
+																								<%=ord.order.status%>: Saldo insuficiente
+																								<%}else if(ord.order.status_detail == 'cc_rejected_invalid_installments' && ord.order.status != undefined){%>
+																									<%=payment.status%>: Número de parcelas inválido
+																									<%}else if(ord.order.status_detail == 'cc_rejected_max_attempts' && ord.order.status != undefined){%>
+																										<%=ord.order.status%>: Número máximo de tentativas excedido
+																										<%}else{%>
+																												<%console.log('log')%>
+																											<%}%>
+												
+										</td>
+								<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-total" data-title="Total">
+												<span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"><%=ord.order.currency_id%></span>&nbsp;<%=ord.order.transaction_amount%></span>
+										</td>
+										<%if(ord.order.status_detail == 'accredited' && ord.order.status != undefined){%>
+								<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-actions" data-title="Ações">
+											<a href="#">	<button type="button" disabled  class="woocommerce-button button view">Visualizar Bag</button>	</a>											
+												</td>
+												<%}else{%>
+											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-actions" data-title="Ações">
+												
+											<a href="/pedido/<%=ord.order.id%>">	<button type="button"  class="woocommerce-button button view">Visualizar Bag</button>	</a>											
+												</td>
+													<%}%>
+						</tr>
+						
+
+				
+
+
+					
+				
+			</tbody>
+	
+	<div class="modal fade" id="llll<%=ord.order.id%>Edited" tabindex="-1" aria-labelledby="llll<%=ord.order.id%>edit" aria-hidden="true">
 		<div class="modal-dialog">
 		  <div class="modal-content">
 			<div class="modal-header">
-			  <h1 class="modal-title fs-5" id="llll<%=payment.order.id%>edit">-</h1>
+			  <h1 class="modal-title fs-5" id="llll<%=ord.order.id%>edit">-</h1>
 			  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
   
 		<!--    TENTAR PEGAR PELO CHILDREN DO FORMA E USAR NO JAVASCRIPT LA EMBAIXO NA TAG SCRIPT PEGANDO PELO ELEMENT OU PELO THIS  -->
-		<form id="form<%=payment.order.id%>" action="/capture_payment/<%=payment.order.id%>" method="post">
-			<span style="background-color: pink;border-radius: 50%;position:absolute;color: white ;padding:15px;width:15px;height:15px;display:flex;align-items: center;align-content: center;justify-content: center;" id="cartCount<%=payment.order.id%>">0</span>
+		<form id="form<%=ord.order.id%>" action="/capture_payment/<%=ord.order.id%>" method="post">
+			<span style="background-color: pink;border-radius: 50%;position:absolute;color: white ;padding:15px;width:15px;height:15px;display:flex;align-items: center;align-content: center;justify-content: center;" id="cartCount<%=ord.order.id%>">0</span>
 
-			<div class="cart<%=payment.order.id%>">
+			<div class="cart<%=ord.order.id%>">
 				<h2>Sua Bag</h2>
-				<ul id="cart-items<%=payment.order.id%>">
+				<ul id="cart-items<%=ord.order.id%>">
 				  <!-- Itens do carrinho serão adicionados aqui dinamicamente -->
 				</ul>
-				<p id="total<%=payment.order.id%>">Total: R$ <%=payment.order.transaction_amount%></p>
+				<p id="total<%=ord.order.id%>">Total: R$ <%=ord.order.transaction_amount%></p>
 			  </div>
 
-			<%if(payment.items && payment.items.length > 0){%>
+			<%if(ord.items && ord.items.length > 0){%>
 
 				
 
-				<%payment.items.forEach(bag=>{%>
+				<%ord.items.forEach(bag=>{%>
 					<%if(bag.items && bag.items.length > 0){%>
 
 						
@@ -49,14 +205,14 @@
 						%>
 						
 						<div style="display: flex; justify-content: space-evenly;align-items: center;align-content: center;padding: 10px;">
-						<a rel="nofollow" href="#"  style="color: #f7b8d5;margin-right: 10px;"  data-id="5" data-name="<%=b.name%>" data-summary="summary 5" data-price="<%=b.price%>" data-description="<%=b.description%>" data-quantity="1" data-image="" onclick="addToCart<%=payment.order.id%>('<%=b.name%>', <%=b.price%>, 1, '<%=b.size%>', '<%=b.id%><%=payment._id%>','<%=statusy%>')" class="add-to-cart">
+						<a rel="nofollow" href="#"  style="color: #f7b8d5;margin-right: 10px;"  data-id="5" data-name="<%=b.name%>" data-summary="summary 5" data-price="<%=b.price%>" data-description="<%=b.description%>" data-quantity="1" data-image="" onclick="addToCart<%=ord.order.id%>('<%=b.name%>', <%=b.price%>, 1, '<%=b.size%>', '<%=b.id%><%=ord._id%>','<%=statusy%>')" class="add-to-cart">
 				
 						
 							<span style="font-weight: 900;font-size: 25px;">+</span>
 						  </a>
 				
 
-						  <div id="p<%=payment.order.id%>" style="display: flex; justify-content: space-evenly;align-items: center;align-content: center;">
+						  <div id="p<%=ord.order.id%>" style="display: flex; justify-content: space-evenly;align-items: center;align-content: center;">
 
 						  <img width="50" height="50" src="<%=statusy%>" class="image-primary scale-with-grid wp-post-image" style="align-self: center;margin-right: 5px;width:25px;height:25px" alt="" decoding="async" fetchpriority="high"  sizes="(max-width: 1068px) 100vw, 1068px" />
 						  <div><%=b.quantity%>x <%=b.name%> R$  <%=b.price%></div>
@@ -64,7 +220,7 @@
 						 
 						</div>
 						
-						<a rel="nofollow" href="#" style="color: #f7b8d5;margin-left: 10px;" data-id="5" data-name="<%=b.name%>" data-summary="summary 5" data-price="<%=b.price%>" data-size="<%=b.size%>" data-quantity="1" data-image="<%=b.photo%>" class="add-to-cart" onclick="decrementQuantity<%=payment.order.id%>('<%=b.id%><%=payment._id%>')">
+						<a rel="nofollow" href="#" style="color: #f7b8d5;margin-left: 10px;" data-id="5" data-name="<%=b.name%>" data-summary="summary 5" data-price="<%=b.price%>" data-size="<%=b.size%>" data-quantity="1" data-image="<%=b.photo%>" class="add-to-cart" onclick="decrementQuantity<%=ord.order.id%>('<%=b.id%><%=ord._id%>')">
 				
 					
 						  <span style="font-weight: 900;font-size: 25px;">-</span>
@@ -79,11 +235,11 @@
 	
 					<%}%>
 
-					<input name="_id" type="hidden" value="<%=payment._id%>">
+					<input name="_id" type="hidden" value="<%=ord._id%>">
 					<input name="userid" type="hidden" value="<%=user._id%>">
 
-			<input name="id" type="hidden" value="<%=payment.order.id%>">
-			<input name="transaction_amount" type="number" value="<%=payment.order.transaction_amount%>">
+			<input name="id" type="hidden" value="<%=ord.order.id%>">
+			<input name="transaction_amount" type="number" value="<%=ord.order.transaction_amount%>">
 
 		
 			<button type="submit">Pagar valor inteiro</button>
@@ -97,119 +253,119 @@
 
 
 
-	<input name="_id" type="hidden" id="_id<%=payment.order.id%>" value="<%=payment._id%>">
-	<input name="userid" type="hidden" id="userid<%=payment.order.id%>" value="<%=user._id%>">
-	<input name="issuer_id" type="hidden" id="issuer_id<%=payment.order.id%>" value="<%=payment.order.issuer_id%>">
-	<input name="payment_method_id" id="payment_method_id<%=payment.order.id%>" type="hidden" value="<%=payment.order.payment_method_id%>">
+	<input name="_id" type="hidden" id="_id<%=ord.order.id%>" value="<%=ord._id%>">
+	<input name="userid" type="hidden" id="userid<%=ord.order.id%>" value="<%=user._id%>">
+	<input name="issuer_id" type="hidden" id="issuer_id<%=ord.order.id%>" value="<%=ord.order.issuer_id%>">
+	<input name="payment_method_id" id="payment_method_id<%=ord.order.id%>" type="hidden" value="<%=ord.order.payment_method_id%>">
 
-<input type="hidden" id="ccart<%=payment.order.id%>" name="cart">
-<input name="id" type="hidden" id="idid<%=payment.order.id%>" value="<%=payment.order.id%>">
-<input name="transaction_amount" id="parcial<%= payment.order.id %>" type="number">
+<input type="hidden" id="ccart<%=ord.order.id%>" name="cart">
+<input name="id" type="hidden" id="idid<%=ord.order.id%>" value="<%=ord.order.id%>">
+<input name="transaction_amount" id="parcial<%= ord.order.id %>" type="number">
    
  
 
-<script id="<%= payment.order.id %>" type="text/javascript">
-	const cart<%= payment.order.id %> = [];
-	const itemList<%= payment.order.id %> = [];
-	let ccart<%=payment.order.id%> = document.getElementById('ccart<%=payment.order.id%>')
-	let parcial<%= payment.order.id %> = document.getElementById('parcial<%= payment.order.id %>')
+<script id="<%= ord.order.id %>" type="text/javascript">
+	const cart<%= ord.order.id %> = [];
+	const itemList<%= ord.order.id %> = [];
+	let ccart<%=ord.order.id%> = document.getElementById('ccart<%=ord.order.id%>')
+	let parcial<%= ord.order.id %> = document.getElementById('parcial<%= ord.order.id %>')
 	
-	let itemCount<%= payment.order.id %> = 0;
+	let itemCount<%= ord.order.id %> = 0;
   
 	// Função para carregar um carrinho pré-existente
-	function loadCart<%= payment.order.id %>(preloadedCart) {
-	  cart<%= payment.order.id %>.push(...preloadedCart);
-	  itemCount<%= payment.order.id %> = cart<%= payment.order.id %>.reduce((total, item) => total + item.quantity, 0);
-	  updateCart<%= payment.order.id %>();
-	  updateTotal<%= payment.order.id %>();
+	function loadCart<%= ord.order.id %>(preloadedCart) {
+	  cart<%= ord.order.id %>.push(...preloadedCart);
+	  itemCount<%= ord.order.id %> = cart<%= ord.order.id %>.reduce((total, item) => total + item.quantity, 0);
+	  updateCart<%= ord.order.id %>();
+	  updateTotal<%= ord.order.id %>();
 	}
   
-	function addToCart<%= payment.order.id %>(productName, price, quantity, size, id, photo) {
-	  const priceFloat<%= payment.order.id %> = parseFloat(price);
+	function addToCart<%= ord.order.id %>(productName, price, quantity, size, id, photo) {
+	  const priceFloat<%= ord.order.id %> = parseFloat(price);
   
-	  if (isNaN(priceFloat<%= payment.order.id %>) || priceFloat<%= payment.order.id %> <= 0) {
+	  if (isNaN(priceFloat<%= ord.order.id %>) || priceFloat<%= ord.order.id %> <= 0) {
 		alert("Por favor, insira um preço válido.");
 		return;
 	  }
   
-	  const item<%= payment.order.id %> = {
+	  const item<%= ord.order.id %> = {
 		name: productName,
-		price: priceFloat<%= payment.order.id %>,
+		price: priceFloat<%= ord.order.id %>,
 		quantity: quantity,
-		description: `${quantity}x ${productName} ${size} R$ ${priceFloat<%= payment.order.id %>.toFixed(2)}`,
+		description: `${quantity}x ${productName} ${size} R$ ${priceFloat<%= ord.order.id %>.toFixed(2)}`,
 		size: size,
 		id: id,
 		photo: photo
 	  };
   
-	  const existingItemIndex<%= payment.order.id %> = cart<%= payment.order.id %>.findIndex(cartItem => cartItem.id === id);
+	  const existingItemIndex<%= ord.order.id %> = cart<%= ord.order.id %>.findIndex(cartItem => cartItem.id === id);
   
-	  if (existingItemIndex<%= payment.order.id %> !== -1) {
-		cart<%= payment.order.id %>[existingItemIndex<%= payment.order.id %>].quantity += quantity;
+	  if (existingItemIndex<%= ord.order.id %> !== -1) {
+		cart<%= ord.order.id %>[existingItemIndex<%= ord.order.id %>].quantity += quantity;
 	  } else {
-		cart<%= payment.order.id %>.push(item<%= payment.order.id %>);
+		cart<%= ord.order.id %>.push(item<%= ord.order.id %>);
 	  }
   
-	  itemCount<%= payment.order.id %> += quantity;
-	  updateCart<%= payment.order.id %>();
-	  updateTotal<%= payment.order.id %>();
-	  console.log(cart<%= payment.order.id %>);
+	  itemCount<%= ord.order.id %> += quantity;
+	  updateCart<%= ord.order.id %>();
+	  updateTotal<%= ord.order.id %>();
+	  console.log(cart<%= ord.order.id %>);
 	}
   
-	function updateCart<%= payment.order.id %>() {
-	  const cartList<%= payment.order.id %> = document.getElementById('cart-items<%= payment.order.id %>');
-	  const cartCount<%= payment.order.id %> = document.getElementById('cartCount<%= payment.order.id %>');
-	  let p<%=payment.order.id%> = document.getElementById(`p<%=payment.order.id%>`)
-	  console.log(p<%=payment.order.id%>)
+	function updateCart<%= ord.order.id %>() {
+	  const cartList<%= ord.order.id %> = document.getElementById('cart-items<%= ord.order.id %>');
+	  const cartCount<%= ord.order.id %> = document.getElementById('cartCount<%= ord.order.id %>');
+	  let p<%=ord.order.id%> = document.getElementById(`p<%=ord.order.id%>`)
+	  console.log(p<%=ord.order.id%>)
 	  // Limpa a lista do carrinho
-	  cartList<%= payment.order.id %>.innerHTML = ''
+	  cartList<%= ord.order.id %>.innerHTML = ''
   
 	  // Adiciona itens ao carrinho
-	  cart<%= payment.order.id %>.forEach(item<%= payment.order.id %> => {
-		const listItem<%= payment.order.id %> = document.createElement('li')
+	  cart<%= ord.order.id %>.forEach(item<%= ord.order.id %> => {
+		const listItem<%= ord.order.id %> = document.createElement('li')
 
-		listItem<%= payment.order.id %>.id = `${<%=payment.order.id%>}list`
-		listItem<%= payment.order.id %>.style.listStyle = 'none'
-		listItem<%= payment.order.id %>.textContent = `${item<%= payment.order.id %>.quantity}x ${item<%= payment.order.id %>.name} ${item<%= payment.order.id %>.size} - R$ ${item<%= payment.order.id %>.price.toFixed(2)}`
+		listItem<%= ord.order.id %>.id = `${<%=ord.order.id%>}list`
+		listItem<%= ord.order.id %>.style.listStyle = 'none'
+		listItem<%= ord.order.id %>.textContent = `${item<%= ord.order.id %>.quantity}x ${item<%= ord.order.id %>.name} ${item<%= ord.order.id %>.size} - R$ ${item<%= ord.order.id %>.price.toFixed(2)}`
 	
-		cartList<%= payment.order.id %>.appendChild(listItem<%= payment.order.id %>)
-		let lt<%= payment.order.id %> = `${item<%= payment.order.id %>.quantity}x ${item<%= payment.order.id %>.name} ${item<%= payment.order.id %>.size} - R$ ${item<%= payment.order.id %>.price.toFixed(2)}`
-		itemList<%= payment.order.id %>.push(lt<%= payment.order.id %>)
-		console.log(lt<%= payment.order.id %>)
+		cartList<%= ord.order.id %>.appendChild(listItem<%= ord.order.id %>)
+		let lt<%= ord.order.id %> = `${item<%= ord.order.id %>.quantity}x ${item<%= ord.order.id %>.name} ${item<%= ord.order.id %>.size} - R$ ${item<%= ord.order.id %>.price.toFixed(2)}`
+		itemList<%= ord.order.id %>.push(lt<%= ord.order.id %>)
+		console.log(lt<%= ord.order.id %>)
   
-		if (item<%= payment.order.id %>.quantity === 0) {
-		  listItem<%= payment.order.id %>.textContent = ''
+		if (item<%= ord.order.id %>.quantity === 0) {
+		  listItem<%= ord.order.id %>.textContent = ''
 		}
 	  })
 	  
-  ccart<%= payment.order.id %> .value = cart<%= payment.order.id %> 
-	  cartCount<%= payment.order.id %>.innerText = itemCount<%= payment.order.id %>
+  ccart<%= ord.order.id %> .value = cart<%= ord.order.id %> 
+	  cartCount<%= ord.order.id %>.innerText = itemCount<%= ord.order.id %>
 	}
   
-	function updateTotal<%= payment.order.id %>() {
-	  const totalElement<%= payment.order.id %> = document.getElementById('total<%= payment.order.id %>')
-	  const total<%= payment.order.id %> = cart<%= payment.order.id %>.reduce((acc, item) => acc + item.price * item.quantity, 0)
-	  totalElement<%= payment.order.id %>.textContent = `Total: R$ ${total<%= payment.order.id %>.toFixed(2)}`
-	  parcial<%= payment.order.id %>.value  = total<%= payment.order.id %>
+	function updateTotal<%= ord.order.id %>() {
+	  const totalElement<%= ord.order.id %> = document.getElementById('total<%= ord.order.id %>')
+	  const total<%= ord.order.id %> = cart<%= ord.order.id %>.reduce((acc, item) => acc + item.price * item.quantity, 0)
+	  totalElement<%= ord.order.id %>.textContent = `Total: R$ ${total<%= ord.order.id %>.toFixed(2)}`
+	  parcial<%= ord.order.id %>.value  = total<%= ord.order.id %>
 	}
 
-	function decrementQuantity<%= payment.order.id %>(itemId) {
-	  const itemIndex<%= payment.order.id %> = cart<%= payment.order.id %>.findIndex((item) => item.id === itemId)
-  console.log(itemIndex<%= payment.order.id %>)
-	  if (itemIndex<%= payment.order.id %> !== -1 && cart<%= payment.order.id %>[itemIndex<%= payment.order.id %>].quantity > 0) {
-		cart<%= payment.order.id %>[itemIndex<%= payment.order.id %>].quantity--;
-		itemCount<%= payment.order.id %>--;
+	function decrementQuantity<%= ord.order.id %>(itemId) {
+	  const itemIndex<%= ord.order.id %> = cart<%= ord.order.id %>.findIndex((item) => item.id === itemId)
+  console.log(itemIndex<%= ord.order.id %>)
+	  if (itemIndex<%= ord.order.id %> !== -1 && cart<%= ord.order.id %>[itemIndex<%= ord.order.id %>].quantity > 0) {
+		cart<%= ord.order.id %>[itemIndex<%= ord.order.id %>].quantity--;
+		itemCount<%= ord.order.id %>--;
   
-		updateCart<%= payment.order.id %>();
-		updateTotal<%= payment.order.id %>();
-		console.log(cart<%= payment.order.id %>);
+		updateCart<%= ord.order.id %>();
+		updateTotal<%= ord.order.id %>();
+		console.log(cart<%= ord.order.id %>);
 	  }
 	}
   
 	// Carrega um carrinho pré-existente ao inicializar a página
-	const preloadedCart<%= payment.order.id %> = [
-	  <% if (payment.items && payment.items.length > 0) { %>
-		<% payment.items.forEach(bag => { %>
+	const preloadedCart<%= ord.order.id %> = [
+	  <% if (ord.items && ord.items.length > 0) { %>
+		<% ord.items.forEach(bag => { %>
 		  <% if (bag.items && bag.items.length > 0) { %>
 			<% bag.items.forEach(b => { %>
 			  {
@@ -249,172 +405,18 @@
 
 
 
+
   
 <%})%>
 <%}%>	
 
+
+
+</table>
 <%if(msg){%>
 <h4><%msg.message%></h4>
 	<%}%>
-	<table id="tabela-dados" class="woocommerce-orders-table woocommerce-MyAccount-orders shop_table shop_table_responsive my_account_orders account-orders-table col-12">
-		<thead>
-			<tr>
-									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-number"><span class="nobr">Pedido</span></th>
-									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-number"><span class="nobr">Cliente</span></th>
-									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-number"><span class="nobr">CPF</span></th>
-									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-number"><span class="nobr">Contato</span></th>
-									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-number"><span class="nobr">E-mail</span></th>
-									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-date"><span class="nobr">Data</span></th>
-									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-status"><span class="nobr">Status</span></th>
-									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-total"><span class="nobr">Total</span></th>
-									<th class="woocommerce-orders-table__header woocommerce-orders-table__header-order-actions"><span class="nobr">Ações</span></th>
-							</tr>
-		</thead>
-
-		<tbody>
-			<%if(user){%>
-
-				<%user.orders.forEach(payment=>{%>
-
-		
-							<tr class="woocommerce-orders-table__row woocommerce-orders-table__row--status-cancelled order">
-											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Pedido">		
-												<%if(payment.order && payment.order.id){%>
-															<a href="#">#<%=payment.order.id%></a>
-															<%}else{%>
-																ID de pagamento não encontrado
-																<%}%>
-											</td>
-											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Cliente">
-										<%if(payment.order.card && payment.order.card.cardholder){%>
-													<a href="#"><%=payment.order.card.cardholder.name%></a>
-												<%}else{%>
-													<a href="#">Nome não encontrado</a>
-													<%}%>
-								            </td>
-											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="CPF">
-												<%if(payment.order.payer && payment.order.payer.identification){%>
-												<a href="#"><%=payment.order.payer.identification.number%></a>
-												<%}else{%>
-													<a href="#">CPF ou CNPJ não encontrado</a>
-													<%}%>%>
-								            </td>
-
-											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Contato">
-												<%if(payment.order.payer && payment.order.payer.phone){%>
-												<a href="#">+55<%=payment.order.payer.phone.area_code%> <%=payment.order.payer.phone.number%></a>
-												<%}else{%>
-													<a href="#">Contato não encontrado</a>
-													<%}%>%>
-								            </td>
-											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="E-mail">
-												<%if(payment.order.payer && payment.order.payer.email){%>
-
-												<a href="#"><%=payment.order.payer.email%></a>
-												<%}else{%>
-													<a href="#">E-mail não encontrado</a>
-													<%}%>%>
-								            </td>
-										
-											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-date" data-title="Data">
-												<%if(payment.order.date_last_updated){%>
-
-
-													<% 
-													// Função para formatar a data
-													function formatarData(dataString) {
-														const data = new Date(dataString);
-														const options = { 
-															timeZoneName: 'short',
-															year: 'numeric',
-															month: '2-digit',
-															day: '2-digit',
-															hour: '2-digit',
-															minute: '2-digit',
-															second: '2-digit' 
-														};
-														return data.toLocaleString('pt-BR', options);
-													}
-												
-													// Data no formato "2024-02-04T13:59:35.970-04:00"
-													
-												
-													// Formatar a data
-												
-													%>
-
-
-															<time datetime="<%=payment.order.date_last_updated%>"><%=formatarData(payment.order.date_last_updated)%></time>
-															<%}else{%>
-																Data não encontrada ou não registrada
-																<%}%>
-													</td>
-											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-status" data-title="Status">
-												
-
-												<%if(payment.order.status_detail == 'pending_capture' && payment.order.status != undefined){%>
-													<%=payment.order.status%>: Captura pendente
-													<%}else if(payment.order.status_detail == 'accredited' && payment.order.status != undefined){%>
-														<%=payment.order.status%>: Aprovado
-														<%}else if(payment.order.status_detail == 'cc_rejected_other_reason' && payment.order.status != undefined){%>
-															<%=payment.order.status%>: Pagamento rejeitado por alguma razão
-															<%}else if(payment.order.status_detail == 'pending_waiting_transfer' && payment.order.status != undefined){%>
-																<%=payment.order.status%>: Pendente aguardando transferência
-																<%}else if(payment.order.status_detail == 'pending_contingency' && payment.order.status != undefined){%>
-																	<%=payment.order.status%>: O pagamento está sendo processado
-																	<%}else if(payment.status_detail == 'pending_review_manual' && payment.order.status != undefined){%>
-																		<%=payment.order.status%>: O pagamento está em análise
-																		<%}else if(payment.order.status_detail == 'cc_rejected_bad_filled_date' && payment.order.status != undefined){%>
-																			<%=payment.order.status%>: Data de válidade incorreta
-																			<%}else if(payment.status_detail == 'cc_rejected_bad_filled_other' && payment.order.status != undefined){%>
-																				<%=payment.order.status%>: Detalhes incorretos do cartão
-																				<%}else if(payment.order.status_detail == 'cc_rejected_bad_filled_security_code' && payment.order.status != undefined){%>
-																					<%=payment.order.status%>: CVV incorreto
-																					<%}else if(payment.order.status_detail == 'cc_rejected_blacklist' && payment.order.status != undefined){%>
-																						<%=payment.order.status%>: O cartão está em uma lista negra(roubo/reclamações/fraude) 
-																						<%}else if(payment.order.status_detail == 'cc_rejected_call_for_authorize' && payment.order.status != undefined){%>
-																							<%=payment.order.status%>: O meio de pagamento requer autorização prévia do valor da operação
-																							<%}else if(payment.order.status_detail = 'cc_rejected_card_disabled' && payment.order.status != undefined){%>
-																								<%=payment.order.status%>: O cartão está inativo
-																								<%}else if(payment.order.status_detail == 'cc_rejected_duplicated_payment' && payment.order.status != undefined){%>
-																									<%=payment.order.status%>: Transação duplicada
-																									<%}else if(payment.order.status_detail == 'cc_rejected_high_risk' && payment.order.status != undefined){%>
-																										<%=payment.order.status%>: Rechaçado por prevenção de fraude
-																										<%}else if(payment.order.status_detail == 'cc_rejected_insufficient_amount' && payment.order.status != undefined){%>
-																											<%=payment.order.status%>: Saldo insuficiente
-																											<%}else if(payment.order.status_detail == 'cc_rejected_invalid_installments' && payment.order.status != undefined){%>
-																												<%=payment.order.status%>: Número de parcelas inválido
-																												<%}else if(payment.order.status_detail == 'cc_rejected_max_attempts' && payment.order.status != undefined){%>
-																													<%=payment.order.status%>: Número máximo de tentativas excedido
-																													<%}else{%>
-																															<%console.log('log')%>
-																														<%}%>
-															
-													</td>
-											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-total" data-title="Total">
-															<span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"><%=payment.order.currency_id%></span>&nbsp;<%=payment.order.transaction_amount%></span>
-													</td>
-													<%if(payment.order.status_detail == 'accredited' && payment.order.status != undefined){%>
-											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-actions" data-title="Ações">
-														<a href="#">	<button type="button" disabled  class="woocommerce-button button view">Visualizar Bag</button>	</a>											
-															</td>
-															<%}else{%>
-														<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-actions" data-title="Ações">
-														<a href="/pedido/<%=payment._id%>">	<button type="button"  class="woocommerce-button button view">Visualizar Bag</button>	</a>											
-															</td>
-																<%}%>
-									</tr>
-									
-
-							
-
-
-								
-									<%})%>
-							<%}%>	
-						</tbody>
-	</table>
-
+	
 	
 
 	

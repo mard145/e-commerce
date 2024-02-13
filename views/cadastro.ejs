@@ -1069,7 +1069,7 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
         <li class="timeline-item" id="timeline-item4">Quiz</li>
         <li class="timeline-item" id="timeline-item5">Quiz</li>
         <li class="timeline-item" id="timeline-item6">Quiz</li>
-        <li class="timeline-item" id="timeline-item7">Confirmar cadastro</li>
+        <li class="timeline-item" id="timeline-item7" style="font-size: 14px;">Confirmar cadastro</li>
     </div>
 
     <div id="registrationForm" class="slider"  style="box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; padding: 48px;">
@@ -1146,7 +1146,7 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
 
 
         <div class="container slide next" id="step3">
-            <h3 class="stepTitle">Quiz</h3>
+            <h3 class="stepTitle">Quiz - 1</h3>
             <div class="form-wrapper">
                 <!-- Etapa 2: Adicionar endereço, cidade e CEP -->
                 <div class="mb-3" id="" style="margin-bottom: 24px">
@@ -1183,7 +1183,7 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
         </div>
 
         <div class="container slide next" id="step4">
-            <h3 class="stepTitle">Quiz</h3>
+            <h3 class="stepTitle">Quiz - 2</h3>
             <div class="form-wrapper">
                 <!-- Etapa 2: Adicionar endereço, cidade e CEP -->
                 <div class="mb-3" id="" style="margin-bottom: 24px">
@@ -1222,7 +1222,7 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
         </div>
 
         <div class="container slide next" id="step5">
-            <h3 class="stepTitle">Quiz</h3>
+            <h3 class="stepTitle">Quiz - 3</h3>
             <div class="form-wrapper">
                 <div class="mb-3" id="" style="margin-bottom: 24px">
                     <label for="peso">Qual é a seu peso? *</label>
@@ -1261,7 +1261,7 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
         </div>
 
         <div class="container slide next" id="step6">
-            <h3 class="stepTitle">Quiz</h3>
+            <h3 class="stepTitle">Quiz - 4</h3>
             <div class="form-wrapper">
                 <!-- Etapa 2: Adicionar endereço, cidade e CEP -->
 
@@ -1483,9 +1483,9 @@ const address_id = document.getElementById('address_id')
 
 const user_password = document.getElementById('user_password')
 const lk = document.getElementById('lk')
+
 const birthday1 = document.getElementById('birthday1')
 const birthday = document.getElementById('birthday')
-
 const profissao1 = document.getElementById('profissao1')
 const profissao = document.getElementById('profissao')
 const civil_state = document.getElementById('estado_civil1')
@@ -1522,14 +1522,6 @@ const tempet1 = document.getElementById('tempet1')
 const tempet = document.getElementById('tempet')
 const detalhe_especifico1 = document.getElementById('detalhe_especifico1')
 const detalhe_especifico = document.getElementById('detalhe_especifico')
-
-
-
-
-
-
-
-
 
 
 const adr = document.getElementById('adr')
@@ -1920,12 +1912,10 @@ function consultarCEP() {
 	
 	
 	<p class="form-row form-row-first">
-		<label for="username">Nome de usuário ou e-mail&nbsp;<span class="required">*</span></label>
-		<input type="email" class="input-text" name="email" id="username" autocomplete="username" />
+		<input type="email" class="input-text" name="email" id="username" placeholder="Nome de usuário ou e-mail" autocomplete="username" />
 	</p>
 	<p class="form-row form-row-last">
-		<label for="password">Senha&nbsp;<span class="required">*</span></label>
-		<input class="input-text woocommerce-Input" type="password" name="password" id="password" autocomplete="current-password" />
+		<input class="input-text woocommerce-Input" type="password" name="password" placeholder="Senha" id="password" autocomplete="current-password" />
 	</p>
 	<div class="clear"></div>
 

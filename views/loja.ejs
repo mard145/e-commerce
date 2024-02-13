@@ -1177,11 +1177,11 @@ width: 100%;
 	
 	
 												<p class="form-row form-row-wide person-type-field" id="billing_cpf_field" data-priority="23">
-													<label for="billing_cpf" class="">CPF&nbsp;
+													<label for="billing_cpf" class="">CPF ou CNPJ
 														<span class="optional"></span>
 													</label>
 													<span class="woocommerce-input-wrapper">
-														<input type="text" class="input-text " name="cpf" id="billing_cpf" placeholder="Digite seu CPF" value="<%=user.cpf%>" maxlength="14">
+														<input type="text" class="input-text " name="cpfcnpj" id="billing_cpf" placeholder="Digite seu CPF" value="<%=user.cpfcnpj%>" maxlength="14">
 													</span>
 												</p>
 												<p class="form-row form-row-wide validate-required" id="billing_birthdate_field" data-priority="31">
@@ -1201,7 +1201,7 @@ width: 100%;
 												<p class="form-row form-row-wide validate-required" id="billing_gender_field" data-priority="32">
 													<label for="billing_gender" class="">Gênero&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
 													<span class="woocommerce-input-wrapper">
-														<select name="billing_gender" id="billing_gender" style="background-color: #00000038!important;" class="select wc-ecfb-select select2-hidden-accessible" data-allow_clear="true" data-placeholder="Selecionar" tabindex="-1" aria-hidden="true">
+														<select name="billing_gender" id="billing_gender" name="gender" style="background-color: #00000038!important;" class="select wc-ecfb-select select2-hidden-accessible" data-allow_clear="true" data-placeholder="Selecionar" tabindex="-1" aria-hidden="true">
 																<option value="<%=user.gender%>" selected="selected"><%=user.gender%></option>
 																<option value="Não quero informar">Não quero informar</option>
 																<option value="Feminino">Feminino</option>
@@ -1354,7 +1354,7 @@ width: 100%;
 													<p class="form-row validate-required validate-phone" id="billing_cellphone_field" data-priority="100">
 														<label for="billing_cellphone" class="">Celular/Whatsapp&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
 														<span class="woocommerce-input-wrapper">
-															<input type="text" class="input-text " name="whatsapp" id="billing_cellphone" placeholder="" value="<%=user.whatsapp%>" autocomplete="tel" maxlength="15">
+															<input type="text" class="input-text " name="whatsapp" id="billing_cellphone" placeholder="1199998888" value="<%=user.whatsapp%>" autocomplete="tel" maxlength="15">
 														</span>
 													</p>
 													<p class="form-row form-row-wide validate-required validate-email" id="billing_email_field" data-priority="110">

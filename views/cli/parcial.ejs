@@ -1046,7 +1046,7 @@ var rest = {"nonce":"e65b9deb71","url":"http:\/\/localhost:10018\/wp-json\/"};
 	
 </head>
 
-<body style="display: flex; justify-content: center;height: 100vh;width: 100%; align-items: center; align-content: center;" class="page-template-default page page-id-293 logged-in wp-custom-logo theme-betheme woocommerce-account woocommerce-page woocommerce-no-js  color-custom content-brightness-light input-brightness-light style-default button-round layout-full-width header-stack header-center sticky-header sticky-tb-color ab-hide subheader-both-center menu-link-color menuo-right menuo-no-borders footer-copy-center mobile-tb-center mobile-side-slide mobile-mini-mr-ll tablet-sticky mobile-sticky mobile-header-mini mobile-icon-user-ss mobile-icon-wishlist-ss mobile-icon-search-ss mobile-icon-wpml-ss mobile-icon-action-ss tr-menu be-page-293 be-reg-2518 product-gallery-zoom mobile-row-2-products mfn-variable-swatches">
+<body style="display: flex; justify-content: center;height: 100vh;width: 100%; align-items: center; align-content: center; background-color: #6e40402e;" class="page-template-default page page-id-293 logged-in wp-custom-logo theme-betheme woocommerce-account woocommerce-page woocommerce-no-js  color-custom content-brightness-light input-brightness-light style-default button-round layout-full-width header-stack header-center sticky-header sticky-tb-color ab-hide subheader-both-center menu-link-color menuo-right menuo-no-borders footer-copy-center mobile-tb-center mobile-side-slide mobile-mini-mr-ll tablet-sticky mobile-sticky mobile-header-mini mobile-icon-user-ss mobile-icon-wishlist-ss mobile-icon-search-ss mobile-icon-wpml-ss mobile-icon-action-ss tr-menu be-page-293 be-reg-2518 product-gallery-zoom mobile-row-2-products mfn-variable-swatches">
 
 
 		
@@ -1067,7 +1067,7 @@ var rest = {"nonce":"e65b9deb71","url":"http:\/\/localhost:10018\/wp-json\/"};
 	<%if(user){%>
 		<%user.orders.forEach(payment=>{%>
 
-			<%if(payment.order.id == pedido.order.id){%>
+			<%if(payment.order.id == pedido){%>
 	
 
   
@@ -1167,11 +1167,13 @@ var rest = {"nonce":"e65b9deb71","url":"http:\/\/localhost:10018\/wp-json\/"};
       border: 0.5px solid rgb(118, 118, 118);
       border-radius: 2px;
       padding: 10px;
-      margin-bottom: 50px;
+     /* margin-bottom: 50px;*/
     }
 
     #securityCode{
-        padding: 50px;
+        padding: 10px;
+        height: 50px;
+        text-align: center;
     }
   </style>
 
@@ -1196,8 +1198,12 @@ var rest = {"nonce":"e65b9deb71","url":"http:\/\/localhost:10018\/wp-json\/"};
   <form id="form-checkout" method="POST" action="/process_payment">
   
 
-    <select style="width: 100%;text-align: center;" type="text" id="form-checkout__cardId"></select>
-    <div id="form-checkout__securityCode-container" class="container"></div>
+
+    <select style="width: 100%;text-align: center;border-radius: 10px;" type="text" id="form-checkout__cardId"></select>
+    <div style="display:flex;justify-content: space-evenly;align-items: center;align-content: center;padding: 20px;">
+    <img id="imgcard" style="width: 30px;height: 30px;" src="" alt="">
+    <div id="form-checkout__securityCode-container" class="" style="border-radius: 10px;color: #626262; background-color: rgba(255,255,255,1); border-color: #EBEBEB;width: 25%;align-self: center;height: 30px; text-align: center;padding: 3px;"></div>
+    </div>
     <input name="token" id="token" hidden>
 
     <div style="display: flex; justify-content: space-evenly;">
@@ -1224,7 +1230,9 @@ var rest = {"nonce":"e65b9deb71","url":"http:\/\/localhost:10018\/wp-json\/"};
       "last_four_digits": "<%=card.last_four_digits%>",
       "payment_method": {
         "name": "<%=card.payment_method.name%>",
-        "id":"<%=card.payment_method.id%>"
+        "id":"<%=card.payment_method.id%>",
+        "thumbnail":"<%=card.payment_method.thumbnail%>",
+        "secure_thumbnail":"<%=card.payment_method.secure_thumbnail%>"
       },
       "issuer":{
         "id":parseInt('<%=card.issuer.id%>'),
@@ -1245,9 +1253,11 @@ function appendCardToSelect() {
             const selectElement = document.getElementById('form-checkout__cardId');
             const paymentMethodNameInput = document.getElementById('payment_method_id');
             const issuer_id = document.getElementById('issuer_id')
+            const imgcard = document.getElementById('imgcard')
 
             customerCards.forEach(({ id, last_four_digits, payment_method }) => {
                 const optionElement = document.createElement('option');
+              
                 optionElement.setAttribute('value', id);
                 optionElement.textContent = `Cartão ${payment_method.name} Com final ${last_four_digits}`;
                 selectElement.appendChild(optionElement);
@@ -1260,6 +1270,7 @@ function appendCardToSelect() {
             // Se o objeto foi encontrado, atribua o nome do método de pagamento ao input
             if (selectedCard) {
                 paymentMethodNameInput.value = selectedCard.payment_method.name;
+                imgcard.src = selectedCard.payment_method.secure_thumbnail
                 issuer_id.value = selectedCard.issuer.id;
             }
             
@@ -1272,6 +1283,7 @@ function appendCardToSelect() {
                 // Se o objeto foi encontrado, atribua o nome do método de pagamento ao input
                 if (selectedCard) {
                     paymentMethodNameInput.value = selectedCard.payment_method.name;
+                    imgcard.src = selectedCard.payment_method.secure_thumbnail
                     issuer_id.value = selectedCard.issuer.id;
 
                 }
