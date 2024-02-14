@@ -629,7 +629,7 @@ console.log(updatedUser, 'updated capture')
 
 let nowOrder1 = await Order.findByIdAndUpdate({_id:_id}, {order:da}, { new: true })
 console.log(nowOrder1,'PEDIDO ATUALIZADO')
-atualizarPedidosPendentes()
+//atualizarPedidosPendentes()
       res.redirect('/minha-conta')
 
     }).catch(async err=>{
@@ -723,7 +723,7 @@ app.post('/cancel_payment/:id',async (req,res)=>{
       console.log(updatedUser, 'updated cancel payment')
       let nowOrder = Order.findByIdAndUpdate({_id:_id}, {order:da}, { new: true })
     console.log(nowOrder,'PEDIDO ATUALIZADO')
-    atualizarPedidosPendentes()
+    //atualizarPedidosPendentes()
             res.redirect('/admin')
     
     }).catch(console.log);
@@ -752,7 +752,7 @@ app.post('/process_payment',eAdmin, async (req,res)=>{
 
    try {
     let user = req.user
-    const { payer,token,description,transaction_amount,paymentMethodId,installments,issuerId,phone,street_number, cep,address,whatsapp,name,lastname,email,items,cpfcnpj,city,state, birthday, gender,country,bairro } = await req.body;
+    const { payer,token,description,transaction_amount,paymentMethodId,installments,issuerId,phone,street_number, cep,address,whatsapp,name,last_name,email,items,cpfcnpj,city,state, birthday, gender,country,bairro , first_name} = await req.body;
     let srt_number = parseInt(street_number)
     console.log(payer,items)
     console.log(req.body)
@@ -761,13 +761,12 @@ app.post('/process_payment',eAdmin, async (req,res)=>{
     const stringTimestamp = timestamp.toString();
     //let stringSemEspacosEHifens = cep.replace(/[\s-]/g, "");
     const clientData = {
-      email: payer.email,
-      first_name: payer.first_name,
-      last_name: payer.last_name,
-      phone: payer.phone,
-      identification: {
-        type: payer.identification.type,
-        number: payer.identification.number
+      payer:{
+        email:payer.email,
+        identification:{
+          number:payer.identification.number,
+          type:payer.identification.type
+        }
       },
    //   default_address: 'Home',
       address: {
@@ -784,7 +783,7 @@ app.post('/process_payment',eAdmin, async (req,res)=>{
       date_registered: stringTimestamp,
       description: description,
     };
-    
+    console.log(clientData,'CLIENTEDATAAAAAAAAA')
   ///// RESOLVER APARTE DA RENDERIZAÇÃO DOS ITEMS /////////////////////////////////////////////////////////
     const paymentData = {
       transaction_amount: transaction_amount,
@@ -793,21 +792,17 @@ app.post('/process_payment',eAdmin, async (req,res)=>{
       installments: Number(installments),
       payment_method_id: paymentMethodId,
       issuer_id: issuerId,
-      payer: {
-        email: payer.email,
-        
-     // phone:{ area_code:'55', number:phone},
-        first_name:name,
-        last_name:lastname,
-        identification: {
-          type: payer.identification.type,
-          number: payer.identification.number,
-        },
-      },
-    
-      capture:false
+      payer: payer,
+      external_reference:payer.identification.number,
+      capture:false,
+      metadata:{
+        emaill:payer.email,
+        cpfcnpj:payer.identification.number,
+        typpe:payer.identification.type
+      }
       
     };
+    console.log(paymentData, 'PAYMENTDATA')
     //  COLOCAR O PEDIDO DENTRO DO ARRAY order E SALVAR NO MODEL ORDER.JS EM CADA CASO ONDE USO O MÉTODO paymente.create SERÁ NECESSÁRIO ATUALIZAR O USUÁRIO COM O PEDIDO OU CRIAR UM NOVO 
     // USUÁRIO  COM NOVO PEDIDO GERADO 
     customer.search({options:{email:payer.email}}).then(async (data)=>{
@@ -838,7 +833,7 @@ if(userEmail1){
       items:items
     })
    await order1.save()
-
+console.log(data2, ' DATA 22222222222222222222')
    let usr = await User.findByIdAndUpdate({_id:userEmail1._id},{$push: { orders: order1 }},{new:true})
    let usr0 = await User.findByIdAndUpdate({_id:userEmail1._id},{idmp:dff.customer_id},{new:true})
   // console.log(usr)
@@ -858,7 +853,7 @@ if(userEmail1){
  
    console.log('USUÁRIO atualizado NO BANCO')
 //   res.redirect('/quiz')
-atualizarPedidosPendentes()
+//atualizarPedidosPendentes()
 
 }else{
   const newUser1 = new User({
@@ -873,7 +868,7 @@ atualizarPedidosPendentes()
     address:data1.address.street_name,
     billing_address:{
      city:city,
-     address:data.address.street_name,
+     address:data1.address.street_name,
      street_number:srt_number,
      state:state,
      country:country,
@@ -890,6 +885,7 @@ atualizarPedidosPendentes()
     phone:phone,
     whatsapp:whatsapp,
     street_number:srt_number
+    
     })
    await  newUser1.save()
 
@@ -900,7 +896,7 @@ atualizarPedidosPendentes()
  await order2.save()
  let usrs = await User.findByIdAndUpdate({_id:newUser1._id},{$push: { orders: order2 }},{new:true})
  let usr0 = await User.findByIdAndUpdate({_id:newUser1._id},{idmp:data1.id},{new:true})
- atualizarPedidosPendentes()
+ //atualizarPedidosPendentes()
  if(user.admin ==true){
   res.redirect('/admin')
 }else{
@@ -926,7 +922,8 @@ atualizarPedidosPendentes()
       })
      await order1.save()
   //   console.log(data,' <- pagamento criado' )
-  atualizarPedidosPendentes()
+  console.log(dataPayment, 'datapaymeeeeeeeeeent')
+  //atualizarPedidosPendentes()
  if(user.admin ==true){
   res.redirect('/admin')
 }else{
@@ -958,7 +955,7 @@ atualizarPedidosPendentes()
  //  console.log(data,' <- pagamento criado  e dados do usuário atualizado' )
   
  const userEmail = await User.findOne({$or: [{email: payer.email}]})
- console.log(userEmail, 'USER EMAILLLLLLLLLLLLLLLLL')
+ console.log(data4, 'USER EMAILLLLLLLLLLLLLLLLL')
 
  let order3 = await new Order({
   order:data4,
@@ -971,8 +968,7 @@ await order3.save()
  let usr = await User.findByIdAndUpdate({_id:userEmail._id},{$push: { orders: order3 }},{new:true})
  let usr0 = await User.findByIdAndUpdate({_id:userEmail._id},{idmp:data.results[0].id},{new:true})
 
- console.log(data4, 'EMAIL ENCONTRADO')
- atualizarPedidosPendentes()
+// atualizarPedidosPendentes()
 
  if(user.admin ==true){
   res.redirect('/admin')

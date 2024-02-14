@@ -28,7 +28,8 @@
 		<%if(payments){%>
 		<%payments.forEach(ord=>{%>
 
-		
+			<%if(user.email == ord.metadata.emaill){%>
+
 				<tr class="woocommerce-orders-table__row woocommerce-orders-table__row--status-cancelled order">
 								<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Pedido">		
 									<%if(ord && ord.id){%>
@@ -45,11 +46,9 @@
 										<%}%>
 								</td>
 								<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="CPF">
-									<%if(ord.payer && ord.payer.identification){%>
-									<a href="#"><%=ord.payer.identification.number%></a>
-									<%}else{%>
-										<a href="#">CPF ou CNPJ não encontrado</a>
-										<%}%>%>
+								
+									<a href="#"><%=ord.metadata.cpfcnpj%></a>
+									
 								</td>
 
 								<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Contato">
@@ -60,9 +59,9 @@
 										<%}%>%>
 								</td>
 								<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="E-mail">
-									<%if(ord.payer && ord.payer.email){%>
+									<%if(ord.metadata.emaill){%>
 
-									<a href="#"><%=ord.payer.email%></a>
+									<a href="#"><%=ord.metadata.emaill%></a>
 									<%}else{%>
 										<a href="#">E-mail não encontrado</a>
 										<%}%>%>
@@ -161,7 +160,7 @@
 
 				
 
-
+<%}%>
 					
 						<%})%>
 						<%}%>	
