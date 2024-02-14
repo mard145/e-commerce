@@ -974,7 +974,7 @@ width: 100%;
 <li id="menu-item-794" class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/consultoria"><span>Consultoria</span></a></li>
 <li id="menu-item-542" class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/perguntas-frequentes"><span>Perguntas Frequentes</span></a></li>
 <li id="menu-item-301" class="menu-item menu-item-type-custom menu-item-object-custom"><a href="#contato"><span>Contato</span></a></li>
-<li id="menu-item-301" class="menu-item menu-item-type-custom menu-item-object-custom"><a href="/loja"><span>Assine já</span></a></li>
+<li id="menu-item-301" class="menu-item menu-item-type-custom menu-item-object-custom"><a href="/loja"><span>Bags</span></a></li>
 
 </ul></nav><a class="responsive-menu-toggle " href="#" aria-label="Mobile menu"><i class="icon-menu-fine" aria-hidden="true"></i></a>				</div>
 
@@ -1031,817 +1031,166 @@ width: 100%;
 			<div id="Subheader"><div class="container"><div class="column one"></div></div></div>
 		</div>
 
-	
-<div id="Content">
-	<div class="content_wrapper clearfix">
 
-		<div class="sections_group">
-			<div class="entry-content" itemprop="mainContentOfPage">
+<div class="container" id="">
+    <h3 class="" style='text-align: center; margin-top: 30px;margin-bottom: 30px;'>Checkout da assinatura</h3>
+   
+        <div style="margin-bottom: 30px;" id="paymentBrick_container"></div>
 
-				<div class="section woocommerce_before_main_content">
-					<div class="section_wrapper">
-						<div class="column column-margin-0px one">
-													</div>
-					</div>
-				</div>
-
-				<div class="section"><div class="section_wrapper clearfix default-woo-list">
-			
-			
-			
-				<div class="mfn-woo-filters-wrapper shop-filters" style="display:none;"><div class="woocommerce-notices-wrapper"></div><p class="woocommerce-result-count">
-	Exibindo um único resultado</p>
-<form class="woocommerce-ordering" method="get">
-	<select name="orderby" class="orderby" aria-label="Pedido da loja">
-					<option value="menu_order"  selected='selected'>Ordenação padrão</option>
-					<option value="popularity" >Ordenar por popularidade</option>
-					<option value="date" >Ordenar por mais recente</option>
-					<option value="price" >Ordenar por preço: menor para maior</option>
-					<option value="price-desc" >Ordenar por preço: maior para menor</option>
-			</select>
-	<input type="hidden" name="paged" value="1" />
-	</form>
+    
 </div>
-				
-<div class="products_wrapper mfn-woo-products isotope_wrapper default-woo-loop lm_wrapper">
-	<ul class="products columns-3 grid d-flex" style="display: flex;">
-        <%if(products){%>
-            <%products.forEach(product=>{%>
-<input type="hidden" name="" id="" value="<%=product._id%>">
-					<li class="isotope-item align-center product type-product post-935 status-publish first instock product_cat-clube-de-assinatura has-post-thumbnail sale shipping-taxable purchasable product-type-subscription" >
 
-	<div class="mfn-li-product-row mfn-li-product-row-image"><div class="image_frame scale-with-grid product-loop-thumb" ontouchstart="this.classList.toggle('hover');">
-	<span class="onsale onsale-label">Promoção</span>
-<div class="image_wrapper ">
-	<div class="mask"></div>
-	<img width="1068" height="1068" src="<%=product.photo%>" class="image-primary scale-with-grid wp-post-image" alt="" decoding="async" fetchpriority="high" srcset="<%=product.photo%> 1068w, <%=product.photo%> 500w, <%=product.photo%> 300w, <%=product.photo%> 800w, <%=product.photo%> 1024w, <%=product.photo%> 150w, <%=product.photo%> 768w, <%=product.photo%> 146w, <%=product.photo%> 50w, <%=product.photo%> 75w, <%=product.photo%> 85w, <%=product.photo%> 80w" sizes="(max-width: 1068px) 100vw, 1068px" />
-	<div class="image_links">
-		<a rel="nofollow" href="#" class="" data-id="5" data-name="<%=product.name%>" data-summary="summary 5" data-price="<%=product.price%>" data-quantity="1" data-image="<%=product.photo%>" class="add-to-cart" onclick="addToCart('<%=product.name%>', <%=product.price%>, 1)" class="add-to-cart btn btn-danger my-cart-btn add_to_cart_button ajax_add_to_cart product_type_simple">
-		
-	
-			<svg viewBox="0 0 26 26"><defs><style>.path{fill:none;stroke:#333;stroke-miterlimit:10;stroke-width:1.5px;}</style></defs><polygon class="path" points="20.4 20.4 5.6 20.4 6.83 10.53 19.17 10.53 20.4 20.4"></polygon><path class="path" d="M9.3,10.53V9.3a3.7,3.7,0,1,1,7.4,0v1.23"></path></svg></a><a class="link" href="http://localhost:10018/produto/clube-iela-bag/"><svg viewBox="0 0 26 26"><defs><style>.path{fill:none;stroke:#333;stroke-miterlimit:10;stroke-width:1.5px;}</style></defs><g><path d="M10.17,8.76l2.12-2.12a5,5,0,0,1,7.07,0h0a5,5,0,0,1,0,7.07l-2.12,2.12" class="path"/><path d="M15.83,17.24l-2.12,2.12a5,5,0,0,1-7.07,0h0a5,5,0,0,1,0-7.07l2.12-2.12" class="path"/><line x1="10.17" y1="15.83" x2="15.83" y2="10.17" class="path"/></g></svg>
-			</a>
-		</div>
-	</div>
-			
-				<span class="product-loading-icon added-cart"></span>
-			
-		</div>
-	</div>
-	<div class="desc">
+<script src="https://sdk.mercadopago.com/js/v2"></script>
+<input type="hidden" id="pKey" value="<%=publicKey%>">
 
-		<h4><a href="#"><%=product.name%></a></h4>
+<script>
+	const pKeyy = document.getElementById('pKey').value
+	/*const name = document.getElementById('billing_first_name')
+	const lastname = document.getElementById('billing_last_name')
+	const cpf = document.getElementById('billing_cpf')
+	const address = document.getElementById('billing_address_1')
+	const street_number = document.getElementById('billing_number')
+	const cep = document.getElementById('billing_postcode')
+	const bairro = document.getElementById('billing_neighborhood')
+	const city = document.getElementById('billing_city')
+	const state = document.getElementById('billing_state')
+	const phone = document.getElementById('billing_phone')
+	const whatsapp = document.getElementById('billing_cellphone')
+	const email = document.getElementById('billing_email')
+	const totalAmount = document.getElementById('total')*/
+	const mpp = new MercadoPago(pKeyy,{
+    locale: 'pt-BR'
+  });
+	const bricksBuilder1 = mpp.bricks();
+    const renderPaymentBrick1 = async (bricksBuilder1) => {
+      const settings1 = {
+        initialization: {
+          /*
+            "amount" é a quantia total a pagar por todos os meios de pagamento com exceção da Conta Mercado Pago e Parcelas sem cartão de crédito, que têm seus valores de processamento determinados no backend através do "preferenceId"
+          */
+          amount: 10000,
+          preferenceId: "123",
+          payer: {
+            firstName: "",
+            lastName: "",
+            email: "",
+			phone:{
+				area_code:"55",
+				number:""
+			}
+          },
+		 
+		},
 		
-	<span class="price"><del aria-hidden="true"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#82;&#36;</span>&nbsp;<%=product.price%></bdi></span></del> <ins><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#82;&#36;</span>&nbsp;<%=product.price%></bdi></span></ins> <span class="subscription-details"></span></span>
-<div class="mfn-li-product-row mfn-li-product-row-button hide-button"></div>
-	</div>
+        customization: {
+          visual: {
+            style: {
+              theme: "bootstrap",
+			  customVariables:{
+				formBackgroundColor:'pink'
+			  }
+            },
+          },
+          paymentMethods: {
+            creditCard: "all",
+										atm: "all",
+            maxInstallments: 1
+          },
+        },
+        callbacks: {
+          onReady: () => {
+            /*
+             Callback chamado quando o Brick está pronto.
+             Aqui, você pode ocultar seu site, por exemplo.
+            */
+          },
+          onSubmit:async ({ selectedPaymentMethod, formData}) => {
+            try {
+				// callback chamado quando há click no botão de envio de dados
 
-</li>
-<%})%>
-				<%}%>					
-				
-	</ul>
-</div>
-				
-				</div></div>
 
-				<%if(user){%>
+formData.transaction_amount = 19.90;
+//formData.payer_email = formData.payer_email
+formData.email = formData.email
 
-					<div class="modal fade modal-xl" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-						<div class="modal-dialog ">
-						  <div class="modal-content">
-							<div class="modal-header">
-							  <h3 class="modal-title fs-5" id="exampleModalToggleLabel">Detalhes de faturamento</h3>
-							  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-							<div class="modal-body">
-								<div class="the_content_wrapper col-12">
-									<div class="woocommerce col-12">
-									
-									<form class="checkout_coupon woocommerce-form-coupon checkout-form-toggle" method="post" style="display:none">
-									
-										<p>Se você tiver um código de cupom, utilize-o abaixo.</p>
-									
-										<p class="form-row form-row-first">
-											<label for="coupon_code" class="screen-reader-text">Cupom:</label>
-											<input type="text" name="coupon_code" class="input-text" placeholder="Código do cupom" id="coupon_code" value="">
-										</p>
-									
-										<p class="form-row form-row-last">
-											<button type="submit" class="button" name="apply_coupon" value="Aplicar cupom">Aplicar cupom</button>
-										</p>
-									
-										<div class="clear"></div>
-									</form>
-									<div class="woocommerce-notices-wrapper"></div>								
-										
-											
-											<div class="col2-set" id="customer_details">
-												<div class="col-12">
-													<div class="woocommerce-billing-fields">
-										
-											
-									
-										
-										
-										<div style="display: flex;justify-content: space-evenly;" id="bill" class="woocommerce-billing-fields__field-wrapper col-12">
-											<div class="'col-6">
-											<div style="display:flex;">
-												<p class="form-row form-row-first validate-required" id="billing_first_name_field" data-priority="10">
-													<label for="billing_first_name" class="">Nome&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-													<span class="woocommerce-input-wrapper">
-														<input type="text" class="input-text" name="name" id="billing_first_name" placeholder="Digite seu nome" value="<%=user.name%>" autocomplete="given-name">
-													</span>
-												</p>
-												<p class="form-row form-row-last validate-required" id="billing_last_name_field" data-priority="20">
-													<label for="billing_last_name" class="">Sobrenome&nbsp;<abbr class="required" title="obrigatório">*</abbr>
-													</label>
-													<span class="woocommerce-input-wrapper">
-														<input type="text" class="input-text " name="lastname" id="billing_last_name" placeholder="Seu sobrenome" value="<%=user.lastname%>" autocomplete="family-name">
-													</span>
-												</p>
-	
-											</div>
-												
-											<div style="display:flex;">
-	
-	
-												<p class="form-row form-row-wide person-type-field" id="billing_cpf_field" data-priority="23">
-													<label for="billing_cpf" class="">CPF&nbsp;
-														<span class="optional"></span>
-													</label>
-													<span class="woocommerce-input-wrapper">
-														<input type="text" class="input-text " name="cpf" id="billing_cpf" placeholder="Digite seu CPF" value="<%=user.cpf%>" maxlength="14">
-													</span>
-												</p>
-												<p class="form-row form-row-wide validate-required" id="billing_birthdate_field" data-priority="31">
-													<label for="billing_birthdate" class="">Data de Nascimento&nbsp;<abbr class="required" title="obrigatório">*</abbr>
-													</label>
-													<span class="woocommerce-input-wrapper">
-														<input type="date" class="input-text" style="padding: 13px;" name="birthday" id="billing_birthdate" placeholder="" value="<%=user.birthday%>" maxlength="10">
-													</span>
-												</p>
-											</div>
-	
-	
-											<div style="display:flex;">
-	
-	
-											
-												<p class="form-row form-row-wide validate-required" id="billing_gender_field" data-priority="32">
-													<label for="billing_gender" class="">Gênero&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-													<span class="woocommerce-input-wrapper">
-														<select name="billing_gender" id="billing_gender" style="background-color: #00000038!important;" class="select wc-ecfb-select select2-hidden-accessible" data-allow_clear="true" data-placeholder="Selecionar" tabindex="-1" aria-hidden="true">
-																<option value="<%=user.gender%>" selected="selected"><%=user.gender%></option>
-																<option value="Não quero informar">Não quero informar</option>
-																<option value="Feminino">Feminino</option>
-																<option value="Masculino">Masculino</option>
-																<option value="Outro">Outro</option>
-															</select>
-															<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 626.109px;">
-																<span class="selection">
-																	<span class="select2-selection select2-selection--single" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-billing_gender-container" role="combobox">
-																		<span class="select2-selection__rendered" id="select2-billing_gender-container" role="textbox" aria-readonly="true"><span class="select2-selection__placeholder">
-				
-																		</span>
-																	</span>
-																	<span class="select2-selection__arrow" role="presentation">
-																		<b role="presentation"></b>
-																	</span>
-																</span>
-															</span>
-															<span class="dropdown-wrapper" aria-hidden="true">
-				
-															</span>
-														</span>
-													</span>
-												</p>
-												<p class="form-row form-row-wide address-field update_totals_on_change validate-required" id="billing_country_field" data-priority="40">
-													<label for="billing_country" class="">País&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-													<span class="woocommerce-input-wrapper">
-														<strong>Brasil</strong>
-														<input type="hidden" name="country" id="billing_country" value="<%=user.country%>" autocomplete="country" class="country_to_state" readonly="readonly">
-													</span>
-												</p>
-	
-	
-											
-	
-												<p class="form-row address-field validate-required validate-postcode form-row-wide" id="billing_postcode_field" data-priority="45" data-o_class="form-row form-row-wide address-field validate-required validate-postcode">
-													<label for="billing_postcode" class="">CEP&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-													<span class="woocommerce-input-wrapper">
-														<input type="number" class="input-text" oninput="limitarDigitos(this)" name="cep" id="billing_postcode" placeholder="Digite seu CEP - Somente números" value="<%=user.cep%>"  autocomplete="postal-code" maxlength="8">
-													</span>
-												</p>
-														
-											</div>
-											<span id="mensagemcep"></span>
-											<div style="display:flex;">
-	
-	
-	
-												<p class="form-row address-field validate-required form-row-wide" id="billing_address_1_field" data-priority="50">
-													<label for="billing_address_1" class="">Endereço&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-													<span class="woocommerce-input-wrapper">
-														<input type="text" class="input-text " name="address" id="billing_address_1" placeholder="Nome da rua e número da casa" value="<%=user.address%>" autocomplete="address-line1" data-placeholder="Nome da rua e número da casa">
-													</span>
-												</p>
-												<p class="form-row form-row-wide address-field validate-required" id="billing_number_field" data-priority="55">
-													<label for="billing_number" class="">Número&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-													<span class="woocommerce-input-wrapper">
-														<input type="text" class="input-text " name="street_number" id="billing_number" placeholder="" value="<%=user.street_number%>">
-													</span>
-												</p>
-	
-											</div>
-	
-											<div style="display:flex;">
-	
-	
-											<!--<p class="form-row address-field form-row-wide" id="billing_address_2_field" data-priority="60">
-													<label for="billing_address_2" class="screen-reader-text">Apartamento, suíte, unidade, etc.&nbsp;<span class="optional">(opcional)</span></label>
-													<span class="woocommerce-input-wrapper">
-														<input type="text" class="input-text " name="address2" id="billing_address_2" placeholder="Apartamento, suíte, sala, etc. (opcional)" value="" autocomplete="address-line2" data-placeholder="Apartamento, suíte, sala, etc. (opcional)">
-													</span>
-												</p>-->
-												<p class="form-row form-row-wide address-field" id="billing_neighborhood_field" data-priority="65">
-													<label for="billing_neighborhood" class="">Bairro&nbsp;<span class="optional">(opcional)</span></label>
-													<span class="woocommerce-input-wrapper">
-														<input type="text" class="input-text " name="bairro" id="billing_neighborhood" placeholder="" value="<%=user.bairro%>">
-													</span>
-												</p>
-	
-												<p class="form-row address-field validate-required form-row-wide" id="billing_city_field" data-priority="70" data-o_class="form-row form-row-wide address-field validate-required">
-													<label for="billing_city" class="">Cidade&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-													<span class="woocommerce-input-wrapper">
-														<input type="text" class="input-text " name="city" id="billing_city" placeholder="" value="<%=user.city%>" autocomplete="address-level2"></span>
-													</p>
-											</div>
-	
-											<div style="display:flex;">
-	
-											
-													<p class="form-row address-field validate-required validate-state woocommerce-validated form-row-wide" id="billing_state_field" data-priority="80" data-o_class="form-row form-row-wide address-field validate-required validate-state">
-														<label for="billing_state" class="">Estado&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-														<span class="woocommerce-input-wrapper">
-															<select name="state" id="billing_state" style="background-color: #00000038!important;" class="state_select select2-hidden-accessible" autocomplete="address-level1" data-placeholder="Selecione uma opção…" data-input-classes="" data-label="Estado" tabindex="-1" aria-hidden="true">
-																<option selected value="<%=user.state%>"><%=user.state%></option>
-																<option value="AC">Acre</option>
-																<option value="AL">Alagoas</option>
-																<option value="AP">Amapá</option>
-																<option value="AM">Amazonas</option>
-																<option value="BA">Bahia</option>
-																<option value="CE">Ceará</option>
-																<option value="DF">Distrito Federal</option>
-																<option value="ES">Espírito Santo</option>
-																<option value="GO">Goiás</option>
-																<option value="MA">Maranhão</option>
-																<option value="MT">Mato Grosso</option>
-																<option value="MS">Mato Grosso do Sul</option>
-																<option value="MG">Minas Gerais</option>
-																<option value="PA">Pará</option>
-																<option value="PB">Paraíba</option>
-																<option value="PR">Paraná</option>
-																<option value="PE">Pernambuco</option>
-																<option value="PI">Piauí</option>
-																<option value="RJ">Rio de Janeiro</option>
-																<option value="RN">Rio Grande do Norte</option>
-																<option value="RS">Rio Grande do Sul</option>
-																<option value="RO">Rondônia</option>
-																<option value="RR">Roraima</option>
-																<option value="SC">Santa Catarina</option>
-																<option value="SP">São Paulo</option>
-																<option value="SE">Sergipe</option>
-																<option value="TO">Tocantins</option>
-															</select>
-															<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
-																<span class="selection">
-																	<span class="select2-selection select2-selection--single" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-label="Estado" role="combobox">
-																		<span class="select2-selection__rendered" id="select2-billing_state-container" role="textbox" aria-readonly="true" title="São Paulo"></span>
-																		<span class="select2-selection__arrow" role="presentation">
-																			<b role="presentation"></b>
-																		</span>
-																	</span>
-																</span>
-																<span class="dropdown-wrapper" aria-hidden="true">
-				
-																</span>
-															</span>
-														</span>
-													</p>
-													<p class="form-row form-row-wide validate-required validate-phone" id="billing_phone_field" data-priority="100">
-														<label for="billing_phone" class="">Celular&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-														<span class="woocommerce-input-wrapper">
-															<input type="text" class="input-text " name="phone" id="billing_phone" placeholder="" value="<%=user.phone%>" autocomplete="tel" maxlength="15">
-														</span>
-													</p>
-	
-	
-												</div>
-												<div style="display:flex;">
-	
-	
-													<p class="form-row validate-required validate-phone" id="billing_cellphone_field" data-priority="100">
-														<label for="billing_cellphone" class="">Celular/Whatsapp&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-														<span class="woocommerce-input-wrapper">
-															<input type="text" class="input-text " name="whatsapp" id="billing_cellphone" placeholder="" value="<%=user.whatsapp%>" autocomplete="tel" maxlength="15">
-														</span>
-													</p>
-													<p class="form-row form-row-wide validate-required validate-email" id="billing_email_field" data-priority="110">
-														<label for="billing_email" class="">Endereço de e-mail&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-														<span class="woocommerce-input-wrapper">
-															<input type="email" class="input-text " name="email" id="billing_email" placeholder="" value="<%=user.email%>" >
-															<div id="wcbcf-mailsuggest" style="color: rgb(204, 0, 0); font-size: small;">
-															</div>
-														</span>
-													</p>
-												</div>
-	
-	
-												</div>
-	
-												<div class="col-6">
-													<div class="woocommerce-shipping-fields">
-										
-											<h3 id="ship-to-different-address">
-												<label class="woocommerce-form__label woocommerce-form__label-for-checkbox checkbox">
-													<input id="ship-to-different-address-checkbox" class="woocommerce-form__input woocommerce-form__input-checkbox input-checkbox" checked="checked" type="checkbox" name="ship_to_different_address" value="1"> <span>Entregar em um endereço diferente?</span>
-												</label>
-											</h3>
-									
-											<div class="shipping_address" style="">
-									
-				
-											<!--	<div class="woocommerce-shipping-fields__field-wrapper">
-																<p class="form-row form-row-first validate-required" id="shipping_first_name_field" data-priority="10"><label for="shipping_first_name" class="">Nome&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_first_name" id="shipping_first_name" placeholder="" value="" autocomplete="given-name"></span></p><p class="form-row form-row-last validate-required" id="shipping_last_name_field" data-priority="20"><label for="shipping_last_name" class="">Sobrenome&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_last_name" id="shipping_last_name" placeholder="" value="" autocomplete="family-name"></span></p><p class="form-row form-row-wide" id="shipping_company_field" data-priority="30"><label for="shipping_company" class="">Nome da empresa&nbsp;<span class="optional">(opcional)</span></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_company" id="shipping_company" placeholder="" value="" autocomplete="organization"></span></p><p class="form-row form-row-wide address-field update_totals_on_change validate-required" id="shipping_country_field" data-priority="40"><label for="shipping_country" class="">País&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><strong>Brasil</strong><input type="hidden" name="shipping_country" id="shipping_country" value="BR" autocomplete="country" class="country_to_state" readonly="readonly"></span></p><p class="form-row address-field validate-required validate-postcode form-row-wide" id="shipping_postcode_field" data-priority="45" data-o_class="form-row form-row-wide address-field validate-required validate-postcode"><label for="shipping_postcode" class="">CEP&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="tel" class="input-text " name="shipping_postcode" id="shipping_postcode" placeholder="" value="" autocomplete="postal-code" maxlength="9"></span></p><p class="form-row address-field validate-required form-row-wide" id="shipping_address_1_field" data-priority="50"><label for="shipping_address_1" class="">Endereço&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_address_1" id="shipping_address_1" placeholder="Nome da rua e número da casa" value="" autocomplete="address-line1" data-placeholder="Nome da rua e número da casa"></span></p><p class="form-row form-row-wide address-field validate-required" id="shipping_number_field" data-priority="55"><label for="shipping_number" class="">Número&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_number" id="shipping_number" placeholder="" value=""></span></p><p class="form-row address-field form-row-wide" id="shipping_address_2_field" data-priority="60"><label for="shipping_address_2" class="screen-reader-text">Apartamento, suíte, unidade, etc.&nbsp;<span class="optional">(opcional)</span></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_address_2" id="shipping_address_2" placeholder="Apartamento, suíte, sala, etc. (opcional)" value="" autocomplete="address-line2" data-placeholder="Apartamento, suíte, sala, etc. (opcional)"></span></p><p class="form-row form-row-wide address-field" id="shipping_neighborhood_field" data-priority="65"><label for="shipping_neighborhood" class="">Bairro&nbsp;<span class="optional">(opcional)</span></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_neighborhood" id="shipping_neighborhood" placeholder="" value=""></span></p><p class="form-row address-field validate-required form-row-wide" id="shipping_city_field" data-priority="70" data-o_class="form-row form-row-last address-field validate-required"><label for="shipping_city" class="">Cidade&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_city" id="shipping_city" placeholder="" value="" autocomplete="address-level2"></span></p><p class="form-row address-field validate-required validate-state form-row-wide" id="shipping_state_field" data-priority="80" data-o_class="form-row form-row-wide address-field validate-required validate-state"><label for="shipping_state" class="">Estado&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><select name="shipping_state" id="shipping_state" class="state_select select2-hidden-accessible" autocomplete="address-level1" data-placeholder="Selecione uma opção…" data-input-classes="" data-label="Estado" tabindex="-1" aria-hidden="true"><option value="">Selecione uma opção…</option><option value="AC">Acre</option><option value="AL">Alagoas</option><option value="AP">Amapá</option><option value="AM">Amazonas</option><option value="BA">Bahia</option><option value="CE">Ceará</option><option value="DF">Distrito Federal</option><option value="ES">Espírito Santo</option><option value="GO">Goiás</option><option value="MA">Maranhão</option><option value="MT">Mato Grosso</option><option value="MS">Mato Grosso do Sul</option><option value="MG">Minas Gerais</option><option value="PA">Pará</option><option value="PB">Paraíba</option><option value="PR">Paraná</option><option value="PE">Pernambuco</option><option value="PI">Piauí</option><option value="RJ">Rio de Janeiro</option><option value="RN">Rio Grande do Norte</option><option value="RS">Rio Grande do Sul</option><option value="RO">Rondônia</option><option value="RR">Roraima</option><option value="SC">Santa Catarina</option><option value="SP">São Paulo</option><option value="SE">Sergipe</option><option value="TO">Tocantins</option></select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-label="Estado" role="combobox"><span class="select2-selection__rendered" id="select2-shipping_state-container" role="textbox" aria-readonly="true" title="São Paulo">São Paulo</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span></span></p></div>-->
-																<div id="order_review" class="woocommerce-checkout-review-order">
-																	<h4 id="order_review_heading">Seu pedido</h4>
-																	<div class="cart">
-																		<h2>Finalizar Assinatura</h2>
-																		<ul id="cart-items">
-																		  <!-- Itens do carrinho serão adicionados aqui dinamicamente -->
-																		</ul>
-																		<p id="total">Total: R$ 0.00</p>
-																	  </div>
-																	<!--<table class="shop_table woocommerce-checkout-review-order-table">
-																<thead>
-																	<tr>
-																		<th class="product-name">Produto</th>
-																		<th class="product-total">Subtotal</th>
-																	</tr>
-																</thead>
-																<tbody>
-																					<tr class="cart_item">
-																				<td class="product-name">
-																					Clube Iela Bag&nbsp;						 <strong class="product-quantity">×&nbsp;4</strong>											</td>
-																				<td class="product-total">
-																					<span class="subscription-price"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">R$</span>&nbsp;4,04</bdi></span> <span class="subscription-details"> por 1 mês</span></span>					</td>
-																			</tr>
-																				</tbody>
-																<tfoot>
-															
-																	<tr class="cart-subtotal">
-																		<th>Subtotal</th>
-																		<td><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">R$</span>&nbsp;4,04</bdi></span></td>
-																	</tr>
-															
-																	
-																	
-																	
-																	
-																	
-																	<tr class="order-total">
-																		<th>Total</th>
-																		<td><strong><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">R$</span>&nbsp;4,04</bdi></span></strong> </td>
-																	</tr>
-															
-																	
-																</tfoot>
-															</table> -->
-				
-															
-													<!--	<div id="payment" class="woocommerce-checkout-payment">
-																		<ul class="wc_payment_methods payment_methods methods">
-																		<li class="wc_payment_method payment_method_vindi-credit-card active-payment">
-																<input id="payment_method_vindi-credit-card" type="radio" class="input-radio" name="payment_method" value="vindi-credit-card" checked="checked" data-order_button_text="" style="display: none;">
-															
-																<label for="payment_method_vindi-credit-card">
-																	Cartão de Crédito 	</label>
-																		<div class="payment_box payment_method_vindi-credit-card">
-																		Estamos enfrentando problemas técnicos no momento. Tente novamente mais tarde ou entre em contato.		</div>
-																<span class="mfn-payment-check"><i class="icon-check"></i></span></li>
-																	</ul>
-																	<div class="form-row place-order">
-																	<noscript>
-																		Seu navegador não suporta JavaScript ou ele está desativado. Certifique-se de clicar no botão <em>Atualizar totais</em> antes de finalizar o seu pedido. Você poderá ser cobrado mais do que a quantidade indicada acima, se não fizer isso.			<br/><button type="submit" class="button alt" name="woocommerce_checkout_update_totals" value="Atualizar">Atualizar</button>
-																	</noscript>
-															
-																		<div class="woocommerce-terms-and-conditions-wrapper">
-																	<div class="woocommerce-privacy-policy-text"><p>Os seus dados pessoais serão utilizados para processar a sua compra, apoiar a sua experiência em todo este site e para outros fins descritos na nossa <a href="" class="woocommerce-privacy-policy-link" target="_blank">política de privacidade</a>.</p>
-															</div>
-																		</div>
-																
-																	
-																	<button type="submit" class="button alt" name="woocommerce_checkout_place_order" id="place_order" value="Assinar Agora!" data-value="Assinar Agora!">Assinar Agora!</button>
-																	<a href="http://localhost:10018/carrinho/" class="mfn-woo-cart-link">Retornar para o carrinho</a>
-																	<input type="hidden" id="woocommerce-process-checkout-nonce" name="woocommerce-process-checkout-nonce" value="3581cacef0"><input type="hidden" name="_wp_http_referer" value="/?wc-ajax=update_order_review">	</div>
-															</div>-->
-															
-																</div>
-												
-											</div>
-									
-										</div>
-									<div class="woocommerce-additional-fields">
-										
-										
-											
-												<h3>Informação adicional</h3>
-									
-											
-											<div class="woocommerce-additional-fields__field-wrapper">
-																<p class="form-row notes" id="order_comments_field" data-priority=""><label for="order_comments" class="">Notas do pedido&nbsp;<span class="optional">(opcional)</span></label><span class="woocommerce-input-wrapper"><textarea name="order_comments" style="overflow: hidden;background-color: #00000038!important;" class="input-text col-12" id="order_comments" placeholder="Notas sobre seu pedido, por exemplo, informações especiais sobre entrega." rows="5" cols="5"></textarea></span></p>					</div>
-									
-										
-										</div>
-										<div id="paymentBrick_container"></div>
-				
-												</div>
-												</div>
-									
-										</div>
-									
-												</div>
-									
-											</div>
-									
-									
-									</div>
-				
-								</div>
-							</div>
-							<!--<div class="modal-footer">
-							  <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Open second modal</button>
-							</div>-->
-						  </div>
-						</div>
-					  </div>
+		/*	formData.name = await name.value;
+			formData.address = await address.value;
+			formData.phone = await phone.value;
+			formData.city = await city.value;
+			formData.bairro = await bairro.value;
+			formData.whatsapp = await whatsapp.value;
+			formData.cep = await cep.value;
+			formData.street_number = await street_number.value;
+			formData.state = await state.value; 
+		
+			formData.description = await 'Assinatura IelaBag'
+			formData.payer.phone = await {
+				area_code:'55',
+				number:phone.value
+			}
+		formData.items = await cartData
+			formData.payer.first_name= await name.value
+			formData.payer.last_name = await lastname.value*/
+			formData.token = await formData.token
+			console.log(formData.card_token_id)
+			formData.card_token_id = formData.card_token_id
+			formData.method = await selectedPaymentMethod
+			//formData.payer.phone.area_code = await '84'
+			//formData.payer.identification.number = await cpf.value
+			//formData.payer.identification.type = await 'CPF'
 
-					<%}else{%>
-						<div class="modal fade modal-xl" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-							<div class="modal-dialog ">
-							  <div class="modal-content">
-								<div class="modal-header">
-								  <h3 class="modal-title fs-5" id="exampleModalToggleLabel">Detalhes de faturamento</h3>
-								  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-								</div>
-								<div class="modal-body">
-									<div class="the_content_wrapper col-12">
-										<div class="woocommerce col-12">
-										
-										<form class="checkout_coupon woocommerce-form-coupon checkout-form-toggle" method="post" style="display:none">
-										
-											<p>Se você tiver um código de cupom, utilize-o abaixo.</p>
-										
-											<p class="form-row form-row-first">
-												<label for="coupon_code" class="screen-reader-text">Cupom:</label>
-												<input type="text" name="coupon_code" class="input-text" placeholder="Código do cupom" id="coupon_code" value="">
-											</p>
-										
-											<p class="form-row form-row-last">
-												<button type="submit" class="button" name="apply_coupon" value="Aplicar cupom">Aplicar cupom</button>
-											</p>
-										
-											<div class="clear"></div>
-										</form>
-										<div class="woocommerce-notices-wrapper"></div>								
-											
-												
-												<div class="col2-set" id="customer_details">
-													<div class="col-12">
-														<div class="woocommerce-billing-fields">
-											
-												
-										
-											
-											
-											<div style="display: flex;justify-content: space-evenly;" class="woocommerce-billing-fields__field-wrapper col-12">
-												<div class="'col-6">
-												<div style="display:flex;">
-													<p class="form-row form-row-first validate-required" id="billing_first_name_field" data-priority="10">
-														<label for="billing_first_name" class="">Nome&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-														<span class="woocommerce-input-wrapper">
-															<input type="text" class="input-text" name="name" id="billing_first_name" placeholder="Digite seu nome" value="" autocomplete="given-name">
-														</span>
-													</p>
-													<p class="form-row form-row-last validate-required" id="billing_last_name_field" data-priority="20">
-														<label for="billing_last_name" class="">Sobrenome&nbsp;<abbr class="required" title="obrigatório">*</abbr>
-														</label>
-														<span class="woocommerce-input-wrapper">
-															<input type="text" class="input-text " name="lastname" id="billing_last_name" placeholder="Seu sobrenome" value="" autocomplete="family-name">
-														</span>
-													</p>
-		
-												</div>
-													
-												<div style="display:flex;">
-		
-		
-													<p class="form-row form-row-wide person-type-field" id="billing_cpf_field" data-priority="23">
-														<label for="billing_cpf" class="">CPF&nbsp;
-															<span class="optional"></span>
-														</label>
-														<span class="woocommerce-input-wrapper">
-															<input type="text" class="input-text " name="cpf" id="billing_cpf" placeholder="Digite seu CPF" value="" maxlength="14">
-														</span>
-													</p>
-													<p class="form-row form-row-wide validate-required" id="billing_birthdate_field" data-priority="31">
-														<label for="billing_birthdate" class="">Data de Nascimento&nbsp;<abbr class="required" title="obrigatório">*</abbr>
-														</label>
-														<span class="woocommerce-input-wrapper">
-															<input type="date" class="input-text " name="birthday" id="billing_birthdate" style="padding: 13px;" placeholder="" value="" maxlength="10">
-														</span>
-													</p>
-												</div>
-		
-		
-												<div style="display:flex;">
-		
-		
-												
-													<p class="form-row form-row-wide validate-required" id="billing_gender_field" data-priority="32">
-														<label for="billing_gender" class="">Gênero&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-														<span class="woocommerce-input-wrapper">
-															<select name="billing_gender" id="billing_gender" class="select wc-ecfb-select select2-hidden-accessible" style="background-color: #00000038!important;" data-allow_clear="true" data-placeholder="Selecionar" tabindex="-1" aria-hidden="true">
-																	<option value="" selected="selected">Selecionar</option>
-																	<option value="Não quero informar">Não quero informar</option>
-																	<option value="Feminino">Feminino</option>
-																	<option value="Masculino">Masculino</option>
-																	<option value="Outro">Outro</option>
-																</select>
-																<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 626.109px;">
-																	<span class="selection">
-																		<span class="select2-selection select2-selection--single" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-billing_gender-container" role="combobox">
-																			<span class="select2-selection__rendered" id="select2-billing_gender-container" role="textbox" aria-readonly="true"><span class="select2-selection__placeholder">
-					
-																			</span>
-																		</span>
-																		<span class="select2-selection__arrow" role="presentation">
-																			<b role="presentation"></b>
-																		</span>
-																	</span>
-																</span>
-																<span class="dropdown-wrapper" aria-hidden="true">
-					
-																</span>
-															</span>
-														</span>
-													</p>
-													<p class="form-row form-row-wide address-field update_totals_on_change validate-required" id="billing_country_field" data-priority="40">
-														<label for="billing_country" class="">País&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-														<span class="woocommerce-input-wrapper">
-															<strong>Brasil</strong>
-															<input type="hidden" name="country" id="billing_country" value="BR" autocomplete="country" class="country_to_state" readonly="readonly">
-														</span>
-													</p>
-		
-		
-												
-		
-													<p class="form-row address-field validate-required validate-postcode form-row-wide" id="billing_postcode_field" data-priority="45" data-o_class="form-row form-row-wide address-field validate-required validate-postcode">
-														<label for="billing_postcode" class="">CEP&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-														<span class="woocommerce-input-wrapper">
-															<input type="number" class="input-text" oninput="limitarDigitos(this)" name="cep" id="billing_postcode" placeholder="Digite seu CEP - Somente números" value="" autocomplete="postal-code" maxlength="8">
-														</span>
-													</p>
-															
-												</div>
-												<span id="mensagemcep"></span>
-												<div style="display:flex;">
-		
-		
-		
-													<p class="form-row address-field validate-required form-row-wide" id="billing_address_1_field" data-priority="50">
-														<label for="billing_address_1" class="">Endereço&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-														<span class="woocommerce-input-wrapper">
-															<input type="text" class="input-text " name="address" id="billing_address_1" placeholder="Logradouro" value="" autocomplete="address-line1" data-placeholder="Nome da rua e número da casa">
-														</span>
-													</p>
-													<p class="form-row form-row-wide address-field validate-required" id="billing_number_field" data-priority="55">
-														<label for="billing_number" class="">Número&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-														<span class="woocommerce-input-wrapper">
-															<input type="text" class="input-text " name="street_number" id="billing_number" placeholder="" value="">
-														</span>
-													</p>
-		
-												</div>
-		
-												<div style="display:flex;">
-		
-		
-												<!--<p class="form-row address-field form-row-wide" id="billing_address_2_field" data-priority="60">
-														<label for="billing_address_2" class="screen-reader-text">Apartamento, suíte, unidade, etc.&nbsp;<span class="optional">(opcional)</span></label>
-														<span class="woocommerce-input-wrapper">
-															<input type="text" class="input-text " name="address2" id="billing_address_2" placeholder="Apartamento, suíte, sala, etc. (opcional)" value="" autocomplete="address-line2" data-placeholder="Apartamento, suíte, sala, etc. (opcional)">
-														</span>
-													</p>-->
-													<p class="form-row form-row-wide address-field" id="billing_neighborhood_field" data-priority="65">
-														<label for="billing_neighborhood" class="">Bairro&nbsp;<span class="optional"></span></label>
-														<span class="woocommerce-input-wrapper">
-															<input type="text" class="input-text " name="bairro" id="billing_neighborhood" placeholder="Seu Bairro" value="">
-														</span>
-													</p>
-		
-													<p class="form-row address-field validate-required form-row-wide" id="billing_city_field" data-priority="70" data-o_class="form-row form-row-wide address-field validate-required">
-														<label for="billing_city" class="">Cidade&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-														<span class="woocommerce-input-wrapper">
-															<input type="text" class="input-text " name="city" id="billing_city" placeholder="Cidade ou município" value="" autocomplete="address-level2"></span>
-														</p>
-												</div>
-		
-												<div style="display:flex;">
-		
-												
-														<p class="form-row address-field validate-required validate-state woocommerce-validated form-row-wide" id="billing_state_field" data-priority="80" data-o_class="form-row form-row-wide address-field validate-required validate-state">
-															<label for="billing_state" class="">Estado&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-															<span class="woocommerce-input-wrapper">
-																<select name="state" id="billing_state" class="state_select select2-hidden-accessible" style="background-color: #00000038!important;" autocomplete="address-level1" data-placeholder="Selecione uma opção…" data-input-classes="" data-label="Estado" tabindex="-1" aria-hidden="true">
-																	<option value="">Selecione uma opção…</option>
-																	<option value="AC">Acre</option>
-																	<option value="AL">Alagoas</option>
-																	<option value="AP">Amapá</option>
-																	<option value="AM">Amazonas</option>
-																	<option value="BA">Bahia</option>
-																	<option value="CE">Ceará</option>
-																	<option value="DF">Distrito Federal</option>
-																	<option value="ES">Espírito Santo</option>
-																	<option value="GO">Goiás</option>
-																	<option value="MA">Maranhão</option>
-																	<option value="MT">Mato Grosso</option>
-																	<option value="MS">Mato Grosso do Sul</option>
-																	<option value="MG">Minas Gerais</option>
-																	<option value="PA">Pará</option>
-																	<option value="PB">Paraíba</option>
-																	<option value="PR">Paraná</option>
-																	<option value="PE">Pernambuco</option>
-																	<option value="PI">Piauí</option>
-																	<option value="RJ">Rio de Janeiro</option>
-																	<option value="RN">Rio Grande do Norte</option>
-																	<option value="RS">Rio Grande do Sul</option>
-																	<option value="RO">Rondônia</option>
-																	<option value="RR">Roraima</option>
-																	<option value="SC">Santa Catarina</option>
-																	<option selected value="SP">São Paulo</option>
-																	<option value="SE">Sergipe</option>
-																	<option value="TO">Tocantins</option>
-																</select>
-																<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;">
-																	<span class="selection">
-																		<span class="select2-selection select2-selection--single" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-label="Estado" role="combobox">
-																			<span class="select2-selection__rendered" id="select2-billing_state-container" role="textbox" aria-readonly="true" title="São Paulo"></span>
-																			<span class="select2-selection__arrow" role="presentation">
-																				<b role="presentation"></b>
-																			</span>
-																		</span>
-																	</span>
-																	<span class="dropdown-wrapper" aria-hidden="true">
-					
-																	</span>
-																</span>
-															</span>
-														</p>
-														<p class="form-row form-row-wide validate-required validate-phone" id="billing_phone_field" data-priority="100">
-															<label for="billing_phone" class="">Celular&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-															<span class="woocommerce-input-wrapper">
-																<input type="text" class="input-text " name="phone" id="billing_phone" placeholder="Número pra contato" value="" autocomplete="tel" maxlength="15">
-															</span>
-														</p>
-		
-		
-													</div>
-													<div style="display:flex;">
-		
-		
-														<p class="form-row validate-required validate-phone" id="billing_cellphone_field" data-priority="100">
-															<label for="billing_cellphone" class="">Celular/Whatsapp&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-															<span class="woocommerce-input-wrapper">
-																<input type="text" class="input-text " name="whatsapp" id="billing_cellphone" placeholder="Digite seu whatsApp" value="" autocomplete="tel" maxlength="15">
-															</span>
-														</p>
-														<p class="form-row form-row-wide validate-required validate-email" id="billing_email_field" data-priority="110">
-															<label for="billing_email" class="">Endereço de e-mail&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
-															<span class="woocommerce-input-wrapper">
-																<input type="email" class="input-text " name="email" id="billing_email" placeholder="Digite seu E-mail">
-																<div id="wcbcf-mailsuggest" style="color: rgb(204, 0, 0); font-size: small;">
-																</div>
-															</span>
-														</p>
-													</div>
-		
-		
-													</div>
-		
-													<div  class="brickss col-6">
-														<div class="woocommerce-shipping-fields">
-											
-												<h3 id="ship-to-different-address">
-													<label class="woocommerce-form__label woocommerce-form__label-for-checkbox checkbox">
-														<input id="ship-to-different-address-checkbox" class="woocommerce-form__input woocommerce-form__input-checkbox input-checkbox" checked="checked" type="checkbox" name="ship_to_different_address" value="1"> <span>Entregar em um endereço diferente?</span>
-													</label>
-												</h3>
-										
-												<div class="shipping_address" style="">
-										
-					
-												<!--	<div class="woocommerce-shipping-fields__field-wrapper">
-																	<p class="form-row form-row-first validate-required" id="shipping_first_name_field" data-priority="10"><label for="shipping_first_name" class="">Nome&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_first_name" id="shipping_first_name" placeholder="" value="" autocomplete="given-name"></span></p><p class="form-row form-row-last validate-required" id="shipping_last_name_field" data-priority="20"><label for="shipping_last_name" class="">Sobrenome&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_last_name" id="shipping_last_name" placeholder="" value="" autocomplete="family-name"></span></p><p class="form-row form-row-wide" id="shipping_company_field" data-priority="30"><label for="shipping_company" class="">Nome da empresa&nbsp;<span class="optional">(opcional)</span></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_company" id="shipping_company" placeholder="" value="" autocomplete="organization"></span></p><p class="form-row form-row-wide address-field update_totals_on_change validate-required" id="shipping_country_field" data-priority="40"><label for="shipping_country" class="">País&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><strong>Brasil</strong><input type="hidden" name="shipping_country" id="shipping_country" value="BR" autocomplete="country" class="country_to_state" readonly="readonly"></span></p><p class="form-row address-field validate-required validate-postcode form-row-wide" id="shipping_postcode_field" data-priority="45" data-o_class="form-row form-row-wide address-field validate-required validate-postcode"><label for="shipping_postcode" class="">CEP&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="tel" class="input-text " name="shipping_postcode" id="shipping_postcode" placeholder="" value="" autocomplete="postal-code" maxlength="9"></span></p><p class="form-row address-field validate-required form-row-wide" id="shipping_address_1_field" data-priority="50"><label for="shipping_address_1" class="">Endereço&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_address_1" id="shipping_address_1" placeholder="Nome da rua e número da casa" value="" autocomplete="address-line1" data-placeholder="Nome da rua e número da casa"></span></p><p class="form-row form-row-wide address-field validate-required" id="shipping_number_field" data-priority="55"><label for="shipping_number" class="">Número&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_number" id="shipping_number" placeholder="" value=""></span></p><p class="form-row address-field form-row-wide" id="shipping_address_2_field" data-priority="60"><label for="shipping_address_2" class="screen-reader-text">Apartamento, suíte, unidade, etc.&nbsp;<span class="optional">(opcional)</span></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_address_2" id="shipping_address_2" placeholder="Apartamento, suíte, sala, etc. (opcional)" value="" autocomplete="address-line2" data-placeholder="Apartamento, suíte, sala, etc. (opcional)"></span></p><p class="form-row form-row-wide address-field" id="shipping_neighborhood_field" data-priority="65"><label for="shipping_neighborhood" class="">Bairro&nbsp;<span class="optional">(opcional)</span></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_neighborhood" id="shipping_neighborhood" placeholder="" value=""></span></p><p class="form-row address-field validate-required form-row-wide" id="shipping_city_field" data-priority="70" data-o_class="form-row form-row-last address-field validate-required"><label for="shipping_city" class="">Cidade&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="shipping_city" id="shipping_city" placeholder="" value="" autocomplete="address-level2"></span></p><p class="form-row address-field validate-required validate-state form-row-wide" id="shipping_state_field" data-priority="80" data-o_class="form-row form-row-wide address-field validate-required validate-state"><label for="shipping_state" class="">Estado&nbsp;<abbr class="required" title="obrigatório">*</abbr></label><span class="woocommerce-input-wrapper"><select name="shipping_state" id="shipping_state" class="state_select select2-hidden-accessible" autocomplete="address-level1" data-placeholder="Selecione uma opção…" data-input-classes="" data-label="Estado" tabindex="-1" aria-hidden="true"><option value="">Selecione uma opção…</option><option value="AC">Acre</option><option value="AL">Alagoas</option><option value="AP">Amapá</option><option value="AM">Amazonas</option><option value="BA">Bahia</option><option value="CE">Ceará</option><option value="DF">Distrito Federal</option><option value="ES">Espírito Santo</option><option value="GO">Goiás</option><option value="MA">Maranhão</option><option value="MT">Mato Grosso</option><option value="MS">Mato Grosso do Sul</option><option value="MG">Minas Gerais</option><option value="PA">Pará</option><option value="PB">Paraíba</option><option value="PR">Paraná</option><option value="PE">Pernambuco</option><option value="PI">Piauí</option><option value="RJ">Rio de Janeiro</option><option value="RN">Rio Grande do Norte</option><option value="RS">Rio Grande do Sul</option><option value="RO">Rondônia</option><option value="RR">Roraima</option><option value="SC">Santa Catarina</option><option value="SP">São Paulo</option><option value="SE">Sergipe</option><option value="TO">Tocantins</option></select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-label="Estado" role="combobox"><span class="select2-selection__rendered" id="select2-shipping_state-container" role="textbox" aria-readonly="true" title="São Paulo">São Paulo</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span></span></p></div>-->
-																	<div id="order_review" class="woocommerce-checkout-review-order">
-																		<h4 id="order_review_heading"></h4>
-																		<div class="cart">
-																			<h2>Seu pedido</h2>
-																			<ul id="cart-items">
-																			  <!-- Itens do carrinho serão adicionados aqui dinamicamente -->
-																			</ul>
-																			<p id="total">Total: R$ 0.00</p>
-																		  </div>
-																
-																	</div>
-													
-												</div>
-										
-											</div>
-										<div class="woocommerce-additional-fields">
-											
-											
-												
-													<h3>Informação adicional</h3>
-										
-												
-												<div class="woocommerce-additional-fields__field-wrapper">
-																	<p class="form-row notes" id="order_comments_field" data-priority=""><label for="order_comments" class="">Notas do pedido&nbsp;<span class="optional">(opcional)</span></label><span class="woocommerce-input-wrapper"><textarea name="order_comments" style="overflow: hidden;background-color: #00000038!important;" class="input-text col-12" id="order_comments" placeholder="Notas sobre seu pedido, por exemplo, informações especiais sobre entrega." rows="5" cols="5"></textarea></span></p>					</div>
-										
-											
-											</div>
-											<div id="paymentBrick_container"></div>
-					
-													</div>
-													</div>
-										
-											</div>
-										
-													</div>
-										
-												</div>
-										
-										
-										</div>
-					
-									</div>
-								</div>
-								<!--<div class="modal-footer">
-								  <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Open second modal</button>
-								</div>-->
-							  </div>
-							</div>
-						  </div>
-
-						<%}%>
-			
+/*formData.cpf = await cpf.value*/
 
 
 
 
+			//formData.payer.phone.area_code = await '84'
+			//formData.payer.identification.number = await cpf.value
+			//formData.payer.identification.type = await 'CPF'
 
-				  <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-					<div class="modal-dialog modal-dialog-centered">
-					  <div class="modal-content">
-						<div class="modal-header">
-						  <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Modal 2</h1>
-						  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						</div>
-						<div class="modal-body">
-						  Hide this modal and show the first with the button below.
-						</div>
-						<div class="modal-footer">
-						  <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back to first</button>
-						</div>
-					  </div>
-					</div>
-				  </div>
-			
 
-				<div class="section woocommerce_after_main_content">
-					<div class="section_wrapper">
-						<div class="column column-margin-0px one">
-							</main></div>					</div>
-				</div>
+console.log(formData)
+            return new Promise((resolve, reject) => {
+              fetch("/create_signature", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+              })
+                .then((response) => {
+					console.log(response)
+				return	response.json()})
+                .then((response) => {
+					console.log(response)
+                  // receber o resultado do pagamento
+                  resolve();
+                })
+                .catch((error) => {
+					console.log(error)
+                  // manejar a resposta de erro ao tentar criar um pagamento
+                  reject();
+                });
+            });
+			} catch (error) {
+				console.log(error)
+			}
+          },
+          onError: (error) => {
+            // callback chamado para todos os casos de erro do Brick
+            console.error(error);
+          },
+        },
+      };
+      window.paymentBrickController = await bricksBuilder1.create(
+        "payment",
+        "paymentBrick_container",
+        settings1
+      );
+    };
+    renderPaymentBrick1(bricksBuilder1);
 
-			</div>
-		</div>
-
-		
-	</div>
-</div>
+  </script>
 
 <%- include('partials/contact.ejs') %>
 
@@ -2090,307 +1439,71 @@ width: 100%;
 	</div>
   </div>
 </div>
+
+  <style>
+	.success-animation { margin:150px auto;}
+
+.checkmark {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 2;
+    stroke: #4bb71b;
+    stroke-miterlimit: 10;
+    box-shadow: inset 0px 0px 0px #4bb71b;
+    animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+    position:relative;
+    top: 5px;
+    right: 5px;
+   margin: 0 auto;
+}
+.checkmark__circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+    stroke: #4bb71b;
+    fill: #fff;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
  
-	
-<script src="https://sdk.mercadopago.com/js/v2"></script>
-<input type="hidden" id="pKey" value="<%=publicKey%>">
+}
 
-<script>
-	const pKeyy = document.getElementById('pKey').value
-	/*const name = document.getElementById('billing_first_name')
-	const lastname = document.getElementById('billing_last_name')
-	const cpf = document.getElementById('billing_cpf')
-	const address = document.getElementById('billing_address_1')
-	const street_number = document.getElementById('billing_number')
-	const cep = document.getElementById('billing_postcode')
-	const bairro = document.getElementById('billing_neighborhood')
-	const city = document.getElementById('billing_city')
-	const state = document.getElementById('billing_state')
-	const phone = document.getElementById('billing_phone')
-	const whatsapp = document.getElementById('billing_cellphone')
-	const email = document.getElementById('billing_email')
-	const totalAmount = document.getElementById('total')*/
-	const mpp = new MercadoPago(pKeyy,{
-    locale: 'pt-BR'
-  });
-	const bricksBuilder1 = mpp.bricks();
-    const renderPaymentBrick1 = async (bricksBuilder1) => {
-      const settings1 = {
-        initialization: {
-          /*
-            "amount" é a quantia total a pagar por todos os meios de pagamento com exceção da Conta Mercado Pago e Parcelas sem cartão de crédito, que têm seus valores de processamento determinados no backend através do "preferenceId"
-          */
-          amount: 10000,
-          preferenceId: "123",
-          payer: {
-            firstName: "",
-            lastName: "",
-            email: "",
-			phone:{
-				area_code:"55",
-				number:""
-			}
-          },
-		 
-		},
-		
-        customization: {
-          visual: {
-            style: {
-              theme: "bootstrap",
-			  customVariables:{
-				formBackgroundColor:'pink'
-			  }
-            },
-          },
-          paymentMethods: {
-            creditCard: "all",
-										atm: "all",
-            maxInstallments: 1
-          },
-        },
-        callbacks: {
-          onReady: () => {
-            /*
-             Callback chamado quando o Brick está pronto.
-             Aqui, você pode ocultar seu site, por exemplo.
-            */
-          },
-          onSubmit:async ({ selectedPaymentMethod, formData}) => {
-            try {
-				// callback chamado quando há click no botão de envio de dados
-				const totalElement1 = document.getElementById('total');
+.checkmark__check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
 
-// Obtém o texto dentro do elemento
-const totalText1 = totalElement1.textContent;
+@keyframes stroke {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
 
-// Usa expressão regular para extrair apenas os números e ponto decimal
-const totalValue1 = parseFloat(totalText1.match(/\d+\.\d+/)[0]);
+@keyframes scale {
+    0%, 100% {
+        transform: none;
+    }
 
-console.log(totalValue1); 
-console.log(cartData)
-formData.transaction_amount = 19.90;
-//formData.payer_email = formData.payer_email
-formData.email = formData.email
+    50% {
+        transform: scale3d(1.1, 1.1, 1);
+    }
+}
 
-		/*	formData.name = await name.value;
-			formData.address = await address.value;
-			formData.phone = await phone.value;
-			formData.city = await city.value;
-			formData.bairro = await bairro.value;
-			formData.whatsapp = await whatsapp.value;
-			formData.cep = await cep.value;
-			formData.street_number = await street_number.value;
-			formData.state = await state.value; 
-		
-			formData.description = await 'Assinatura IelaBag'
-			formData.payer.phone = await {
-				area_code:'55',
-				number:phone.value
-			}
-		formData.items = await cartData
-			formData.payer.first_name= await name.value
-			formData.payer.last_name = await lastname.value*/
-			formData.token = await formData.token
-			console.log(formData.card_token_id)
-			formData.card_token_id = formData.card_token_id
-			formData.method = await selectedPaymentMethod
-			//formData.payer.phone.area_code = await '84'
-			//formData.payer.identification.number = await cpf.value
-			//formData.payer.identification.type = await 'CPF'
-
-/*formData.cpf = await cpf.value*/
+@keyframes fill {
+    100% {
+        box-shadow: inset 0px 0px 0px 30px #4bb71b;
+    }
+}
+  </style>
+  <div style='display:none;position:absolute; top:50%;' class="success-animation">
+	<svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" /><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" /></svg>
+	</div>
 
 
-
-
-			//formData.payer.phone.area_code = await '84'
-			//formData.payer.identification.number = await cpf.value
-			//formData.payer.identification.type = await 'CPF'
-
-
-console.log(formData)
-            return new Promise((resolve, reject) => {
-              fetch("/create_signature", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData),
-              })
-                .then((response) => {
-					console.log(response)
-				return	response.json()})
-                .then((response) => {
-					console.log(response)
-                  // receber o resultado do pagamento
-                  resolve();
-                })
-                .catch((error) => {
-					console.log(error)
-                  // manejar a resposta de erro ao tentar criar um pagamento
-                  reject();
-                });
-            });
-			} catch (error) {
-				console.log(error)
-			}
-          },
-          onError: (error) => {
-            // callback chamado para todos os casos de erro do Brick
-            console.error(error);
-          },
-        },
-      };
-      window.paymentBrickController = await bricksBuilder1.create(
-        "payment",
-        "paymentBrick_container",
-        settings1
-      );
-    };
-    renderPaymentBrick1(bricksBuilder1);
-
-  </script>
-
-<!--<script>
-	const pKey = document.getElementById('pKey').value
-	const name = document.getElementById('billing_first_name')
-	const lastname = document.getElementById('billing_last_name')
-	const cpf = document.getElementById('billing_cpf')
-	const address = document.getElementById('billing_address_1')
-	const street_number = document.getElementById('billing_number')
-	const cep = document.getElementById('billing_postcode')
-	const bairro = document.getElementById('billing_neighborhood')
-	const city = document.getElementById('billing_city')
-	const state = document.getElementById('billing_state')
-	const phone = document.getElementById('billing_phone')
-	const whatsapp = document.getElementById('billing_cellphone')
-	const email = document.getElementById('billing_email')
-	const totalAmount = document.getElementById('total')
-	const mp = new MercadoPago(pKey,{
-    locale: 'pt-BR'
-  });
-	const bricksBuilder = mp.bricks();
-    const renderPaymentBrick = async (bricksBuilder) => {
-      const settings = {
-        initialization: {
-          /*
-            "amount" é a quantia total a pagar por todos os meios de pagamento com exceção da Conta Mercado Pago e Parcelas sem cartão de crédito, que têm seus valores de processamento determinados no backend através do "preferenceId"
-          */
-          amount: 10000,
-          preferenceId: "123",
-          payer: {
-            firstName: "",
-            lastName: "",
-            email: "",
-			phone:{
-				area_code:"55",
-				number:""
-			}
-          },
-		 
-		},
-		
-        customization: {
-          visual: {
-            style: {
-              theme: "bootstrap",
-			  customVariables:{
-				formBackgroundColor:'pink'
-			  }
-            },
-          },
-          paymentMethods: {
-            creditCard: "all",
-										atm: "all",
-            maxInstallments: 1
-          },
-        },
-        callbacks: {
-          onReady: () => {
-            /*
-             Callback chamado quando o Brick está pronto.
-             Aqui, você pode ocultar seu site, por exemplo.
-            */
-          },
-          onSubmit:async ({ selectedPaymentMethod, formData}) => {
-            try {
-				// callback chamado quando há click no botão de envio de dados
-				const totalElement = document.getElementById('total');
-
-// Obtém o texto dentro do elemento
-const totalText = totalElement.textContent;
-
-// Usa expressão regular para extrair apenas os números e ponto decimal
-const totalValue = parseFloat(totalText.match(/\d+\.\d+/)[0]);
-
-console.log(totalValue); 
-console.log(cartData)
-			formData.transaction_amount = await totalValue;
-			formData.name = await name.value;
-			formData.address = await address.value;
-			formData.phone = await phone.value;
-			formData.city = await city.value;
-			formData.bairro = await bairro.value;
-			formData.whatsapp = await whatsapp.value;
-			formData.cep = await cep.value;
-			formData.street_number = await street_number.value;
-			formData.state = await state.value;
-			formData.cpf = await cpf.value;
-			formData.description = await 'descrição teste'
-			formData.payer.phone = await {
-				area_code:'55',
-				number:phone.value
-			}
-			formData.items = cartData
-			formData.payer.first_name= await name.value
-			formData.payer.last_name = await lastname.value
-			formData.payer.email = await email.value
-			//formData.payer.phone.area_code = await '84'
-			//formData.payer.identification.number = await cpf.value
-			//formData.payer.identification.type = await 'CPF'
-
-
-console.log(formData.payer)
-            return new Promise((resolve, reject) => {
-              fetch("/process_payment", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData),
-              })
-                .then((response) => {
-					console.log(response)
-				return	response.json()})
-                .then((response) => {
-                  // receber o resultado do pagamento
-                  resolve();
-                })
-                .catch((error) => {
-                  // manejar a resposta de erro ao tentar criar um pagamento
-                  reject();
-                });
-            });
-			} catch (error) {
-				console.log(error)
-			}
-          },
-          onError: (error) => {
-            // callback chamado para todos os casos de erro do Brick
-            console.error(error);
-          },
-        },
-      };
-      window.paymentBrickController = await bricksBuilder.create(
-        "payment",
-        "paymentBrick_container",
-        settings
-      );
-    };
-    renderPaymentBrick(bricksBuilder);
-
-  </script>-->
+  
   <script type="text/javascript">
 	(function () {
 		var c = document.body.className;
@@ -2487,206 +1600,10 @@ var mfn = {"mobileInit":"1240","parallax":"stellar","responsive":"1","sidebarSti
 <div class="cli-modal-backdrop cli-fade cli-popupbar-overlay"></div>
 <script src="js/jquery-2.2.3.min.js"></script>
 
-<script type="text/javascript">
-let cart = [];
-cartData = []
-itemCount = 0
-function addToCart(productName, price, quantity) {
-  // Converte o preço para ponto flutuante
-  const priceFloat = parseFloat(price);
-
-  // Verifica se o preço é um número válido
-  if (isNaN(priceFloat) || priceFloat <= 0) {
-    alert("Por favor, insira um preço válido.");
-    return;
-  }
-
-  const item = {
-    name: productName,
-    price: priceFloat,
-    quantity: quantity
-  };
-
-  // Verifica se o item já está no carrinho
-  const existingItemIndex = cart.findIndex(cartItem => cartItem.name === productName);
-
-  if (existingItemIndex !== -1) {
-    // Se o item já está no carrinho, apenas atualiza a quantidade
-    cart[existingItemIndex].quantity += quantity;
-  } else {
-    // Se o item não está no carrinho, adiciona-o
-    cart.push(item);
-	cartData.push(cart)
-  }
-
-
-  updateCart();
-  updateTotal();
- 
-  console.log(cartData); 
-  
-
-}
-
-
-
-
-function updateCart() {
-  const cartList = document.getElementById('cart-items');
-
-  // Limpa a lista do carrinho
-  cartList.innerHTML = '';
-
-  // Adiciona itens ao carrinho
-  cart.forEach(item => {
-    const listItem = document.createElement('li');
-    listItem.textContent = `${item.name} - R$ ${item.price.toFixed(2)} x ${item.quantity}`;
-	console.log(listItem)
-    cartList.appendChild(listItem);
-  });
-  const cartCount = document.getElementById('cartCount');
-itemCount++;
-cartCount.innerText = itemCount;
-
-}
-
-function updateTotal() {
-  const totalElement = document.getElementById('total');
-
-  // Calcula o total
-  const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-
-  // Atualiza o total
-  totalElement.textContent = `Total: R$ ${total.toFixed(2)}`;
-}
-
-let msgcep = document.getElementById('mensagemcep')
-
-function limitarDigitos(element) {
-
-
-  var valor = element.value;
-
-  // Limite o número de dígitos para, por exemplo, 4
-  if (valor.length > 8) {
-    element.value = valor.slice(0, 8);
-  }
-}
-
-
-
-
-
-jQuery(document).ready(function() {
-    // Ao perder o foco do campo de CEP
-    jQuery('#billing_postcode').blur(function() {
-        // Chama a função de consulta de CEP
-        consultarCEP();
-    });
-});
-
-function validarCEP(cep) {
-    // Padrões de CEP permitidos
-    const padroesCEP = [
-        /^010[0-9]{5}$/, // 01000 a 01099
-        /^011[0-9]{5}$/,
-        /^012[0-9]{5}$/, // 01200 a 01299
-        /^013[0-9]{5}$/, // 01300 a 01399
-        /^014[0-9]{5}$/, // 01400 a 01499
-        /^015[0-9]{5}$/, // 01500 a 01599
-        /^020[0-9]{5}$/, // 02000 a 02099
-        /^030[0-9]{5}$/, // 03000 a 03099
-        /^031[0-9]{5}$/, // 03100 a 03199
-        /^032[0-9]{5}$/, // 03200 a 03299
-        /^033[0-9]{5}$/, // 03300 a 03399
-        /^040[0-9]{5}$/, // 04000 a 04099
-        /^041[0-9]{5}$/, // 04100 a 04199
-        /^042[0-9]{5}$/, // 04200 a 04299
-        /^043[0-9]{5}$/, // 04300 a 04399
-        /^045[0-9]{5}$/, // 04500 a 04599
-        /^046[0-9]{5}$/, // 04600 a 04699
-        /^050[0-9]{5}$/,
-        /^054[0-9]{5}$/  // 05400 a 05499
-        // Adicione mais padrões conforme necessário
-    ];
-
-    // Verifica se o CEP corresponde a algum dos padrões
-    for (const padrao of padroesCEP) {
-        if (padrao.test(cep)) {
-            return true; // CEP válido
-        }
-    }
-
-    return false; // CEP inválido
-}
-
-function consultarCEP() {
-    // Obtém o valor do CEP digitado pelo usuário
-    var _cep = jQuery('#billing_postcode').val();   
-
-    let _address =jQuery('#billing_address_1')
-    let _city =jQuery('#billing_city')
-	let _bairro = jQuery('#billing_neighborhood')
-	let _state = jQuery('#billing_state')
-
-    // Remove caracteres não numéricos do CEP
-    _cep = _cep.replace(/\D/g, '');
-
-    // Verifica se o CEP possui 8 dígitos
-    if (_cep.length !== 8 || !validarCEP(_cep)) {
-        console.log(_cep.length)
-		msgcep.style.display = 'inline-block'
-        msgcep.style.color = 'red'
-        msgcep.textContent ='CEP inválido ou não temos cobertura. Por gentileza, tente outro CEP.'
-
-        return;
-    }
-
-    // Faz a requisição à API ViaCEP
-    jQuery.ajax({
-        url: `https://viacep.com.br/ws/${_cep}/json/`,
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-            if (!data.erro) {
-                // Exibe as informações na página
-                console.log(data)
-               
-                _address.val(data.logradouro) 
-                _city.val(data.localidade)
-               _bairro.val(data.bairro)
-                _state.val(data.uf)
-				msgcep.style.display = 'none'
-
-            } else {
-                msgcep.style.color = 'red'
-                msgcep.textContent = 'Não possuímos cobertura para o CEP informado';
-            }
-        },
-        error: function () {
-            alert('Erro ao consultar o CEP. Tente novamente mais tarde.');
-        }
-    });
-}
-
-
-    function link_soft_scroll()
-    {
-        jQuery('a[href^="#"]').on('click', function(e) {
-			if(jQuery(this).hasClass('close')) return;
-            e.preventDefault();
-            var id = jQuery(this).attr('href'),
-                    targetOffset = jQuery(id).offset();
-                    
-            jQuery('html, body').animate({ 
-                scrollTop: targetOffset - 270
-            }, 1000);
-        });
-    }
-    link_soft_scroll();
-    </script>
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
-
+  
 </body>
 </html>
+
+

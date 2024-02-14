@@ -122,8 +122,7 @@ let { MercadoPagoConfig, Payment, Customer, MerchantOrder,PreApproval, PreApprov
 
 
 // Step 2: Initialize the client object
-const client = new MercadoPagoConfig({ accessToken: 'TEST-4911284730753864-010809-73732c6bb200ed0a86ceaea651e856c0-1058457871'});
-
+const client = new MercadoPagoConfig({ accessToken: 'APP_USR-8465818122170980-021414-531906acb8c584f7055bb62aaad6d5a0-1657660352'});
 
 // Step 3: Initialize the API object
 
@@ -134,7 +133,7 @@ const preApproval = new PreApproval(client)
 const preApprovalPlan = new PreApprovalPlan(client)
 const customerCard = new CustomerCard(client)
 const cardToken = new CardToken(client)
-const mercadoPagoPublicKey = 'TEST-f609a46a-df09-4fe6-a4b2-e7688d449f94';
+const mercadoPagoPublicKey = 'APP_USR-2c8c4c15-a7f3-45ab-919b-0e1e2f269de8';
 if (!mercadoPagoPublicKey) {
   console.log("Error: public key not defined");
   process.exit(1);
@@ -490,7 +489,7 @@ app.post('/create_signaturePlan',async(req,res)=>{
           {}
         ]
       },*/
-      back_url: "/admin"
+      back_url: "https://www.ielabag.cpm.br/admin"
     }
 
  let signature = await preApprovalPlan.create({body:signatureData})
@@ -503,7 +502,7 @@ app.post('/create_signaturePlan',async(req,res)=>{
 
 })
 
-app.post('/create_signature',async(req,res)=>{
+app.post('/create_signature', eAdmin,async(req,res)=>{
   try {
     let user = req.user
     
@@ -518,7 +517,7 @@ app.post('/create_signature',async(req,res)=>{
     const data30 = new Date(dataAtual);
 
     data2.setDate(dataAtual.getDate() );
-    data30.setDate(dataAtual.getDate() + 2);
+    data30.setDate(dataAtual.getDate() + 30);
 
     // Formatar as datas para o formato ISO 8601
 const formatoISO = { timeZone: 'UTC' };
@@ -529,19 +528,23 @@ console.log('Data Atual:', dataAtualFormatada);
 console.log('Data Futura (2 dias depois):', dataFuturaFormatada);
     
  const signatureData =   {
+  back_url: "https://www.ielabag.com.br",
+
       reason: 'IelaBag assinatura',
       //external_reference:external_reference,
-      card_token_id:token,
+     // token:token,
       auto_recurring: {
         frequency: 1,
-        frequency_type: 'days',
+        frequency_type: 'months',
         start_date:data2,
         end_date: data30, 
         transaction_amount: transaction_amount,
         currency_id: "BRL"
       },
-      status:'pending',
-      payer_email:email,
+      payer_email:payer.email,
+      card_token_id:token,
+
+      status: "authorized"
     /*  external_reference:cpf,
       payment_methods_allowed: {
         payment_types: [
@@ -551,8 +554,8 @@ console.log('Data Futura (2 dias depois):', dataFuturaFormatada);
         ],
       },*/
     
-      back_url: "https://google.com"
     }
+    console.log(signatureData)
 
  let signature = await preApproval.create({body:signatureData})
  
@@ -1001,7 +1004,7 @@ await order3.save()
   //  res.render('index',{msg:false,error:false})
 //})
 
-app.get('/assinatura',eAdmin,async (req,res)=>{
+app.get('/bags',eAdmin,async (req,res)=>{
   try {
     let user = await req.user
     let products = await Product.find({})
@@ -1035,7 +1038,7 @@ app.get('/admin',eAdmin,async(req,res)=>{
 
     console.log("Total Net Received Amount (Last Two Decimals):", totalPaid / 100); // Convertendo de centavos para reais
 
-    res.render('admin/admin',{user:user,users:users,payments:payments.results,signatures:signatures.results, products:products,orders:orders,total:formattedTotal, msg:false})
+    res.render('admin/admin',{user:user,users:users,payments:payments.results,signatures:signatures.results, products:products,orders:orders,total:formattedTotal, msg:false, error:false})
   }else{
     res.redirect('/minha-conta')
   }
@@ -1183,12 +1186,18 @@ app.get('/politica-de-privacidade',(req,res)=>{
   res.render('politicadeprivacidade')
 })
 
+app.get('/check',(req,res)=>{
+  
+  res.render('checkoutAssinatura', {publicKey:mercadoPagoPublicKey})
+})
+
 app.get('/termos-e-condicoes',(req,res)=>{
   res.render('termosecondicoes')
 })
 
 app.get('/cadastro',(req,res)=>{
-  res.render('cadastro',{msg:false})
+
+  res.render('cadastro',{msg:false, publicKey:mercadoPagoPublicKey})
 })
 async function ff(){
   try {
@@ -1204,7 +1213,7 @@ async function ff(){
   }
 
 }
-ff()
+//ff()
 // GERAR UM PEDIDO, UMA ASSINATURA E PESQUISA DE CLIENTES USANDO E-MAIL TESTE RAFA@RAFA.COM SENHA 123 PRA RENDEZIRAR OS DADOS CORRETAMENTE DINAMICAMENTE DE ACORDO DE COMO ESTA VINDO NO CONSOLE.LOG QUE AINDA VOU FAZER
 app.get('/minha-conta',eAdmin,async(req,res)=>{
   try {
@@ -1678,7 +1687,7 @@ app.post('/iela/saveUser', async (req,res)=>{
   })
  await user.save()
  console.log('usuário salvo')
-     res.redirect('/')
+     res.redirect('/check')
       try {
           const items = await User.find({})
             .sort({ createdAt: 1 }); // Ordena em ordem crescente por createdAt

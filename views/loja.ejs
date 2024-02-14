@@ -1048,21 +1048,7 @@ width: 100%;
 				<div class="section"><div class="section_wrapper clearfix default-woo-list">
 			
 			
-			
-				<div class="mfn-woo-filters-wrapper shop-filters" style="display:none;"><div class="woocommerce-notices-wrapper"></div><p class="woocommerce-result-count">
-	Exibindo um único resultado</p>
-<form class="woocommerce-ordering" method="get">
-	<select name="orderby" class="orderby" aria-label="Pedido da loja">
-					<option value="menu_order"  selected='selected'>Ordenação padrão</option>
-					<option value="popularity" >Ordenar por popularidade</option>
-					<option value="date" >Ordenar por mais recente</option>
-					<option value="price" >Ordenar por preço: menor para maior</option>
-					<option value="price-desc" >Ordenar por preço: maior para menor</option>
-			</select>
-	<input type="hidden" name="paged" value="1" />
-	</form>
-</div>
-''
+	
 <div class="products_wrapper mfn-woo-products isotope_wrapper default-woo-loop lm_wrapper">
 	<ul class="products columns-3 grid d-flex" style="display: flex;">
         <%if(bags){%>
@@ -1103,7 +1089,7 @@ width: 100%;
 
 		<h4><a href="#"><%=bag.name%></a> </h4>
 		<h3><%=bag.description%></h3>
-	<span class="price"><del aria-hidden="true"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#82;&#36;</span>&nbsp;<%=bag.price%></bdi></span></del> <ins><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#82;&#36;</span>&nbsp;<%=bag.price%></bdi></span></ins> <span class="subscription-details"> por 1 mês</span></span>
+	<span class="price"><del aria-hidden="true"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#82;&#36;</span>&nbsp;<%=bag.price%></bdi></span></del> <ins><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#82;&#36;</span>&nbsp;<%=bag.price%></bdi></span></ins> <span class="subscription-details"><!--por mês --></span></span>
 <div class="mfn-li-product-row mfn-li-product-row-button hide-button"></div>
 	</div>
 
@@ -1177,7 +1163,7 @@ width: 100%;
 	
 	
 												<p class="form-row form-row-wide person-type-field" id="billing_cpf_field" data-priority="23">
-													<label for="billing_cpf" class="">CPF ou CNPJ
+													<label for="billing_cpf" class="">CPF ou CNJP
 														<span class="optional"></span>
 													</label>
 													<span class="woocommerce-input-wrapper">
@@ -1202,9 +1188,9 @@ width: 100%;
 													<label for="billing_gender" class="">Gênero&nbsp;<abbr class="required" title="obrigatório">*</abbr></label>
 													<span class="woocommerce-input-wrapper">
 														<select name="billing_gender" id="billing_gender" name="gender" style="background-color: #00000038!important;" class="select wc-ecfb-select select2-hidden-accessible" data-allow_clear="true" data-placeholder="Selecionar" tabindex="-1" aria-hidden="true">
-																<option value="<%=user.gender%>" selected="selected"><%=user.gender%></option>
+																<option value="<%=user.gender%>" ><%=user.gender%></option>
 																<option value="Não quero informar">Não quero informar</option>
-																<option value="Feminino">Feminino</option>
+																<option value="Feminino" selected>Feminino</option>
 																<option value="Masculino">Masculino</option>
 																<option value="Outro">Outro</option>
 															</select>
@@ -2260,7 +2246,67 @@ console.log(formData)
     renderPaymentBrick1(bricksBuilder1);
 
   </script>-->
+  <style>
+	.success-animation { margin:150px auto;}
 
+.checkmark {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 2;
+    stroke: #4bb71b;
+    stroke-miterlimit: 10;
+    box-shadow: inset 0px 0px 0px #4bb71b;
+    animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+    position:relative;
+    top: 5px;
+    right: 5px;
+   margin: 0 auto;
+}
+.checkmark__circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+    stroke: #4bb71b;
+    fill: #fff;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+ 
+}
+
+.checkmark__check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes stroke {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes scale {
+    0%, 100% {
+        transform: none;
+    }
+
+    50% {
+        transform: scale3d(1.1, 1.1, 1);
+    }
+}
+
+@keyframes fill {
+    100% {
+        box-shadow: inset 0px 0px 0px 30px #4bb71b;
+    }
+}
+  </style>
+  <div style='display:none;position:absolute; top:50%;' class="success-animation">
+	<svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" /><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" /></svg>
+	</div>
 <script>
 	const pKey = document.getElementById('pKey').value
 	const name = document.getElementById('billing_first_name')
@@ -2344,7 +2390,7 @@ console.log(cartData)
 			formData.street_number = await street_number.value;
 			formData.state = await state.value;
 			formData.cpf = await cpf.value;
-			formData.description = await 'IelaBag Assinatura'
+			formData.description = await 'IelaBag Bags'
 			formData.payer.phone = await {
 				area_code:'55',
 				number:await phone.value
@@ -2376,6 +2422,7 @@ console.log(formData.payer)
                 .then((response) => {
                   // receber o resultado do pagamento
                   resolve();
+				  console.log(response)
                 })
                 .catch((error) => {
                   // manejar a resposta de erro ao tentar criar um pagamento
@@ -2389,7 +2436,7 @@ console.log(formData.payer)
          
         },
       };
-      window.statusScreenBrickController = await bricksBuilder.create(
+      window.paymentBrickController = await bricksBuilder.create(
         "payment",
         "paymentBrick_container",
         settings
