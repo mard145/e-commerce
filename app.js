@@ -22,6 +22,17 @@ const Signature = require('./models/Signature')
 const Order = require('./models/Order')
 const passportJWT = require('passport-jwt');
 const { v4: uuidv4 } = require('uuid');
+var MongoDBStore = require('connect-mongodb-session')(session);
+var store = new MongoDBStore({
+  uri:process.env.ATLAS,
+  collection: 'mySessions'
+});
+
+// Catch errors
+store.on('error', function(error) {
+  console.log(error);
+});
+
 const nodemailer = require('nodemailer')
 
 const transporter = nodemailer.createTransport({
@@ -48,7 +59,18 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser())
-
+app.use(require('express-session')({
+  secret: tokenSecret,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
+  },
+  store: store,
+  // Boilerplate options, see:
+  // * https://www.npmjs.com/package/express-session#resave
+  // * https://www.npmjs.com/package/express-session#saveuninitialized
+  resave: true,
+  saveUninitialized: true
+}));
 // Configuração do Passport e estratégia JWT
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -231,6 +253,96 @@ app.set('views', path.join(__dirname,'views'))
 app.use(express.json({limit: '100mb'}))
 app.use(express.urlencoded({extended:true,limit: '100mb'}))
 app.use(methodOverride('_method'))
+
+app.post('/resetPassword', eAdmin,async (req,res)=>{
+
+  try {
+    let allpay = await payment.search()
+
+    let user = req.user
+    const { currentPassword, newPassword, confirmNewPassword } = await req.body;
+    const userID = await req.user._id;
+    let errors = [];
+  
+    //Check required fields
+    if (!currentPassword || !newPassword || !confirmNewPassword) {
+      errors.push({ msg: "Por favor preencha os dados corretamente." });
+    }
+  
+    //Check passwords match
+    if (newPassword !== confirmNewPassword) {
+      errors.push({ msg: "As senhas não conferem." });
+    }
+  
+    //Check password length
+    if (newPassword.length < 6 || confirmNewPassword.length < 6) {
+      errors.push({ msg: "A senha tem que ter no mínimo 6 caracteres." });
+    }
+  
+    if (errors.length > 0) {
+      if(req.user.admin == false){
+        res.render("cli/cli", {
+          error:errors,
+          msg: req.user.name,
+          user:user,
+          publicKey:mercadoPagoPublicKey,
+          payments:allpay
+        });
+      }else if(req.user.admin == true){
+        res.render("admin/admin", {
+          error:errors,
+          msg: req.user.name,
+          user:user,
+          publicKey:mercadoPagoPublicKey,
+          payments:allpay
+        });
+      }else{
+        console.log('nem admin e nem cliente ?')
+      }
+      
+    } else {
+      //VALIDATION PASSED
+      //Ensure current password submitted matches
+  
+      User.findOne({ _id: userID }).then(async (user) => {
+        //encrypt newly submitted password
+        // async-await syntax
+        const isMatch = await bcrypt.compareSync(currentPassword, user.password);
+  
+        if (isMatch) {
+          console.log(user.password);
+          //Update password for user with new password
+        await  bcrypt.genSalt(10, async (err, salt) =>
+           await bcrypt.hash(newPassword, salt, async (err, hash) => {
+              if (err) throw err;
+              user.password = await hash;
+            await  user.save();
+            })
+          );
+     //     req.flash("success_msg", "Password successfully updated!");
+          if(req.user.admin == true){
+            res.redirect("/admin");
+          }else{
+            res.redirect('/minha-conta')
+          }
+        } else {
+          //Password does not match
+          errors.push({ msg: "A senha atual não confere." });
+          res.render("cli/cli", {
+            error:errors,
+            msg: req.user.name,
+            user:user,
+            publicKey:mercadoPagoPublicKey,
+            payments:allpay
+          });
+        }
+      });
+    }
+  } catch (error) {
+    
+  }
+
+});
 
 app.get('/pedido/:id',eAdmin, async (req,res)=>{
 
@@ -1078,28 +1190,44 @@ app.get('/termos-e-condicoes',(req,res)=>{
 app.get('/cadastro',(req,res)=>{
   res.render('cadastro',{msg:false})
 })
+async function ff(){
+  try {
+    let allPayments = await payment.search({options:{criteria:'asc',sort:'date_created'}})
+    allPayments.results.forEach(p=>{
+      if(p.payer.email == 'ada@upsoft.com'){
+        console.log(p)
+      }
+    })
+    console.log(allPayments.results)
+  } catch (error) {
+    console.log(error)
+  }
+
+}
+ff()
 // GERAR UM PEDIDO, UMA ASSINATURA E PESQUISA DE CLIENTES USANDO E-MAIL TESTE RAFA@RAFA.COM SENHA 123 PRA RENDEZIRAR OS DADOS CORRETAMENTE DINAMICAMENTE DE ACORDO DE COMO ESTA VINDO NO CONSOLE.LOG QUE AINDA VOU FAZER
 app.get('/minha-conta',eAdmin,async(req,res)=>{
   try {
     if(req.user.admin == false){
       let user = await req.user
-
-      if(user.idmp == '' || user.idmp == undefined || user.idmp == null){
+console.log(user.idmp)
+   /*   if(user.idmp == '' || user.idmp == undefined || user.idmp == null){
         let nuser =await customer.create({body:{email:user.email}})
         let nj = await User.findOneAndUpdate({_id:user._id},{idmp:nuser.id},{new:true})  
-      }
+      }*/
 
  //  let tkCard =  await customerCard.list({ customerId: user.idmp });
 let allPayments = await payment.search()
-   let paymentsUser =await  customer.get({customerId:user.idmp})
-console.log(paymentsUser)
+//console.log(allPayments)
+ //*  let paymentsUser = await  customer.get({customerId:user.idmp})
+//console.log(paymentsUser)
    //   let cli =await customer.get({customerId:user.idmp})
      // let payments = await payment.search({})
       //let signatures = await preApproval.search({})
   //  console.log(signatures,'SIGNATURES')
   // const sigs = await signatures.results.filter( sig => sig.external_reference == user.cpf);
   //console.log(sigs)
-      res.render('cli/cli',{user:user, msg:false,payments:allPayments.results, publicKey:mercadoPagoPublicKey})
+      res.render('cli/cli',{user:user, msg:false,payments:allPayments.results, publicKey:mercadoPagoPublicKey, error:false})
     }else{
       res.redirect('/')
     }

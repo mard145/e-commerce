@@ -25,50 +25,52 @@
 
 			<tbody>
 		
-		<%if(user){%>
-		<%user.orders.forEach(ord=>{%>
+		<%if(payments){%>
+		<%payments.forEach(ord=>{%>
+
+			<%if(user.email == ord.payer.email){%>
 		
 				<tr class="woocommerce-orders-table__row woocommerce-orders-table__row--status-cancelled order">
 								<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Pedido">		
-									<%if(ord.order && ord.order.id){%>
-												<a href="#">#<%=ord.order.id%></a>
+									<%if(ord && ord.id){%>
+												<a href="#">#<%=ord.id%></a>
 												<%}else{%>
 													ID de pagamento não encontrado
 													<%}%>
 								</td>
 								<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Cliente">
-							<%if(ord.order.card && ord.order.card.cardholder){%>
-										<a href="#"><%=ord.order.card.cardholder.name%></a>
+							<%if(ord.card && ord.card.cardholder){%>
+										<a href="#"><%=ord.card.cardholder.name%></a>
 									<%}else{%>
 										<a href="#">Nome não encontrado</a>
 										<%}%>
 								</td>
 								<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="CPF">
-									<%if(ord.order.payer && ord.order.payer.identification){%>
-									<a href="#"><%=ord.order.payer.identification.number%></a>
+									<%if(ord.payer && ord.payer.identification){%>
+									<a href="#"><%=ord.payer.identification.number%></a>
 									<%}else{%>
 										<a href="#">CPF ou CNPJ não encontrado</a>
 										<%}%>%>
 								</td>
 
 								<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Contato">
-									<%if(ord.order.payer && ord.order.payer.phone){%>
-									<a href="#">+55<%=ord.order.payer.phone.area_code%> <%=ord.order.payer.phone.number%></a>
+									<%if(ord.payer && ord.payer.phone){%>
+									<a href="#">+55<%=ord.payer.phone.area_code%> <%=ord.payer.phone.number%></a>
 									<%}else{%>
 										<a href="#">Contato não encontrado</a>
 										<%}%>%>
 								</td>
 								<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="E-mail">
-									<%if(ord.order.payer && ord.order.payer.email){%>
+									<%if(ord.payer && ord.payer.email){%>
 
-									<a href="#"><%=ord.order.payer.email%></a>
+									<a href="#"><%=ord.payer.email%></a>
 									<%}else{%>
 										<a href="#">E-mail não encontrado</a>
 										<%}%>%>
 								</td>
 							
 								<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-date" data-title="Data">
-									<%if(ord.order.date_created){%>
+									<%if(ord.date_created){%>
 
 
 										<% 
@@ -95,7 +97,7 @@
 										%>
 
 
-												<time datetime="<%=ord.order.date_created%>"><%=formatarData(ord.order.date_created)%></time>
+												<time datetime="<%=ord.date_created%>"><%=formatarData(ord.date_created)%></time>
 												<%}else{%>
 													Data não encontrada ou não registrada
 													<%}%>
@@ -103,56 +105,56 @@
 								<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-status" data-title="Status">
 									
 
-									<%if(ord.order.status_detail == 'pending_capture' && ord.order.status != undefined){%>
-										<%=ord.order.status%>: Captura pendente
-										<%}else if(ord.order.status_detail == 'accredited' && ord.order.status != undefined){%>
-											<%=ord.order.status%>: Aprovado
-											<%}else if(ord.order.status_detail == 'cc_rejected_other_reason' && ord.order.status != undefined){%>
-												<%=ord.order.status%>: Pagamento rejeitado por alguma razão
-												<%}else if(ord.order.status_detail == 'pending_waiting_transfer' && ord.order.status != undefined){%>
-													<%=ord.order.status%>: Pendente aguardando transferência
-													<%}else if(ord.order.status_detail == 'pending_contingency' && ord.order.status != undefined){%>
-														<%=ord.order.order.status%>: O pagamento está sendo processado
-														<%}else if(ord.order.status_detail == 'pending_review_manual' && ord.order.status != undefined){%>
-															<%=ord.order.status%>: O pagamento está em análise
-															<%}else if(ord.order.status_detail == 'cc_rejected_bad_filled_date' && ord.order.status != undefined){%>
-																<%=ord.order.status%>: Data de válidade incorreta
-																<%}else if(ord.order.status_detail == 'cc_rejected_bad_filled_other' && ord.order.status != undefined){%>
-																	<%=ord.order.status%>: Detalhes incorretos do cartão
-																	<%}else if(ord.order.status_detail == 'cc_rejected_bad_filled_security_code' && ord.order.status != undefined){%>
-																		<%=ord.order.status%>: CVV incorreto
-																		<%}else if(ord.order.status_detail == 'cc_rejected_blacklist' && ord.order.status != undefined){%>
-																			<%=ord.order.status%>: O cartão está em uma lista negra(roubo/reclamações/fraude) 
-																			<%}else if(ord.order.status_detail == 'cc_rejected_call_for_authorize' && ord.order.status != undefined){%>
-																				<%=ord.order.status%>: O meio de pagamento requer autorização prévia do valor da operação
-																				<%}else if(ord.order.status_detail = 'cc_rejected_card_disabled' && ord.order.status != undefined){%>
-																					<%=ord.order.status%>: O cartão está inativo
-																					<%}else if(ord.order.status_detail == 'cc_rejected_duplicated_payment' && ord.order.status != undefined){%>
-																						<%=ord.order.status%>: Transação duplicada
-																						<%}else if(ord.order.status_detail == 'cc_rejected_high_risk' && ord.order.status != undefined){%>
-																							<%=ord.order.status%>: Rechaçado por prevenção de fraude
-																							<%}else if(ord.order.status_detail == 'cc_rejected_insufficient_amount' && ord.order.status != undefined){%>
-																								<%=ord.order.status%>: Saldo insuficiente
-																								<%}else if(ord.order.status_detail == 'cc_rejected_invalid_installments' && ord.order.status != undefined){%>
+									<%if(ord.status_detail == 'pending_capture' && ord.status != undefined){%>
+										<%=ord.status%>: Captura pendente
+										<%}else if(ord.status_detail == 'accredited' && ord.status != undefined){%>
+											<%=ord.status%>: Aprovado
+											<%}else if(ord.status_detail == 'cc_rejected_other_reason' && ord.status != undefined){%>
+												<%=ord.status%>: Pagamento rejeitado por alguma razão
+												<%}else if(ord.status_detail == 'pending_waiting_transfer' && ord.status != undefined){%>
+													<%=ord.status%>: Pendente aguardando transferência
+													<%}else if(ord.status_detail == 'pending_contingency' && ord.status != undefined){%>
+														<%=ord.status%>: O pagamento está sendo processado
+														<%}else if(ord.status_detail == 'pending_review_manual' && ord.status != undefined){%>
+															<%=ord.status%>: O pagamento está em análise
+															<%}else if(ord.status_detail == 'cc_rejected_bad_filled_date' && ord.status != undefined){%>
+																<%=ord.status%>: Data de válidade incorreta
+																<%}else if(ord.status_detail == 'cc_rejected_bad_filled_other' && ord.status != undefined){%>
+																	<%=ord.status%>: Detalhes incorretos do cartão
+																	<%}else if(ord.status_detail == 'cc_rejected_bad_filled_security_code' && ord.status != undefined){%>
+																		<%=ord.status%>: CVV incorreto
+																		<%}else if(ord.status_detail == 'cc_rejected_blacklist' && ord.status != undefined){%>
+																			<%=ord.status%>: O cartão está em uma lista negra(roubo/reclamações/fraude) 
+																			<%}else if(ord.status_detail == 'cc_rejected_call_for_authorize' && ord.status != undefined){%>
+																				<%=ord.status%>: O meio de pagamento requer autorização prévia do valor da operação
+																				<%}else if(ord.order.status_detail = 'cc_rejected_card_disabled' && ord.status != undefined){%>
+																					<%=ord.status%>: O cartão está inativo
+																					<%}else if(ord.status_detail == 'cc_rejected_duplicated_payment' && ord.status != undefined){%>
+																						<%=ord.status%>: Transação duplicada
+																						<%}else if(ord.status_detail == 'cc_rejected_high_risk' && ord.status != undefined){%>
+																							<%=ord.status%>: Rechaçado por prevenção de fraude
+																							<%}else if(ord.status_detail == 'cc_rejected_insufficient_amount' && ord.status != undefined){%>
+																								<%=ord.status%>: Saldo insuficiente
+																								<%}else if(ord.status_detail == 'cc_rejected_invalid_installments' && ord.status != undefined){%>
 																									<%=payment.status%>: Número de parcelas inválido
-																									<%}else if(ord.order.status_detail == 'cc_rejected_max_attempts' && ord.order.status != undefined){%>
-																										<%=ord.order.status%>: Número máximo de tentativas excedido
+																									<%}else if(ord.status_detail == 'cc_rejected_max_attempts' && ord.status != undefined){%>
+																										<%=ord.status%>: Número máximo de tentativas excedido
 																										<%}else{%>
 																												<%console.log('log')%>
 																											<%}%>
 												
 										</td>
 								<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-total" data-title="Total">
-												<span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"><%=ord.order.currency_id%></span>&nbsp;<%=ord.order.transaction_amount%></span>
+												<span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"><%=ord.currency_id%></span>&nbsp;<%=ord.transaction_amount%></span>
 										</td>
-										<%if(ord.order.status_detail == 'accredited' && ord.order.status != undefined){%>
+										<%if(ord.status_detail == 'accredited' && ord.status != undefined){%>
 								<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-actions" data-title="Ações">
 											<a href="#">	<button type="button" disabled  class="woocommerce-button button view">Visualizar Bag</button>	</a>											
 												</td>
 												<%}else{%>
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-actions" data-title="Ações">
 												
-											<a href="/pedido/<%=ord.order.id%>">	<button type="button"  class="woocommerce-button button view">Visualizar Bag</button>	</a>											
+											<a href="/pedido/<%=ord.id%>">	<button type="button"  class="woocommerce-button button view">Visualizar Bag</button>	</a>											
 												</td>
 													<%}%>
 						</tr>
@@ -160,10 +162,11 @@
 
 				
 
-
+<%}%>
 					
 						<%})%>
 						<%}%>	
+						
 			</tbody>
 
 

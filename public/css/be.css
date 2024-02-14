@@ -44,7 +44,7 @@ p a, p a:visited{line-height:inherit}
 
 /* Images */
 
-img.scale-with-grid,#Content img{max-width:100%;height:auto}
+img.scale-with-grid,#Content img{max-width:100%;height:250px}
 #Content .is-cropped img{height:inherit}
 .google-map img{max-width:none!important}
 iframe{max-width:100%}

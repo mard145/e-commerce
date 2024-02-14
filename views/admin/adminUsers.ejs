@@ -265,15 +265,37 @@
                           <a href="#"><%=user.email%></a>	
                               </td>
                         <td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="CPF OU CNPJ">
-                          <a href="#"><%=user.cpfcnpj%></a>
+                          <%if(user.cpfcnpj){%>
+                            <a href="#"><%=user.cpfcnpj%></a>
+
+                            <%}else{%>
+
+                              <a href="#">Adicione o seu CPF ou CNPJ</a>
+
+                              <%}%>
                               </td>
                         <td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="Contato">
-      <a href="https://wa.me/+55<%=user.phone%>?text=Atendimento%20especializado%20ielaBag" target="_blank"><%=user.phone%></a>
+
+                          <%if(user.phone){%>
+                            <a href="https://wa.me/+55<%=user.phone%>?text=Atendimento%20especializado%20ielaBag" target="_blank"><%=user.phone%></a>
+
+                            <%}else{%>
+
+                              <a href="#">Adicione o seu WhatsApp ou número</a>
+
+                              <%}%>
                              
                               </td>
 
                               <td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-status" data-title="Endereço">
-                                <a href="#"><%=user.address%></a>
+                                <%if(user.address){%>
+                                  <a href="#"><%=user.address%></a>
+      
+                                  <%}else{%>
+      
+                                    <a href="#">Adicione o seu endereço á sua conta</a>
+      
+                                    <%}%>
 
                               </td>
                       
