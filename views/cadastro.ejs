@@ -2345,13 +2345,18 @@ console.log(formData)
               })
                 .then((response) => {
 					console.log(response)
+                   
+
 				return	response.json()})
                 .then((response) => {
 					console.log(response)
 
                   // receber o resultado do pagamento
                   resolve();
-                  concluirCadastro.click()
+                  concluirCadastro.addEventListener('click',(e)=>{
+                    concluirCadastro.click()
+                    
+                  })
 
                 })
                 .catch((error) => {

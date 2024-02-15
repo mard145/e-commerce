@@ -594,9 +594,9 @@ if(userexist == null || userexist == undefined || !userexist){
  
 
  //console.log(signature)
-  res.redirect('/quiz')
+ // res.redirect('/quiz')
    } catch (error) {
-    console.log(error, 'create_signature')
+    res.render('cadastro', 'create_signature')
    }
 
 

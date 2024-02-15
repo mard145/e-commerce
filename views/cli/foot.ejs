@@ -484,6 +484,65 @@ console.log(localStorage.getItem('tokenJWT'))
   $('#tabela-dados').DataTable();
 });
 
+function nextStep(step) {
+        jQuery(`#step${step}`).removeClass('active').addClass('prev');
+        jQuery(`#step${step + 1}`).removeClass('next').addClass('active');
+
+        jQuery(`#timeline-item${step}`).removeClass('active').addClass('prev');
+        jQuery(`#timeline-item${step+1}`).removeClass('next').addClass('active');
+        // document.getElementById(`step${step}`).style.display = "none";
+        // document.getElementById(`step${step + 1}`).style.display = "block";
+    }
+
+    function previousStep(step) {
+        jQuery(`#step${step}`).removeClass('active').addClass('next');
+        jQuery(`#step${step - 1}`).removeClass('prev').addClass('active');
+
+        jQuery(`#timeline-item${step}`).removeClass('active').addClass('next');
+        jQuery(`#timeline-item${step-1}`).removeClass('prev').addClass('active');
+        // document.getElementById(`step${step}`).style.display = "none";
+        // document.getElementById(`step${step - 1}`).style.display = "block";
+    }
+
+    async function validateStep(step, btn) {
+        const spinner   = jQuery('.spinner-register'),
+            currInputs  = btn.parents('.form-wrapper').find('input'),
+            actionWrapper = btn.parent('.action-wrapper');
+            
+        actionWrapper.addClass('d-none');
+        spinner.removeClass('d-none');
+
+        // Desabilitando
+        btn.attr('disabled', true);
+        if(currInputs){
+            currInputs.each( function(i){
+                jQuery(this).attr('disabled', true);
+            });
+        }
+
+        setTimeout(() => {
+            if(step === 1){
+                validateStepOne(step);
+            } else if(step === 2){
+                validateStepTwo(step);
+            } else {
+                validateStepThree(step);
+            }
+
+            spinner.addClass('d-none');
+            btn.attr('disabled', false);
+            actionWrapper.removeClass('d-none');
+
+            if(currInputs){
+                currInputs.each( function(i){
+                    jQuery(this).attr('disabled', false);
+                });
+            }
+        }, 600);
+
+    }
+
+
 </script>
 
 
