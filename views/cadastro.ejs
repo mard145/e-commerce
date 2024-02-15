@@ -1065,15 +1065,12 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
     <div class="timeline">
         <li class="timeline-item active" id="timeline-item1">Dados de acesso</li>
         <li class="timeline-item" id="timeline-item2">Localização</li>
-        <li class="timeline-item" id="timeline-item3">Quiz</li>
-        <li class="timeline-item" id="timeline-item4">Quiz</li>
-        <li class="timeline-item" id="timeline-item5">Quiz</li>
-        <li class="timeline-item" id="timeline-item6">Quiz</li>
-        <li class="timeline-item" id="timeline-item7" style="font-size: 14px;">Confirmar cadastro</li>
+        <li class="timeline-item" id="timeline-item3" style="font-size: 14px;">Confirmar cadastro</li>
+        <li class="timeline-item" id="timeline-item4" style="font-size: 14px;">Confirmar assinatura</li>
 
     </div>
 
-    <div id="registrationForm" class="slider"  style="box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; padding: 48px;">
+    <div id="registrationForm" class="slider"  style="box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; padding: 48px;min-height: 1000px !important;">
 
         <div class="container slide active" id="step1">
             <h3 class="stepTitle">Informações Básicas</h3>
@@ -1146,10 +1143,9 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
         </div>
 
 
-        <div class="container slide next" id="step3">
+  <!--      <div class="container slide next" id="step3">
             <h3 class="stepTitle">Quiz - 1</h3>
             <div class="form-wrapper">
-                <!-- Etapa 2: Adicionar endereço, cidade e CEP -->
                 <div class="mb-3" id="" style="margin-bottom: 24px">
                     <label for="birthday">Data de nascimento *</label>
                     <input type="date" class="form-control" id="birthday" name="birthday">
@@ -1186,7 +1182,6 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
         <div class="container slide next" id="step4">
             <h3 class="stepTitle">Quiz - 2</h3>
             <div class="form-wrapper">
-                <!-- Etapa 2: Adicionar endereço, cidade e CEP -->
                 <div class="mb-3" id="" style="margin-bottom: 24px">
                     <label for="ligacao">Gostaria de receber uma ligação para discutir suas preferências e necessidades de moda? *</label>
                     <input type="text" class="form-control" id="ligacao" name="ligacao">
@@ -1231,7 +1226,6 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
                     <small id="cityHelp" class="error-feedback d-none"></small>
                 </div>
             
-                <!-- Etapa 2: Adicionar endereço, cidade e CEP -->
                 <div class="mb-3" id="" style="margin-bottom: 24px">
                     <label for="roupas_soltas">Prefere roupas mais justas ou mais soltas? *</label>
                     <input type="text" class="form-control" id="roupas_soltas" name="roupas_soltas">
@@ -1264,7 +1258,6 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
         <div class="container slide next" id="step6">
             <h3 class="stepTitle">Quiz - 4</h3>
             <div class="form-wrapper">
-                <!-- Etapa 2: Adicionar endereço, cidade e CEP -->
 
 
                 <div class="mb-3" id="" style="margin-bottom: 24px">
@@ -1301,57 +1294,9 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
                     <button type="button" class="btn btn-primary" id="confirmar6" onclick="pushDatad()">Avançar</button>
                 </div>
             </div>
-        </div>
+        </div>  
     
-        <div class="container slide next" id="step7">
-            <h3 class="stepTitle">Conclusão</h3>
-            <div class="form-wrapper" style="margin-bottom: 24px">
-                <table style="max-width: 600px; margin: auto; margin-bottom: 24px;">
-                    <tbody>
-                        <tr style="font-size: 12px;">
-                            <td style="padding: 4px !important">Nome:</td>
-                            <td style="padding: 4px !important"><b class="" id="step_user_name"></b></td>
-                        </tr>
-                        <tr style="font-size: 12px;">
-                            <td style="padding: 4px !important">Email:</td>
-                            <td style="padding: 4px !important"><b class="" id="step_user_email"></b></td>
-                        </tr>
-                        <tr style="font-size: 12px;">
-                            <td style="padding: 4px !important">Endereço:</td>
-                            <td style="padding: 4px !important"><b class="" id="step_user_address"></b></td>
-                        </tr>
-                        <tr style="font-size: 12px;">
-                            <td style="padding: 4px !important">Cidade:</td>
-                            <td style="padding: 4px !important"><b class="" id="step_user_city"></b></td>
-                        </tr>
-                        <tr style="font-size: 12px;">
-                            <td style="padding: 4px !important">CEP:</td>
-                            <td style="padding: 4px !important"><b class="" id="step_user_cep"></b></td>
-                        </tr>
-                    </tbody>
-                </table>
-    
-                <small>Após a conclusão você será redirecionada(o) para o pagamento da assinatura da bag(R$19,90). Se estiver tudo certo, clique no botão "Concluir Cadastro" abaixo.</small>
-                <div class="row" style="margin-top: 12px; margin-bottom: 24px">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="termosDeUso" name="termosDeUso">
-                        <label class="form-check-label" for="termosDeUso">
-                            Aceito os <a href="https://diretiva.tec.br/iela/termos-e-condicoes/" target="_blank">termos de uso</a>
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="politicasPrivacidade" name="politicasPrivacidade">
-                        <label class="form-check-label" for="politicasPrivacidade">
-                            Aceito as <a href="https://diretiva.tec.br/iela/politica-de-privacidade/" target="_blank">políticas de privacidade</a>
-                        </label>
-                    </div>
-                </div>
-                <small id="registerHelp" class="form-text text-muted d-none"></small>
-            </div>
-            <div class="action-wrapper">
-               
-
-                 <form action="/iela/saveUser" method="post">
+         <form action="/iela/saveUser" method="post">
                     <input type="text" id="inputName" class="d-none"  name="name">
                     <input type="text" id="inputLastName" class="d-none"  name="lastname">
 
@@ -1389,10 +1334,109 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
                     <input type="text" id="address_id" class="d-none"  name="address_id">
                     <input type="text" class="d-none" name="fotos[]" id="arf">
 
-                    <button type="button"  class="btn btn-secondary" onclick="previousStep(7)">Voltar</button>
                     <button type="submit" class="btn btn-primary" >Concluir Cadastro</button>
 
+              
+
+
                 </form>
+    
+    
+    -->
+    
+        <div class="container slide next" id="step3">
+            <h3 class="stepTitle">Conclusão</h3>
+            <div class="form-wrapper" style="margin-bottom: 24px">
+                <table style="max-width: 600px; margin: auto; margin-bottom: 24px;">
+                    <tbody>
+                        <tr style="font-size: 12px;">
+                            <td style="padding: 4px !important">Nome:</td>
+                            <td style="padding: 4px !important"><b class="" id="step_user_name"></b></td>
+                        </tr>
+                        <tr style="font-size: 12px;">
+                            <td style="padding: 4px !important">Email:</td>
+                            <td style="padding: 4px !important"><b class="" id="step_user_email"></b></td>
+                        </tr>
+                        <tr style="font-size: 12px;">
+                            <td style="padding: 4px !important">Endereço:</td>
+                            <td style="padding: 4px !important"><b class="" id="step_user_address"></b></td>
+                        </tr>
+                        <tr style="font-size: 12px;">
+                            <td style="padding: 4px !important">Cidade:</td>
+                            <td style="padding: 4px !important"><b class="" id="step_user_city"></b></td>
+                        </tr>
+                        <tr style="font-size: 12px;">
+                            <td style="padding: 4px !important">CEP:</td>
+                            <td style="padding: 4px !important"><b class="" id="step_user_cep"></b></td>
+                        </tr>
+                    </tbody>
+                </table>
+    
+                <small>Após a conclusão você será redirecionada(o) para o pagamento da assinatura da bag(R$19,90). Se estiver tudo certo, clique no botão "Concluir Cadastro" abaixo.</small>
+                <div class="row" style="margin-top: 12px; margin-bottom: 24px">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="termosDeUso" name="termosDeUso">
+                        <label class="form-check-label" for="termosDeUso">
+                            Aceito os <a href="https://ielabag.com.br/termos-e-condicoes" target="_blank">termos de uso</a>
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="politicasPrivacidade" name="politicasPrivacidade">
+                        <label class="form-check-label" for="politicasPrivacidade">
+                            Aceito as <a href="https://ielabag.com.br/iela/politica-de-privacidade" target="_blank">políticas de privacidade</a>
+                        </label>
+                    </div>
+                </div>
+                <small id="registerHelp" class="form-text text-muted d-none"></small>
+            </div>
+
+
+            <div class="action-wrapper">
+               
+      <button type="button"  class="btn btn-secondary" onclick="previousStep(3)">Voltar</button>
+    <button type="button"  class="btn btn-secondary" onclick="lfg()">Checkout</button>
+                
+            </div>
+        </div>
+
+
+          
+        <div class="container slide next" id="step4">
+            <h3 class="stepTitle">Checkout da assinatura</h3>
+            <div class="form-wrapper">
+                <div class="container" id="">
+
+                    <form action="/iela/saveUser" method="post">
+                        <input type="text" id="inputName" class="d-none"  name="name">
+                        <input type="text" id="inputLastName" class="d-none"  name="lastname">
+    
+                        <input type="email" id="inputEmail" class="d-none"  name="email">
+                        <input type="password" id="inputPassword" class="d-none" name="password">
+                        <input type="text" id="inputCep" class="d-none" name="cep">
+                        <input type="text" id="inputAddress" class="d-none" name="address">
+                        <input type="text" id="inputCity" class="d-none" name="city">
+                        <input type="text" id="inputState" class="d-none" name="state">
+                        <input type="text" id="inputCountry" class="d-none" value="Brasil" name="country">
+    
+                   
+    
+    
+                        <input type="text" id="inputBairro" class="d-none"  name="bairro">
+                        <input type="text" id="inputPhone" class="d-none"  name="phone">
+                        <input type="text" id="address_id" class="d-none"  name="address_id">
+                        <input type="text" class="d-none" name="fotos[]" id="arf">
+    
+                        <button type="submit" class="btn btn-primary d-none" id="concluirCadastro" >Concluir Cadastro</button>
+    
+                  
+    
+    
+                    </form>
+                   
+                        <div style="margin-bottom: 30px;" id="paymentBrick_container"></div>
+                
+                    
+                </div>
             </div>
         </div>
 
@@ -2170,6 +2214,171 @@ var mfn = {"mobileInit":"1240","parallax":"stellar","responsive":"1","sidebarSti
 <script type="text/javascript" src="js/woocommerce.js" id="mfn-woojs-js"></script>
 <script type="text/javascript" src="js/wpp.js" id="qlwapp-js"></script>
 
+
+
+
+<script src="https://sdk.mercadopago.com/js/v2"></script>
+<input type="hidden" id="pKey" value="<%=publicKey%>">
+
+<script>
+	const pKeyy = document.getElementById('pKey').value
+    let user_emaik = document.getElementById('user_email')
+    const concluirCadastro = document.getElementById('concluirCadastro')
+    let gh = []
+ async function lfg(){
+await gh.push(user_emaik.value)
+nextStep(3)
+ }
+	/*const name = document.getElementById('billing_first_name')
+	const lastname = document.getElementById('billing_last_name')
+	const cpf = document.getElementById('billing_cpf')
+	const address = document.getElementById('billing_address_1')
+	const street_number = document.getElementById('billing_number')
+	const cep = document.getElementById('billing_postcode')
+	const bairro = document.getElementById('billing_neighborhood')
+	const city = document.getElementById('billing_city')
+	const state = document.getElementById('billing_state')
+	const phone = document.getElementById('billing_phone')
+	const whatsapp = document.getElementById('billing_cellphone')
+	const email = document.getElementById('billing_email')
+	const totalAmount = document.getElementById('total')*/
+	const mpp = new MercadoPago(pKeyy,{
+    locale: 'pt-BR'
+  });
+	const bricksBuilder1 = mpp.bricks();
+    const renderPaymentBrick1 = async (bricksBuilder1) => {
+      const settings1 = {
+        initialization: {
+          /*
+            "amount" é a quantia total a pagar por todos os meios de pagamento com exceção da Conta Mercado Pago e Parcelas sem cartão de crédito, que têm seus valores de processamento determinados no backend através do "preferenceId"
+          */
+          amount: 10000,
+          preferenceId: "123",
+          payer: {
+            firstName: "",
+            lastName: "",
+            email: ``,
+			phone:{
+				area_code:"55",
+				number:""
+			}
+          },
+		 
+		},
+		
+        customization: {
+          visual: {
+            style: {
+              theme: "bootstrap",
+			  customVariables:{
+				formBackgroundColor:'pink'
+			  }
+            },
+          },
+          paymentMethods: {
+            creditCard: "all",
+										atm: "all",
+            maxInstallments: 1
+          },
+        },
+        callbacks: {
+          onReady: () => {
+            console.log('bricks iniciado')
+            /*
+             Callback chamado quando o Brick está pronto.
+             Aqui, você pode ocultar seu site, por exemplo.
+            */
+          },
+          onSubmit:async ({ selectedPaymentMethod, formData}) => {
+            try {
+				// callback chamado quando há click no botão de envio de dados
+
+
+formData.transaction_amount = 19.90;
+//formData.payer_email = formData.payer_email
+formData.email = await formData.email
+
+		/*	formData.name = await name.value;
+			formData.address = await address.value;
+			formData.phone = await phone.value;
+			formData.city = await city.value;
+			formData.bairro = await bairro.value;
+			formData.whatsapp = await whatsapp.value;
+			formData.cep = await cep.value;
+			formData.street_number = await street_number.value;
+			formData.state = await state.value; 
+		
+			formData.description = await 'Assinatura IelaBag'
+			formData.payer.phone = await {
+				area_code:'55',
+				number:phone.value
+			}
+		formData.items = await cartData
+			formData.payer.first_name= await name.value
+			formData.payer.last_name = await lastname.value*/
+			formData.token = await formData.token
+		//	console.log(formData.card_token_id)
+		//	formData.card_token_id = formData.card_token_id
+			formData.method = await selectedPaymentMethod
+			//formData.payer.phone.area_code = await '84'
+			//formData.payer.identification.number = await cpf.value
+			//formData.payer.identification.type = await 'CPF'
+
+/*formData.cpf = await cpf.value*/
+
+
+
+
+			//formData.payer.phone.area_code = await '84'
+			//formData.payer.identification.number = await cpf.value
+			//formData.payer.identification.type = await 'CPF'
+
+
+console.log(formData)
+            return new Promise((resolve, reject) => {
+              fetch("/create_signature", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+              })
+                .then((response) => {
+					console.log(response)
+				return	response.json()})
+                .then((response) => {
+					console.log(response)
+
+                  // receber o resultado do pagamento
+                  resolve();
+                  concluirCadastro.click()
+
+                })
+                .catch((error) => {
+					console.log(error)
+                  // manejar a resposta de erro ao tentar criar um pagamento
+                  reject();
+                });
+            });
+			} catch (error) {
+				console.log(error)
+			}
+          },
+          onError: (error) => {
+            // callback chamado para todos os casos de erro do Brick
+            console.error(error);
+          },
+        },
+      };
+      window.paymentBrickController = await bricksBuilder1.create(
+        "payment",
+        "paymentBrick_container",
+        settings1
+      );
+    };
+    renderPaymentBrick1(bricksBuilder1);
+
+  </script>
 
 
 </body>

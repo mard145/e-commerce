@@ -502,11 +502,11 @@ app.post('/create_signaturePlan',async(req,res)=>{
 
 })
 
-app.post('/create_signature', eAdmin,async(req,res)=>{
+app.post('/create_signature',async(req,res)=>{
   try {
     let user = req.user
     
-    let { transaction_amount, payer_email, email, cpf, name, address, city, state, country, cep,phone, method, token} = await req.body;
+    let { transaction_amount, payer_email, email, cpf, name, address, city, state, country, cep,phone, method, token,payer} = await req.body;
    // let token = await req.body.token
     console.log(token)
     console.log(req.body)
@@ -531,7 +531,7 @@ console.log('Data Futura (2 dias depois):', dataFuturaFormatada);
   back_url: "https://www.ielabag.com.br",
 
       reason: 'IelaBag assinatura',
-      //external_reference:external_reference,
+      external_reference:payer.identification.number,
      // token:token,
       auto_recurring: {
         frequency: 1,
