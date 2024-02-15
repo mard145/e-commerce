@@ -1714,6 +1714,76 @@ app.post('/iela/saveUser', async (req,res)=>{
  
 })
 
+app.post('/iela/quiz',eAdmin, async (req,res)=>{
+
+  try {
+    
+    let {birthday, profissao, civil_state, social_network, onde_conheceu, ligacao, oqbusca, favoinfluencers, tamanho, altura, peso, roupas_soltas, gosta_acessorios, interesse, manter_estilo, comquemmora, portaria, tempet, detalhe_especifico, fotos,email} = await req.body
+    console.log(await req.body)
+    const userExists = await User.findOne({$or: [{email: email}]})
+    console.log(userExists)
+    if (userExists != null || userExists != undefined || userExists) {
+    
+   let userr = await  User.findByIdAndUpdate({_id:userExists._id},{
+  
+   // idmp : cust.id,
+  
+   
+    birthday:birthday,
+    profissao:profissao,
+    civil_state:civil_state,
+    social_network:social_network,
+    onde_conheceu:onde_conheceu,
+    ligacao:ligacao,
+    oqbusca:oqbusca,
+    favoinfluencers:favoinfluencers,
+    tamanho:tamanho,
+    altura:altura,
+    peso:peso,
+    roupas_soltas:roupas_soltas,
+    gosta_acessorios:gosta_acessorios,
+    interesse:interesse,
+    manter_estilo:manter_estilo,
+    comquemmora:comquemmora,
+    portaria:portaria,
+    tempet:tempet,
+    detalhe_especifico:detalhe_especifico,
+    fotos:fotos
+  //  external_reference:cust.external_reference
+  },{new:true})
+// await user.save()
+ console.log('usuário e o quiz atualizado')
+     res.redirect('/minha-conta')
+      try {
+          const items = await User.find({})
+            .sort({ createdAt: 1 }); // Ordena em ordem crescente por createdAt
+        
+          // Atribuir valores numéricos com base na ordem
+          items.forEach((item, index) => {
+            item.rank = index + 1; // +1 porque os índices começam em 0
+          });
+        
+          // Salvar os documentos atualizados
+          await Promise.all(items.map((item) => item.save()));
+        
+          console.log('Documentos atualizados com sucesso.');
+        } catch (error) {
+          console.error('Erro ao atualizar documentos:', error);
+        }
+   }else{
+     res.status(403).send('E-mail não existe')
+   }     
+
+  
+
+
+ 
+  } catch (error) {
+    console.log(error)
+  }
+ 
+})
+
 app.post('/iela/check-email',async (req,res)=>{
 
   try {

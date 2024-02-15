@@ -157,7 +157,7 @@
 
             <div class="mb-3" id="" style="margin-bottom: 24px">
                 <label for="detalhe_especifico">Envie fotos suas.: Nenhum arquivo escolhido (OPCIONAL)</label>
-                <input type="file" id="fileInput" name="fotos" multiple onchange="handleFileSelectGlobal(this)">
+                <input type="file" id="fileInput" name="fotos" multiple onchange="handleFileSelectGloball(this)">
                 <small id="cityHelp" class="error-feedback d-none"></small>    
                 <div id="imagePreviewContainer">         </div>            
             </div>
@@ -170,19 +170,10 @@
         </div>
     </div>  
 
-     <form action="/iela/saveUser" method="post">
-                <input type="text" id="inputName" class="d-none"  name="name">
-                <input type="text" id="inputLastName" class="d-none"  name="lastname">
+     <form action="/iela/quiz" method="post">
+             
 
-                <input type="email" id="inputEmail" class="d-none"  name="email">
-                <input type="password" id="inputPassword" class="d-none" name="password">
-                <input type="text" id="inputCep" class="d-none" name="cep">
-                <input type="text" id="inputAddress" class="d-none" name="address">
-                <input type="text" id="inputCity" class="d-none" name="city">
-                <input type="text" id="inputState" class="d-none" name="state">
-                <input type="text" id="inputCountry" class="d-none" value="Brasil" name="country">
-
-                <input type="date" class="form-control d-none" id="birthday1" name="birthday">
+               <input type="date" class="form-control d-none" id="birthday1" name="birthday">
                 <input type="text" class="form-control d-none" id="profissao1" name="profissao">
                 <input type="text" class="form-control d-none" id="estado_civil1" name="civil_state">
                 <input type="text" class="form-control d-none" id="rede_social1" name="social_network">
@@ -201,14 +192,13 @@
                 <input type="text" class="form-control d-none" id="portaria1" name="portaria">
                 <input type="text" class="form-control d-none" id="tempet1" name="tempet">
                 <input type="text" class="form-control d-none" id="detalhe_especifico1" name="detalhe_especifico">
+                <input type="text" class="form-control d-none" id="emaill" value="<%=user.email%>" name="email">
 
 
-                <input type="text" id="inputBairro" class="d-none"  name="bairro">
-                <input type="text" id="inputPhone" class="d-none"  name="phone">
-                <input type="text" id="address_id" class="d-none"  name="address_id">
+             
                 <input type="text" class="d-none" name="fotos[]" id="arf">
 
-                <button type="submit" class="btn btn-primary d-none" >Concluir</button>
+                <button type="submit" class="btn btn-primary d-none" id="job">Concluir</button>
 
           
 
@@ -260,7 +250,7 @@ const tempet = document.getElementById('tempet')
 const detalhe_especifico1 = document.getElementById('detalhe_especifico1')
 const detalhe_especifico = document.getElementById('detalhe_especifico')
 const confirmar6 = document.getElementById('confirmar6')
-
+const job = document.getElementById('job')
 
 function pushDatad(){
     birthday1.value = birthday.value
@@ -284,7 +274,7 @@ function pushDatad(){
     detalhe_especifico1.value = detalhe_especifico.value
 
     confirmar6.click()
-
+    job.click()
 }
 </script>
 </div>

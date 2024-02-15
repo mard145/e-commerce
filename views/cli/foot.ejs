@@ -387,6 +387,51 @@
     </script>
 
 <script>
+function handleFileSelectGloball(element) {
+    const fileInput = element;
+    const id = fileInput.id; // Obtém o ID do elemento input
+    const imagePreview = document.getElementById(`imagePreview${id}`);
+    let arf = document.getElementById('arf')
+    // Cria o contêiner para as fotos se não existir
+    let fotosContainer = document.getElementById(`${id}Container`);
+    if (!fotosContainer) {
+        fotosContainer = document.createElement('div');
+        fotosContainer.id = `${id}Container`;
+        document.body.appendChild(fotosContainer); // Adiciona o contêiner ao final do body
+    }
+
+    const files = fileInput.files;
+
+    if (files.length > 0) {
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const base64String = e.target.result;
+
+                // Exibindo a imagem
+                const img = document.createElement('img');
+                img.src = base64String;
+
+                // Criar um input hidden para cada imagem e armazenar a base64
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = `foto${i+1}`;
+                input.value = base64String;
+                arf.value = base64String
+                console.log(arf.value, input.value)
+                // Adicionar a imagem e o input ao contêiner
+                fotosContainer.appendChild(img);
+                fotosContainer.appendChild(input);
+            };
+
+            reader.readAsDataURL(file);
+        }
+    }
+}
+
+
     function handleFileSelectf() {
       const fileInput = document.getElementById('fileInput');
       const imagePreview = document.getElementById('imagePreview');
