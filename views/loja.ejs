@@ -1470,10 +1470,18 @@ width: 100%;
 										</div>
 										
 										<div id="paymentBrick_container"></div>
-										<div id="rr" style="background-color: pink;padding: 40px;display: none;">
-											<p><b>ID: </b><span id="payment-id"></span></p>
-											<p><b>Status: </b><span id="payment-status"></span></p>
-											<p><b>Detail: </b><span id="payment-detail"></span></p>
+										<div id="rr" style="display: none;
+										z-index: 1; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color:black;border-radius: 30px; ">
+																				<img id="imgt" style="width: 80px;height: 80px;border-radius: 50%;"  alt="">
+				
+										<div style=" margin: 15% auto;
+										padding: 20px;
+										border: 1px solid #888;
+										width: 80%;margin-bottom: 35px;">
+											<p><b></b><span style="font-size: 19px;font-weight: 800;color:wheat" id="payment-id"></span></p>
+											<p><b></b><span style="font-size: 19px;font-weight: 800;color:wheat" id="payment-status"></span></p>
+											<p><b> </b><span style="font-size: 19px;font-weight: 800;color:wheat" id="payment-detail"></span></p>
+										</div>
 										</div>
 												</div>
 												</div>
@@ -2345,6 +2353,7 @@ console.log(formData)
 	const sttus = document.getElementById('payment-status')
 	const paymentDetail = document.getElementById('payment-detail')
 	const rr = document.getElementById('rr')
+	const imgt = document.getElementById('imgt')
 
 	const mp = new MercadoPago(pKey,{
     locale: 'pt-BR'
@@ -2451,7 +2460,7 @@ console.log(formData,formData.payer)
                   // receber o resultado do pagamento
                   resolve()
 				  console.log(ord,resolve())
-
+imgt.src = 'https://i.pinimg.com/originals/4a/10/e3/4a10e39ee8325a06daf00881ac321b2f.gif'
 				 $('#rr').fadeIn(2000, ()=>{
 					$('#rr').fadeOut(4000)
 				 })
@@ -2535,6 +2544,12 @@ if(ord.data4.status_detail == 'pending_capture' && ord.data4.status != undefined
                   // manejar a resposta de erro ao tentar criar um pagamento
 				  console.log(reject(),' reject')
                   reject();
+				  sttus.textContent = 'Algo inesperado aconteceu'
+              paymentDetail.textContent = 'Pagamento não processado, verifique o cartão ou entre em contato com o seu banco'
+              imgt.src = 'https://assets-v2.lottiefiles.com/a/b8f87412-1153-11ee-ab31-87d0da2780fa/VHL7JyqgfN.gif'
+                  jQuery('#rr').fadeIn(2000, ()=>{
+                                jQuery('#rr').fadeOut(9000)
+				 })
                 });
             });
 			} catch (error) {
