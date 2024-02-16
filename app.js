@@ -558,7 +558,7 @@ console.log('Data Futura (2 dias depois):', dataFuturaFormatada);
     console.log(signatureData)
 
  let signature = await preApproval.create({body:signatureData})
- 
+ let data4 = signature
  console.log(signature,'3333333')
  const userexist = await User.findOne({$or: [{payer_id: signature.payer_id}]})
 
@@ -590,13 +590,16 @@ if(userexist == null || userexist == undefined || !userexist){
       console.log('payer_id atualizado')
       res.redirect('/')
     }
+    res.status(200).send({data4})
 }
  
 
  //console.log(signature)
  // res.redirect('/quiz')
    } catch (error) {
-    res.render('cadastro', 'create_signature')
+   let data4 = error
+    res.status(401).send(data4)
+   console.log(error)
    }
 
 
@@ -756,7 +759,7 @@ app.post('/process_payment',eAdmin, async (req,res)=>{
     let srt_number = parseInt(street_number)
     console.log(payer,items)
     console.log(req.body)
-   let passnew = await uuidv4()
+  // let passnew = await uuidv4()
     const timestamp = Date.now();
     const stringTimestamp = timestamp.toString();
     //let stringSemEspacosEHifens = cep.replace(/[\s-]/g, "");
@@ -839,9 +842,9 @@ console.log(data2, ' DATA 22222222222222222222')
   // console.log(usr)
   // console.log(data,' <- pagamento criado' )
   if(user.admin ==true){
-    res.redirect('/admin')
+    res.status(200).send({data2})
   }else{
-    res.redirect('/minha-conta')
+    res.status(200).send({data2})
   }
   })
   .catch(function (error) {
@@ -898,9 +901,9 @@ console.log(data2, ' DATA 22222222222222222222')
  let usr0 = await User.findByIdAndUpdate({_id:newUser1._id},{idmp:data1.id},{new:true})
  //atualizarPedidosPendentes()
  if(user.admin ==true){
-  res.redirect('/admin')
+  res.status(200).send({data1})
 }else{
-  res.redirect('/minha-conta')
+  res.status(200).send({data1})
 }
 
 }
@@ -925,13 +928,14 @@ console.log(data2, ' DATA 22222222222222222222')
   console.log(dataPayment, 'datapaymeeeeeeeeeent')
   //atualizarPedidosPendentes()
  if(user.admin ==true){
-  res.redirect('/admin')
+  res.status(200).send({dataPayment})
 }else{
-  res.redirect('/minha-conta')
+  res.status(200).send({dataPayment})
 }
     })
     .catch(function (error) {
       console.log(error);
+
   //    const { errorMessage, errorStatus } = validateError(error);
       res.json({ error });
     });
@@ -971,9 +975,9 @@ await order3.save()
 // atualizarPedidosPendentes()
 
  if(user.admin ==true){
-  res.redirect('/admin')
+  res.status(200).send({data4})
 }else{
-  res.redirect('/minha-conta')
+  res.status(200).send({data4})
 }
   })
 
@@ -989,6 +993,7 @@ await order3.save()
      // res.redirect('/quiz')
    } catch (error) {
     console.log(error)
+    res.json({error})
    }
 
 })

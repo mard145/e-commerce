@@ -1782,8 +1782,13 @@ width: 100%;
 										
 											
 											</div>
+											
 											<div id="paymentBrick_container"></div>
-					
+											<div id="rr" style="background-color: pink;padding: 40px;display: none;">
+												<p><b>ID: </b><span id="payment-id"></span></p>
+												<p><b>Status: </b><span id="payment-status"></span></p>
+												<p><b>Detail: </b><span id="payment-detail"></span></p>
+											</div>
 													</div>
 													</div>
 										
@@ -2097,6 +2102,10 @@ width: 100%;
 
 <script>
 	const pKeyy = document.getElementById('pKey').value
+	const paymentID= document.getElementById('payment-id')
+	const sttus = document.getElementById('payment-status')
+	const paymentDetail = document.getElementById('payment-detail')
+	const rr = document.getElementById('rr')
 	/*const name = document.getElementById('billing_first_name')
 	const lastname = document.getElementById('billing_last_name')
 	const cpf = document.getElementById('billing_cpf')
@@ -2151,6 +2160,7 @@ width: 100%;
         },
         callbacks: {
           onReady: () => {
+			console.log('bricks')
             /*
              Callback chamado quando o Brick está pronto.
              Aqui, você pode ocultar seu site, por exemplo.
@@ -2221,15 +2231,112 @@ console.log(formData)
                 .then((response) => {
 					console.log(response)
 				return	response.json()})
-                .then((response) => {
-					console.log(response)
+                .then((ord) => {
+					console.log(ord)
+					console.log(ord.data4.status_detail, '2')
+                     paymentID.textContent = ord.data4.id
+
+
+						
+                  // receber o resultado do pagamento
+                  resolve()
+				  console.log(ord,resolve())
+
+				 $('#rr').fadeIn(3000, ()=>{
+					$('#rr').fadeOut(4000)
+				 })
+if(ord.data4.status_detail == 'pending_capture' && ord.data4.status != undefined){
+	paymentDetail.textContent = ` Pagamento pendente de captura, Logue na sua conta e verifique sua Bag`
+	sttus.textContent = `${ord.data4.status}`
+										}else if(ord.data4.status_detail == 'accredited' && ord.data4.status != undefined){
+											paymentDetail.textContent = `Pagamento creditado ou debitado`
+											sttus.textContent = `${ord.data4.status}`
+
+											}else if(ord.data4.status_detail == 'cc_rejected_other_reason' && ord.data4.status != undefined){
+												paymentDetail.textContent = `Cartão de crédito rejeitado, tente outro cartão`
+												sttus.textContent = `${ord.data4.status}`
+
+												}else if(ord.data4.status_detail == 'pending_waiting_transfer' && ord.data4.status != undefined){
+													paymentDetail.textContent = `Pendente aguardando transferência`
+													sttus.textContent = `${ord.data4.status}`
+
+													}else if(ord.data4.status_detail == 'pending_contingency' && ord.data4.status != undefined){
+														paymentDetail.textContent = `Contingência pendente`
+														sttus.textContent = `${ord.data4.status}`
+
+														}else if(ord.data4.status_detail == 'pending_review_manual' && ord.data4.status != undefined){
+															paymentDetail.textContent = `Pendente aguardando revisão manual`
+															sttus.textContent = `${ord.data4.status}`
+
+															}else if(ord.data4.status_detail == 'cc_rejected_bad_filled_date' && ord.data4.status != undefined){
+																paymentDetail.textContent = `Data mal preenchida`
+																sttus.textContent = `${ord.data4.status}`
+
+																}else if(ord.data4.status_detail == 'cc_rejected_bad_filled_other' && ord.data4.status != undefined){
+																	paymentDetail.textContent = `Alguma informação não preenchida`
+																	sttus.textContent = `${ord.data4.status}`
+
+																	}else if(ord.data4.status_detail == 'cc_rejected_bad_filled_security_code' && ord.data4.status != undefined){
+																		paymentDetail.textContent = `CVV não Preenchido`
+																		sttus.textContent = `${ord.data4.status}`
+
+																		}else if(ord.data4.status_detail == 'cc_rejected_blacklist' && ord.data4.status != undefined){
+																			paymentDetail.textContent = `O Cartão está em uma lista negra (Relamações, Roubo ou Fraude)` 
+																			sttus.textContent = `${ord.data4.status}`
+
+																			}else if(ord.data4.status_detail == 'cc_rejected_call_for_authorize' && ord.data4.status != undefined){
+																				paymentDetail.textContent = `O meio de pagamento requer autorização prévia do valor da operação`
+																				sttus.textContent = `${ord.data4.status}`
+
+																				}else if(ord.order.data4.status_detail = 'cc_rejected_card_disabled' && ord.data4.status != undefined){
+																					paymentDetail.textContent = `O cartão está inattivo`
+																					sttus.textContent = `${ord.data4.status}`
+
+																					}else if(ord.data4.status_detail == 'cc_rejected_duplicated_payment' && ord.data4.status != undefined){
+																						paymentDetail.textContent = `Pagamento duplicado`
+																						sttus.textContent = `${ord.data4.status}`
+
+																						}else if(ord.data4.status_detail == 'cc_rejected_high_risk' && ord.data4.status != undefined){
+																							paymentDetail.textContent = `Rechaçado por prevenção de fraude`
+																							sttus.textContent = `${ord.data4.status}`
+
+																							}else if(ord.data4.status_detail == 'cc_rejected_insufficient_amount' && ord.data4.status != undefined){
+																								paymentDetail.textContent = `Saldo insuficiente`
+																								sttus.textContent = `${ord.data4.status}`
+
+																								}else if(ord.data4.status_detail == 'cc_rejected_invalid_installments' && ord.data4.status != undefined){
+																									paymentDetail.textContent = `Número de parcelas inválido`
+																									sttus.textContent = `${ord.data4.status}`
+
+																									}else if(ord.data4.status_detail == 'cc_rejected_max_attempts' && ord.data4.status != undefined){
+																										paymentDetail.textContent =`Número máximo de tentatiivas excedido`
+																										sttus.textContent = `${ord.data4.status}`
+
+																										}else if(ord.data4.status_detail = 'pending_review_manual' && ord.data4.status != undefined){
+																											paymentDetail.textContent =`Pendente, aguardando revisão manual`
+																											sttus.textContent = `${ord.data4.status}`
+
+																											}else{
+																												console.log('log')
+																											}
+			
                   // receber o resultado do pagamento
                   resolve();
                 })
                 .catch((error) => {
 					console.log(error)
+				
                   // manejar a resposta de erro ao tentar criar um pagamento
                   reject();
+
+				  rr.innerHTML = `
+				  <div id="rr" style="background-color: pink;padding: 40px;display: none;">
+												<p><b></b><span id="payment-id"></span></p>
+												<p><b>Status: </b><span id="payment-status">${error.message.code}</span></p>
+												<p><b>Detail: </b><span id="payment-detail">${error.message.message}</span></p>
+											</div>
+				 
+				  `
                 });
             });
 			} catch (error) {
