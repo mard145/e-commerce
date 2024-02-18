@@ -75,8 +75,9 @@
 								            </td>
 											<td class="woocommerce-orders-table__cell woocommerce-orders-table__cell-order-number" data-title="CPF">
 												<a href="#">
-												<%if(payment.payer && payment.payer.identification){%>
-													<%=payment.payer.identification.number%>	
+												<%if(payment.metadata && payment.external_reference && payment.external_reference != 'Recurring payment validation'){%>
+													<%console.log(payment.external_reference)%>
+													<%=payment.metadata.cpfcnpj%>	
 												   <%}else{%>
 														<span>CPF ou CNPJ do cliente não encontrado</span>
 														<%}%>

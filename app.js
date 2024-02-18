@@ -24,7 +24,7 @@ const passportJWT = require('passport-jwt');
 const { v4: uuidv4 } = require('uuid');
 var MongoDBStore = require('connect-mongodb-session')(session);
 var store = new MongoDBStore({
-  uri:process.env.ATLAS,
+  uri:process.env.MONGO_ATLAS,
   collection: 'mySessions'
 });
 
@@ -95,7 +95,7 @@ passport.use(
 //const pix = require('qrcode-pix')
 //const multer = require('multer'); // Biblioteca para lidar com uploads de arquivoss
 // const sharp = require('sharp')
-mongoose.connect(process.env.ATLAS).then(()=>{
+mongoose.connect(process.env.MONGO_ATLAS).then(()=>{
       console.log('mongo connected')
   }).catch(err=>{
       console.log(err)
@@ -122,7 +122,7 @@ let { MercadoPagoConfig, Payment, Customer, MerchantOrder,PreApproval, PreApprov
 
 
 // Step 2: Initialize the client object
-const client = new MercadoPagoConfig({ accessToken: 'APP_USR-8465818122170980-021414-531906acb8c584f7055bb62aaad6d5a0-1657660352'});
+const client = new MercadoPagoConfig({ accessToken: 'APP_USR-955688774459853-113016-145d77390e1fd0b164b1b6b9acf35dfa-1058457871'});
 
 // Step 3: Initialize the API object
 
@@ -133,7 +133,7 @@ const preApproval = new PreApproval(client)
 const preApprovalPlan = new PreApprovalPlan(client)
 const customerCard = new CustomerCard(client)
 const cardToken = new CardToken(client)
-const mercadoPagoPublicKey = 'APP_USR-2c8c4c15-a7f3-45ab-919b-0e1e2f269de8';
+const mercadoPagoPublicKey =  'APP_USR-2e98936f-5deb-4e1c-9d44-03aa004d34aa';
 if (!mercadoPagoPublicKey) {
   console.log("Error: public key not defined");
   process.exit(1);
@@ -582,13 +582,13 @@ if(userexist == null || userexist == undefined || !userexist){
         })
         await newuser.save()
         console.log('usuario salvo mediante assinatura sem plano associado')
-        res.redirect('/')
+      //  res.redirect('/')
     }else{
       await User.findByIdAndUpdate({_id:usrexist._id},{
         payer_id:signature.payer_id
       },{new:true})
       console.log('payer_id atualizado')
-      res.redirect('/')
+   //   res.status(200).send({data4})
     }
     res.status(200).send({data4})
 }
@@ -598,7 +598,7 @@ if(userexist == null || userexist == undefined || !userexist){
  // res.redirect('/quiz')
    } catch (error) {
    let data4 = error
-    res.status(401).send(data4)
+    res.status(401).send({data4})
    console.log(error)
    }
 
