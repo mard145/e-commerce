@@ -22,9 +22,10 @@ const Signature = require('./models/Signature')
 const Order = require('./models/Order')
 const passportJWT = require('passport-jwt');
 const { v4: uuidv4 } = require('uuid');
-var MongoDBStore = require('connect-mongodb-session')(session);
-var store = new MongoDBStore({
-  uri:process.env.MONGO_ATLAS,
+//var MongoDBStore = require('connect-mongodb-session')(session);
+
+/*var store = new MongoDBStore({
+  uri:process.env.ATLAS,
   collection: 'mySessions'
 });
 
@@ -32,7 +33,7 @@ var store = new MongoDBStore({
 store.on('error', function(error) {
   console.log(error);
 });
-
+*/
 const nodemailer = require('nodemailer')
 
 const transporter = nodemailer.createTransport({
@@ -59,7 +60,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser())
-app.use(require('express-session')({
+/*app.use(require('express-session')({
   secret: tokenSecret,
   cookie: {
     maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
@@ -70,7 +71,7 @@ app.use(require('express-session')({
   // * https://www.npmjs.com/package/express-session#saveuninitialized
   resave: true,
   saveUninitialized: true
-}));
+}));*/
 // Configuração do Passport e estratégia JWT
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -95,7 +96,7 @@ passport.use(
 //const pix = require('qrcode-pix')
 //const multer = require('multer'); // Biblioteca para lidar com uploads de arquivoss
 // const sharp = require('sharp')
-mongoose.connect(process.env.MONGO_ATLAS).then(()=>{
+mongoose.connect(process.env.ATLAS).then(()=>{
       console.log('mongo connected')
   }).catch(err=>{
       console.log(err)
@@ -117,12 +118,25 @@ mongoose.connect(process.env.MONGO_ATLAS).then(()=>{
 const axios = require('axios')
 const {CronJob} = require('cron')
 
+const MemoryStore = require('memorystore')(session)
+
+app.use(session({
+    cookie: { maxAge: 86400000 },
+    store: new MemoryStore({
+      checkPeriod: 86400000 // prune expired entries every 24h
+    }),
+    resave: true,
+    saveUninitialized: true,
+    secret: process.env.TOKEN_SECRET
+}))
 
 let { MercadoPagoConfig, Payment, Customer, MerchantOrder,PreApproval, PreApprovalPlan, CustomerCard , CardToken } = require('mercadopago');
 
 
 // Step 2: Initialize the client object
-const client = new MercadoPagoConfig({ accessToken: 'APP_USR-955688774459853-113016-145d77390e1fd0b164b1b6b9acf35dfa-1058457871'});
+const client = new MercadoPagoConfig({ accessToken: process.env.ACCESS_TOKEN_PRODUCTION});
+const clientSignature = new MercadoPagoConfig({ accessToken: process.env.ACCESS_TOKEN_SIGNATURE});
+
 
 // Step 3: Initialize the API object
 
@@ -130,11 +144,19 @@ const payment = new Payment(client)
 const customer = new Customer(client)
 const merchantOrder = new MerchantOrder(client)
 const preApproval = new PreApproval(client) 
+const sigPreApproval = new PreApproval(clientSignature)
 const preApprovalPlan = new PreApprovalPlan(client)
 const customerCard = new CustomerCard(client)
 const cardToken = new CardToken(client)
-const mercadoPagoPublicKey =  'APP_USR-2e98936f-5deb-4e1c-9d44-03aa004d34aa';
+const mercadoPagoPublicKey =  process.env.PUBLIC_KEY_PRODUCTION;
+
 if (!mercadoPagoPublicKey) {
+  console.log("Error: public key not defined");
+  process.exit(1);
+}
+
+const mercadoPagoPublicKeySignature = process.env.PUBLIC_KEY_SIGNATURE;
+if (!mercadoPagoPublicKeySignature) {
   console.log("Error: public key not defined");
   process.exit(1);
 }
@@ -246,12 +268,29 @@ const { truncate } = require('fs/promises')
 //const Cart = require('cestino')
 app.use(cors())
 app.use(express.static(path.join(__dirname,'public')))
+//app.use('./pedido',express.static(path.join(__dirname,'public')))
+
 
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname,'views'))
 app.use(express.json({limit: '100mb'}))
 app.use(express.urlencoded({extended:true,limit: '100mb'}))
 app.use(methodOverride('_method'))
+
+/*function redirecionarSeRotaNaoExiste(req, res, next) {
+  console.log(req.route)
+  // Verifica se a rota original não existe
+  if (!req.route) {
+      // Redireciona para a rota específica
+       res.redirect('/');
+  }
+  // Continua com o próximo middleware
+  next();
+}
+
+// Adiciona o middleware para todas as solicitações
+app.use(redirecionarSeRotaNaoExiste);*/
+
 
 app.post('/resetPassword', eAdmin,async (req,res)=>{
 
@@ -354,13 +393,25 @@ try {
   if(!id){
    id = await  req.params.id
    // console.log(_id,'PARAMS')
+
   } 
+
+  if(user.admin == true){
  // let pedido  = await Order.findOne({'order.id':id})
   //console.log(pedido, _id, await req.body, 'PEDIDO')
 
   let cards = await customerCard.list({ customerId: user.idmp })
 	//console.log(cards, 'CARDS')
-  res.render( './cli/parcial', {pedido:id, user:user, cards:cards, publicKey:mercadoPagoPublicKey,msg:false})
+  res.render( '/admin/parcial', {pedido:id, user:user, cards:cards, publicKey:mercadoPagoPublicKey})
+  }else{
+ // let pedido  = await Order.findOne({'order.id':id})
+  //console.log(pedido, _id, await req.body, 'PEDIDO')
+
+  let cards = await customerCard.list({ customerId: user.idmp })
+	//console.log(cards, 'CARDS')
+  res.render( './cli/parcial', {pedido:id, user:user, cards:cards, publicKey:mercadoPagoPublicKey})
+  }
+
 } catch (error) {
   console.log(error)
 }
@@ -458,7 +509,6 @@ if(user.admin == true){
   
 })
 
-
 app.post('/create_signaturePlan',async(req,res)=>{
   try {
     let user = req.user
@@ -506,7 +556,7 @@ app.post('/create_signature',async(req,res)=>{
   try {
     let user = req.user
     
-    let { transaction_amount, payer_email, email, cpf, name, address, city, state, country, cep,phone, method, token,payer} = await req.body;
+    let { transaction_amount, payer_email, email, cpf, name, address, city, state, country, cep,phone, method, token,deviceId, password,payer} = await req.body;
    // let token = await req.body.token
     console.log(token)
     console.log(req.body)
@@ -531,20 +581,21 @@ console.log('Data Futura (2 dias depois):', dataFuturaFormatada);
   back_url: "https://www.ielabag.com.br",
 
       reason: 'IelaBag assinatura',
-      external_reference:payer.identification.number,
+      deviceId:deviceId,
+      //external_reference:payer.identification.number,
      // token:token,
       auto_recurring: {
         frequency: 1,
         frequency_type: 'months',
         start_date:data2,
         end_date: data30, 
-        transaction_amount: transaction_amount,
+        transaction_amount: parseFloat(transaction_amount),
         currency_id: "BRL"
       },
       payer_email:payer.email,
       card_token_id:token,
-
-      status: "authorized"
+     // deviceId:deviceId,
+      status: "authorized",
     /*  external_reference:cpf,
       payment_methods_allowed: {
         payment_types: [
@@ -553,30 +604,32 @@ console.log('Data Futura (2 dias depois):', dataFuturaFormatada);
           }
         ],
       },*/
-    
+      three_d_secure_mode: 'optional'
     }
     console.log(signatureData)
 
- let signature = await preApproval.create({body:signatureData})
+ let signature = await sigPreApproval.create({body:signatureData})
  let data4 = signature
+ res.status(200).send({data4})
+
  console.log(signature,'3333333')
  const userexist = await User.findOne({$or: [{payer_id: signature.payer_id}]})
 
 if(userexist == null || userexist == undefined || !userexist){
-  const usrexist = await User.findOne({$or: [{email: email}]})
+  const usrexist = await User.findOne({$or: [{email: payer.email}]})
     if(usrexist == null || usrexist == undefined || !usrexist){
         let newuser = new User({
           name:name,
           lastname:lastname,
           payer_id: signature.payer_id,
           email:email,
-          password:bcrypt.hashSync(uuidv4(), 8),
+          password:bcrypt.hashSync(password, 8),
           address:address,
           cep:cep,
-          cpf:cpf,
+          cpfcnpj:payer.identification.number,
           city:city,
-          country:country,
-          state:state,
+          country:'Brasil',
+          state:'São Paulo',
      
           phone:phone
         })
@@ -587,18 +640,19 @@ if(userexist == null || userexist == undefined || !userexist){
       await User.findByIdAndUpdate({_id:usrexist._id},{
         payer_id:signature.payer_id
       },{new:true})
-      console.log('payer_id atualizado')
+
+      let newsig = await User.findByIdAndUpdate({_id:usrexist._id},{$push: { signatures: signature }},{new:true})
+
+      console.log('payer_id atualizado', newsig)
    //   res.status(200).send({data4})
     }
-    res.status(200).send({data4})
+  
 }
  
-
  //console.log(signature)
  // res.redirect('/quiz')
    } catch (error) {
-   let data4 = error
-    res.status(401).send({data4})
+   
    console.log(error)
    }
 
@@ -1198,7 +1252,7 @@ app.get('/termos-e-condicoes',(req,res)=>{
 
 app.get('/cadastro',(req,res)=>{
 
-  res.render('cadastro',{msg:false, publicKey:mercadoPagoPublicKey})
+  res.render('cadastro',{msg:false, publicKey:mercadoPagoPublicKeySignature})
 })
 async function ff(){
   try {

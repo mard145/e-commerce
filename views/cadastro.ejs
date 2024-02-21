@@ -1432,8 +1432,11 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
     
     
                     </form>
-                   
+                    <div id="statusScreenBrick_container"></div>
+            
+                   <span id="brick">
                         <div style="margin-bottom: 30px;" id="paymentBrick_container"></div>
+                    </span>
                         <div id="rr" style="display: none;
                         z-index: 1; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color:black;border-radius: 30px; ">
                         										<img id="imgt" style="width: 80px;height: 80px;border-radius: 50%;"  alt="">
@@ -2228,14 +2231,27 @@ var mfn = {"mobileInit":"1240","parallax":"stellar","responsive":"1","sidebarSti
 
 
 
-
 <script src="https://sdk.mercadopago.com/js/v2"></script>
+
+<script src="https://www.mercadopago.com/v2/security.js" view="checkout" output="deviceId"></script>
+
 <input type="hidden" id="pKey" value="<%=publicKey%>">
 
 <script>
 	const pKeyy = document.getElementById('pKey').value
     let user_emaik = document.getElementById('user_email')
+    let user_name1 = document.getElementById('user_name')
+    let user_lastname1 = document.getElementById('user_lastname')
+    let user_phone1 = document.getElementById('user_phone')
+    let user_password1 = document.getElementById('user_password')
+    let user_address1 = document.getElementById('user_address')
+    let user_city1 = document.getElementById('user_city')
+    let user_cep1 = document.getElementById('user_cep')
+   
+
+
     const concluirCadastro = document.getElementById('concluirCadastro')
+    const pbrick = document.getElementById('brick')
     const paymentDetail = document.getElementById('payment-detail')
 	const rr = document.getElementById('rr')
     const sttus = document.getElementById('payment-status')
@@ -2262,6 +2278,9 @@ nextStep(3)
 	const mpp = new MercadoPago(pKeyy,{
     locale: 'pt-BR'
   });
+  const mpp1 = new MercadoPago(pKeyy,{
+    locale: 'pt-BR'
+  });
 	const bricksBuilder1 = mpp.bricks();
     const renderPaymentBrick1 = async (bricksBuilder1) => {
       const settings1 = {
@@ -2274,7 +2293,7 @@ nextStep(3)
           payer: {
             firstName: "",
             lastName: "",
-            email: ``,
+            email: `${user_emaik.value}`,
 			phone:{
 				area_code:"55",
 				number:""
@@ -2294,7 +2313,7 @@ nextStep(3)
           },
           paymentMethods: {
             creditCard: "all",
-										atm: "all",
+			atm: "all",
             maxInstallments: 1
           },
         },
@@ -2311,10 +2330,17 @@ nextStep(3)
 				// callback chamado quando há click no botão de envio de dados
 
 
-formData.transaction_amount = 19.90;
+formData.transaction_amount = 1;
 //formData.payer_email = formData.payer_email
 formData.email = await formData.email
+formData.password = await user_password1.value
+formData.lastname = await user_lastname1.value
+formData.address = await user_address1.value
+formData.phone = await user_phone1.value
 
+formData.city = await user_city1.value
+//formdata.cpfcnpj = await formData.
+formData.deviceId = await MP_DEVICE_SESSION_ID
 		/*	formData.name = await name.value;
 			formData.address = await address.value;
 			formData.phone = await phone.value;
@@ -2332,7 +2358,7 @@ formData.email = await formData.email
 			}
 		formData.items = await cartData
 			formData.payer.first_name= await name.value
-			formData.payer.last_name = await lastname.value*/
+			formData.payer.last_name = await lastname.value
 			formData.token = await formData.token
 		//	console.log(formData.card_token_id)
 		//	formData.card_token_id = formData.card_token_id
@@ -2365,38 +2391,40 @@ console.log(formData)
                    
 
 				return	response.json()})
-                .then((ord) => {
-					console.log(ord,'111111111111111111')
+                .then(async (ord) => {
+					
+                    console.log(ord,'111111111111111111')
+
                   // receber o resultado do pagamento
                   resolve();
-                  console.log(ord.data4, '2')
-                     paymentID.textContent = ord.data4.id
 
 				 jQuery('#rr').fadeIn(2000, ()=>{
-					jQuery('#rr').fadeOut(9000)
+					jQuery('#rr').fadeOut(4000)
 				 })
-                 console.log(ord.data4.status)
-if(ord.data4.status == 200 || ord.data4.status == 201){
 
-    imgt.src = 'https://i.pinimg.com/originals/4a/10/e3/4a10e39ee8325a06daf00881ac321b2f.gif'
+                 if(ord.data4.api_response.status == 201 || ord.data4.api_response.status == 200 || ord.data4.status == 'authorized' ){
+                    paymentID.textContent = `ID: ${ord.data4.id}`
 
-paymentDetail.textContent = `Assinatura concluída. Entre na sua conta com suas credenciais. A IelaBag agradece sua preferência`
-sttus.textContent = `status: ${ord.data4.status}`
-										}else{
-                                            paymentDetail.textContent = `Pagamento não processado, verifique os dados preenchidos ou entre em contato com o seu banco`
-	sttus.textContent = `${ord.data4.status}`
-    imgt.src = 'https://assets-v2.lottiefiles.com/a/b8f87412-1153-11ee-ab31-87d0da2780fa/VHL7JyqgfN.gif'
-                                   
-						     			}
+                    imgt.src = 'https://i.pinimg.com/originals/4a/10/e3/4a10e39ee8325a06daf00881ac321b2f.gif'
+                    paymentDetail.textContent = `Detalhe: Assinatura efetuada com sucesso, logue na sua conta e garanta já a sua Bag!`
+											sttus.textContent = `Status: Autorizado`
+                 }
+                 
+                 if(ord.data4.api_response.status == 401 || ord.data4.api_response.status == 401 || ord.data4.api_response.status == 404 ){
+                    paymentDetail.textContent = `Detalhe: Pagamento não efetuado, cartão recusadO. Verifique os dados preenchidos ou contate seu banco`
+											sttus.textContent = `Status: Não autorizado`
+                 }
+                 
 			
                   concluirCadastro.addEventListener('click',(e)=>{
                     concluirCadastro.click()
                     
                   })
+      
 
                 })
                 .catch((err) => {
-					console.log(err)
+					console.log(err,'errr')
                   // manejar a resposta de erro ao tentar criar um pagamento
                   reject();
                 
