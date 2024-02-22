@@ -1,5 +1,8 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/repositories/e-commerce/
-    - /bin/cp -R images $DEPLOYPATH
+    - export DEPLOYPATH=/home/jyxjnhot/public_html
+    - /bin/mkdir -p $DEPLOYPATH
+    - /bin/cp -R . $DEPLOYPATH
+    - /usr/local/bin/npm install --prefix $DEPLOYPATH
+    - /usr/local/bin/pm2 restart $DEPLOYPATH/app.js
