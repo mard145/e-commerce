@@ -529,6 +529,10 @@ console.log(localStorage.getItem('tokenJWT'))
   $('#tabela-dados').DataTable();
 });
 
+$(document).ready(function() {
+  $('#tabela-dados3').DataTable();
+});
+
 function nextStep(step) {
         jQuery(`#step${step}`).removeClass('active').addClass('prev');
         jQuery(`#step${step + 1}`).removeClass('next').addClass('active');

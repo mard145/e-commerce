@@ -129,13 +129,13 @@ app.use(session({
     saveUninitialized: true,
     secret: process.env.TOKEN_SECRET
 }))
-
-let { MercadoPagoConfig, Payment, Customer, MerchantOrder,PreApproval, PreApprovalPlan, CustomerCard , CardToken } = require('mercadopago');
+let me = require('mercadopago')
+let { MercadoPagoConfig, Payment, Customer, MerchantOrder,PreApproval, PreApprovalPlan, CustomerCard , CardToken} = require('mercadopago');
 
 
 // Step 2: Initialize the client object
-const client = new MercadoPagoConfig({ accessToken: process.env.ACCESS_TOKEN_PRODUCTION});
-const clientSignature = new MercadoPagoConfig({ accessToken: process.env.ACCESS_TOKEN_SIGNATURE});
+const client = new MercadoPagoConfig({ accessToken: process.env.ACESSTOKENNEW});
+const clientSignature = new MercadoPagoConfig({ accessToken: process.env.ACESSTOKENSIGMY});
 
 
 // Step 3: Initialize the API object
@@ -145,17 +145,20 @@ const customer = new Customer(client)
 const merchantOrder = new MerchantOrder(client)
 const preApproval = new PreApproval(client) 
 const sigPreApproval = new PreApproval(clientSignature)
+const customerCardSig = new CustomerCard(clientSignature)
+const customerSig = new Customer(clientSignature)
+const cardTokenSig = new CardToken(clientSignature)
 const preApprovalPlan = new PreApprovalPlan(client)
 const customerCard = new CustomerCard(client)
 const cardToken = new CardToken(client)
-const mercadoPagoPublicKey =  process.env.PUBLIC_KEY_PRODUCTION;
+const mercadoPagoPublicKey =  process.env.PUBLICKETNEW;
 
 if (!mercadoPagoPublicKey) {
   console.log("Error: public key not defined");
   process.exit(1);
 }
 
-const mercadoPagoPublicKeySignature = process.env.PUBLIC_KEY_SIGNATURE;
+const mercadoPagoPublicKeySignature = process.env.PUBLICKEYSIGMY ;
 if (!mercadoPagoPublicKeySignature) {
   console.log("Error: public key not defined");
   process.exit(1);
@@ -556,11 +559,15 @@ app.post('/create_signature',async(req,res)=>{
   try {
     let user = req.user
     
-    let { transaction_amount, payer_email, email, cpf, name, address, city, state, country, cep,phone, method, token,deviceId, password,payer} = await req.body;
+    let { transaction_amount, payer_email, email, cpf, name, address, city, state, country, cep,phone, method, token,deviceId, password,payer, street_number} = await req.body;
    // let token = await req.body.token
     console.log(token)
     console.log(req.body)
    console.log(method)
+
+   let srt_number = parseInt(street_number)
+   const timestamp = Date.now();
+   const stringTimestamp = timestamp.toString();
     const dataAtual = new Date();
     // Adicionar 2 dias
     const data2 = new Date(dataAtual);
@@ -576,8 +583,38 @@ const dataFuturaFormatada = data30.toISOString().split('T')[0];
 
 console.log('Data Atual:', dataAtualFormatada);
 console.log('Data Futura (2 dias depois):', dataFuturaFormatada);
-    
- const signatureData =   {
+
+let custumerSigg = await customerSig.search()
+
+var usuarioEncontrado = custumerSigg.results.find(function(usuario) {
+  return usuario.email === payer.email;
+});
+
+const clientDataSig = {
+  payer:{
+    email:payer.email,
+    identification:{
+      number:payer.identification.number,
+      type:payer.identification.type
+    }
+  },
+//   default_address: 'Home',
+  address: {
+    id: address,
+    zip_code: cep,
+    street_name: address,
+    street_number: srt_number,
+    city: {
+      name:city
+    },
+    phone:payer.phone,
+    state:state
+  },
+  date_registered: stringTimestamp,
+  description: 'Assinatura IelaBag',
+};
+
+const signatureData =   {
   back_url: "https://www.ielabag.com.br",
 
       reason: 'IelaBag assinatura',
@@ -596,6 +633,7 @@ console.log('Data Futura (2 dias depois):', dataFuturaFormatada);
       card_token_id:token,
      // deviceId:deviceId,
       status: "authorized",
+      status_detail:"pending_challenge"
     /*  external_reference:cpf,
       payment_methods_allowed: {
         payment_types: [
@@ -604,13 +642,41 @@ console.log('Data Futura (2 dias depois):', dataFuturaFormatada);
           }
         ],
       },*/
-      three_d_secure_mode: 'optional'
     }
     console.log(signatureData)
+console.log(usuarioEncontrado)
+// Verifique se o usuário foi encontrado
+if (usuarioEncontrado) {
+  console.log('Usuário encontrado:', usuarioEncontrado);
+ let cardnn =  await  customerCardSig.create({ customerId: usuarioEncontrado.id, body: {
+    token: token,
+  } })
+  let signature = await sigPreApproval.create({body:signatureData,three_d_secure_mode: 'optional',requestOptions:{idempotencyKey:uuidv4()}})
+  let data4 = signature
+  res.status(200).send({data4})
+  // Agora você pode usar o usuário encontrado conforme necessário, por exemplo:
+  // var usuarioVariavel = usuarioEncontrado;
+} else {
+ 
+  let sigClient = await customerSig.create( {body:clientDataSig} )
+  console.log('Usuário não encontrado, então usuário criado no mp',sigClient);
 
- let signature = await sigPreApproval.create({body:signatureData})
- let data4 = signature
- res.status(200).send({data4})
+ 
+
+ let cardnew = await  customerCardSig.create({ customerId: sigClient.id, body: {
+    token: token,
+  } })
+
+  console.log(cardnew)
+  let signature = await sigPreApproval.create({body:signatureData, three_d_secure_mode: 'optional', requestOptions:{idempotencyKey:uuidv4()}})
+  let data4 = signature
+  res.status(200).send({data4})
+
+}
+    
+
+
+
 
  console.log(signature,'3333333')
  const userexist = await User.findOne({$or: [{payer_id: signature.payer_id}]})
@@ -652,8 +718,10 @@ if(userexist == null || userexist == undefined || !userexist){
  //console.log(signature)
  // res.redirect('/quiz')
    } catch (error) {
-   
-   console.log(error)
+   let data4
+   data4 = error
+   console.log({data4})
+   res.send({data4})
    }
 
 
@@ -1081,7 +1149,7 @@ app.get('/admin',eAdmin,async(req,res)=>{
     let orders = await Order.find({})
     let payments = await payment.search({options:{criteria:'desc',sort:'date_created'}})
     console.log(payments)
-    let signatures = await preApproval.search()
+    let signatures = await sigPreApproval.search()
     let totalPaid = await payments.results
     .filter((f) => f.captured === true)
     .reduce((sum, transaction) => {
@@ -1282,6 +1350,9 @@ console.log(user.idmp)
 
  //  let tkCard =  await customerCard.list({ customerId: user.idmp });
 let allPayments = await payment.search()
+let ppp =  allPayments.results.find(function(payment) {
+  return payment.status_detail !== 'cc_rejected_card_disabled';
+});
 //console.log(allPayments)
  //*  let paymentsUser = await  customer.get({customerId:user.idmp})
 //console.log(paymentsUser)
@@ -1291,7 +1362,7 @@ let allPayments = await payment.search()
   //  console.log(signatures,'SIGNATURES')
   // const sigs = await signatures.results.filter( sig => sig.external_reference == user.cpf);
   //console.log(sigs)
-      res.render('cli/cli',{user:user, msg:false,payments:allPayments.results, publicKey:mercadoPagoPublicKey, error:false})
+      res.render('cli/cli',{user:user, msg:false,payments:[ppp], publicKey:mercadoPagoPublicKeySignature  , error:false})
     }else{
       res.redirect('/')
     }

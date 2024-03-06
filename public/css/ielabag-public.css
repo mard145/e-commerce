@@ -394,3 +394,26 @@
 .woocommerce-order-details a {
     background: none !important;
 }
+
+@media screen and (max-width: 229px) {
+    #timeline-item1 {
+   top:18px !important;
+}
+.timeline-item.active::after {
+    height: 1px !important;
+    transition: 0.5s ease-in-out;
+}
+
+.timeline-item::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 10px !important;
+    height: 10px !important;
+    background-color: #F7B8D5;
+    border-radius: 50%;
+    transition: background-color 0.5s ease-in-out;
+    top: 40px;
+    left: calc(100% / 2 - 10px);
+}
+}
