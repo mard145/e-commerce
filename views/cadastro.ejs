@@ -933,6 +933,26 @@ aside#block-6 {
     #bghi {
    width:100% !important ;
 }
+div.svelte-1tw6ms1{
+    flex-direction: column !important;
+    height: 70px !important;
+}
+
+select.split-26Gc-Q.svelte-p4q4i8.svelte-p4q4i8 {
+    padding: 10px 15px 0 10px !important;
+    background-color: transparent;
+}
+input.split-2Xf4GE.svelte-7y0bx9 {
+    border: none;
+    margin-top: 0;
+    width: 100% !important;
+     margin-left: 0px !important; 
+    background-color: transparent;
+}
+div.error-2gD8BM.svelte-1tw6ms1 {
+    border-color: var(--error-color);
+    height: 60px !important;
+}
 }
 
 
@@ -960,7 +980,13 @@ aside#block-6 {
 
 
 
-
+@media screen and (max-width: 506px) {
+    .container, .four.columns .widget-area {
+    max-width: 700px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+}
 
 
 
@@ -1001,16 +1027,41 @@ aside#block-6 {
 }
 }
 
+@media screen and (max-width: 400px) {
+    #prt {
+   padding:0 !important ;
+}
+#ctt{
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+
+}
+
 @media screen and (max-width: 342px) {
     #timeline-item1 {
    top:20px !important ;
 }
 }
-
 @media screen and (max-width: 382px) {
     #timeline-item3 {
    top:20px !important ;
 }
+}
+
+@media screen and (max-width: 302px) {
+    .action-wrapper
+ {
+   width:100% !important ;
+}
+#registrationForm .btn {
+    width: 45%;
+    text-align: center;
+    padding:10px !important;
+    
+}
+
 }
 
 @media screen and (max-width: 229px) {
@@ -1046,7 +1097,13 @@ aside#block-6 {
 .icon-menu-fine{
     color: #000;
 }
-
+.arrow-icon-2bFs84.svelte-p4q4i8.svelte-p4q4i8 {
+    position: absolute;
+    top: 40%;
+    right: 1%;
+    fill: var(--text-secondary-color);
+    display: none !important;
+}
 </style>
 <script type="text/javascript" src="js/wp-polyfill-inert.min.js" id="wp-polyfill-inert-js"></script>
 <script type="text/javascript" src="js/regenerator-runtime.min.js" id="regenerator-runtime-js"></script>
@@ -1535,7 +1592,7 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
         <div class="container slide next" id="step4">
             <h3 class="stepTitle">Checkout da assinatura</h3>
             <div class="form-wrapper">
-                <div class="container" id="">
+                <div class="container" id="prt">
 
                     <form action="/iela/saveUser" method="post">
                         <input type="text" id="inputName" class="d-none"  name="name">
@@ -2433,7 +2490,7 @@ nextStep(3)
           /*
             "amount" é a quantia total a pagar por todos os meios de pagamento com exceção da Conta Mercado Pago e Parcelas sem cartão de crédito, que têm seus valores de processamento determinados no backend através do "preferenceId"
           */
-          amount: 10000,
+          amount: 1,
           preferenceId: "123",
           payer: {
             firstName: "",
@@ -2450,7 +2507,7 @@ nextStep(3)
         customization: {
           visual: {
             style: {
-              theme: "bootstrap",
+              theme: "default",
 			  customVariables:{
 				formBackgroundColor:'pink'
 			  }

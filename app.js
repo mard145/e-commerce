@@ -134,8 +134,8 @@ let { MercadoPagoConfig, Payment, Customer, MerchantOrder,PreApproval, PreApprov
 
 
 // Step 2: Initialize the client object
-const client = new MercadoPagoConfig({ accessToken: process.env.ACESSTOKENNEW});
-const clientSignature = new MercadoPagoConfig({ accessToken: process.env.ACESSTOKENSIGMY});
+const client = new MercadoPagoConfig({ accessToken: process.env.ACESSTOKENNEWPROD});
+const clientSignature = new MercadoPagoConfig({ accessToken: process.env.ACESSTOKENSIGMYPROD});
 
 
 // Step 3: Initialize the API object
@@ -151,14 +151,14 @@ const cardTokenSig = new CardToken(clientSignature)
 const preApprovalPlan = new PreApprovalPlan(client)
 const customerCard = new CustomerCard(client)
 const cardToken = new CardToken(client)
-const mercadoPagoPublicKey =  process.env.PUBLICKETNEW;
+const mercadoPagoPublicKey =  process.env.PUBLICKETNEWPROD;
 
 if (!mercadoPagoPublicKey) {
   console.log("Error: public key not defined");
   process.exit(1);
 }
 
-const mercadoPagoPublicKeySignature = process.env.PUBLICKEYSIGMY ;
+const mercadoPagoPublicKeySignature = process.env.PUBLICKEYSIGMYPROD ;
 if (!mercadoPagoPublicKeySignature) {
   console.log("Error: public key not defined");
   process.exit(1);
