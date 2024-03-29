@@ -55,6 +55,7 @@ const user = new mongoose.Schema({
      street_number:Number,
      orders:[{ type: mongoose.Schema.Types.Mixed, ref: 'Order' }],
      signatures:[{ type: mongoose.Schema.Types.Mixed, ref: 'Signature' }],
+     asaasData:{ type: mongoose.Schema.Types.Mixed },
      createdAt: {
         type: Date,
         default: Date.now, // Esta é a data de criação

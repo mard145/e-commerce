@@ -5,8 +5,6 @@
 <head>
 
 <meta charset="UTF-8" />
-<meta name="google-site-verification" content="25SPkutEnZx2VWDlOjLcxlCzbsL3TFNKRrIFgw-UOtw" />
-<!-- Google tag (gtag.js) --> <script async src="https://www.googletagmanager.com/gtag/js?id=G-LGYMPF0D9Z"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-LGYMPF0D9Z'); </script>
 
 
 <!-- End Google Tag Manager -->
@@ -1582,6 +1580,14 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
             <div class="action-wrapper">
                
       <button type="button"  class="btn btn-secondary" onclick="previousStep(3)">Voltar</button>
+      <script>
+          let user_emaikl = document.getElementById('user_email')
+    let ghh = []
+         async function lfg(){
+await ghh.push(user_emaikl.value)
+nextStep(3)
+ }
+      </script>
     <button type="button"  class="btn btn-secondary" onclick="lfg()">Checkout</button>
                 
             </div>
@@ -1623,7 +1629,73 @@ var rest = {"nonce":"dd3fcb54d5","url":"http:\/\/localhost\/wp-json\/"};
                     <div id="statusScreenBrick_container"></div>
             
                    <span id="brick">
-                        <div style="margin-bottom: 30px;" id="cardPaymentBrick_container"></div>
+                      <!-- <div style="margin-bottom: 30px;" id="cardPaymentBrick_container"></div> -->
+                       <form id="form-checkout" method="post" action="/create_signature">
+                                                        <div class="row ">
+                                                            <div class="form-group col mb-5" style="margin-bottom: 40px;">
+                                                                <input id="" name="email" placeholder="E-mail" type="email" class="form-control"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="form-group col-sm-5">
+                                                                <select id=""  class="form-control">
+                                                                    <option value="CPF">CPF</option>
+                                                                    <option value="CNPJ">CNPJ</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group col-sm-7">
+                                                                <input id="cpfCnpj" name="cpfCnpj" type="text" placeholder="Digite seu CPF ou CNPJ" class="form-control"/>
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                        <h3 class="title" class="text-dark">Dados do Cartão</h3>
+                                                        <div class="row">
+                                                            <div style="margin-bottom: 20px;" class="form-group col-sm-8 mb-5">
+                                                                <input id="holdername" name="holdername" placeholder="Nome no Cartão" type="text" class="form-control" />
+                                                            </div>
+                                                            <div class="form-group col-sm-4">
+                                                                <div class="input-group expiration-date">                                            
+                                                                    <input id="expirationDate" name="expirationDate" class="form-control h-40" placeholder="MM/ANO" maxlength="5" type="text"/>
+                                                                </div>
+                                                            </div>
+                                                            <div style="margin-bottom: 20px;" class="form-group col-sm-8">
+                                                                <input id="cardNumber" name="cardNumber" placeholder="Número do cartão" type="text" class="form-control" />
+
+                                                            </div>
+                                                            <div class="form-group col-sm-4">
+                                                                <input id="cvv" name="cvv" placeholder="CVV" type="text" class="form-control" />
+                                                            </div>
+                                                            <div id="issuerInput" style="display: none;" class="form-group col-sm-12 hidden">
+                                                                <select id="issuer" name="issuer" class="form-control"></select>
+                                                            </div>
+                                                            <div class="form-group col-sm-12 d-none">
+                                                                <select id="" name="installments" type="text" class="form-control"></select>
+                                                            </div>
+                                                            <div class="form-group col-sm-12">
+                                                                <input type="hidden" name="amount" id="amount" />
+                                                                <input type="hidden" id="expiryMonth" name="expiryMonth" />
+                                                                <input type="hidden" id="expiryYear" name="expiryYear" />
+                                                                <input type="hidden" id="descriptionPayment" />
+                                                                <div id="validation-error-messages">
+                                                                </div>
+                                                                <br>
+                        
+                                                                <div class="modal-footer d-flex justify-content-between">
+                                                                    <button type="button" style="" class="btn btn btn-primary" id="go-back" data-bs-dismiss="modal">Cancelar</button>
+                                                                    <button id="form-checkout__submit" style="" type="button" onclick="signIela()" class="btn btn-primary btn-block">Pagar</button>
+                                                                </div>
+                                                                <br>
+                                                                <p id="loading-message" class="text-dark">Carregando, por favor aguarde ...</p>
+                                                                <br>
+                                                              <!--  <a id="go-back">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 10 10" class="chevron-left">
+                                                                        <path fill="#009EE3" fill-rule="nonzero"id="chevron_left" d="M7.05 1.4L6.2.552 1.756 4.997l4.449 4.448.849-.848-3.6-3.6z"></path>
+                                                                    </svg>
+                                                                    Go back to Shopping Cart
+                                                                </a> -->
+                                                            </div>
+                                                        </div>
+                                                    </form>
                     </span>
                         <div id="rr" style="display: none;
                         z-index: 1; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color:black;border-radius: 30px; ">
@@ -2438,20 +2510,48 @@ var mfn = {"mobileInit":"1240","parallax":"stellar","responsive":"1","sidebarSti
   }
 </style>
 <script>
+
+document.addEventListener('DOMContentLoaded', function() {
+        const expirationDateInput = document.getElementById('expirationDate');
+        const monthInput = document.getElementById('expiryMonth');
+        const yearInput = document.getElementById('expiryYear');
+        
+        expirationDateInput.addEventListener('input', function(event) {
+            const { value } = event.target;
+            // Limpa o valor para aceitar apenas números
+            const cleanedValue = value.replace(/\D/g, '');
+            // Adiciona a barra automaticamente após os dois primeiros dígitos
+            const formattedValue = cleanedValue.replace(/^(\d{2})/, '$1/');
+            expirationDateInput.value = formattedValue;
+            
+            // Verifica se o valor está completo (5 caracteres) e atualiza os campos de mês e ano
+            if (formattedValue.length === 5) {
+                const [month, year] = formattedValue.split('/');
+                console.log(month,year)
+                monthInput.value = month;
+                yearInput.value = year;
+            } else {
+                // Limpa os campos de mês e ano se a entrada não estiver completa
+                monthInput.value = '';
+                yearInput.value = '';
+            }
+        });
+    });
 	const pKeyy = document.getElementById('pKey').value
     let user_emaik = document.getElementById('user_email')
+    let gh = []
     let user_name1 = document.getElementById('user_name')
     let user_lastname1 = document.getElementById('user_lastname')
     let user_phone1 = document.getElementById('user_phone')
     let user_password1 = document.getElementById('user_password')
     let user_address1 = document.getElementById('user_address')
     let street_number1 = document.getElementById('user_address_number')
-
+let cpfcnpj = document.getElementById('cpfCnpj')
     let user_city1 = document.getElementById('user_city')
     let user_cep1 = document.getElementById('user_cep')
-   
-
-
+   let expiryYear = document.getElementById('expiryYear')
+let holdername = document.getElementById('holdername')
+let expiryMonth = document.getElementById('expiryMonth')
     const concluirCadastro = document.getElementById('concluirCadastro')
     const pbrick = document.getElementById('brick')
     const paymentDetail = document.getElementById('payment-detail')
@@ -2459,11 +2559,8 @@ var mfn = {"mobileInit":"1240","parallax":"stellar","responsive":"1","sidebarSti
     const sttus = document.getElementById('payment-status')
 const imgt = document.getElementById('imgt')
 const paymentID = document.getElementById('payment-id')
-    let gh = []
- async function lfg(){
-await gh.push(user_emaik.value)
-nextStep(3)
- }
+   let cvv = document.getElementById('cvv')
+let cardNumber = document.getElementById('cardNumber')
 	/*const name = document.getElementById('billing_first_name')
 	const lastname = document.getElementById('billing_last_name')
 	const cpf = document.getElementById('billing_cpf')
@@ -2477,113 +2574,32 @@ nextStep(3)
 	const whatsapp = document.getElementById('billing_cellphone')
 	const email = document.getElementById('billing_email')
 	const totalAmount = document.getElementById('total')*/
-	const mpp = new MercadoPago(pKeyy,{
-    locale: 'pt-BR'
-  });
-  const mpp1 = new MercadoPago(pKeyy,{
-    locale: 'pt-BR'
-  });
-	const bricksBuilder1 = mpp.bricks();
-    const renderPaymentBrick1 = async (bricksBuilder1) => {
-      const settings1 = {
-        initialization: {
-          /*
-            "amount" é a quantia total a pagar por todos os meios de pagamento com exceção da Conta Mercado Pago e Parcelas sem cartão de crédito, que têm seus valores de processamento determinados no backend através do "preferenceId"
-          */
-          amount: 1,
-          preferenceId: "123",
-          payer: {
-            firstName: "",
-            lastName: "",
-            email: `${user_emaik.value}`,
-			phone:{
-				area_code:"55",
-				number:""
-			}
-          },
-		 
-		},
-		
-        customization: {
-          visual: {
-            style: {
-              theme: "default",
-			  customVariables:{
-				formBackgroundColor:'pink'
-			  }
-            },
-          },
-          paymentMethods: {
-            types: {
-                    excluded: ['debit_card']
-                  }, 
-            maxInstallments: 1
-          },
-        },
-        callbacks: {
-          onReady: () => {
-            console.log('bricks iniciado')
-            /*
-             Callback chamado quando o Brick está pronto.
-             Aqui, você pode ocultar seu site, por exemplo.
-            */
-          },
-          onSubmit:async (cardFormData) => {
-            try {
+let cardFormData = {}
+   
+        
 				// callback chamado quando há click no botão de envio de dados
 
-
-                cardFormData.transaction_amount = 1.50;
+async function signIela(){
+    cardFormData.transaction_amount = 5;
 //formData.payer_email = formData.payer_email
-cardFormData.email = await cardFormData.email
-cardFormData.password = await user_password1.value
-cardFormData.first_name = await user_name1.value
+cardFormData.email = await  user_emaik.value
+cardFormData.password = await  user_password1.value
+cardFormData.first_name = await  user_name1.value
 cardFormData.last_name = await user_lastname1.value
-cardFormData.address = await user_address1.value
-cardFormData.phone = await user_phone1.value
-cardFormData.street_number = await street_number1.value
-cardFormData.city = await user_city1.value
+cardFormData.address = await  user_address1.value
+cardFormData.phone = await  user_phone1.value
+cardFormData.street_number = await  street_number1.value
+cardFormData.city = await  user_city1.value
 cardFormData.cep = await user_cep1.value
-//formdata.cpfcnpj = await formData.
-cardFormData.deviceId = await MP_DEVICE_SESSION_ID
-		/*	formData.name = await name.value;
-			formData.address = await address.value;
-			formData.phone = await phone.value;
-			formData.city = await city.value;
-			formData.bairro = await bairro.value;
-			formData.whatsapp = await whatsapp.value;
-			formData.cep = await cep.value;
-			formData.street_number = await street_number.value;
-			formData.state = await state.value; 
-		
-			formData.description = await 'Assinatura IelaBag'
-			formData.payer.phone = await {
-				area_code:'55',
-				number:phone.value
-			}
-		formData.items = await cartData
-			formData.payer.first_name= await name.value
-			formData.payer.last_name = await lastname.value
-			formData.token = await formData.token
-		//	console.log(formData.card_token_id)
-		//	formData.card_token_id = formData.card_token_id
-			formData.method = await selectedPaymentMethod
-			//formData.payer.phone.area_code = await '84'
-			//formData.payer.identification.number = await cpf.value
-			//formData.payer.identification.type = await 'CPF'
-
-/*formData.cpf = await cpf.value*/
-
-
-
-
-			//formData.payer.phone.area_code = await '84'
-			//formData.payer.identification.number = await cpf.value
-			//formData.payer.identification.type = await 'CPF'
-
-
+cardFormData.cpfCnpj = await cpfcnpj.value
+cardFormData.holdername = await  holdername.value
+cardFormData.expiryMonth = await expiryMonth.value
+cardFormData.expiryYear = await  expiryYear.value
+cardFormData.cvv = await cvv.value
+cardFormData.password = await user_password1.value
+cardFormData.cardNumber = await cardNumber.value
 console.log(cardFormData)
-            return new Promise((resolve, reject) => {
+          
               fetch("/create_signature", {
                 method: "POST",
                 headers: {
@@ -2601,56 +2617,22 @@ console.log(cardFormData)
                     console.log(ord,'111111111111111111')
 
                   // receber o resultado do pagamento
-                  resolve();
-                  const bricksBuilder5 = mpp1.bricks();
-
-                  const renderStatusScreenBrick = async (bricksBuilder5) => {
- const settings5 = {
-   initialization: {
-     paymentId: await ord.data4.id, // id do pagamento a ser mostrado
-   /*  additionalInfo: {
-       externalResourceURL: await ord.data4.three_ds_info.external_resource_url,
-       creq: await  ord.data4.three_ds_info.creq,
-     },*/
-   },
-   customization: {
-              visual: {
-                hideStatusDetails: true,
-                hideTransactionDate: true,
-                style: {
-                  theme: 'default', // 'default' | 'dark' | 'bootstrap' | 'flat'
-                }
-              },
-            /*  backUrls: {
-                'error': '<http://<your domain>/error>',
-                'return': '<http://<your domain>/homepage>'
-              }*/
-            },
-   callbacks: {
-     onReady: () => {
-        console.log('READY')
-     },
-     onError: (error) => {
-      
-        	
-        sttus.textContent = 'Algo inesperado aconteceu'
-              paymentDetail.textContent = 'Pagamento não processado, verifique o cartão ou entre em contato com o seu banco'
+                
+   
+   
+                 if(ord.errors[0].code == "invalid_creditCard" ){
+                    paymentDetail.textContent = 'Transação não autorizada. Verifique os dados do cartão de crédito e tente novamente.'
               imgt.src = 'https://assets-v2.lottiefiles.com/a/b8f87412-1153-11ee-ab31-87d0da2780fa/VHL7JyqgfN.gif'
-                  jQuery('#rr').fadeIn(2000, ()=>{
-                                jQuery('#rr').fadeOut(9000)
-				 })
-                 
-       console.error(error);
-     },
-   },
- };
- window.statusScreenBrickController = await bricksBuilder5.create(
-   "statusScreen",
-   "statusScreenBrick_container",
-   settings5
- );
-};
-renderStatusScreenBrick(bricksBuilder5);
+                  //  paymentID.textContent = `ID: ${ord.data4.id}`
+
+                  
+                 }else{
+                    imgt.src = 'https://i.pinimg.com/originals/4a/10/e3/4a10e39ee8325a06daf00881ac321b2f.gif'
+                    paymentDetail.textContent = `Detalhe: Assinatura efetuada com sucesso, logue na sua conta e garanta já a sua Bag!`
+											sttus.textContent = `Status: Autorizado`
+                 }
+
+                
 
 
 				/* jQuery('#rr').fadeIn(2000, ()=>{
@@ -2683,7 +2665,7 @@ renderStatusScreenBrick(bricksBuilder5);
                 .catch((err) => {
 					console.log(err,'errr')
                   // manejar a resposta de erro ao tentar criar um pagamento
-                  reject();
+                  
                 
 
               sttus.textContent = 'Algo inesperado aconteceu'
@@ -2695,24 +2677,14 @@ renderStatusScreenBrick(bricksBuilder5);
                   
                
                 });
-            });
-			} catch (error) {
-				console.log(error)
-			}
-          },
-          onError: (error) => {
-            // callback chamado para todos os casos de erro do Brick
-            console.error(error);
-          },
-        },
-      };
-      window.paymentBrickController = await bricksBuilder1.create(
-        "cardPayment",
-        "cardPaymentBrick_container",
-        settings1
-      );
-    };
-    renderPaymentBrick1(bricksBuilder1);
+          
+}
+
+          
+      
+        
+
+  
 
   </script>
 

@@ -1,5 +1,6 @@
 
 require('dotenv').config()
+let nodeFetch = require('node-fetch')
 const path = require('path')
 const port = process.env.PORT
 const express = require('express')
@@ -134,8 +135,8 @@ let { MercadoPagoConfig, Payment, Customer, MerchantOrder,PreApproval, PreApprov
 
 
 // Step 2: Initialize the client object
-const client = new MercadoPagoConfig({ accessToken: process.env.ACESSTOKENNEWPROD});
-const clientSignature = new MercadoPagoConfig({ accessToken: process.env.ACESSTOKENSIGMYPROD});
+const client = new MercadoPagoConfig({ accessToken: process.env.ACESSTOKENNEW});
+const clientSignature = new MercadoPagoConfig({ accessToken: process.env.ACCESS_TOKEN_SIGNATURE});
 
 
 // Step 3: Initialize the API object
@@ -151,14 +152,14 @@ const cardTokenSig = new CardToken(clientSignature)
 const preApprovalPlan = new PreApprovalPlan(client)
 const customerCard = new CustomerCard(client)
 const cardToken = new CardToken(client)
-const mercadoPagoPublicKey =  process.env.PUBLICKETNEWPROD;
+const mercadoPagoPublicKey =  process.env.PUBLICKETNEW;
 
 if (!mercadoPagoPublicKey) {
   console.log("Error: public key not defined");
   process.exit(1);
 }
 
-const mercadoPagoPublicKeySignature = process.env.PUBLICKEYSIGMYPROD ;
+const mercadoPagoPublicKeySignature = process.env.PUBLIC_KEY_SIGNATURE ;
 if (!mercadoPagoPublicKeySignature) {
   console.log("Error: public key not defined");
   process.exit(1);
@@ -558,162 +559,130 @@ app.post('/create_signaturePlan',async(req,res)=>{
 app.post('/create_signature',async(req,res)=>{
   try {
     let user = req.user
-    
-    let { transaction_amount, payer_email, email, cpf, name, address, city, state, country, cep,phone, method, token,deviceId, password,payer, street_number} = await req.body;
-   // let token = await req.body.token
-    console.log(token)
-    console.log(req.body)
-   console.log(method)
-
-   let srt_number = parseInt(street_number)
-   const timestamp = Date.now();
-   const stringTimestamp = timestamp.toString();
-    const dataAtual = new Date();
-    // Adicionar 2 dias
-    const data2 = new Date(dataAtual);
-    const data30 = new Date(dataAtual);
-
-    data2.setDate(dataAtual.getDate() );
-    data30.setDate(dataAtual.getDate() + 30);
-
-    // Formatar as datas para o formato ISO 8601
-const formatoISO = { timeZone: 'UTC' };
-const dataAtualFormatada = data2.toISOString().split('T')[0];
-const dataFuturaFormatada = data30.toISOString().split('T')[0];
-
-console.log('Data Atual:', dataAtualFormatada);
-console.log('Data Futura (2 dias depois):', dataFuturaFormatada);
-
-let custumerSigg = await customerSig.search()
-
-var usuarioEncontrado = custumerSigg.results.find(function(usuario) {
-  return usuario.email === payer.email;
-});
-
-const clientDataSig = {
-  payer:{
-    email:payer.email,
-    identification:{
-      number:payer.identification.number,
-      type:payer.identification.type
-    }
-  },
-//   default_address: 'Home',
-  address: {
-    id: address,
-    zip_code: cep,
-    street_name: address,
-    street_number: srt_number,
-    city: {
-      name:city
-    },
-    phone:payer.phone,
-    state:state
-  },
-  date_registered: stringTimestamp,
-  description: 'Assinatura IelaBag',
-};
-
-const signatureData =   {
-  back_url: "https://www.ielabag.com.br",
-
-      reason: 'IelaBag assinatura',
-      deviceId:deviceId,
-      //external_reference:payer.identification.number,
-     // token:token,
-      auto_recurring: {
-        frequency: 1,
-        frequency_type: 'months',
-        start_date:data2,
-        end_date: data30, 
-        transaction_amount: parseFloat(transaction_amount),
-        currency_id: "BRL"
-      },
-      payer_email:payer.email,
-      card_token_id:token,
-     // deviceId:deviceId,
-      status: "authorized",
-      status_detail:"pending_challenge"
-    /*  external_reference:cpf,
-      payment_methods_allowed: {
-        payment_types: [
-          {
-            id:method
-          }
-        ],
-      },*/
-    }
-    console.log(signatureData)
-console.log(usuarioEncontrado)
-// Verifique se o usuário foi encontrado
-if (usuarioEncontrado) {
-  console.log('Usuário encontrado:', usuarioEncontrado);
- let cardnn =  await  customerCardSig.create({ customerId: usuarioEncontrado.id, body: {
-    token: token,
-  } })
-  let signature = await sigPreApproval.create({body:signatureData,three_d_secure_mode: 'optional',requestOptions:{idempotencyKey:uuidv4()}})
-  let data4 = signature
-  res.status(200).send({data4})
-  // Agora você pode usar o usuário encontrado conforme necessário, por exemplo:
-  // var usuarioVariavel = usuarioEncontrado;
-} else {
- 
-  let sigClient = await customerSig.create( {body:clientDataSig} )
-  console.log('Usuário não encontrado, então usuário criado no mp',sigClient);
-
- 
-
- let cardnew = await  customerCardSig.create({ customerId: sigClient.id, body: {
-    token: token,
-  } })
-
-  console.log(cardnew)
-  let signature = await sigPreApproval.create({body:signatureData, three_d_secure_mode: 'optional', requestOptions:{idempotencyKey:uuidv4()}})
-  let data4 = signature
-  res.status(200).send({data4})
-
-}
-    
-
-
-
-
- console.log(signature,'3333333')
- const userexist = await User.findOne({$or: [{payer_id: signature.payer_id}]})
-
-if(userexist == null || userexist == undefined || !userexist){
-  const usrexist = await User.findOne({$or: [{email: payer.email}]})
-    if(usrexist == null || usrexist == undefined || !usrexist){
-        let newuser = new User({
-          name:name,
-          lastname:lastname,
-          payer_id: signature.payer_id,
-          email:email,
-          password:bcrypt.hashSync(password, 8),
-          address:address,
-          cep:cep,
-          cpfcnpj:payer.identification.number,
-          city:city,
-          country:'Brasil',
-          state:'São Paulo',
-     
-          phone:phone
-        })
-        await newuser.save()
-        console.log('usuario salvo mediante assinatura sem plano associado')
-      //  res.redirect('/')
-    }else{
-      await User.findByIdAndUpdate({_id:usrexist._id},{
-        payer_id:signature.payer_id
-      },{new:true})
-
-      let newsig = await User.findByIdAndUpdate({_id:usrexist._id},{$push: { signatures: signature }},{new:true})
-
-      console.log('payer_id atualizado', newsig)
-   //   res.status(200).send({data4})
-    }
+    const { payer,password,token,description,transaction_amount,paymentMethodId,installments,issuerId,phone,street_number, cep,address,whatsapp,name,last_name,email,items,cpfcnpj,city,state, birthday, gender,country,bairro , first_name , expiryYear,expiryMonth,amount,holdername,cardNumber,cpfCnpj,dueDate,cvv} = await req.body;
+    let srt_number = parseInt(street_number)
+    console.log(await req.body)
+    const currentDateInMillis = await Date.now();
   
-}
+  // Definindo a quantidade de dias para adicionar à data atual
+  const daysToAdd = 1; // Altere este valor conforme necessário
+  
+  // Calculando a data de vencimento adicionando os dias à data atual
+  const dueDateInMillis = currentDateInMillis + (daysToAdd * 24 * 60 * 60 * 1000);
+  
+  // Convertendo a data de vencimento de milissegundos para objeto Date
+  const dueDate1 = await new Date(dueDateInMillis);
+  
+  // Convertendo a data para o formato 'yyyy-MM-dd'
+  const formattedDueDate = await dueDate1.toISOString().slice(0, 10);
+  
+  // Imprimindo a data formatada
+  console.log(formattedDueDate);
+
+  const userExists = await User.findOne({$or: [{email: email}]})
+  if (userExists == null || userExists == undefined || !userExists) {
+    let optionsCreateCustomer = {
+      method: 'POST',
+      headers: {
+        accept: 'application/json',
+        'content-type': 'application/json',
+        access_token: process.env.APIASAASPROD
+      },
+      body: JSON.stringify({
+        name: holdername,
+        email: email,
+        mobilePhone:phone,
+        address:address,
+        addressNumber:srt_number,
+        postalCode:cep,
+        cpfCnpj:cpfCnpj
+
+      })
+    };
+ await nodeFetch(`${process.env.URL_ASSAS}customers`,optionsCreateCustomer)
+ .then(res => {
+  
+  console.log(res)
+  return res.json()})
+.then(async data => {
+  let user = await new User({
+    nome:holdername,
+    email:email,
+    senha:bcrypt.hashSync(password, 8),
+    asaasData:data
+
+  //  foto:foto
+  })
+ await user.save()
+ console.log('usuário salvo',user)
+console.log(data,'ASAAS CLIENT')
+
+let optionsPaymentCreditCard = {
+  method: 'POST',
+  headers: {
+    accept: 'application/json',
+    'content-type': 'application/json',
+    access_token: process.env.APIASAASPROD
+  },
+  body: JSON.stringify({
+    billingType: 'CREDIT_CARD',
+    creditCard: {
+      holderName: holdername,
+      number: cardNumber,
+      expiryMonth: expiryMonth,
+      expiryYear: `20${expiryYear}`,
+      ccv: cvv,
+      cpfCnpj:cpfCnpj
+    },
+    cycle: 'MONTHLY',
+    creditCardHolderInfo: {
+      name:holdername,
+      email: user.email,
+      cpfCnpj: cpfCnpj,
+      postalCode: cep,
+      addressNumber: srt_number,
+      phone: phone,
+      mobilePhone: phone
+    },
+    customer: user.asaasData.id,
+    value: transaction_amount,
+    nextDueDate: formattedDueDate,
+    description: description,
+    externalReference: user._id
+  })
+};
+await nodeFetch(`${process.env.URL_ASSAS}subscriptions`, optionsPaymentCreditCard)
+.then(res => {
+  
+  console.log(res)
+  return res.json()})
+.then(data4 => {
+  console.log(data4,'DATA4')
+  res.json({data4})
+
+})
+.catch(err => console.error('error:' + err));
+  //res.json({data4})
+})
+.catch(err => console.error('error:' + err));
+
+  
+
+
+
+//let newUserAsaasP = await nodeFetch(`${urlSandBoxAsaas}/payment`,optionsPaymentCreditCard)
+//let jsonnewUserP = await newUserAsaasP.json()
+//console.log(newUserAsaasP)
+
+  }else{
+res.render('cadastro',{ msg:'Usuário já existe'})
+  }
+    
+
+    
+
+
+    
  
  //console.log(signature)
  // res.redirect('/quiz')
@@ -876,246 +845,77 @@ app.post('/process_payment',eAdmin, async (req,res)=>{
 
 
    try {
-    let user = req.user
-    const { payer,token,description,transaction_amount,paymentMethodId,installments,issuerId,phone,street_number, cep,address,whatsapp,name,last_name,email,items,cpfcnpj,city,state, birthday, gender,country,bairro , first_name} = await req.body;
-    let srt_number = parseInt(street_number)
-    console.log(payer,items)
-    console.log(req.body)
-  // let passnew = await uuidv4()
-    const timestamp = Date.now();
-    const stringTimestamp = timestamp.toString();
-    //let stringSemEspacosEHifens = cep.replace(/[\s-]/g, "");
-    const clientData = {
-      payer:{
-        email:payer.email,
-        identification:{
-          number:payer.identification.number,
-          type:payer.identification.type
-        }
-      },
-   //   default_address: 'Home',
-      address: {
-        id: address,
-        zip_code: cep,
-        street_name: address,
-        street_number: srt_number,
-        city: {
-          name:city
-        },
-        phone:payer.phone,
-        state:state
-      },
-      date_registered: stringTimestamp,
-      description: description,
-    };
-    console.log(clientData,'CLIENTEDATAAAAAAAAA')
-  ///// RESOLVER APARTE DA RENDERIZAÇÃO DOS ITEMS /////////////////////////////////////////////////////////
-    const paymentData = {
-      transaction_amount: transaction_amount,
-      token: token,
-      description: description,
-      installments: Number(installments),
-      payment_method_id: paymentMethodId,
-      issuer_id: issuerId,
-      payer: payer,
-      external_reference:payer.identification.number,
-      capture:false,
-      metadata:{
-        emaill:payer.email,
-        cpfcnpj:payer.identification.number,
-        typpe:payer.identification.type
-      }
-      
-    };
-    console.log(paymentData, 'PAYMENTDATA')
-    //  COLOCAR O PEDIDO DENTRO DO ARRAY order E SALVAR NO MODEL ORDER.JS EM CADA CASO ONDE USO O MÉTODO paymente.create SERÁ NECESSÁRIO ATUALIZAR O USUÁRIO COM O PEDIDO OU CRIAR UM NOVO 
-    // USUÁRIO  COM NOVO PEDIDO GERADO 
-    customer.search({options:{email:payer.email}}).then(async (data)=>{
-      console.log(data,data.results.length)
-    if(data.results.length == 0)
-  {
-  
-    customer.create({ body: clientData }).then(async (data1)=>{
-     // console.log(data)
-      console.log('novo cliente')
-  let dff =  await  customerCard.create({ customerId: data1.id, body: {token: token,}})
-
-      const userEmail1 = await User.findOne({$or: [{email: payer.email}]})
-//console.log(userEmail1, 'USER EMAILLLLLLLLLLLLLLLLL')
-if(userEmail1){
-
-  payment
-  .create({ body: paymentData })
-  .then(async function (data2) {
- /*   res.status(201).json({
-      detail: data.status_detail,
-      status: data.status,
-      id: data.id,
-      
-    });*/
-    let order1 = await new Order({
-      order:data2,
-      items:items
-    })
-   await order1.save()
-console.log(data2, ' DATA 22222222222222222222')
-   let usr = await User.findByIdAndUpdate({_id:userEmail1._id},{$push: { orders: order1 }},{new:true})
-   let usr0 = await User.findByIdAndUpdate({_id:userEmail1._id},{idmp:dff.customer_id},{new:true})
-  // console.log(usr)
-  // console.log(data,' <- pagamento criado' )
-  if(user.admin ==true){
-    res.status(200).send({data2})
-  }else{
-    res.status(200).send({data2})
-  }
-  })
-  .catch(function (error) {
-    console.log(error);
-//    const { errorMessage, errorStatus } = validateError(error);
-    res.json({ error });
-  });
-
- 
-   console.log('USUÁRIO atualizado NO BANCO')
-//   res.redirect('/quiz')
-//atualizarPedidosPendentes()
-
-}else{
-  const newUser1 = new User({
-    idmp:data1.id,
-    name:data1.first_name,
-    lastname:data1.last_name,
-    bairro:bairro,
-    password:bcrypt.hashSync(passnew, 8),
-    external_reference:data1.external_reference,
-    email:data1.email,
-    country:country,
-    address:data1.address.street_name,
-    billing_address:{
-     city:city,
-     address:data1.address.street_name,
-     street_number:srt_number,
-     state:state,
-     country:country,
-     bairro:bairro,
-     cep:cep
-    },
-    city:city,
-    orders:data1,
-    gender:gender,
-    birthday:birthday,
-    cep:cep,
-    state:state,
-    cpfcnpj:data1.identification.number,
-    phone:phone,
-    whatsapp:whatsapp,
-    street_number:srt_number
     
-    })
-   await  newUser1.save()
-
-   let order2 = new Order({
-    order:data1,
-    items:items
-  })
- await order2.save()
- let usrs = await User.findByIdAndUpdate({_id:newUser1._id},{$push: { orders: order2 }},{new:true})
- let usr0 = await User.findByIdAndUpdate({_id:newUser1._id},{idmp:data1.id},{new:true})
- //atualizarPedidosPendentes()
- if(user.admin ==true){
-  res.status(200).send({data1})
-}else{
-  res.status(200).send({data1})
-}
-
-}
-
-
-         
-    payment
-    .create({ body: paymentData })
-    .then(async function (dataPayment) {
-   /*   res.status(201).json({
-        detail: data.status_detail,
-        status: data.status,
-        id: data.id,
-        
-      });*/
-      let order1 = new Order({
-        order:dataPayment,
-        items:items
+    let user = req.user
+    const { payer,token,description,transaction_amount,paymentMethodId,installments,issuerId,phone,street_number, cep,address,whatsapp,name,last_name,email,items,cpfcnpj,city,state, birthday, gender,country,bairro , first_name , expiryYear,expiryMonth,amount,holdername,cardNumber,cpfCnpj,dueDate,cvv} = await req.body;
+    let srt_number = parseInt(street_number)
+    console.log(await req.body)
+    const currentDateInMillis = await Date.now();
+  
+  // Definindo a quantidade de dias para adicionar à data atual
+  const daysToAdd = 1; // Altere este valor conforme necessário
+  
+  // Calculando a data de vencimento adicionando os dias à data atual
+  const dueDateInMillis = currentDateInMillis + (daysToAdd * 24 * 60 * 60 * 1000);
+  
+  // Convertendo a data de vencimento de milissegundos para objeto Date
+  const dueDate1 = await new Date(dueDateInMillis);
+  
+  // Convertendo a data para o formato 'yyyy-MM-dd'
+  const formattedDueDate = await dueDate1.toISOString().slice(0, 10);
+  
+  // Imprimindo a data formatada
+  console.log(formattedDueDate);
+    
+    let optionsPaymentCreditCard = {
+      method: 'POST',
+      headers: {
+        accept: 'application/json',
+        'content-type': 'application/json',
+        access_token: process.env.ASAASAPI
+      },
+      body: JSON.stringify({
+        billingType: 'CREDIT_CARD',
+        creditCard: {
+          holderName: holdername,
+          number: cardNumber,
+          expiryMonth: expiryMonth,
+          expiryYear: `20${expiryYear}`,
+          ccv: cvv
+        },
+        creditCardHolderInfo: {
+          name:holdername,
+          email: user.email,
+          cpfCnpj: cpfCnpj,
+          postalCode: cep,
+          addressNumber: srt_number,
+          phone: phone,
+          mobilePhone: phone
+        },
+        customer: user.asaasData.id,
+        value: amount,
+        nextDueDate: formattedDueDate,
+        description: description,
+        externalReference: user._id
       })
-     await order1.save()
-  //   console.log(data,' <- pagamento criado' )
-  console.log(dataPayment, 'datapaymeeeeeeeeeent')
-  //atualizarPedidosPendentes()
- if(user.admin ==true){
-  res.status(200).send({dataPayment})
-}else{
-  res.status(200).send({dataPayment})
-}
-    })
-    .catch(function (error) {
-      console.log(error);
-
-  //    const { errorMessage, errorStatus } = validateError(error);
-      res.json({ error });
-    });
-    }).catch(err => console.log(err));
-
-  }else{
-
+    };
   
-
-  payment
-  .create({ body: paymentData })
-  .then(async function (data4) {
-
- //let ccard = await customerCard.get({ customerId: data.results[0].id, cardId : data.results[0].cards[0].config.options.integratorId }).then(console.log).catch(console.log);
-
-
-    await  customerCard.create({ customerId: data.results[0].id, body: {
-      token: token,
-    } }).then(console.log).catch(console.log);
-
- //  console.log(data,' <- pagamento criado  e dados do usuário atualizado' )
-  
- const userEmail = await User.findOne({$or: [{email: payer.email}]})
- console.log(data4, 'USER EMAILLLLLLLLLLLLLLLLL')
-
- let order3 = await new Order({
-  order:data4,
-  items:items
-  
-})
-
-await order3.save()
-
- let usr = await User.findByIdAndUpdate({_id:userEmail._id},{$push: { orders: order3 }},{new:true})
- let usr0 = await User.findByIdAndUpdate({_id:userEmail._id},{idmp:data.results[0].id},{new:true})
-
-// atualizarPedidosPendentes()
-
- if(user.admin ==true){
-  res.status(200).send({data4})
-}else{
-  res.status(200).send({data4})
-}
-  })
-
-  .catch(function (error) {
-    console.log(error);
-//    const { errorMessage, errorStatus } = validateError(error);
-    res.json({ error });
-  });
-  }  
-   // console.log(data)
-
-      }).catch(console.log);
+    nodeFetch(`${urlSandBoxAsaas}/subscriptions/`, optionsPaymentCreditCard)
+    .then(res => {
+      
+      console.log(res)
+      return res.json()})
+    .then(json => console.log(json))
+    .catch(err => console.error('error:' + err));
+  //let newUserAsaasP = await nodeFetch(`${urlSandBoxAsaas}/payment`,optionsPaymentCreditCard)
+  //let jsonnewUserP = await newUserAsaasP.json()
+  //console.log(newUserAsaasP)
+  res.redirect('client')
+    
      // res.redirect('/quiz')
    } catch (error) {
     console.log(error)
-    res.json({error})
+  //  res.json({error})
    }
 
 })
@@ -1320,7 +1120,7 @@ app.get('/termos-e-condicoes',(req,res)=>{
 
 app.get('/cadastro',(req,res)=>{
 
-  res.render('cadastro',{msg:false, publicKey:mercadoPagoPublicKeySignature})
+  res.render('asaasCadastro',{msg:false, publicKey:mercadoPagoPublicKeySignature})
 })
 async function ff(){
   try {
@@ -1351,7 +1151,7 @@ console.log(user.idmp)
  //  let tkCard =  await customerCard.list({ customerId: user.idmp });
 let allPayments = await payment.search()
 let ppp =  allPayments.results.find(function(payment) {
-  return payment.status_detail !== 'cc_rejected_card_disabled';
+  return payment.status_detail != 'cc_rejected_card_disabled';
 });
 //console.log(allPayments)
  //*  let paymentsUser = await  customer.get({customerId:user.idmp})
@@ -1362,7 +1162,7 @@ let ppp =  allPayments.results.find(function(payment) {
   //  console.log(signatures,'SIGNATURES')
   // const sigs = await signatures.results.filter( sig => sig.external_reference == user.cpf);
   //console.log(sigs)
-      res.render('cli/cli',{user:user, msg:false,payments:[ppp], publicKey:mercadoPagoPublicKeySignature  , error:false})
+      res.render('cli/cli',{user:user, msg:false,payments:[ppp], publicKey:mercadoPagoPublicKey  , error:false})
     }else{
       res.redirect('/')
     }
@@ -1505,11 +1305,13 @@ app.post('/sendEmail', express.urlencoded({extended:true}),express.json(),async 
 
           `, 
         })
+
+        console.log("Message sent: %s", info.messageId);
+
   }).catch(err=>{
     console.log(err)
   })
 
-  console.log("Message sent: %s", info.messageId);
     
 
       res.render('index',{error:false,msg:'E-mail enviado aguarde o contato do suporte ou administração'})
